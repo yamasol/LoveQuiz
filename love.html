@@ -3,8 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>楷哲專屬：姐姐夢想家 vs 現實生存診斷測驗</title>
+    <title>楷哲專屬：人生副本與騎士精神診斷室</title>
     <style>
+        :root {
+            --bg-color: #f4f6f9;
+            --card-bg: #ffffff;
+            --primary: #3b82f6;
+            --primary-soft: #eff6ff;
+            --text-main: #1f2937;
+            --text-sub: #6b7280;
+            --accent: #d97706;
+            --border: #e5e7eb;
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -13,8 +24,8 @@
         }
 
         body {
-            background-color: #0d1117;
-            color: #c9d1d9;
+            background-color: var(--bg-color);
+            color: var(--text-main);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -23,60 +34,71 @@
         }
 
         .quiz-container {
-            background-color: #161b22;
-            border: 1px solid #30363d;
-            border-radius: 12px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
             width: 100%;
             max-width: 680px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            padding: 32px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .profile-img-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-img {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
         .header {
-            border-bottom: 1px solid #30363d;
-            padding-bottom: 20px;
-            margin-bottom: 25px;
             text-align: center;
+            margin-bottom: 24px;
         }
 
         .header h1 {
-            color: #58a6ff;
+            color: var(--text-main);
             font-size: 22px;
             margin-bottom: 8px;
-            letter-spacing: 0.5px;
+            font-weight: 700;
         }
 
         .header p {
-            color: #8b949e;
+            color: var(--text-sub);
             font-size: 14px;
-            line-height: 1.5;
+            line-height: 1.6;
         }
 
         .badge {
             display: inline-block;
-            background-color: rgba(248, 81, 73, 0.15);
-            color: #f85149;
-            border: 1px solid rgba(248, 81, 73, 0.4);
-            padding: 4px 10px;
+            background-color: var(--primary-soft);
+            color: var(--primary);
+            padding: 4px 12px;
             border-radius: 20px;
             font-size: 12px;
-            font-weight: bold;
+            font-weight: 600;
             margin-bottom: 12px;
         }
 
         .progress-bar-container {
-            background-color: #21262d;
-            border-radius: 6px;
-            height: 8px;
+            background-color: var(--border);
+            border-radius: 8px;
+            height: 6px;
             width: 100%;
-            margin-bottom: 25px;
+            margin-bottom: 28px;
             overflow: hidden;
         }
 
         .progress-bar {
-            background: linear-gradient(90deg, #1f6feb, #238636);
+            background: var(--primary);
             height: 100%;
-            width: 20%;
+            width: 14.28%;
             transition: width 0.3s ease;
         }
 
@@ -89,21 +111,21 @@
         }
 
         .question-title {
-            color: #f0f6fc;
+            color: var(--text-main);
             font-size: 18px;
             font-weight: 600;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             line-height: 1.4;
         }
 
         .question-desc {
-            color: #8b949e;
+            color: var(--text-sub);
             font-size: 13.5px;
             margin-bottom: 20px;
-            background-color: #21262d;
-            padding: 12px;
-            border-radius: 6px;
-            border-left: 3px solid #58a6ff;
+            background-color: #f9fafb;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border-left: 3px solid var(--primary);
             line-height: 1.5;
         }
 
@@ -114,31 +136,30 @@
         }
 
         .option-btn {
-            background-color: #21262d;
-            border: 1px solid #30363d;
-            border-radius: 8px;
-            padding: 14px 16px;
-            color: #c9d1d9;
+            background-color: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 14px 18px;
+            color: var(--text-main);
             text-align: left;
             font-size: 14.5px;
             cursor: pointer;
             transition: all 0.2s ease;
-            line-height: 1.4;
+            line-height: 1.5;
             display: flex;
             align-items: flex-start;
         }
 
         .option-btn:hover {
-            background-color: #30363d;
-            border-color: #8b949e;
-            color: #f0f6fc;
-            transform: translateY(-1px);
+            background-color: var(--primary-soft);
+            border-color: var(--primary);
+            color: var(--primary);
         }
 
         .option-btn .tag {
             font-weight: bold;
             margin-right: 10px;
-            color: #58a6ff;
+            color: var(--primary);
             flex-shrink: 0;
         }
 
@@ -152,216 +173,265 @@
 
         .result-header {
             text-align: center;
-            padding: 20px 0;
+            padding: 10px 0;
         }
 
         .result-title {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: bold;
-            color: #f85149;
+            color: var(--text-main);
             margin-bottom: 8px;
         }
 
         .result-subtitle {
-            font-size: 15px;
-            color: #8b949e;
+            font-size: 14px;
+            color: var(--text-sub);
             margin-bottom: 20px;
         }
 
-        .score-box {
-            background-color: #21262d;
-            border: 1px solid #30363d;
+        .analysis-box {
+            background-color: #f9fafb;
+            border: 1px solid var(--border);
             border-radius: 10px;
             padding: 20px;
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
-        .score-val {
-            font-size: 36px;
-            font-weight: bold;
-            color: #e3b341;
-        }
-
-        .section-box {
-            background-color: #21262d;
-            border: 1px solid #30363d;
-            border-radius: 8px;
-            padding: 18px;
             margin-bottom: 20px;
         }
 
-        .section-box h3 {
-            color: #58a6ff;
+        .analysis-box h3 {
+            color: var(--primary);
             font-size: 16px;
             margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
         }
 
-        .section-box ul {
-            padding-left: 20px;
-            color: #c9d1d9;
+        .analysis-box p {
             font-size: 14px;
             line-height: 1.6;
+            color: #374151;
+            margin-bottom: 10px;
         }
 
-        .section-box li {
+        .action-box {
+            background-color: var(--primary-soft);
+            border: 1px solid #bfdbfe;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+
+        .action-box h3 {
+            color: #1d4ed8;
+            font-size: 16px;
+            margin-bottom: 12px;
+        }
+
+        .action-box ul {
+            padding-left: 20px;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #1e3a8a;
+        }
+
+        .action-box li {
             margin-bottom: 8px;
         }
 
         .restart-btn {
             width: 100%;
-            background-color: #238636;
+            background-color: var(--primary);
             color: #ffffff;
             border: none;
             padding: 14px;
-            border-radius: 8px;
-            font-size: 16px;
+            border-radius: 10px;
+            font-size: 15px;
             font-weight: bold;
             cursor: pointer;
             transition: background-color 0.2s;
-            margin-top: 15px;
         }
 
         .restart-btn:hover {
-            background-color: #2ea043;
+            background-color: #2563eb;
         }
     </style>
 </head>
 <body>
 
 <div class="quiz-container">
+    
+    <!-- 楷哲照片填入位置 -->
+    <div class="profile-img-container">
+        <img src="https://support6-dev.iqs-t.com/drive/api/download?uuid=028f93db-4ee0-44e1-90fb-4984fb4dbd4c" alt="楷哲個人照" class="profile-img" onerror="this.style.display='none'">
+    </div>
+
     <div class="header">
-        <span class="badge">兄弟限定 毒舌診斷</span>
-        <h1>楷哲專屬：姐姐夢想家 vs 現實生存測驗</h1>
-        <p>請憑直覺選擇最符合你心聲的選項，看看你到底是準備好當男人的戰士，還是只想被包養的夢幻巨嬰。</p>
+        <span class="badge">兄弟探索與對話</span>
+        <h1>楷哲專屬：人生副本與騎士精神診斷室</h1>
+        <p>兄弟間的真心話交流。拋開防備，看看你內心深處對感情、責任與未來的真實期待。</p>
     </div>
 
     <div class="progress-bar-container" id="progress-container">
         <div class="progress-bar" id="progress-bar"></div>
     </div>
 
-    <!-- Question 1 -->
+    <!-- Q1 -->
     <div class="question-card active" id="q1">
-        <div class="question-title">Q1. 關於「理想伴侶」，你的終極夢想情境是？</div>
-        <div class="question-desc">情境：想像你今天結束了無聊的一天，回到家看到你心目中的高嶺之花姐姐...</div>
+        <div class="question-title">Q1. 你很欣賞像昆娜（Q）、MIA 這種有主見的女強人/重機女騎士，最吸引你的是什麼？</div>
+        <div class="question-desc">情境：看著她們在路上騎車的自由與自信，甚至從普通女孩變成賽道女強人...</div>
         <div class="options">
             <button class="option-btn" onclick="nextQuestion(1, 1)">
                 <span class="tag">A.</span>
-                <span>姐姐有房有車有正職，下班煮好飯等我，我負責端茶水倒廢水、蹭飯蹭零用錢，被她寵愛照顧。</span>
-            </button>
-            <button class="option-btn" onclick="nextQuestion(1, 3)">
-                <span class="tag">B.</span>
-                <span>姐姐能力強但很累，我能打理好自己的生活甚至給她堅定的陪伴，兩人平等分擔生活與未來。</span>
+                <span>她們有堅定目標與強大氣場，小時候曾被霸凌過的我，特別容易被這種能保護人、有依靠感的氣質吸引。</span>
             </button>
             <button class="option-btn" onclick="nextQuestion(1, 2)">
+                <span class="tag">B.</span>
+                <span>單純覺得會騎車又漂亮的女生很帥，跟她們聊兩輪話題很有共鳴，能當朋友或合照就很滿足。</span>
+            </button>
+            <button class="option-btn" onclick="nextQuestion(1, 3)">
                 <span class="tag">C.</span>
-                <span>只要她長得好看、對我和善，不管她指揮我做什麼我都聽話，反正有得依靠就好。</span>
+                <span>我不只欣賞她們，更希望自己也能擁有相同的光芒與實力，能以平等的姿態站在她們身邊。</span>
             </button>
         </div>
     </div>
 
-    <!-- Question 2 -->
+    <!-- Q2 -->
     <div class="question-card" id="q2">
-        <div class="question-title">Q2. 當前任或姐姐開始對你「下達指令/頻繁指揮」時，你的真實反應？</div>
-        <div class="question-desc">背景提示：想想你上一段5年的感情（2017-2023），對方有車有房有品味，最後卻因為「受不了指揮」發動主動分手...</div>
+        <div class="question-title">Q2. 當感情中對方展現主導性（甚至被旁人覺得是在「管」你）時，你真實的心態是？</div>
+        <div class="question-desc">情境：回想上一段5年感情或是理想中的姐姐關係...</div>
         <div class="options">
-            <button class="option-btn" onclick="nextQuestion(2, 1)">
+            <button class="option-btn" onclick="nextQuestion(2, 2)">
                 <span class="tag">A.</span>
-                <span>心裡極度不爽但不敢正面溝通，只能選擇消極逃避，最後累積到爆發被甩。</span>
+                <span>我其實「不排斥被管」，只要對方是出於重視我、且用尊重的態度，我願意配合與被照顧。</span>
+            </button>
+            <button class="option-btn" onclick="nextQuestion(2, 1)">
+                <span class="tag">B.</span>
+                <span>我不喜歡被單方面指揮，但遇到衝突時我又常常不知如何表達，最後只能選擇沉默或消極處理。</span>
             </button>
             <button class="option-btn" onclick="nextQuestion(2, 3)">
-                <span class="tag">B.</span>
-                <span>理解對方是因為在乎生活品質，但我會展現自己的界線與主導力，跟她成熟平等的溝通。</span>
-            </button>
-            <button class="option-btn" onclick="nextQuestion(2, 2)">
                 <span class="tag">C.</span>
-                <span>既然她能力比我強、條件比我好，我就忍下來默默配合，反正不用我自己負擔經濟代價。</span>
+                <span>主導權應該互相調整，我可以接受雙方各有領域，但在核心大事上，我也需要展現男人的主導力。</span>
             </button>
         </div>
     </div>
 
-    <!-- Question 3 -->
+    <!-- Q3 -->
     <div class="question-card" id="q3">
-        <div class="question-title">Q3. 面對「經濟收入與事業」這個現實大山，你目前的態度是？</div>
-        <div class="question-desc">情境：客觀現實是，靠不穩定的模型收入與在家蹲著，想要吸引優質高社經姐姐...</div>
+        <div class="question-title">Q3. 在三陽官方活動中，你憑藉對影片細節的超強記憶力解鎖「最了解昆娜的粉絲」稱號，這給了你什麼啟發？</div>
+        <div class="question-desc">情境：連極細微的領帶梗都記得，獲得官方與昆娜的認證與獎品...</div>
         <div class="options">
             <button class="option-btn" onclick="nextQuestion(3, 1)">
                 <span class="tag">A.</span>
-                <span>現實太難了，我寧可沉浸在短影音、人生副本或對表姊的童年回憶裡，繼續逃避。</span>
-            </button>
-            <button class="option-btn" onclick="nextQuestion(3, 3)">
-                <span class="tag">B.</span>
-                <span>我知道這很不健康，我必須先踏出家門找份正職，證明自己能獨立，才有資格談感情。</span>
+                <span>這代表我是一個非常細心、願意為重視的人付出極大關注的人，但我有時把這份專注放在粉絲身份上居多。</span>
             </button>
             <button class="option-btn" onclick="nextQuestion(3, 2)">
+                <span class="tag">B.</span>
+                <span>覺得很有成就感，這種「被重視與被認證」的感覺很美好，是我在生活中很渴望獲得的認同。</span>
+            </button>
+            <button class="option-btn" onclick="nextQuestion(3, 3)">
                 <span class="tag">C.</span>
-                <span>我只要把模型做好、或是提供極高的情緒價值（貼心送餐具），應該就能遇到不看重錢的姐姐吧？</span>
+                <span>我發現自己的專注力與執行力極強，如果把這份用心拿來經營個人事業與工作，一定也能很有成果。</span>
             </button>
         </div>
     </div>
 
-    <!-- Question 4 -->
+    <!-- Q4 -->
     <div class="question-card" id="q4">
-        <div class="question-title">Q4. 如果長輩反對姊弟戀（刻板印象女大男小），你會怎麼做？</div>
-        <div class="question-desc">情境：正如你說的「家長不同意女大男小」，當這一天真的到來...</div>
+        <div class="question-title">Q4. 當兄弟開玩笑說你「只想坐親友桌、不想扛責任」時，你心裡最真實的聲音是？</div>
+        <div class="question-desc">情境：面對感情的下一步與現實負擔...</div>
         <div class="options">
             <button class="option-btn" onclick="nextQuestion(4, 1)">
                 <span class="tag">A.</span>
-                <span>既然家長不同意，那就算了，反正我也沒能力買房組家庭，順理成章放棄。</span>
-            </button>
-            <button class="option-btn" onclick="nextQuestion(4, 3)">
-                <span class="tag">B.</span>
-                <span>拿出男人的肩膀，用我實質的經濟與成熟表現，向雙方家長證明我有能力保護她。</span>
+                <span>其實不是不想扛，而是現在的經濟與現況讓我缺乏自信，害怕承諾了卻給不了對方幸福。</span>
             </button>
             <button class="option-btn" onclick="nextQuestion(4, 2)">
+                <span class="tag">B.</span>
+                <span>目前的舒適圈比較安全，當朋友或親友可以享受互動，又不用承擔太多現實生活的複雜壓力。</span>
+            </button>
+            <button class="option-btn" onclick="nextQuestion(4, 3)">
                 <span class="tag">C.</span>
-                <span>希望姐姐能站在前面替我擋家長壓力，我跟在後面支持她就好。</span>
+                <span>我只是還沒遇到值得我全心投入的人，只要遇到了，我隨時準備好拼一把去保護她。</span>
             </button>
         </div>
     </div>
 
-    <!-- Question 5 -->
+    <!-- Q5 -->
     <div class="question-card" id="q5">
-        <div class="question-title">Q5. 到底什麼樣的關係，才是你「真正」能夠維持下去的？</div>
-        <div class="question-desc">情境：捫心自問，拋開幻想後的終極抉擇...</div>
+        <div class="question-title">Q5. 關於你精湛的模型製作與對重機的深刻了解，你希望未來如何運用這些專長？</div>
+        <div class="question-desc">情境：你擁有很強的細節手藝與兩輪車款知識（連三陽各車款都瞭若指掌）...</div>
         <div class="options">
             <button class="option-btn" onclick="nextQuestion(5, 1)">
                 <span class="tag">A.</span>
-                <span>我只是想當個小男孩被照顧，最好有免費的飯、冷氣跟零用錢，不用扛任何責任。</span>
+                <span>當作個人興趣與偶爾的接單收入，有機會的話希望能跟創作者/車商蹭個合作或心得交流。</span>
             </button>
             <button class="option-btn" onclick="nextQuestion(5, 3)">
                 <span class="tag">B.</span>
-                <span>我要的是一個能和我相互尊重、互相支持的伴侶，而前提是我必須先成為一個成熟的男人。</span>
+                <span>把這份專業系統化，不管是模型商業化還是轉化為正職技能，打造出屬於自己的穩定經濟來源。</span>
             </button>
             <button class="option-btn" onclick="nextQuestion(5, 2)">
                 <span class="tag">C.</span>
-                <span>我想找個像表姊那樣包容我、能照顧我，但又不會像上一任那樣一直管我的理想仙女。</span>
+                <span>還沒認真想過，主要還是看當下心情與機會，順其自然就好。</span>
             </button>
         </div>
     </div>
 
-    <!-- Results -->
+    <!-- Q6 -->
+    <div class="question-card" id="q6">
+        <div class="question-title">Q6. 如果今天你欣賞的女神（如昆娜或理想中的姐姐）遇到困難或需要保護，你認為給她「安全感」的最關鍵要素是？</div>
+        <div class="question-desc">情境：兄弟常說「要保護人，首先把經濟與身體搞好」...</div>
+        <div class="options">
+            <button class="option-btn" onclick="nextQuestion(6, 1)">
+                <span class="tag">A.</span>
+                <span>無微不至的貼心陪伴、懂她的情緒，在她需要時第一時間提供幫忙（如端茶水、做後勤）。</span>
+            </button>
+            <button class="option-btn" onclick="nextQuestion(6, 3)">
+                <span class="tag">B.</span>
+                <span>穩健的經濟基礎、成熟有擔當的心理素質，以及關鍵時刻能挺身而出的實質能力。</span>
+            </button>
+            <button class="option-btn" onclick="nextQuestion(6, 2)">
+                <span class="tag">C.</span>
+                <span>兩個人有共同的興趣與話題，能互相理解、一起騎車放鬆，沒有壓力。</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Q7 -->
+    <div class="question-card" id="q7">
+        <div class="question-title">Q7. 思考一下，你希望自己三年後的人生副本，呈現什麼樣的狀態？</div>
+        <div class="question-desc">情境：從現在開始做出一點改變...</div>
+        <div class="options">
+            <button class="option-btn" onclick="nextQuestion(7, 3)">
+                <span class="tag">A.</span>
+                <span>有一份讓自己挺直腰桿的穩定事業，身邊有一個能互相扶持、成熟健康的伴侶。</span>
+            </button>
+            <button class="option-btn" onclick="nextQuestion(7, 2)">
+                <span class="tag">B.</span>
+                <span>生活比現在更自由，模型事業有進步，依然能開心地騎車、參加官方活動當神級粉絲。</span>
+            </button>
+            <button class="option-btn" onclick="nextQuestion(7, 1)">
+                <span class="tag">C.</span>
+                <span>還在摸索中，但希望至少能擺脫現在的停滯感，不再感到人生空虛。</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Result -->
     <div class="result-card" id="result">
+        
+        <!-- 結果頁照片填入位置 -->
+        <div class="profile-img-container">
+            <img src="請在此處貼上楷哲的照片URL" alt="楷哲個人照" class="profile-img" onerror="this.style.display='none'">
+        </div>
+
         <div class="result-header">
             <div class="result-title" id="res-title">診斷完成</div>
-            <div class="result-subtitle" id="res-subtitle">根據你的選擇，兄弟給你的直白實話如下：</div>
+            <div class="result-subtitle" id="res-subtitle">兄弟給你的中肯剖析與真心建議</div>
         </div>
 
-        <div class="score-box">
-            <div style="font-size: 14px; color: #8b949e; margin-bottom: 5px;">幻想與現實偏離指數</div>
-            <div class="score-val" id="res-score">0%</div>
-        </div>
-
-        <div class="section-box">
-            <h3>🔥 兄弟直白毒舌痛點</h3>
+        <div class="analysis-box">
+            <h3>💬 關於你的內心渴望與潛能剖析</h3>
             <div id="res-critique"></div>
         </div>
 
-        <div class="section-box">
-            <h3>💡 楷哲專屬：脫離困境破局指南</h3>
+        <div class="action-box">
+            <h3>💡 楷哲專屬：解鎖下一步人生副本的建言</h3>
             <ul id="res-action"></ul>
         </div>
 
@@ -376,10 +446,10 @@
         scores.push(score);
         document.getElementById(`q${currentQ}`).classList.remove('active');
         
-        if (currentQ < 5) {
+        if (currentQ < 7) {
             let nextQ = currentQ + 1;
             document.getElementById(`q${nextQ}`).classList.add('active');
-            document.getElementById('progress-bar').style.width = `${nextQ * 20}%`;
+            document.getElementById('progress-bar').style.width = `${(nextQ / 7) * 100}%`;
         } else {
             document.getElementById('progress-container').style.display = 'none';
             showResult();
@@ -391,53 +461,49 @@
         let resultCard = document.getElementById('result');
         let resTitle = document.getElementById('res-title');
         let resSubtitle = document.getElementById('res-subtitle');
-        let resScore = document.getElementById('res-score');
         let resCritique = document.getElementById('res-critique');
         let resAction = document.getElementById('res-action');
 
         resultCard.classList.add('active');
 
-        if (total <= 7) {
-            // 沉迷幻想 / 巨嬰模式
-            resTitle.innerText = "【重度夢幻巨嬰】只想蹭飯的幻想家";
-            resSubtitle.innerText = "你不是在找伴侶，你只是在找一個帶薪上崗的親媽！";
-            resScore.innerText = "95% (極度危險)";
+        if (total <= 11) {
+            // 守護型與依戀特質
+            resTitle.innerText = "【重情重義的後勤守護者】";
+            resSubtitle.innerText = "你擁有極罕見的專注與細心，但需要把這份力量帶回自己身上。";
             resCritique.innerHTML = `
-                <p style="line-height: 1.6;">兄弟，醒醒吧！你上一任有房有車會做飯，已經是頂配姐姐了，最後為什麼甩了你？因為人家要的是伴侶，不是養一個在家啃老、只會被動聽話或消極逃避的大兒子。<br><br>
-                你想蹭飯、蹭冷氣、蹭零用錢，但現實是高質量的姐姐都很精明。人家賺錢辛苦，憑什麼找一個沒工作、沒收入、遇到問題就逃避的人來照顧？你連表姊發紅包、早起做飯的付出都看在眼裡，卻只想享受成果而不願意承擔代價！</p>
+                <p>楷哲，其實你並不是不願意被管，你只是渴望在關係中獲得「尊重」與「安全感」。因為小時候的遭遇，你特別容易被氣場強大、能保護人的女強人或姐姐特質吸引。</p>
+                <p>你在活動中能成為『最了解昆娜的粉絲』，代表你只要重視一件事，就能展現極強的專注力與記憶力。你也是個很貼心、懂細節的人（如端茶水、備袋子）。但兄弟最希望看到的是，你把這份神級的執行力，用來建設你自己的生活與事業！</p>
             `;
             resAction.innerHTML = `
-                <li><strong>第 1 步：停止沉迷《人生副本》與短影音</strong> — 那些「姐姐追弟弟」的劇本都是拍給大叔看的幻想片，現實中只有獨立的男人才配得到尊重。</li>
-                <li><strong>第 2 步：先找一份穩定正職</strong> — 不管是去做模型相關還是其他工作，先讓自己每個月有固定薪水入帳，擺脫「啃老」標籤，找回男人的底氣。</li>
-                <li><strong>第 3 步：建立情緒溝通能力</strong> — 別再遇到指令就逃避。下次遇到問題，學會把心裡話講出來，而不是默默忍受最後被甩。</li>
+                <li><strong>把專注力轉回自己的人生</strong>：你幫別人解鎖成就很厲害，現在是時候為自己解鎖『穩定事業』與『經濟獨立』的成就了。</li>
+                <li><strong>別害怕主動表達想法</strong>：你不是不喜歡被管，而是討厭消極被動。未來在關係或工作中，勇敢把自己的底線與期許說出來。</li>
+                <li><strong>讓貼心成為你的加分項，而非唯一選項</strong>：貼心很棒，但加上『穩定的經濟實力』，才會是你保護心愛之人的強大底氣。</li>
             `;
-        } else if (total <= 11) {
-            // 矛盾糾結 / 想要好處不想扛責
-            resTitle.innerText = "【矛盾糾結體】既要包容 又怕被管";
-            resSubtitle.innerText = "想要姐姐的溫柔照顧，又受不了姐姐的主導控制。";
-            resScore.innerText = "60% (亟待調整)";
+        } else if (total <= 16) {
+            // 尋求平衡與方向
+            resTitle.innerText = "【蓄勢待發的騎士】";
+            resSubtitle.innerText = "你具備出色的專業潛能，只差一個跨出舒適圈的決定。";
             resCritique.innerHTML = `
-                <p style="line-height: 1.6;">你處於一個很尷尬的狀態：你渴望姐姐照顧你、給你安全感，甚至想像表姊那樣包容你；但當姐姐真的有主見、開始指揮你時，你又覺得被限制、受不了要逃走。<br><br>
-                天下沒有免費的午餐！要姐姐包養主導，你就得交出自主權；要平等尊重的感情，你就得掏出男人的肩膀與經濟能力。你現在模型收入不穩定，又在家待了近十年，這種「精神未獨立」的狀態會讓你永遠在感情裡處於被動。</p>
+                <p>你看得懂很多關係的本質，對重機車款與模型製作有深刻的熱情與專業。你在『親友桌』與『當粉絲』的狀態裡感到安全，是因為那裡沒有現實失敗的風險。</p>
+                <p>你欣賞昆娜、MIA 這種勇於追夢、甚至參加比賽變強的女強人，其實這代表你內心深處也有一個渴望變強、渴望被認可的靈魂。你不是沒有能力，你只是需要給自己一個方向。’</p>
             `;
             resAction.innerHTML = `
-                <li><strong>第 1 步：明確劃分「幻想」與「現實」</strong> — 表姊跟前任都是別人生涯成功的結果，你不能只想要對方的成果，而不願意提升自己。</li>
-                <li><strong>第 2 步：制定半年工作轉型計畫</strong> — 將模型技術商品化，或者走出家門找份正職。有了穩定的收入，你才有資格在關係中談「不要被指揮」。</li>
-                <li><strong>第 3 步：練習主動承擔責任</strong> — 從家裡的小事做起，不要等妹妹嗆你才動，主動扛起家庭與生活的責任，擺脫被動心態。</li>
+                <li><strong>將模型與重機知識商業化</strong>：不只是蹭合作，嘗試把你的手藝或車款知識變成穩定的商業模式或正職履歷。</li>
+                <li><strong>一步步建構經濟安全感</strong>：經濟能力是男人最大的底氣，有了穩定的收入，你在任何關係中都能站得更平穩。</li>
+                <li><strong>勇敢承擔成長的代價</strong>：試著從生活中的小決定開始主動拿主導權，不要等別人來指揮你，你自己就是人生的主角。</li>
             `;
         } else {
-            // 理性覺醒 / 準備蛻變
-            resTitle.innerText = "【潛力覺醒男】準備扛起責任的男人";
-            resSubtitle.innerText = "你看清了現實的代價，準備好靠自己贏得尊重！";
-            resScore.innerText = "20% (狀態良好)";
+            // 理性覺醒與行動派
+            resTitle.innerText = "【準備主導人生的未來強者】";
+            resSubtitle.innerText = "你已經看清了現實的規則，準備好寫下屬於自己的副本！";
             resCritique.innerHTML = `
-                <p style="line-height: 1.6;">太棒了！至少在選擇題裡，你展現出了一個男人該有的骨氣。你明白姐姐不是拿來蹭飯的靠山，而是需要你用能力與成熟去匹配的夥伴。<br><br>
-                上一段5年感情的結束，不是你的終點，而是你的教訓。你知道了消極逃避與沒有界線會毀掉關係。現在唯一的缺口，就是把你這些理性的選擇，真正落實到你的現實生活中！</p>
+                <p>太棒了，你很清楚自己要的是什麼！你明白要吸引優秀的女性（不管是姐姐還是女神），最好的方式不是當個追隨者，而是讓自己成為一個同樣優秀、能並肩作戰的夥伴。</p>
+                <p>你懂得欣賞女強人的好，同時也明白自己需要拿出男人的肩頸與責任感。你過去累積的細心與專業，會是你未來翻轉現況的最佳基石。</p>
             `;
             resAction.innerHTML = `
-                <li><strong>第 1 步：立即行動，徹底脫離待業</strong> — 別讓「肯老近十年」繼續成為你的標籤。用行動找一份工作，哪怕起步低，也是男人的第一步。</li>
-                <li><strong>第 2 步：化被動為主動</strong> — 在感情與社交中，不再只是「幫忙端餐具」這種小貼心，而是展示出你能規劃未來、解決難題的大格局。</li>
-                <li><strong>第 3 步：建立平等的溝通機制</strong> — 未來遇到任何不爽或被指揮的感覺，當下開誠布公溝通，不再讓遺憾重演。</li>
+                <li><strong>全力衝刺事業與經濟</strong>：把所有的熱情化為行動，徹底甩開待業停滯感，建立不可替代的個人價值。</li>
+                <li><strong>主動創造平等的感情關係</strong>：不只是被照顧，更能成為對方的靠山與情緒支柱。</li>
+                <li><strong>保持這份熱情與騎士精神</strong>：繼續騎車、享受生活，同時打造出連你自己都會佩服的人生副本！</li>
             `;
         }
     }
@@ -447,7 +513,7 @@
         document.getElementById('result').classList.remove('active');
         document.getElementById('q1').classList.add('active');
         document.getElementById('progress-container').style.display = 'block';
-        document.getElementById('progress-bar').style.width = '20%';
+        document.getElementById('progress-bar').style.width = '14.28%';
     }
 </script>
 
