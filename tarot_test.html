@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>✨ 塔羅心靈測驗：尋找你的決策命定書 ✨</title>
+  <title>✨ 塔羅心靈測驗：找出你的決策盲點與命定書 ✨</title>
   <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -12,7 +12,8 @@
       --primary: #FFB7B2;
       --primary-hover: #FF9AA2;
       --accent: #E2F0CB;
-      --text-main: #6C5B7B;
+      --accent-pink: #FFE5E5;
+      --text-main: #5C4B69;
       --text-soft: #887B97;
       --shadow: 0 10px 25px rgba(255, 183, 178, 0.3);
     }
@@ -37,14 +38,13 @@
     .container {
       background: var(--card-bg);
       width: 100%;
-      max-width: 480px;
-      border-radius: 24px;
+      max-width: 500px;
+      border-radius: 28px;
       padding: 32px 24px;
       box-shadow: var(--shadow);
       text-align: center;
       position: relative;
       overflow: hidden;
-      transition: all 0.3s ease;
     }
 
     h1 {
@@ -57,7 +57,7 @@
       font-size: 0.95rem;
       color: var(--text-soft);
       margin-bottom: 24px;
-      line-height: 1.5;
+      line-height: 1.6;
     }
 
     .btn {
@@ -72,7 +72,7 @@
       transition: transform 0.2s, background-color 0.2s;
       box-shadow: 0 4px 12px rgba(255, 154, 162, 0.4);
       width: 100%;
-      margin-top: 10px;
+      margin-top: 12px;
     }
 
     .btn:hover {
@@ -80,10 +80,9 @@
       transform: translateY(-2px);
     }
 
-    /* 測驗區塊 */
     .progress-bar {
       height: 8px;
-      background-color: #FFE5E5;
+      background-color: var(--accent-pink);
       border-radius: 10px;
       margin-bottom: 24px;
       overflow: hidden;
@@ -97,10 +96,11 @@
     }
 
     .question-title {
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       margin-bottom: 20px;
       text-align: left;
       line-height: 1.6;
+      font-weight: bold;
     }
 
     .options {
@@ -113,7 +113,7 @@
       background-color: #FAF0F2;
       border: 2px solid transparent;
       padding: 14px 16px;
-      border-radius: 16px;
+      border-radius: 18px;
       text-align: left;
       font-size: 0.95rem;
       color: var(--text-main);
@@ -128,36 +128,47 @@
       transform: translateX(4px);
     }
 
-    /* 結果區塊 */
     .card-icon {
       font-size: 3.5rem;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
     }
 
     .result-tag {
       display: inline-block;
       background-color: var(--accent);
-      color: #556B2F;
-      padding: 4px 16px;
+      color: #4A5D23;
+      padding: 6px 18px;
       border-radius: 20px;
       font-size: 0.85rem;
       font-weight: bold;
       margin-bottom: 12px;
     }
 
-    .result-box {
+    .result-section {
       background-color: #FAF0F2;
-      border-radius: 16px;
-      padding: 16px;
+      border-radius: 20px;
+      padding: 18px;
       text-align: left;
-      margin: 16px 0;
-      font-size: 0.9rem;
-      line-height: 1.6;
+      margin: 14px 0;
+      font-size: 0.92rem;
+      line-height: 1.65;
     }
 
-    .result-box h3 {
+    .result-section h3 {
       font-size: 1rem;
       color: var(--text-main);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .book-list {
+      margin-top: 8px;
+      padding-left: 18px;
+    }
+
+    .book-list li {
       margin-bottom: 6px;
     }
 
@@ -172,9 +183,9 @@
   <!-- 開始頁面 -->
   <div id="start-screen">
     <div class="card-icon">🔮</div>
-    <h1>塔羅心靈測驗</h1>
-    <p class="subtitle">每次做決定都卡住嗎？<br>5 題抽出一張專屬於你的決策塔羅牌，指引你找到命定解藥書！</p>
-    <button class="btn" onclick="startQuiz()">開始測驗 ✨</button>
+    <h1>塔羅靈魂測驗</h1>
+    <p class="subtitle">每次做決定都陷入內耗嗎？<br>5 題揭開你的決策潛意識，為你送上一份治癒心靈的解藥書單卡！</p>
+    <button class="btn" onclick="startQuiz()">開啟測驗 ✨</button>
   </div>
 
   <!-- 測驗頁面 -->
@@ -193,13 +204,20 @@
     <h1 id="result-title">你的塔羅牌</h1>
     
     <div class="result-box">
-      <h3>🔍 決策盲點</h3>
-      <p id="result-blindspot">盲點描述...</p>
-    </div>
+      <div class="result-section">
+        <h3>🌸 深度心理剖析</h3>
+        <p id="result-psychology">心理分析加載中...</p>
+      </div>
 
-    <div class="result-box" style="background-color: #E8F5E9;">
-      <h3>📖 推薦閱讀方向</h3>
-      <p id="result-book">推薦書籍...</p>
+      <div class="result-section" style="background-color: #FFF0F3; border: 1px solid #FFD6E0;">
+        <h3>✨ 給你的溫柔解藥</h3>
+        <p id="result-warm-notes">溫柔評語加載中...</p>
+      </div>
+
+      <div class="result-section" style="background-color: #F0F7EC;">
+        <h3>📚 命定閱讀書單推薦</h3>
+        <ul class="book-list" id="result-books"></ul>
+      </div>
     </div>
 
     <button class="btn" onclick="restartQuiz()">再測一次 🔄</button>
@@ -211,46 +229,46 @@
     {
       q: "1. 當你面對一個二選一的難題時，最常讓你卡住的原因是什麼？",
       options: [
-        { text: "怕選了這個，之後會後悔沒選另一個", type: "A" },
-        { text: "想太多細節和最壞打算，越想越焦慮", type: "B" },
-        { text: "兩個都想要，不想做任何妥協或放棄", type: "C" },
-        { text: "怕選錯會影響到身邊的人或大家的看法", type: "D" }
+        { text: "怕選了這個，之後會後悔沒選另一個（大腦一直跑平行時空劇場）", type: "A" },
+        { text: "細節想太多、最壞打算列一堆，越想心越累", type: "B" },
+        { text: "兩個優點我都想要，不想要被迫做任何放棄", type: "C" },
+        { text: "怕選錯會影響到身邊人的心情或大家對我的評價", type: "D" }
       ]
     },
     {
-      q: "2. 你平常做不出決定時，第一時間會採取什麼行動？",
+      q: "2. 你平常做不出決定時，第一時間最想做什麼？",
       options: [
-        { text: "上網爬文、看開箱文、查完所有資料再說", type: "A" },
-        { text: "算牌、求籤、測驗，交給命運或外部訊號決定", type: "B" },
-        { text: "先放著不管，滑手機或做別的事拖延", type: "C" },
-        { text: "問身邊朋友的意見，看大家都怎麼選", type: "D" }
+        { text: "狂爬文、看評測、做 Excel，想用理性說服自己", type: "A" },
+        { text: "算命、求籤、抽塔羅，希望有某個宇宙訊號直接幫我指路", type: "B" },
+        { text: "先放著不管，去吃美食或滑手機，用拖延來逃避選錯", type: "C" },
+        { text: "問爆身邊的朋友：「如果是你，你會怎麼選？」", type: "D" }
       ]
     },
     {
-      q: "3. 想像你走進一家菜單有上百道菜的餐廳，你會怎麼點餐？",
+      q: "3. 走進一家菜單有上百道菜的網美餐廳，你會怎麼點餐？",
       options: [
-        { text: "迅速用排除法，挑出當下最需要的營養或主食", type: "A" },
-        { text: "猶豫半天，最後點跟上次一模一樣的東西", type: "B" },
-        { text: "點那個名字看起來最酷、最想嘗試的新品", type: "C" },
-        { text: "點「主廚推薦」或銷售第一名，最安全", type: "D" }
+        { text: "冷靜地用排除法，挑出 CP 值最高或當下身體最需要的", type: "A" },
+        { text: "猶豫不決卡很久，最後為了安全感，點跟上次一模一樣的", type: "B" },
+        { text: "點名字看起來最特別、最具視覺吸引力的新品衝一波", type: "C" },
+        { text: "直接點「主廚推薦」或大家最常點的招牌菜，最不踩雷", type: "D" }
       ]
     },
     {
-      q: "4. 如果有人強迫你 3 秒內做出一個重要決定，你當下的反應是？",
+      q: "4. 如果有人逼你 3 秒內做出一個重要決定，你的第一反應是？",
       options: [
-        { text: "理性快速分析，憑直覺抓最不壞的選項", type: "A" },
-        { text: "腦袋一片空白，開始反胃或想逃跑", type: "B" },
-        { text: "隨便亂選一個，但事後會一直耿耿於懷", type: "C" },
-        { text: "感到生氣，覺得對方憑什麼逼我", type: "D" }
+        { text: "大腦快速高速轉動，憑直覺抓一個相對最沒風險的", type: "A" },
+        { text: "腦袋瞬間一片空白，非常焦慮甚至很想逃跑", type: "B" },
+        { text: "閉著眼睛隨便抓一個，但事後會念念不忘當初沒選的那個", type: "C" },
+        { text: "感到生氣或委屈，覺得「為什麼要逼我承擔這個風險」", type: "D" }
       ]
     },
     {
-      q: "5. 做完決定後，你最希望獲得什麼樣的感覺？",
+      q: "5. 完成一個決定後，你最希望獲得什麼樣的感覺？",
       options: [
-        { text: "清楚知道下一步該怎麼做，目標明確", type: "A" },
-        { text: "心情平靜，不再感到焦慮或恐懼", type: "B" },
-        { text: "感到自由，可以隨心所欲地探索新事物", type: "C" },
-        { text: "覺得公平合理，大家都滿意", type: "D" }
+        { text: "掌控感！清楚知道下一步該怎麼走，路線超明確", type: "A" },
+        { text: "安全感！鬆了一口氣，內心終於恢復平靜與安穩", type: "B" },
+        { text: "新鮮感！覺得生活充滿可能，可以無拘無束去探索", type: "C" },
+        { text: "認同感！身邊的人都覺得這個決定很好、很圓滿", type: "D" }
       ]
     }
   ];
@@ -258,31 +276,51 @@
   const results = {
     A: {
       icon: "🗡️",
-      tag: "理性分析型",
+      tag: "理性完美型",
       title: "【寶劍首牌】",
-      blindspot: "資訊過載、思考容易陷入分析癱瘓，總想找到完全理性的最佳解。",
-      book: "邏輯決策與思維模型類書籍（例如：《原則》、《原子習慣》）"
+      psychology: "你的選擇困難不是因為沒想法，而是因為「太想選出最佳解」。你的大腦就像一台超載的超級電腦，企圖評估所有變數。這種過度思考（Analysis Paralysis）讓你以為多蒐集資訊就能避開風險，卻無意間消耗掉了所有執行力。",
+      warmNotes: "親愛的，人生沒有絕對正確的選擇，只有『把選擇變成正確』的勇氣。偶爾允許自己選一個 70 分的選項，並相信自己有能力處理隨之而來的一切，你會發現鬆開緊握的手反而更自由。",
+      books: [
+        "<b>《你願意，人生就會值得》</b>（蔡康永）— 用輕盈高情商看待選擇，告別過度內耗。",
+        "<b>《我可能錯了》</b>（比約恩）— 森林智者的最後一堂課，教你放鬆對理性的執念。",
+        "<b>《原子習慣》</b>（詹姆斯·克利爾）— 忘掉完美決策，用簡單微小的行動打開開關。"
+      ]
     },
     B: {
       icon: "🌙",
       tag: "焦慮避險型",
       title: "【月亮】",
-      blindspot: "害怕後悔與未知，容易被不平靜的情緒與焦慮拉著走。",
-      book: "情緒心理學與自我接納類書籍（例如：《被討厭的勇氣》、《接受不完美的勇氣》）"
+      psychology: "選擇對你而言不是挑選事物，而是一場對抗「後悔與恐懼」的拉鋸戰。你內心那個敏感脆弱的小女孩，非常害怕選錯後要面對的損失或失控感。因此你傾向求助外界（算命、親友），其實是想給內心尋求一份溫柔的安全感。",
+      warmNotes: "你的敏感與慎重，代表你非常珍惜自己的人生。但請別忘記，即使選了一條看起來比較崎嶇的路，那沿途也有屬於你的獨家風景。相信你的直覺，你遠比自己想像中更勇敢！",
+      books: [
+        "<b>《失控的焦慮世代》</b>（強納森·海德特）— 剖析焦慮來源，重拾當下的內心平靜。",
+        "<b>《別對每件事都有反應》</b>（枡野俊明）— 禪意練習，教你淡泊一點、允許自己放鬆。",
+        "<b>《想哭就哭吧，你不需要那麼懂事》</b>（Peter Su）— 允許自己脆弱，擁抱真實的感受。"
+      ]
     },
     C: {
       icon: "🏆",
       tag: "欲望發散型",
       title: "【聖杯七】",
-      blindspot: "什麼都想嘗試、什麼都不想放棄，缺乏優先級與核心聚焦。",
-      book: "極簡主義與目標聚焦類書籍（例如：《單核工作法》、《精準努力》）"
+      psychology: "你的選擇困難是因為「每一個選項都很誘人」！你擁有一顆充滿好奇心與浪漫幻想的心，討厭被界定、討厭犧牲任何可能性。但當所有選項都擺在眼前時，你的焦點反而被分散了，最終導致精力被攤薄，甚至哪裡也去不了。",
+      warmNotes: "什麼都想要，其實是渴望擁有一切的美好人生。但專注並不是放棄，而是『按順序體驗』。把你的慾望排個隊，一次專心品嚐一道菜，你會發現每一步都比以前更飽滿有成就感！",
+      books: [
+        "<b>《世界盡頭的咖啡館》</b>（約翰·史崔勒基）— 重新扣問存在價值，幫你找到核心優先順序。",
+        "<b>《把日子慢慢變好》</b>（黃山料）— 專注於當下日常，讓生活步調重回軌道。",
+        "<b>《每一個人的花期不同》</b>（萬特特）— 專屬女性覺醒，學會在自己的節奏裡專注發光。"
+      ]
     },
     D: {
       icon: "⚖️",
-      tag: "他人導向型",
+      tag: "關係和諧型",
       title: "【正義】",
-      blindspot: "過度在意世俗標準與身邊人的看法，容易忽略自己內心真實聲音。",
-      book: "個人價值觀與自我覺察類書籍（例如：《你想活出怎樣的人生》、《設計你的人生》）"
+      psychology: "你的選擇困難背後，藏著深層的「貼心與責任感」。你在做決定時，總是自帶一個雷達去掃描身邊人的感受，害怕自己的選擇會添麻煩、讓人失望或引來批評。你常常把『別人的需求』排在『自己真正想要』的前面。",
+      warmNotes: "你總是照顧著大家的心情，但這次，請把溫柔留給自己。做決定不是為了讓全世界都滿意，而是為了對得起你自己的心。討好所有人是不可能的任務，但討好自己卻只要你一句話。",
+      books: [
+        "<b>《生命中最大的寶藏就是你自己》</b>（曾寶儀）— 學習向內探索，建立溫柔而堅定的人際界線。",
+        "<b>《被討厭的勇氣》</b>（岸見一郎/古賀史健）— 劃清課題分離，擺脫他人期待的束縛。",
+        "<b>《長女病：我們不是天生愛扛責任》</b>（心理學專著）— 解構負擔感，優雅放下不屬於你的期待。"
+      ]
     }
   };
 
@@ -299,7 +337,6 @@
     const q = questions[currentQuestion];
     document.getElementById('question-text').innerText = q.q;
     
-    // 更新進度條
     const progress = ((currentQuestion + 1) / questions.length) * 100;
     document.getElementById('progress').style.width = `${progress}%`;
 
@@ -330,7 +367,6 @@
     document.getElementById('quiz-screen').classList.add('hidden');
     document.getElementById('result-screen').classList.remove('hidden');
 
-    // 計算最高分的類型
     let highestType = 'A';
     let maxScore = -1;
     for (const type in scores) {
@@ -344,8 +380,16 @@
     document.getElementById('result-icon').innerText = res.icon;
     document.getElementById('result-tag').innerText = res.tag;
     document.getElementById('result-title').innerText = res.title;
-    document.getElementById('result-blindspot').innerText = res.blindspot;
-    document.getElementById('result-book').innerText = res.book;
+    document.getElementById('result-psychology').innerText = res.psychology;
+    document.getElementById('result-warm-notes').innerText = res.warmNotes;
+
+    const booksContainer = document.getElementById('result-books');
+    booksContainer.innerHTML = '';
+    res.books.forEach(bookStr => {
+      const li = document.createElement('li');
+      li.innerHTML = bookStr;
+      booksContainer.appendChild(li);
+    });
   }
 
   function restartQuiz() {
