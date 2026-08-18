@@ -3,6 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- 停用瀏覽器快取設定 -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  
   <title>✨ 塔羅心靈測驗：找出你的決策盲點與命定書 ✨</title>
   <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet">
   <style>
@@ -47,6 +52,19 @@
       overflow: hidden;
     }
 
+    /* 版本號標籤 */
+    .version-tag {
+      position: absolute;
+      top: 14px;
+      right: 18px;
+      font-size: 0.75rem;
+      color: var(--text-soft);
+      background-color: #F0E6EE;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-weight: bold;
+    }
+
     h1 {
       font-size: 1.5rem;
       margin-bottom: 12px;
@@ -78,6 +96,25 @@
     .btn:hover {
       background-color: var(--primary-hover);
       transform: translateY(-2px);
+    }
+
+    /* 清除快取按鈕 */
+    .btn-clear {
+      background: none;
+      border: 1px dashed var(--text-soft);
+      color: var(--text-soft);
+      padding: 8px 16px;
+      font-size: 0.8rem;
+      border-radius: 20px;
+      cursor: pointer;
+      margin-top: 16px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-clear:hover {
+      background-color: #FFF0F3;
+      color: var(--primary-hover);
+      border-color: var(--primary-hover);
     }
 
     .progress-bar {
@@ -180,12 +217,18 @@
 <body>
 
 <div class="container">
+  <!-- 版本號標籤 -->
+  <div class="version-tag">v1.2.1</div>
+
   <!-- 開始頁面 -->
   <div id="start-screen">
     <div class="card-icon">🔮</div>
     <h1>塔羅靈魂測驗</h1>
     <p class="subtitle">每次做決定都陷入內耗嗎？<br>5 題揭開你的決策潛意識，為你送上一份治癒心靈的解藥書單卡！</p>
     <button class="btn" onclick="startQuiz()">開啟測驗 ✨</button>
+    <div>
+      <button class="btn-clear" onclick="clearCacheAndReload()">🧹 重置快取 (Clear Cache)</button>
+    </div>
   </div>
 
   <!-- 測驗頁面 -->
@@ -221,10 +264,30 @@
     </div>
 
     <button class="btn" onclick="restartQuiz()">再測一次 🔄</button>
+    <div>
+      <button class="btn-clear" onclick="clearCacheAndReload()">🧹 重置快取 (Clear Cache)</button>
+    </div>
   </div>
 </div>
 
 <script>
+  // 清除快取、Cookie 並重新載入
+  function clearCacheAndReload() {
+    localStorage.clear();
+    sessionStorage.clear();
+
+    const cookies = document.cookie.split(";");
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i];
+      const eqPos = cookie.indexOf("=");
+      const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+      document.cookie = name.trim() + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+    }
+
+    alert("快取與 Cookie 已清除！頁面即將重整。");
+    window.location.reload(true);
+  }
+
   const questions = [
     {
       q: "1. 當你面對一個二選一的難題時，最常讓你卡住的原因是什麼？",
@@ -306,7 +369,7 @@
       warmNotes: "什麼都想要，其實是渴望擁有一切的美好人生。但專注並不是放棄，而是『按順序體驗』。把你的慾望排個隊，一次專心品嚐一道菜，你會發現每一步都比以前更飽滿有成就感！",
       books: [
         "<b>《世界盡頭的咖啡館》</b>（約翰·史崔勒基）— 重新扣問存在價值，幫你找到核心優先順序。",
-        "<b>《把日子慢慢變好》</b>（黃山料）— 專注於當下日常，讓生活步調重回軌道。",
+        "<b>《深度思考》</b>（莫林·希凱）— 香奈兒前 CEO 的成長洞察，教你專注真正有價值的事物。",
         "<b>《每一個人的花期不同》</b>（萬特特）— 專屬女性覺醒，學會在自己的節奏裡專注發光。"
       ]
     },
