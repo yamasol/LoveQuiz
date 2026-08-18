@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>✨ 塔羅心靈測驗：尋找你的決策命定書 ✨</title>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #FFF5F7;
+      --card-bg: #FFFFFF;
+      --primary: #FFB7B2;
+      --primary-hover: #FF9AA2;
+      --accent: #E2F0CB;
+      --text-main: #6C5B7B;
+      --text-soft: #887B97;
+      --shadow: 0 10px 25px rgba(255, 183, 178, 0.3);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Zen Maru Gothic', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      background: var(--card-bg);
+      width: 100%;
+      max-width: 480px;
+      border-radius: 24px;
+      padding: 32px 24px;
+      box-shadow: var(--shadow);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 12px;
+      color: var(--text-main);
+    }
+
+    p.subtitle {
+      font-size: 0.95rem;
+      color: var(--text-soft);
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    .btn {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 14px 28px;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: transform 0.2s, background-color 0.2s;
+      box-shadow: 0 4px 12px rgba(255, 154, 162, 0.4);
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .btn:hover {
+      background-color: var(--primary-hover);
+      transform: translateY(-2px);
+    }
+
+    /* 測驗區塊 */
+    .progress-bar {
+      height: 8px;
+      background-color: #FFE5E5;
+      border-radius: 10px;
+      margin-bottom: 24px;
+      overflow: hidden;
+    }
+
+    .progress {
+      height: 100%;
+      background-color: var(--primary);
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    .question-title {
+      font-size: 1.15rem;
+      margin-bottom: 20px;
+      text-align: left;
+      line-height: 1.6;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .option-btn {
+      background-color: #FAF0F2;
+      border: 2px solid transparent;
+      padding: 14px 16px;
+      border-radius: 16px;
+      text-align: left;
+      font-size: 0.95rem;
+      color: var(--text-main);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      line-height: 1.4;
+    }
+
+    .option-btn:hover {
+      background-color: #FFEBEF;
+      border-color: var(--primary);
+      transform: translateX(4px);
+    }
+
+    /* 結果區塊 */
+    .card-icon {
+      font-size: 3.5rem;
+      margin-bottom: 12px;
+    }
+
+    .result-tag {
+      display: inline-block;
+      background-color: var(--accent);
+      color: #556B2F;
+      padding: 4px 16px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: bold;
+      margin-bottom: 12px;
+    }
+
+    .result-box {
+      background-color: #FAF0F2;
+      border-radius: 16px;
+      padding: 16px;
+      text-align: left;
+      margin: 16px 0;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .result-box h3 {
+      font-size: 1rem;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- 開始頁面 -->
+  <div id="start-screen">
+    <div class="card-icon">🔮</div>
+    <h1>塔羅心靈測驗</h1>
+    <p class="subtitle">每次做決定都卡住嗎？<br>5 題抽出一張專屬於你的決策塔羅牌，指引你找到命定解藥書！</p>
+    <button class="btn" onclick="startQuiz()">開始測驗 ✨</button>
+  </div>
+
+  <!-- 測驗頁面 -->
+  <div id="quiz-screen" class="hidden">
+    <div class="progress-bar">
+      <div class="progress" id="progress"></div>
+    </div>
+    <div class="question-title" id="question-text">題目載入中...</div>
+    <div class="options" id="options-container"></div>
+  </div>
+
+  <!-- 結果頁面 -->
+  <div id="result-screen" class="hidden">
+    <div class="card-icon" id="result-icon">🃏</div>
+    <div class="result-tag" id="result-tag">原型名稱</div>
+    <h1 id="result-title">你的塔羅牌</h1>
+    
+    <div class="result-box">
+      <h3>🔍 決策盲點</h3>
+      <p id="result-blindspot">盲點描述...</p>
+    </div>
+
+    <div class="result-box" style="background-color: #E8F5E9;">
+      <h3>📖 推薦閱讀方向</h3>
+      <p id="result-book">推薦書籍...</p>
+    </div>
+
+    <button class="btn" onclick="restartQuiz()">再測一次 🔄</button>
+  </div>
+</div>
+
+<script>
+  const questions = [
+    {
+      q: "1. 當你面對一個二選一的難題時，最常讓你卡住的原因是什麼？",
+      options: [
+        { text: "怕選了這個，之後會後悔沒選另一個", type: "A" },
+        { text: "想太多細節和最壞打算，越想越焦慮", type: "B" },
+        { text: "兩個都想要，不想做任何妥協或放棄", type: "C" },
+        { text: "怕選錯會影響到身邊的人或大家的看法", type: "D" }
+      ]
+    },
+    {
+      q: "2. 你平常做不出決定時，第一時間會採取什麼行動？",
+      options: [
+        { text: "上網爬文、看開箱文、查完所有資料再說", type: "A" },
+        { text: "算牌、求籤、測驗，交給命運或外部訊號決定", type: "B" },
+        { text: "先放著不管，滑手機或做別的事拖延", type: "C" },
+        { text: "問身邊朋友的意見，看大家都怎麼選", type: "D" }
+      ]
+    },
+    {
+      q: "3. 想像你走進一家菜單有上百道菜的餐廳，你會怎麼點餐？",
+      options: [
+        { text: "迅速用排除法，挑出當下最需要的營養或主食", type: "A" },
+        { text: "猶豫半天，最後點跟上次一模一樣的東西", type: "B" },
+        { text: "點那個名字看起來最酷、最想嘗試的新品", type: "C" },
+        { text: "點「主廚推薦」或銷售第一名，最安全", type: "D" }
+      ]
+    },
+    {
+      q: "4. 如果有人強迫你 3 秒內做出一個重要決定，你當下的反應是？",
+      options: [
+        { text: "理性快速分析，憑直覺抓最不壞的選項", type: "A" },
+        { text: "腦袋一片空白，開始反胃或想逃跑", type: "B" },
+        { text: "隨便亂選一個，但事後會一直耿耿於懷", type: "C" },
+        { text: "感到生氣，覺得對方憑什麼逼我", type: "D" }
+      ]
+    },
+    {
+      q: "5. 做完決定後，你最希望獲得什麼樣的感覺？",
+      options: [
+        { text: "清楚知道下一步該怎麼做，目標明確", type: "A" },
+        { text: "心情平靜，不再感到焦慮或恐懼", type: "B" },
+        { text: "感到自由，可以隨心所欲地探索新事物", type: "C" },
+        { text: "覺得公平合理，大家都滿意", type: "D" }
+      ]
+    }
+  ];
+
+  const results = {
+    A: {
+      icon: "🗡️",
+      tag: "理性分析型",
+      title: "【寶劍首牌】",
+      blindspot: "資訊過載、思考容易陷入分析癱瘓，總想找到完全理性的最佳解。",
+      book: "邏輯決策與思維模型類書籍（例如：《原則》、《原子習慣》）"
+    },
+    B: {
+      icon: "🌙",
+      tag: "焦慮避險型",
+      title: "【月亮】",
+      blindspot: "害怕後悔與未知，容易被不平靜的情緒與焦慮拉著走。",
+      book: "情緒心理學與自我接納類書籍（例如：《被討厭的勇氣》、《接受不完美的勇氣》）"
+    },
+    C: {
+      icon: "🏆",
+      tag: "欲望發散型",
+      title: "【聖杯七】",
+      blindspot: "什麼都想嘗試、什麼都不想放棄，缺乏優先級與核心聚焦。",
+      book: "極簡主義與目標聚焦類書籍（例如：《單核工作法》、《精準努力》）"
+    },
+    D: {
+      icon: "⚖️",
+      tag: "他人導向型",
+      title: "【正義】",
+      blindspot: "過度在意世俗標準與身邊人的看法，容易忽略自己內心真實聲音。",
+      book: "個人價值觀與自我覺察類書籍（例如：《你想活出怎樣的人生》、《設計你的人生》）"
+    }
+  };
+
+  let currentQuestion = 0;
+  let scores = { A: 0, B: 0, C: 0, D: 0 };
+
+  function startQuiz() {
+    document.getElementById('start-screen').classList.add('hidden');
+    document.getElementById('quiz-screen').classList.remove('hidden');
+    showQuestion();
+  }
+
+  function showQuestion() {
+    const q = questions[currentQuestion];
+    document.getElementById('question-text').innerText = q.q;
+    
+    // 更新進度條
+    const progress = ((currentQuestion + 1) / questions.length) * 100;
+    document.getElementById('progress').style.width = `${progress}%`;
+
+    const optionsContainer = document.getElementById('options-container');
+    optionsContainer.innerHTML = '';
+
+    q.options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'option-btn';
+      btn.innerText = opt.text;
+      btn.onclick = () => selectOption(opt.type);
+      optionsContainer.appendChild(btn);
+    });
+  }
+
+  function selectOption(type) {
+    scores[type]++;
+    currentQuestion++;
+
+    if (currentQuestion < questions.length) {
+      showQuestion();
+    } else {
+      showResult();
+    }
+  }
+
+  function showResult() {
+    document.getElementById('quiz-screen').classList.add('hidden');
+    document.getElementById('result-screen').classList.remove('hidden');
+
+    // 計算最高分的類型
+    let highestType = 'A';
+    let maxScore = -1;
+    for (const type in scores) {
+      if (scores[type] > maxScore) {
+        maxScore = scores[type];
+        highestType = type;
+      }
+    }
+
+    const res = results[highestType];
+    document.getElementById('result-icon').innerText = res.icon;
+    document.getElementById('result-tag').innerText = res.tag;
+    document.getElementById('result-title').innerText = res.title;
+    document.getElementById('result-blindspot').innerText = res.blindspot;
+    document.getElementById('result-book').innerText = res.book;
+  }
+
+  function restartQuiz() {
+    currentQuestion = 0;
+    scores = { A: 0, B: 0, C: 0, D: 0 };
+    document.getElementById('result-screen').classList.add('hidden');
+    document.getElementById('start-screen').classList.remove('hidden');
+  }
+</script>
+
+</body>
+</html>
