@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>水煎包生存學：家庭溝通與人格毒舌測驗</title>
+    <style>
+        :root {
+            --bg-color: #f3f4f6;
+            --card-bg: #ffffff;
+            --text-main: #111827;
+            --text-muted: #4b5563;
+            --accent-color: #dc2626;
+            --accent-hover: #b91c1c;
+            --border-color: #d1d5db;
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+            --radius: 12px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 650px;
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 36px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Intro Screen */
+        .intro {
+            text-align: center;
+        }
+
+        .intro h1 {
+            font-size: 1.85rem;
+            margin-bottom: 12px;
+            color: var(--text-main);
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .intro p {
+            color: var(--text-muted);
+            font-size: 0.98rem;
+            line-height: 1.65;
+            margin-bottom: 28px;
+        }
+
+        .badge-warning {
+            display: inline-block;
+            background-color: #fef2f2;
+            color: #dc2626;
+            font-size: 0.8rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 20px;
+            border: 1px solid #fecaca;
+            margin-bottom: 16px;
+        }
+
+        .btn {
+            background-color: var(--text-main);
+            color: #fff;
+            border: none;
+            padding: 14px 28px;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 100%;
+            letter-spacing: 0.5px;
+        }
+
+        .btn:hover {
+            background-color: var(--accent-color);
+        }
+
+        /* Quiz Screen */
+        .progress-bar {
+            height: 6px;
+            background-color: #e5e7eb;
+            border-radius: 3px;
+            margin-bottom: 24px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: var(--accent-color);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .question-number {
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .question-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.45;
+            color: var(--text-main);
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option-btn {
+            background-color: #fff;
+            border: 1px solid var(--border-color);
+            padding: 16px 20px;
+            border-radius: 8px;
+            text-align: left;
+            font-size: 0.95rem;
+            color: var(--text-main);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            line-height: 1.5;
+            font-weight: 500;
+        }
+
+        .option-btn:hover {
+            border-color: var(--accent-color);
+            background-color: #fff5f5;
+            transform: translateY(-1px);
+        }
+
+        /* Result Screen */
+        .result {
+            text-align: left;
+        }
+
+        .result-subtitle {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        .result-title {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--text-main);
+            padding-bottom: 12px;
+        }
+
+        .section-block {
+            margin-bottom: 20px;
+        }
+
+        .section-block h3 {
+            font-size: 1.05rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .section-block p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.65;
+            background: #f9fafb;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border-left: 4px solid var(--border-color);
+        }
+
+        .section-block.toxic p {
+            border-left-color: var(--accent-color);
+            background: #fff5f5;
+            color: #1f2937;
+        }
+
+        .section-block.advice p {
+            border-left-color: #2563eb;
+            background: #eff6ff;
+            color: #1e3a8a;
+            font-weight: 500;
+        }
+
+        .quote-box {
+            font-style: italic;
+            font-weight: 700;
+            color: #111827;
+            background: #f3f4f6;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            border: 1px stroke var(--border-color);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- 1. Intro Screen -->
+    <div id="intro-screen" class="intro">
+        <div class="badge-warning">⚠️ 警語：滿滿真話，慎入</div>
+        <h1>水煎包生存學：毒舌人性測驗</h1>
+        <p>一顆咬錯的水煎包，炸出你在家庭與朋友間的「真實人格與劣根性」。<br>拒絕假溫柔，不給心靈雞湯！回答 6 題，面對你最赤裸的處事風格與溝通絕境。</p>
+        <button class="btn" onclick="startQuiz()">開始面對現實</button>
+    </div>
+
+    <!-- 2. Quiz Screen -->
+    <div id="quiz-screen" class="hidden">
+        <div class="progress-bar">
+            <div id="progress-fill" class="progress-fill"></div>
+        </div>
+        <div id="question-number" class="question-number">Question 1 / 6</div>
+        <div id="question-title" class="question-title">題目載入中...</div>
+        <div id="options-list" class="options-list"></div>
+    </div>
+
+    <!-- 3. Result Screen -->
+    <div id="result-screen" class="result hidden">
+        <div class="result-subtitle">經過殘酷測試，你的真實人格是：</div>
+        <div id="result-title" class="result-title">人格名稱</div>
+
+        <div class="quote-box" id="result-quote">「經典金句」</div>
+
+        <div class="section-block">
+            <h3>🔍 性格真相深度剖析</h3>
+            <p id="result-desc">剖析內文...</p>
+        </div>
+
+        <div class="section-block toxic">
+            <h3>🔥 毒舌直擊：水煎包事件現場檢討</h3>
+            <p id="result-toxic">毒舌批判...</p>
+        </div>
+
+        <div class="section-block advice">
+            <h3>💡 給你的 200 字良心建議</h3>
+            <p id="result-advice">良心建議...</p>
+        </div>
+
+        <button class="btn" onclick="restartQuiz()">重新測驗（不服來戰）</button>
+    </div>
+</div>
+
+<script>
+    const questions = [
+        {
+            q: "買回來的水煎包標記非常模糊（例如紅點只有毫米大），你又分不清口味，你會？",
+            options: [
+                { text: "憑感覺直接咬一口，錯了再說，反正先吃了再打算", type: "A" },
+                { text: "發揮柯南精神，用聞的、撥開看、仔細辨識，絕不冒險", type: "B" },
+                { text: "這標籤跟沒有一樣！直接推給別人先挑，別想坑我", type: "C" },
+                { text: "懶得跟這顆包子博弈，自己花錢去外面買一份最乾淨", type: "D" }
+            ]
+        },
+        {
+            q: "不幸咬了一口發現吃錯口味（且這是家人的），你當下的第一反應是？",
+            options: [
+                { text: "默默吐掉或丟著，趁沒人注意火速躲回房間裝死", type: "A" },
+                { text: "條理清晰地跟家人解釋：「點點太小我看不到，我再去買一顆還你」", type: "B" },
+                { text: "理直氣壯大聲回擊：「標記這麼微弱誰看得出來啊？別無理取鬧」", type: "C" },
+                { text: "冷靜觀察長輩爆發的情緒，心想：「果然，今天又是在找碴」", type: "D" }
+            ]
+        },
+        {
+            q: "家人因為這件小事對你大發雷霆、極度沒耐心時，你會怎麼應對？",
+            options: [
+                { text: "反正也吵不贏，戴上耳機躲進房間，隨便他們怎麼罵", type: "A" },
+                { text: "試圖理性溝通：「好啦別生氣，下次我們把它分開放不就好了」", type: "B" },
+                { text: "直接嗆回去，甚至拿經濟地位反擊：「這家到底誰在賺錢？」", type: "C" },
+                { text: "冷眼旁觀，默默在心裡評估家人的情緒底線與階級地位", type: "D" }
+            ]
+        },
+        {
+            q: "對於「家庭地位與話語權」這個敏感話題，你內心真正的想法是？",
+            options: [
+                { text: "無所謂，我在家地位最低無妨，至少過得最自由、沒負擔", type: "A" },
+                { text: "家人之間講道理與包容最重要，親近的人應該要有基本體諒", type: "B" },
+                { text: "實力說話！付出多的人、有賺錢的人，話語權理所當然最大", type: "C" },
+                { text: "長輩>哥>媽？階級結構早就固定了，看透現實不如靠自己", type: "D" }
+            ]
+        },
+        {
+            q: "遇到童年噩夢「不會問了被罵，不問學不會又被罵」的雙標死循環，你選擇？",
+            options: [
+                { text: "放棄治療，不問也不學，全面進入消極防禦與擺爛模式", type: "A" },
+                { text: "不跟發脾氣的人硬碰硬，轉向找親近的朋友或外援幫忙", type: "B" },
+                { text: "自己硬著頭皮啃下來變強，以後用實力打臉當初罵你的人", type: "C" },
+                { text: "深刻體會「最親近的人往往最沒耐心」的殘酷人性，轉向獨立", type: "D" }
+            ]
+        },
+        {
+            q: "看完群組整天為了水煎包討論不休，你覺得避免日常爭吵的真正關鍵是？",
+            options: [
+                { text: "離場保平安，只要我不參與，這世界就傷不到我", type: "A" },
+                { text: "深度了解每個人的生理/心理特質（如色弱或雷區），互相體諒", type: "B" },
+                { text: "讓自己變得強大獨立，當你握有主導權，自然沒人敢廢話", type: "C" },
+                { text: "看清人際與家庭的本質就是一場混亂，用犀利與幽默看淡一切", type: "D" }
+            ]
+        }
+    ];
+
+    const results = {
+        A: {
+            title: "【擺爛躲避型 / 甩鍋鴕鳥派】",
+            quote: "「只要我躲得夠快，責任與駡聲就追不上我。」",
+            desc: "你極度厭惡衝突，但你的解決方式就是『沒有解決』。遇到問題你第一時間不是面對，而是退縮、躲回房間、戴上耳機。你自以為這叫平靜與自由，但在外人看來，你只是在逃避現實，把收尾的爛攤子全部留給別人。",
+            toxic: "在水煎包事件中，你就是那個咬了一口吐掉、發現吃錯就溜走的人！你怪家人沒耐心、怪媽媽大發雷霆，但你從未認真想過：『為什麼別人要一直包容你的粗心？』你的色弱是事實，但你拿色弱當防護罩、咬錯直接甩鍋躲起來的態度，才是真正惹怒家人的導火線！",
+            advice: "別再把『躲避』當成高明手段。當你不願意主動承擔責任，你在家庭或團隊裡的地位就只會永遠是最低的受害者。下次做錯事或咬錯食物，請抬起頭來直接承擔：『對不起我弄錯了，這顆我吃掉/我重新買一顆』。主動面對一次，你的尊嚴與地位才會真正建立起來。"
+        },
+        B: {
+            title: "【聖母教條型 / 理性講理派】",
+            quote: "「這明明有很簡單的解法，大家為什麼不能好好溝通？」",
+            desc: "你是一個徹頭徹尾的『邏輯怪物』與『理想主義者』。你總以為世上所有衝突都可以靠『好好溝通』和『理性分析』解決。你喜歡開藥方（用聞的、撥開看、分好放），卻忽略了衝突的核心往往是『累積已久的壓抑情緒』而非『方法問題』。",
+            toxic: "面對水煎包爭議，你拼命給建議，看似溫暖體貼，實則站著說話不腰疼！在一個已經失去耐心的家庭氣氛裡，講道理只會被當成講廢話。你越勸大家冷靜包容，情緒爆發的人越覺得你根本不懂他們的積怨有多深。你的理性有時反而成了另一種高高在上的說教。",
+            advice: "請記住，人是情緒的動物，不是跑程式碼的電腦。面對已經炸鍋的家庭或人際關係，先別急著給解方或講大道理。學會先認同對方的情緒，甚至給予適當的安靜空間，遠比你提出 10 個完美的『水煎包識別法』來得有用得多。少點說教，多點情感共鳴吧！"
+        },
+        C: {
+            title: "【實力霸權型 / 經濟說話派】",
+            quote: "「吵什麼吵？有本事拿實力說話，沒賺錢就別靠腰。」",
+            desc: "你非常現實，甚至有點冷酷。在你的世界觀裡，沒有什麼溫情脈脈，只有『實力與話語權』。你習慣用經濟貢獻、能力高低來衡量人的價值與地位。你說話直言不諱、針針見血，非常討厭弱者的抱怨與拖泥帶水。",
+            toxic: "你在水煎包事件中的發言絕對是最嗆辣的！你一句『有賺錢的最大』直接掀翻溫情假象，但你的毒舌往往會把小摩擦升級成毀滅性的階級對立。你看不起沒貢獻又愛抱怨的人，但你這種『用錢論地位』的冷酷態度，也常常讓人覺得你缺乏基本的人情味與同理心。",
+            advice: "實力確實能帶來話語權，但無法買到真正的尊重與愛。家庭與親密關係不是資本市場，如果凡事都用『誰賺得多』來定輸贏，最後你只會贏了道理、輸了感情，變成孤家寡人。適度收起你的銳利與傲慢，給身邊能力較弱的人留一點尊嚴，這才是真正的強者風範。"
+        },
+        D: {
+            title: "【冷眼旁觀型 / 人性剖析派】",
+            quote: "「看透不說透，看你們演戲其實挺有意思的。」",
+            desc: "你是個高級的情感旁觀者。你擁有一雙鷹眼，能瞬間看穿家庭結構的荒謬、親情背後的勒索，以及每個人內心的卑微。你習慣站在高處俯瞰混亂，用毒舌點評這一切，自己卻絕不親自下場沾染泥巴。",
+            toxic: "在這次事件中，你精準地剖析出『家人其實沒什麼耐心』、『這是階級壓迫』，看透了一切卻極度冷漠。你享受這種『看破人性』的智力優越感，甚至偶爾煽風點火，但你這種超然的態度，有時候比發脾氣的人更讓人寒心。你像個冷酷的解剖官，把別人的痛苦當成分析樣本。",
+            advice: "看透人性是你的天賦，但『冷眼旁觀』救不了任何人，包括你自己。別把自己的冷漠當成智慧，也不要永遠只做個犀利的點評者。如果你真的看穿了問題的根源，試著用你的影響力去偷偷做一點溫和的改變，而不是只坐在觀眾席上發笑。稍微接點地氣吧！"
+        }
+    };
+
+    let currentQuestion = 0;
+    let scores = { A: 0, B: 0, C: 0, D: 0 };
+
+    function startQuiz() {
+        document.getElementById('intro-screen').classList.add('hidden');
+        document.getElementById('quiz-screen').classList.remove('hidden');
+        currentQuestion = 0;
+        scores = { A: 0, B: 0, C: 0, D: 0 };
+        showQuestion();
+    }
+
+    function showQuestion() {
+        const q = questions[currentQuestion];
+        document.getElementById('question-number').innerText = `Question ${currentQuestion + 1} / ${questions.length}`;
+        document.getElementById('question-title').innerText = q.q;
+        
+        const progress = ((currentQuestion) / questions.length) * 100;
+        document.getElementById('progress-fill').style.width = `${progress}%`;
+
+        const optionsContainer = document.getElementById('options-list');
+        optionsContainer.innerHTML = '';
+
+        q.options.forEach(opt => {
+            const btn = document.createElement('button');
+            btn.className = 'option-btn';
+            btn.innerText = opt.text;
+            btn.onclick = () => selectOption(opt.type);
+            optionsContainer.appendChild(btn);
+        });
+    }
+
+    function selectOption(type) {
+        scores[type]++;
+        currentQuestion++;
+
+        if (currentQuestion < questions.length) {
+            showQuestion();
+        } else {
+            showResult();
+        }
+    }
+
+    function showResult() {
+        document.getElementById('quiz-screen').classList.add('hidden');
+        document.getElementById('result-screen').classList.remove('hidden');
+
+        let finalType = 'A';
+        let maxScore = -1;
+        for (const type in scores) {
+            if (scores[type] > maxScore) {
+                maxScore = scores[type];
+                finalType = type;
+            }
+        }
+
+        const res = results[finalType];
+        document.getElementById('result-title').innerText = res.title;
+        document.getElementById('result-quote').innerText = res.quote;
+        document.getElementById('result-desc').innerText = res.desc;
+        document.getElementById('result-toxic').innerText = res.toxic;
+        document.getElementById('result-advice').innerText = res.advice;
+    }
+
+    function restartQuiz() {
+        document.getElementById('result-screen').classList.add('hidden');
+        document.getElementById('intro-screen').classList.remove('hidden');
+    }
+</script>
+
+</body>
+</html>
