@@ -3,143 +3,252 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>✨ 專屬你的 MBTI 性格探索 ✨</title>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+    <title>✨ 專屬你的 MBTI 深度性格探索 ✨</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary-bg: #fdfbf7;
-            --text-color: #4a4a4a;
+            --text-color: #333333;
             --btn-bg: #ffe4e1;
             --btn-hover: #ffb6c1;
             /* 四大陣營背景色 */
-            --color-nt: #e6e6fa; /* 分析家 紫色 */
-            --color-nf: #e0f8e0; /* 外交家 綠色 */
-            --color-sj: #d4f1f9; /* 守護者 藍色 */
-            --color-sp: #fffacd; /* 探險家 黃色 */
+            --color-nt: #f0e6ff; /* 分析家 淡紫 */
+            --color-nf: #e6f7e6; /* 外交家 淡綠 */
+            --color-sj: #e6f3ff; /* 守護者 淡藍 */
+            --color-sp: #fffbe6; /* 探險家 淡黃 */
         }
         body {
             font-family: 'Nunito', 'Noto Sans TC', sans-serif;
             background-color: var(--primary-bg);
             color: var(--text-color);
             margin: 0;
-            padding: 0;
+            padding: 20px 10px;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             transition: background-color 0.5s ease;
+            box-sizing: border-box;
         }
         .container {
             width: 100%;
-            max-width: 480px;
-            background: white;
-            border-radius: 24px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            padding: 30px;
+            max-width: 520px;
+            background: #ffffff;
+            border-radius: 28px;
+            box-shadow: 0 12px 35px rgba(0,0,0,0.06);
+            padding: 28px 24px;
             box-sizing: border-box;
             text-align: center;
-            margin: 20px;
         }
-        h1, h2 { color: #333; }
+        h1 { font-size: 26px; margin-bottom: 10px; color: #2c3e50; font-weight: 900; }
+        p.subtitle { font-size: 14px; color: #7f8c8d; margin-top: 0; margin-bottom: 24px; }
+        
         input[type="text"] {
-            width: 80%;
-            padding: 12px;
+            width: 85%;
+            padding: 14px;
             border: 2px solid #eee;
-            border-radius: 12px;
+            border-radius: 16px;
             font-size: 16px;
             margin-bottom: 20px;
             text-align: center;
+            outline: none;
+            transition: 0.3s;
             font-family: inherit;
         }
+        input[type="text"]:focus { border-color: #ffb6c1; }
+
         button {
             background-color: var(--btn-bg);
             border: none;
-            padding: 15px 25px;
-            border-radius: 16px;
+            padding: 14px 20px;
+            border-radius: 18px;
             font-size: 16px;
-            font-weight: bold;
-            color: #555;
+            font-weight: 700;
+            color: #4a4a4a;
             cursor: pointer;
             width: 100%;
-            margin-bottom: 12px;
+            margin-top: 10px;
             transition: 0.2s;
             font-family: inherit;
         }
         button:hover { background-color: var(--btn-hover); transform: translateY(-2px); }
         .hidden { display: none !important; }
-        .progress {
-            font-size: 14px;
-            color: #999;
+
+        .progress-bar-wrap {
+            background-color: #f1f1f1;
+            border-radius: 10px;
+            height: 8px;
+            width: 100%;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+        .progress-bar-fill {
+            background-color: #ff6b81;
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        .progress-text { font-size: 13px; color: #95a5a6; margin-bottom: 12px; }
+
+        /* 題目卡片 */
+        .q-card {
+            background: #fafafa;
+            border-radius: 20px;
+            padding: 20px;
+            text-align: left;
+            border: 1px solid #f0f0f0;
             margin-bottom: 20px;
         }
-        
+        .q-title { font-size: 17px; font-weight: 700; color: #2c3e50; margin-bottom: 8px; line-height: 1.4; }
+        .q-scenario { font-size: 14px; color: #666; margin-bottom: 18px; line-height: 1.5; background: #fff; padding: 12px; border-radius: 12px; border-left: 4px solid #ff9ff3; }
+
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            font-size: 12px;
+            color: #555;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+        .slider-labels .label-box {
+            width: 48%;
+            background: #fff;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid #eee;
+        }
+        .slider-labels .right-box { text-align: right; }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 12px;
+            border-radius: 6px;
+            background: #ffe4e1;
+            outline: none;
+            margin: 10px 0;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: #ff6b81;
+            cursor: pointer;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+        }
+        .score-display {
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+            color: #ff6b81;
+            margin-top: 5px;
+        }
+
         /* 結果頁面樣式 */
         .result-card {
-            background: rgba(255, 255, 255, 0.6);
-            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 20px;
             padding: 20px;
             margin-top: 15px;
+            backdrop-filter: blur(5px);
         }
-        .type-title { font-size: 48px; margin: 10px 0; font-weight: 900; letter-spacing: 2px; }
-        .type-name { font-size: 20px; font-weight: bold; margin-bottom: 20px; color: #555; }
-        
+        .type-title { font-size: 46px; margin: 5px 0; font-weight: 900; letter-spacing: 2px; color: #2c3e50; }
+        .type-name { font-size: 20px; font-weight: 700; margin-bottom: 20px; color: #555; }
+
         /* 分頁標籤 */
-        .tabs { display: flex; justify-content: space-between; margin-bottom: 15px; }
+        .tabs { display: flex; gap: 6px; margin-bottom: 18px; overflow-x: auto; padding-bottom: 4px; }
         .tab-btn {
-            background: transparent;
-            border: 2px solid #ccc;
-            width: 32%;
-            padding: 8px 0;
-            border-radius: 10px;
-            font-size: 14px;
+            background: #f1f1f1;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 700;
+            color: #666;
+            cursor: pointer;
+            white-space: nowrap;
+            margin-top: 0;
+            width: auto;
+            flex: 1;
         }
-        .tab-btn.active { background: #fff; border-color: #888; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .tab-content { text-align: left; font-size: 15px; line-height: 1.6; min-height: 120px; display: none; }
+        .tab-btn.active { background: #ff6b81; color: #fff; box-shadow: 0 4px 10px rgba(255,107,129,0.25); }
+        .tab-content { text-align: left; font-size: 14px; line-height: 1.7; min-height: 180px; display: none; color: #444; }
         .tab-content.active { display: block; }
-        
-        .action-btns { margin-top: 30px; display: flex; gap: 10px; }
-        .action-btns button { font-size: 14px; padding: 12px; }
-        .btn-danger { background-color: #ffe6e6; }
+
+        .evidence-item {
+            background: #fff;
+            padding: 12px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            border: 1px solid #eee;
+            font-size: 13px;
+        }
+        .evidence-title { font-weight: 700; color: #2c3e50; margin-bottom: 4px; }
+        .evidence-tag { display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: bold; background: #ffe4e1; color: #d63031; margin-top: 4px; }
+
+        .action-btns { margin-top: 25px; display: flex; gap: 10px; }
+        .action-btns button { font-size: 14px; padding: 12px; margin-top: 0; }
+        .btn-danger { background-color: #ffe6e6; color: #c0392b; }
         .btn-danger:hover { background-color: #ffcccc; }
     </style>
 </head>
 <body>
 
-<div class="container" id="app">
-    <!-- 首頁區塊 -->
+<div class="container">
+    <!-- 1. 首頁區塊 -->
     <div id="screen-start">
         <h1>✨ 尋找你的 MBTI ✨</h1>
-        <p>簡單 8 個問題，探索最真實的自己！</p>
-        <img src="https://api.iconify.design/noto:detective.svg" width="80" alt="detective" style="margin:20px 0;">
+        <p class="subtitle">高共情情境題目 × 1~10 分彈性光譜測驗</p>
+        <img src="https://api.iconify.design/noto:detective.svg" width="90" alt="detective" style="margin: 15px 0;">
         <br>
-        <input type="text" id="userName" placeholder="請輸入你的暱稱" autocomplete="off">
-        <button onclick="startQuiz()">開始測驗 🚀</button>
+        <input type="text" id="userName" placeholder="請輸入你的暱稱（例如：小明）" autocomplete="off">
+        <button onclick="startQuiz()">開始性格探索 🚀</button>
     </div>
 
-    <!-- 測驗區塊 -->
+    <!-- 2. 測驗區塊 -->
     <div id="screen-quiz" class="hidden">
-        <div class="progress" id="progressText">問題 1 / 8</div>
-        <h2 id="questionText" style="margin-bottom: 30px;">問題載入中...</h2>
-        <button id="btnA" onclick="answer('A')">選項 A</button>
-        <button id="btnB" onclick="answer('B')">選項 B</button>
+        <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressFill"></div></div>
+        <div class="progress-text" id="progressText">問題 1 / 8</div>
+        
+        <div class="q-card">
+            <div class="q-title" id="questionTitle">問題載入中...</div>
+            <div class="q-scenario" id="questionScenario">情境載入中...</div>
+            
+            <div class="slider-labels">
+                <div class="label-box" id="labelLeft">偏向左側</div>
+                <div class="label-box right-box" id="labelRight">偏向右側</div>
+            </div>
+            
+            <input type="range" id="scoreSlider" min="1" max="10" value="5" oninput="updateScoreDisplay(this.value)">
+            <div class="score-display">選擇強度：<span id="scoreNum">5</span> 分</div>
+        </div>
+
+        <button onclick="nextQuestion()">下一題 ➡️</button>
     </div>
 
-    <!-- 結果區塊 -->
+    <!-- 3. 結果區塊 -->
     <div id="screen-result" class="hidden">
-        <h2 id="resultGreeting"></h2>
-        <div class="result-card" id="resultCard">
+        <h2 id="resultGreeting" style="font-size:20px; margin-bottom:5px;"></h2>
+        <div class="result-card">
             <div class="type-title" id="mbtiType">INTJ</div>
             <div class="type-name" id="mbtiName">分析師</div>
             
             <div class="tabs">
-                <button class="tab-btn active" onclick="switchTab('desc')">📖 說明分析</button>
-                <button class="tab-btn" onclick="switchTab('advice')">💡 專屬建議</button>
-                <button class="tab-btn" onclick="switchTab('career')">💼 推薦職業</button>
+                <button class="tab-btn active" onclick="switchTab('desc', event)">📖 深度特質</button>
+                <button class="tab-btn" onclick="switchTab('analysis', event)">⚖️ 優勢與盲點</button>
+                <button class="tab-btn" onclick="switchTab('advice', event)">💡 成長建議</button>
+                <button class="tab-btn" onclick="switchTab('career', event)">💼 推薦職業</button>
+                <button class="tab-btn" onclick="switchTab('evidence', event)">🔍 答題佐證</button>
             </div>
             
             <div id="tab-desc" class="tab-content active"></div>
+            <div id="tab-analysis" class="tab-content"></div>
             <div id="tab-advice" class="tab-content"></div>
             <div id="tab-career" class="tab-content"></div>
+            <div id="tab-evidence" class="tab-content"></div>
         </div>
         
         <div class="action-btns">
@@ -150,48 +259,196 @@
 </div>
 
 <script>
-    // 題庫設計 (高鑑別度2選1)
+    // 8 道具備高共鳴度的情境題庫
     const questions = [
-        { text: "在漫長辛苦的工作後，你通常選擇怎麼度過週末？", a: "和朋友聚會，熱鬧一下能讓我充滿電 (E)", b: "獨自待在家享受安靜的時光來恢復精力 (I)", traitA: 'E', traitB: 'I' },
-        { text: "當你需要學習新事物時，你更傾向於？", a: "了解具體的實踐步驟和現實應用 (S)", b: "掌握背後的概念、理論與未來的可能性 (N)", traitA: 'S', traitB: 'N' },
-        { text: "在做重要決定時，你通常更看重？", a: "客觀的邏輯分析和公平性 (T)", b: "自己和他人的感受，以及價值觀是否和諧 (F)", traitA: 'T', traitB: 'F' },
-        { text: "對於即將到來的旅行，你的習慣是？", a: "提前規劃好每天的詳細行程與備案 (J)", b: "到了當地再隨機應變，保持彈性與驚喜 (P)", traitA: 'J', traitB: 'P' },
-        { text: "在陌生的社交場合中，你通常是？", a: "主動開啟話題，很容易結交新朋友 (E)", b: "傾向於聆聽與觀察，通常只和熟人交流 (I)", traitA: 'E', traitB: 'I' },
-        { text: "你在描述一件發生的事情時，通常會？", a: "精準地說出發生的順序、細節和事實 (S)", b: "使用比喻，或強調事件帶來的整體感受與意義 (N)", traitA: 'S', traitB: 'N' },
-        { text: "當朋友遇到困難向你訴苦，你的第一反應是？", a: "幫他分析問題的癥結，並提出解決方案 (T)", b: "先安撫他的情緒，給予絕對的情感支持 (F)", traitA: 'T', traitB: 'F' },
-        { text: "面對工作或任務，你喜歡的工作節奏是？", a: "按部就班盡早完成，不喜歡把事情拖到最後 (J)", b: "在最後期限前的壓力下，反而更能激發靈感 (P)", traitA: 'J', traitB: 'P' }
+        {
+            title: "【社交充電模式】",
+            scenario: "經歷了連續一整天充滿高壓會議與社交的大專案發表後，終於到了週五晚上：",
+            left: "<b>1~5 分：獨處恢復</b><br>想一個人待在家追劇、玩遊戲或躺平，不說話才能把電充滿。(I)",
+            right: "<b>6~10 分：聚會釋放</b><br>想約朋友熱炒、酒吧喝酒聊天，透過傾訴與熱鬧來紓解壓力。(E)",
+            leftTrait: "I", rightTrait: "E", keyName: "社交能量來源"
+        },
+        {
+            title: "【接收新資訊的方向】",
+            scenario: "當你準備學習一項完全未知的技術或新領域時，你習慣從何處入手？",
+            left: "<b>1~5 分：實事求是</b><br>希望先看到具體範例、操作步驟與過往成功案例，按部就班經驗累積。(S)",
+            right: "<b>6~10 分：洞察願景</b><br>想先理解背後的整體理論、核心概念與未來可能的創新應用場景。(N)",
+            leftTrait: "S", rightTrait: "N", keyName: "資訊接收習慣"
+        },
+        {
+            title: "【面對朋友訴苦的反應】",
+            scenario: "好友工作遭遇極大不公，非常挫折地向你傾訴遭遇時，你的第一直覺是：",
+            left: "<b>1~5 分：理性剖析</b><br>幫他客觀分析問題癥結，釐清責任歸屬並試圖提出具體解決方案。(T)",
+            right: "<b>6~10 分：情感共鳴</b><br>先站在他的立場同理情緒、安撫心情，讓他感受到被無條件支持。(F)",
+            leftTrait: "T", rightTrait: "F", keyName: "同理與決策模式"
+        },
+        {
+            title: "【旅行與生活規劃】",
+            scenario: "離期待已久的長途旅行只剩最後三天，你的準備狀態通常是：",
+            left: "<b>1~5 分：結構嚴謹</b><br>行程表已排好時間點、交通接駁與備案，確保萬無一失才有安全感。(J)",
+            right: "<b>6~10 分：隨興隨心</b><br>只訂好機票與住宿，具體要逛什麼到了當地隨興探索，享受意外驚喜。(P)",
+            leftTrait: "J", rightTrait: "P", keyName: "生活結構與計畫"
+        },
+        {
+            title: "【派對場合的互動】",
+            scenario: "受邀參加一個有多位半熟不熟朋友的社交聚會時：",
+            left: "<b>1~5 分：深交觀察</b><br>傾向待在熟人身邊，或是默默在旁觀察，當個溫和的聆聽者。(I)",
+            right: "<b>6~10 分：破冰開場</b><br>隨性穿梭在人群間，主動找新朋友開啟話題，帶動現場氛圍。(E)",
+            leftTrait: "I", rightTrait: "E", keyName: "社交主動性"
+        },
+        {
+            title: "【介紹作品與分享經驗】",
+            scenario: "向別人推薦一部你非常喜歡的電影或書籍時，你講話的重點往往是：",
+            left: "<b>1~5 分：細節描繪</b><br>精準描述精彩對白、演員演技、畫面美學與具體情節發展。(S)",
+            right: "<b>6~10 分：寓意探討</b><br>強調作品背後的哲學思考、隱喻象徵以及帶給你的深刻人生啟發。(N)",
+            leftTrait: "S", rightTrait: "N", keyName: "表達與焦點"
+        },
+        {
+            title: "【團隊決策爭議】",
+            scenario: "團隊在討論重要決策各持己見，場面陷於僵局時，你傾向支持：",
+            left: "<b>1~5 分：效益導向</b><br>回歸數據與客觀邏輯，選出最符合效益與效率的方案，哪怕會傷及人情。(T)",
+            right: "<b>6~10 分：和諧導向</b><br>考量決策對團隊成員的情緒影響，尋求照顧各方感受的折衷共識。(F)",
+            leftTrait: "T", rightTrait: "F", keyName: "價值判斷取向"
+        },
+        {
+            title: "【面對死線（Deadline）】",
+            scenario: "面對一個耗時一個月的大型專案或任務時，你的推進步調是：",
+            left: "<b>1~5 分：按部就班</b><br>拆解成每週小目標推進，極度討厭最後一刻壓線的焦慮感。(J)",
+            right: "<b>6~10 分：壓線爆發</b><br>前期花時間醞釀與嘗試多種可能，最後關頭在壓力下爆發驚人靈感。(P)",
+            leftTrait: "J", rightTrait: "P", keyName: "工作節奏與執行力"
+        }
     ];
 
-    // 16型人格資料庫 (精簡版)
+    // 16型人格資料庫 (擴充篇幅)
     const mbtiData = {
-        "INTJ": { name: "建築師", group: "NT", desc: "你是充滿想像力且具備戰略思維的思考者，對一切都有計畫。你喜歡追求效率，不滿足於現狀。", advice: "試著接受事物的不完美，並多關注身邊人的情感需求。", career: "系統架構師、科學家、策略顧問、財務分析師。" },
-        "INTP": { name: "邏輯學家", group: "NT", desc: "你擁有強烈的好奇心，喜歡分析問題的根本原因。對你來說，真理與邏輯勝過一切。", advice: "將腦中的想法付諸實踐，避免陷入永無止境的思考迴圈。", career: "軟體工程師、數學家、哲學家、資料分析師。" },
-        "ENTJ": { name: "指揮官", group: "NT", desc: "你是天生的領導者，充滿魅力與自信，能夠果斷地做出決策並帶領團隊達成目標。", advice: "適時放慢腳步，傾聽團隊中不同的聲音，展現更多同理心。", career: "企業高管、創業家、專案經理、律師。" },
-        "ENTP": { name: "辯論家", group: "NT", desc: "你聰明且充滿好奇心，喜歡挑戰傳統思維。在智力交鋒中，你總能找到獨特的切入點。", advice: "除了提出好點子，培養將專案從頭到尾執行完畢的耐心。", career: "行銷總監、政治家、公關專家、發明家。" },
-        "INFJ": { name: "提倡者", group: "NF", desc: "你安靜而神祕，卻是個鼓舞人心的理想主義者。你擁有深刻的洞察力，渴望為世界帶來正面影響。", advice: "照顧他人之餘，也要記得為自己保留喘息與充電的空間。", career: "心理諮商師、作家、藝術總監、人資專家。" },
-        "INFP": { name: "調停者", group: "NF", desc: "你富有詩意、善良且無私，總是渴望在最壞的人事物中尋找美好的一面。", advice: "學會拒絕不合理的要求，建立堅定的個人邊界。", career: "作家、設計師、社工、獨立創作者。" },
-        "ENFJ": { name: "主人公", group: "NF", desc: "你是充滿魅力的領導者，能夠敏銳察覺他人的潛力，並熱情地協助他們成長。", advice: "有時候事情不如預期並非你的責任，學會放下過度的自責。", career: "教師、公關、企業培訓師、活動策劃。" },
-        "ENFP": { name: "競選者", group: "NF", desc: "你熱情洋溢、充滿創造力。生活對你來說是一場豐富的冒險，你總是能輕易與他人建立連結。", advice: "培養自律能力，為天馬行空的靈感建立落地的執行計畫。", career: "廣告創意、旅遊作家、記者、演員。" },
-        "ISTJ": { name: "物流師", group: "SJ", desc: "你務實、講求邏輯且極度可靠。你重視傳統與秩序，是撐起社會運作的重要基石。", advice: "擁抱變化，在嚴謹的規律中偶爾允許自己來點突發奇想。", career: "會計師、公務員、系統管理員、警察。" },
-        "ISFJ": { name: "守衛者", group: "SJ", desc: "你極度體貼、專注且溫暖，總是默默地守護著你所愛的人，並將細節打理得井井有條。", advice: "你的需求和別人一樣重要，請大聲說出自己想要的。", career: "護理師、幼教老師、行政主管、客戶服務。" },
-        "ESTJ": { name: "總經理", group: "SJ", desc: "你是優秀的管理者，重視傳統與秩序，能夠迅速組織人力和資源，有效率地完成任務。", advice: "規則是死的，人是活的。在管理中加入更多彈性與人情味。", career: "專案經理、企業主管、法官、軍官。" },
-        "ESFJ": { name: "執政官", group: "SJ", desc: "你極度關心他人，喜歡受人喜愛。你總是熱心地提供幫助，是團隊中的潤滑劑。", advice: "理解並非所有人都能給予同等的回報，學會享受付出的過程而非結果。", career: "活動策劃、公關人員、醫療保健行政、社工。" },
-        "ISTP": { name: "鑑賞家", group: "SP", desc: "你是大膽而實用的實驗者，喜歡用雙手探索世界。你隨性但冷靜，擅長在危機中快速反應。", advice: "試著向親近的人敞開心扉，情感交流不會讓你失去自由。", career: "機械工程師、飛行員、法醫、運動員。" },
-        "ISFP": { name: "探險家", group: "SP", desc: "你是靈活有魅力的藝術家，喜歡探索生活中的美。你注重當下的感受，不喜歡被規則束縛。", advice: "未來的規劃同樣重要，試著為自己的生活設定一些長期目標。", career: "藝術家、時裝設計師、攝影師、廚師。" },
-        "ESTP": { name: "企業家", group: "SP", desc: "你聰明、充滿活力且感知敏銳。你喜歡活在當下，樂於冒險，享受成為人群焦點的感覺。", advice: "行動前多思考三秒鐘，衝動有時會帶來不必要的麻煩。", career: "銷售總監、創業家、經紀人、消防員。" },
-        "ESFP": { name: "表演者", group: "SP", desc: "你自發、精力充沛且熱情。身邊有你的地方絕不會無聊，你總能把歡樂帶給所有人。", advice: "在享受快樂的同時，也要學會面對嚴肅的承諾與責任。", career: "演員、活動主持人、導遊、室內設計師。" }
+        "INTJ": { 
+            name: "建築師 / 獨立思考者", group: "NT", 
+            desc: "你擁有極強的邏輯思考力與遠見，總是能以宏觀的視野看待事物。你討厭沒有效率與缺乏邏輯的制度，喜歡追求知識與自我提升。在他人眼中，你冷靜、獨立且具備極高執行力。", 
+            analysis: "<b>【優勢】</b> 卓越的策略規劃能力、專注力強、極度獨立不隨波逐流。<br><b>【盲點】</b> 容易對缺乏效率的人失去耐心，有時過於批判或忽視情感需求。",
+            advice: "學習接受現實中的不完美與混沌，多傾聽身邊人的情感聲音，適度放鬆嚴格的標準。", 
+            career: "系統架構師、數據科學家、策略顧問、金融分析師、研發工程師。" 
+        },
+        "INTP": { 
+            name: "邏輯學家 / 思想哲人", group: "NT", 
+            desc: "你具備強烈的好奇心與敏銳的分析眼光，總是在探索事物背後的規律與真理。你非常享受思考的過程，對各種新穎的想法與概念抱持開放態度。", 
+            analysis: "<b>【優勢】</b> 深刻的邏輯分析能力、富創造力、不受傳統框架約束。<br><b>【盲點】</b> 容易陷入過度思考（Analysis Paralysis），執行力有時跟不上點子發想的速度。",
+            advice: "將宏大的想法拆解成可執行的小目標，並嘗試向外分享你的思考成果。", 
+            career: "軟體研發專家、演算法工程師、數學家、學術研究員、系統分析師。" 
+        },
+        "ENTJ": { 
+            name: "指揮官 / 領航者", group: "NT", 
+            desc: "你是天生的領導者與開拓者，擁有堅定的意志與快速決斷的能力。你善於組織資源與人力來達成宏大目標，並能在混亂中建立秩序。", 
+            analysis: "<b>【優勢】</b> 卓越的領導才能、果斷具行動力、高瞻遠矚。<br><b>【盲點】</b> 容易顯得過於強勢，忽視團隊成員的細微情緒與個體差異。",
+            advice: "放慢腳步給予團隊成長時間，學會用柔性溝通代替強硬指令。", 
+            career: "企業執行長、專案總監、管理顧問、創業家、法律專家。" 
+        },
+        "ENTP": { 
+            name: "辯論家 / 創意革新者", group: "NT", 
+            desc: "你聰明、敏捷且反應極快，極度熱愛智力挑戰與概念碰撞。你不畏懼打破常規，總是能提出令人耳一新的獨特見解與創意。", 
+            analysis: "<b>【優勢】</b> 敏捷的臨場應變力、源源不絕的點子、出色的說服力。<br><b>【盲點】</b> 容易三分鐘熱度，討厭繁瑣的日常維護性工作。",
+            advice: "培養把一個好的創意善始善終執行的耐心，尋找互補的夥伴來落地點子。", 
+            career: "產品總監、行銷策略師、創新顧問、創業家、公關專家。" 
+        },
+        "INFJ": { 
+            name: "提倡者 / 心靈導師", group: "NF", 
+            desc: "你安靜卻充滿熱情，擁有極為深刻的直覺與人文關懷。你渴望理解人性的深層本質，並致力於為社會或他人帶來正向且有意義的改變。", 
+            analysis: "<b>【優勢】</b> 深刻的洞察力與共情能力、堅定的價值信念、富有遠見。<br><b>【盲點】</b> 容易過度吸收他人負面情緒，導致情緒耗竭或理想主義過度。",
+            advice: "建立明確的個人情緒邊界，照顧好自己的心靈能量，接受世界的溫柔與殘缺。", 
+            career: "心理諮商師、作家/編劇、人力資源專家、社會創新家、使用者體驗研究員。" 
+        },
+        "INFP": { 
+            name: "調停者 / 夢想家", group: "NF", 
+            desc: "你善良、真誠且富有詩意，內心擁有一個廣闊且豐富的精神世界。你極度重視個人的核心價值觀，渴望活出真實且充滿意義的人生。", 
+            analysis: "<b>【優勢】</b> 極高的高度同理心、豐富的藝術想像力、對真善美的執著。<br><b>【盲點】</b> 容易過度敏感、自我懷疑，有時會因逃避衝突而耽誤現實問題處理。",
+            advice: "練習將內心的深刻感受轉化為具體的創作或行動，學習坦然面對正向競爭。", 
+            career: "獨立創作者、視覺設計師、文案寫手、社工師、品牌故事師。" 
+        },
+        "ENFJ": { 
+            name: "主人公 / 人群凝聚者", group: "NF", 
+            desc: "你充滿魅力與熱情，擁有極強的人際感染力。你善於發現他人的潛力，並樂於提供協助與引導，是團隊中不可或缺的精神領袖。", 
+            analysis: "<b>【優勢】</b> 出色的溝通協調力、極具同理心與鼓舞人心能力。<br><b>【盲點】</b> 容易過度承擔他人的問題與情緒，將團隊成敗過度攬在自己身上。",
+            advice: "學會適度拒絕，明白你無法拯救每一個人，給予自己休養生的時間。", 
+            career: "團隊領導者、教育培訓師、組織發展專家、品牌公關、企業教練。" 
+        },
+        "ENFP": { 
+            name: "競選者 / 靈魂冒險家", group: "NF", 
+            desc: "你熱情洋溢、活力四射，對生命充滿好奇。你善於在人事物之間建立奇妙的連結，生活對你來說是一場永無止境的驚喜冒險。", 
+            analysis: "<b>【優勢】</b> 極高的親和力與熱情、多元創意、善於激勵團隊。<br><b>【盲點】</b> 專注力容易被新事物吸引，在細節處理與常態維護上較弱。",
+            advice: "建立專注清單，一次集中精力完成一個核心目標，練習把熱情轉化為持續力。", 
+            career: "創意總監、活動策劃師、跨界媒體人、旅遊體驗師、社群運營專家。" 
+        },
+        "ISTJ": { 
+            name: "物流師 / 秩序守護者", group: "SJ", 
+            desc: "你務實、嚴謹且極度值得信賴。你重視責任、事實與經驗，做事講求條理與規律，是維持社會與團隊穩定運作的柱石。", 
+            analysis: "<b>【優勢】</b> 卓越的責任感、高度細心、按部就班的超強執行力。<br><b>【盲點】</b> 對突如其來的變化較抗拒，有時顯得過於固執或墨守成規。",
+            advice: "適度擁抱變化與不確定性，嘗試在可控範圍內嘗試新的工作方法與體驗。", 
+            career: "財務稽核師、系統管理員、品質營運主管、法規遵循專員、資料庫管理員。" 
+        },
+        "ISFJ": { 
+            name: "守衛者 / 溫暖照顧者", group: "SJ", 
+            desc: "你體貼、溫和且細緻入微，總是默默地關注身邊人的需求。你擁有驚人的記憶力與耐心，願意為了維護家庭或團隊的和諧默默付出。", 
+            analysis: "<b>【優勢】</b> 極高的忠誠度與耐心、觀察入微、務實可靠。<br><b>【盲點】</b> 習慣隱忍自己的需求，容易因為不善拒絕而承擔過度負荷。",
+            advice: "學習勇敢地表達自己的想法與需求，記住「照顧好自己才能照顧好別人」。", 
+            career: "資深行政主管、護理/醫療專員、客戶成功經理、幼教專家、後勤總務。" 
+        },
+        "ESTJ": { 
+            name: "總經理 / 效率管理者", group: "SJ", 
+            desc: "你重視傳統、秩序與規則，擁有高超的組織與管理能力。你直截了當、講求實效，能夠快速調配資源並確保任務按質按時完成。", 
+            analysis: "<b>【優勢】</b> 強大的組織管理力、高效率執行、客觀公道。<br><b>【盲點】</b> 容易讓人感到過於嚴厲或缺乏彈性，對情感表達較不敏銳。",
+            advice: "在管理與人際溝通中融入更多傾聽與同理，理解並非所有人都適用同一套標準。", 
+            career: "營運總監、專案管理專家、生產供應鏈主管、軍警法務幹部。" 
+        },
+        "ESFJ": { 
+            name: "執政官 / 熱情社群核心", group: "SJ", 
+            desc: "你熱情、友善且極具責任感，是團體中的黏著劑。你關注大家的喜怒哀樂，善於打造溫馨、融洽且充滿凝聚力的環境。", 
+            analysis: "<b>【優勢】</b> 出色的社交協調力、務實體貼、極強的服務熱忱。<br><b>【盲點】</b> 過度在意他人的評價與認同，容易受社會期待牽著走。",
+            advice: "學會肯定自己的內在價值，不需要透過無休止地滿足他人來獲得認同。", 
+            career: "客戶關係總監、社群營運經理、活動策劃主管、HR專員、醫療行政。" 
+        },
+        "ISTP": { 
+            name: "鑑賞家 / 實用解題專家", group: "SP", 
+            desc: "你冷靜、敏銳且手藝精湛，是天生的問題解決者。你喜歡用雙手探索世界，面對突發危機時總能保持冷靜，給出最具實用性的應對手段。", 
+            analysis: "<b>【優勢】</b> 出色的危機處理能力、務實、理性且極具靈活性。<br><b>【盲點】</b> 傾向把感受藏在心裡，有時會顯得疏離或對長期計畫缺乏興趣。",
+            advice: "嘗試多與親近的人分享內心想法，適度訂立中長期的生活與職業規劃。", 
+            career: "硬體工程師、自動化專家、飛行員、急診醫師、機械研發師。" 
+        },
+        "ISFP": { 
+            name: "探險家 / 生活藝術家", group: "SP", 
+            desc: "你溫和、隨和且極具審美品味，喜歡活在當下並感受生活中的美。你尊重個體差異，不喜歡強加意志於他人，充滿靈性與藝術氣息。", 
+            analysis: "<b>【優勢】</b> 獨特的審美感官、彈性包容、專注於當下的美好體驗。<br><b>【盲點】</b> 避免面對衝突，對長期目標或規劃較缺乏動力。",
+            advice: "建立一些長遠的小目標，並主動展現你的作品與才華，讓世界看見你的美學。", 
+            career: "UI/UX設計師、時尚造型師、攝影師、景觀設計師、專業廚藝師。" 
+        },
+        "ESTP": { 
+            name: "企業家 / 敏捷實踐者", group: "SP", 
+            desc: "你充滿活力、大膽且敏銳，喜歡身處行動的核心。你擅長抓住當下的機會，勇於冒險，並能用幽默與魅力影響身邊的人。", 
+            analysis: "<b>【優勢】</b> 極強的臨場反應力、高行動力、說服力強、不怕風險。<br><b>【盲點】</b> 容易衝動行事，忽視長期行動可能帶來的後果或隱性風險。",
+            advice: "在做重大決策前給自己三秒鐘停頓思考，培養對細節與數據的耐性。", 
+            career: "市場銷售總監、創業家、經紀人、危機處理顧問、特技/運動專家。" 
+        },
+        "ESFP": { 
+            name: "表演者 / 快樂製造機", group: "SP", 
+            desc: "你自發、熱情且具備極強的舞台魅力。有你在的地方總是充滿歡聲笑語，你善於將平凡的瞬間變成精采紛呈的派對與回憶。", 
+            analysis: "<b>【優勢】</b> 卓越的感染力、活在當下、極佳的人際互動與適應力。<br><b>【盲點】</b> 容易被當下的享樂吸引，逃避嚴肅或繁瑣的責任與規範。",
+            advice: "學會平衡當下的快樂與未來的承諾，在生活中保留一些自我約束與規劃。", 
+            career: "演藝娛樂人員、節目主持人、活動策劃師、旅遊達人、品牌公關。" 
+        }
     };
 
     let currentQuestionIndex = 0;
     let userName = "";
     let scores = { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0 };
+    let userHistory = []; // 紀錄用戶作答歷程
 
-    // 初始化檢查 Cookie (localStorage)
+    // 檢查 Cookie (localStorage)
     window.onload = function() {
-        const savedName = localStorage.getItem("mbti_name");
-        const savedResult = localStorage.getItem("mbti_result");
-        if (savedName && savedResult) {
+        const savedName = localStorage.getItem("mbti_v2_name");
+        const savedResult = localStorage.getItem("mbti_v2_result");
+        const savedHistory = localStorage.getItem("mbti_v2_history");
+        
+        if (savedName && savedResult && savedHistory) {
             userName = savedName;
+            userHistory = JSON.parse(savedHistory);
             showResult(savedResult);
         }
     };
@@ -214,17 +471,54 @@
             return;
         }
         const q = questions[currentQuestionIndex];
+        
+        // 更新進度條
+        const progressPercent = ((currentQuestionIndex) / questions.length) * 100;
+        document.getElementById("progressFill").style.width = `${progressPercent}%`;
         document.getElementById("progressText").innerText = `問題 ${currentQuestionIndex + 1} / ${questions.length}`;
-        document.getElementById("questionText").innerText = q.text;
-        document.getElementById("btnA").innerText = q.a.split(" ")[0]; // 隱藏後面的字母標籤
-        document.getElementById("btnB").innerText = q.b.split(" ")[0];
+        
+        document.getElementById("questionTitle").innerText = q.title;
+        document.getElementById("questionScenario").innerText = q.scenario;
+        document.getElementById("labelLeft").innerHTML = q.left;
+        document.getElementById("labelRight").innerHTML = q.right;
+        
+        // 重置 Slider
+        document.getElementById("scoreSlider").value = 5;
+        updateScoreDisplay(5);
     }
 
-    function answer(choice) {
+    function updateScoreDisplay(val) {
+        document.getElementById("scoreNum").innerText = val;
+    }
+
+    function nextQuestion() {
+        const val = parseInt(document.getElementById("scoreSlider").value);
         const q = questions[currentQuestionIndex];
-        if (choice === 'A') scores[q.traitA]++;
-        if (choice === 'B') scores[q.traitB]++;
         
+        let chosenTrait = "";
+        let weight = 0;
+
+        if (val <= 5) {
+            chosenTrait = q.leftTrait;
+            weight = (6 - val);
+            scores[q.leftTrait] += weight;
+        } else {
+            chosenTrait = q.rightTrait;
+            weight = (val - 5);
+            scores[q.rightTrait] += weight;
+        }
+
+        // 保存歷史資料供後續佐證分析
+        userHistory.push({
+            title: q.title,
+            keyName: q.keyName,
+            score: val,
+            chosenTrait: chosenTrait,
+            weight: weight,
+            leftTrait: q.leftTrait,
+            rightTrait: q.rightTrait
+        });
+
         currentQuestionIndex++;
         loadQuestion();
     }
@@ -236,8 +530,9 @@
         result += (scores.T >= scores.F) ? "T" : "F";
         result += (scores.J >= scores.P) ? "J" : "P";
         
-        localStorage.setItem("mbti_name", userName);
-        localStorage.setItem("mbti_result", result);
+        localStorage.setItem("mbti_v2_name", userName);
+        localStorage.setItem("mbti_v2_result", result);
+        localStorage.setItem("mbti_v2_history", JSON.stringify(userHistory));
         
         showResult(result);
     }
@@ -247,17 +542,21 @@
         document.getElementById("screen-quiz").classList.add("hidden");
         document.getElementById("screen-result").classList.remove("hidden");
         
-        const data = mbtiData[type] || mbtiData["INTJ"]; // 預防錯誤
+        const data = mbtiData[type] || mbtiData["INTJ"];
         
-        document.getElementById("resultGreeting").innerText = `🎉 嗨，${userName}！你的結果是...`;
+        document.getElementById("resultGreeting").innerText = `🎉 嗨，${userName}！你的探索結果出爐：`;
         document.getElementById("mbtiType").innerText = type;
         document.getElementById("mbtiName").innerText = data.name;
         
-        document.getElementById("tab-desc").innerText = data.desc;
-        document.getElementById("tab-advice").innerText = data.advice;
-        document.getElementById("tab-career").innerText = data.career;
+        document.getElementById("tab-desc").innerHTML = data.desc;
+        document.getElementById("tab-analysis").innerHTML = data.analysis;
+        document.getElementById("tab-advice").innerHTML = data.advice;
+        document.getElementById("tab-career").innerHTML = data.career;
 
-        // 設定背景顏色
+        // 生成答題佐證選單
+        generateEvidenceTab(type);
+
+        // 背景動態變色
         const bodyStyle = document.body.style;
         if(data.group === "NT") bodyStyle.backgroundColor = "var(--color-nt)";
         if(data.group === "NF") bodyStyle.backgroundColor = "var(--color-nf)";
@@ -265,7 +564,38 @@
         if(data.group === "SP") bodyStyle.backgroundColor = "var(--color-sp)";
     }
 
-    function switchTab(tabId) {
+    function generateEvidenceTab(finalType) {
+        const container = document.getElementById("tab-evidence");
+        if (!userHistory || userHistory.length === 0) {
+            container.innerHTML = "尚無答題紀錄可供佐證。";
+            return;
+        }
+
+        let html = `<p style="font-size:13px; color:#666; margin-top:0;">以下是你剛才在測驗中的選擇，這些數據直接勾勒出了你的 <b>${finalType}</b> 人格特質：</p>`;
+        
+        userHistory.forEach((item, index) => {
+            const traitFullNames = {
+                "E": "外向 (Extraversion)", "I": "內向 (Introversion)",
+                "S": "實感 (Sensing)", "N": "直覺 (Intuition)",
+                "T": "思考 (Thinking)", "F": "情感 (Feeling)",
+                "J": "判斷 (Judging)", "P": "感知 (Perceiving)"
+            };
+
+            let tendencyText = item.score <= 5 ? `偏向左側 (${item.score}分)` : `偏向右側 (${item.score}分)`;
+            
+            html += `
+                <div class="evidence-item">
+                    <div class="evidence-title">${index + 1}. ${item.title}</div>
+                    <div>選擇程度：<b>${item.score} / 10 分</b> （${tendencyText}）</div>
+                    <div class="evidence-tag">支持特質：${traitFullNames[item.chosenTrait]} (+${item.weight}分)</div>
+                </div>
+            `;
+        });
+
+        container.innerHTML = html;
+    }
+
+    function switchTab(tabId, event) {
         document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
         document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
         
@@ -276,6 +606,7 @@
     function restartQuiz() {
         currentQuestionIndex = 0;
         scores = { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0 };
+        userHistory = [];
         document.body.style.backgroundColor = "var(--primary-bg)";
         document.getElementById("screen-result").classList.add("hidden");
         document.getElementById("screen-quiz").classList.remove("hidden");
@@ -283,18 +614,20 @@
     }
 
     function clearCookieAndReset() {
-        localStorage.removeItem("mbti_name");
-        localStorage.removeItem("mbti_result");
+        localStorage.removeItem("mbti_v2_name");
+        localStorage.removeItem("mbti_v2_result");
+        localStorage.removeItem("mbti_v2_history");
         userName = "";
         currentQuestionIndex = 0;
         scores = { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0 };
-        document.getElementById("userName").value = "";
+        userHistory = [];
         
+        document.getElementById("userName").value = "";
         document.body.style.backgroundColor = "var(--primary-bg)";
         document.getElementById("screen-result").classList.add("hidden");
         document.getElementById("screen-start").classList.remove("hidden");
         
-        alert("資料已清除！可以重新開始測驗囉 🧹");
+        alert("歷史紀錄已成功清除！可以重新開始測驗囉 🧹");
     }
 </script>
 
