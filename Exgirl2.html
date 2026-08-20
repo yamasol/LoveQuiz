@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>潮語辭典．精緻女孩</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700;900&family=Noto+Sans+TC:wght@400;500;700&display=swap');
+
+  :root{
+    --paper: #f4ecd8;
+    --paper-edge: #e8ddc0;
+    --ink: #2c2a24;
+    --ink-soft: #55503f;
+    --seal: #a13d3d;
+    --seal-dark: #7e2f2f;
+    --gold: #b08d3f;
+    --gold-soft: #ded1a1;
+    --pos-bg: #eef1e2;
+    --pos-line: #7c8c5a;
+    --neg-bg: #f5e6e0;
+    --neg-line: #b0604a;
+  }
+
+  *{ box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  html,body{
+    margin:0;
+    padding:0;
+    background: #d9cfb2;
+    font-family: 'Noto Serif TC', serif;
+    color: var(--ink);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  .page{
+    position:relative;
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+    background:
+      radial-gradient(ellipse at 15% 5%, rgba(255,255,255,0.35), transparent 40%),
+      radial-gradient(ellipse at 90% 90%, rgba(0,0,0,0.05), transparent 45%),
+      var(--paper);
+    padding: 22px 18px 28px;
+    min-height: 100vh;
+  }
+
+  .running-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    font-family:'Noto Sans TC', sans-serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--ink-soft);
+    border-bottom: 1px solid var(--gold-soft);
+    padding-bottom: 8px;
+    margin-bottom: 18px;
+  }
+  .running-head b{ color: var(--gold); font-weight:700; }
+
+  .head-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+
+  .zhuyin{
+    font-family:'Noto Sans TC', sans-serif;
+    font-size: 11.5px;
+    letter-spacing: 1.5px;
+    color: var(--ink-soft);
+    margin-bottom: 6px;
+    display:block;
+  }
+
+  .headword{
+    font-size: 34px;
+    font-weight: 900;
+    letter-spacing: 3px;
+    line-height:1.1;
+    color: var(--ink);
+  }
+
+  .seal{
+    width: 50px;
+    height: 50px;
+    border: 2.5px solid var(--seal);
+    border-radius: 5px;
+    color: var(--seal);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:'Noto Serif TC', serif;
+    font-weight:900;
+    font-size: 11px;
+    letter-spacing: 1px;
+    line-height:1.3;
+    text-align:center;
+    transform: rotate(-6deg);
+    opacity:0.9;
+    flex-shrink:0;
+    writing-mode: vertical-rl;
+    padding: 4px 2px;
+    margin-top: 2px;
+  }
+
+  .illus-wrap{
+    display:flex;
+    justify-content:center;
+    margin: 8px 0 4px;
+  }
+  .illus{
+    width: 84px;
+    opacity: 0.85;
+  }
+
+  .meta-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap: 8px;
+    align-items:center;
+    font-family:'Noto Sans TC', sans-serif;
+    font-size: 11.5px;
+    color: var(--ink-soft);
+    margin: 10px 0 6px;
+    line-height:1.6;
+  }
+  .meta-tag{
+    background: var(--gold-soft);
+    color: #5a4a1f;
+    padding: 3px 9px;
+    border-radius: 3px;
+    font-weight:500;
+    white-space:nowrap;
+  }
+  .meta-source{
+    width:100%;
+    margin-top: 4px;
+  }
+
+  .divider{
+    height:1px;
+    background: repeating-linear-gradient(90deg, var(--ink-soft) 0 6px, transparent 6px 10px);
+    opacity:0.5;
+    margin: 16px 0 18px;
+  }
+
+  .section-label{
+    font-family:'Noto Serif TC', serif;
+    font-weight:700;
+    font-size: 15px;
+    color: var(--seal-dark);
+    display:flex;
+    align-items:center;
+    gap:7px;
+    margin-bottom: 10px;
+    letter-spacing:0.5px;
+  }
+  .section-label::before{
+    content:"";
+    width:6px; height:6px;
+    background: var(--seal);
+    display:inline-block;
+    transform: rotate(45deg);
+    flex-shrink:0;
+  }
+
+  .def-block{
+    border-left: 4px solid;
+    border-radius: 4px;
+    padding: 12px 14px;
+    margin-bottom: 12px;
+    font-size: 14px;
+    line-height: 1.85;
+  }
+  .def-block.pos{ background: var(--pos-bg); border-color: var(--pos-line); }
+  .def-block.neg{ background: var(--neg-bg); border-color: var(--neg-line); }
+
+  .def-tag{
+    display:inline-block;
+    font-family:'Noto Sans TC', sans-serif;
+    font-size: 11px;
+    font-weight:700;
+    padding: 2px 8px;
+    border-radius: 999px;
+    margin-bottom: 7px;
+  }
+  .def-tag.pos{ background: var(--pos-line); color: #fdfdf6; }
+  .def-tag.neg{ background: var(--neg-line); color: #fdfdf6; }
+
+  .example{
+    font-size: 13.5px;
+    line-height: 1.85;
+    padding: 10px 12px;
+    margin-bottom: 10px;
+    border-left: 4px solid var(--gold);
+    background: rgba(176,141,63,0.07);
+    border-radius: 4px;
+  }
+  .example .num{
+    font-family:'Noto Sans TC', sans-serif;
+    color: var(--gold);
+    font-weight:700;
+    margin-right: 4px;
+  }
+
+  .tags-block{
+    margin: 4px 0 20px;
+    font-size: 13px;
+  }
+  .tags-block > div{ margin-bottom: 8px; }
+  .tags-block .label{
+    font-family:'Noto Sans TC', sans-serif;
+    font-weight:700;
+    color: var(--ink-soft);
+    margin-right: 6px;
+    font-size:12px;
+    display:block;
+    margin-bottom: 5px;
+  }
+  .chip{
+    display:inline-block;
+    padding: 2px 9px;
+    margin: 2px 4px 2px 0;
+    border: 1px solid var(--ink-soft);
+    border-radius: 999px;
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+
+  .note{
+    position:relative;
+    background: #fbf6e8;
+    border: 1px dashed var(--gold);
+    border-radius: 3px;
+    padding: 14px 14px 14px 40px;
+    font-size: 12.5px;
+    line-height: 1.85;
+    color: var(--ink-soft);
+    margin-top: 4px;
+  }
+  .note::before{
+    content: "📌";
+    position:absolute;
+    left: 12px;
+    top: 13px;
+    font-size: 14px;
+  }
+  .note b{ color: var(--seal-dark); }
+
+  .footer{
+    display:flex;
+    justify-content:space-between;
+    font-family:'Noto Sans TC', sans-serif;
+    font-size: 10px;
+    color: var(--ink-soft);
+    opacity:0.7;
+    margin-top: 22px;
+    padding-top: 10px;
+    border-top: 1px solid var(--gold-soft);
+    letter-spacing:0.5px;
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <div class="running-head">
+    <span><b>潮語辭典</b>．網路流行語篇</span>
+    <span>詞條 087</span>
+  </div>
+
+  <div class="head-top">
+    <div>
+      <span class="zhuyin">ㄐㄧㄥ ㄓˋ ㄋㄩˇ ㄏㄞˊ ・ jīng zhì nǚ hái</span>
+      <div class="headword">精緻女孩</div>
+    </div>
+    <div class="seal">網路<br>流行語</div>
+  </div>
+
+  <div class="illus-wrap">
+    <svg class="illus" viewBox="0 0 120 140" xmlns="http://www.w3.org/2000/svg">
+      <g fill="none" stroke="#55503f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" opacity="0.8">
+        <path d="M45 28 C40 14, 70 10, 78 26 C86 34, 84 50, 78 56 C80 40, 70 30, 60 30 C50 30, 44 38, 44 48 C40 40, 40 32, 45 28 Z"/>
+        <path d="M48 34 C46 44, 47 54, 55 58 C63 61, 71 56, 73 46 C75 38, 71 30, 62 29 C54 28, 49 30, 48 34 Z"/>
+        <path d="M50 60 C44 66, 40 78, 40 96 L82 96 C82 78, 78 66, 72 60 C66 66, 56 66, 50 60 Z"/>
+        <path d="M40 78 C30 80, 24 88, 24 98"/>
+        <path d="M20 96 L30 96 L28 108 L22 108 Z"/>
+        <path d="M20 96 C20 92, 30 92, 30 96"/>
+        <path d="M82 78 C92 82, 96 90, 96 100"/>
+        <path d="M88 98 L106 98 L103 122 L91 122 Z"/>
+        <path d="M92 98 C92 92, 102 92, 102 98"/>
+      </g>
+    </svg>
+  </div>
+
+  <div class="meta-row">
+    <span class="meta-tag">名詞</span>
+    <span class="meta-tag">網路流行語</span>
+    <span class="meta-source">出處：中國網路流行語，約 2017–2018 年隨「精緻窮」話題興起，後分化出正、負二義</span>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section-label">【定義】</div>
+
+  <div class="def-block pos">
+    <span class="def-tag pos">① 正面／中性・真精緻</span><br>
+    原指注重個人形象、生活品質與儀式感的女性。擁有匹配的經濟能力與生活智慧，自律地維護個人外在美感、生活品質與精神追求，是一種「量入為出」的生活態度。
+  </div>
+
+  <div class="def-block neg">
+    <span class="def-tag neg">② 負面／貶義・偽精緻／精緻窮</span><br>
+    指缺乏相應經濟能力或生活自理能力，卻過度追求高消費、符號化生活（如醫美、名牌、高檔餐飲）的現象。通常伴隨對現實挫折抗性低、缺乏應變與生存技能，將「高消費」誤認為「高品味」的物質依附型人格。
+  </div>
+
+  <div class="section-label">【造句】</div>
+
+  <div class="example">
+    <span class="num">①</span>她把三分之一的薪水固定用來投資自己，運動、閱讀、居家佈置樣樣講究，收支卻始終有餘裕——這才是真正的「精緻女孩」。
+  </div>
+  <div class="example">
+    <span class="num">②</span>月薪不到三萬，卻月月刷卡買精品、餐餐打卡網美店，朋友笑她是「精緻女孩」，其實不過是硬撐門面的「精緻窮」。
+  </div>
+
+  <div class="tags-block">
+    <div>
+      <span class="label">近義詞</span>
+      <span class="chip">精緻窮</span><span class="chip">偽精緻</span><span class="chip">儀式感控</span>
+    </div>
+    <div>
+      <span class="label">反義詞</span>
+      <span class="chip">樸實派</span><span class="chip">佛系生活</span><span class="chip">量力而行</span>
+    </div>
+  </div>
+
+  <div class="note">
+    <b>辨析小提醒：</b>判斷一個人是「真精緻」還是「偽精緻」，關鍵不在花了多少錢，而在「消費是否與能力相匹配」——真精緻是餘裕，偽精緻是負擔。
+  </div>
+
+  <div class="footer">
+    <span>潮語辭典．第三版</span>
+    <span>社會觀察類</span>
+  </div>
+
+</div>
+
+</body>
+</html>
