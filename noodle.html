@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>板橋牛肉麵指南</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
+
+  :root{
+    --bg:#241712;
+    --bg-2:#1c1210;
+    --panel:#34241a;
+    --panel-line:#4a3526;
+    --cream:#F3E7D2;
+    --cream-dim:#C9B79C;
+    --red:#C6472F;
+    --red-dim:#8f3323;
+    --green:#8CA97C;
+    --gold:#D8A853;
+    --ash:#8C8275;
+  }
+
+  *{ box-sizing:border-box; }
+
+  body{
+    margin:0;
+    background:
+      radial-gradient(ellipse at 20% 0%, rgba(216,168,83,0.08), transparent 55%),
+      var(--bg);
+    color:var(--cream);
+    font-family:'Noto Sans TC', sans-serif;
+    padding:28px 16px 60px;
+  }
+
+  .wrap{ max-width:640px; margin:0 auto; }
+
+  header{ text-align:center; margin-bottom:22px; }
+
+  .kicker{
+    font-size:12px;
+    letter-spacing:4px;
+    color:var(--gold);
+    margin-bottom:6px;
+  }
+
+  h1{
+    font-family:'Ma Shan Zheng', 'Noto Sans TC', sans-serif;
+    font-weight:400;
+    font-size:44px;
+    margin:0 0 6px;
+    color:var(--cream);
+    text-shadow:0 2px 0 rgba(0,0,0,0.35);
+  }
+
+  .subtitle{
+    font-size:13px;
+    color:var(--cream-dim);
+    margin:0 0 16px;
+  }
+
+  .status-bar{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:14px;
+    font-size:12.5px;
+    color:var(--cream-dim);
+    margin-bottom:18px;
+  }
+
+  .status-bar .dot{
+    width:6px; height:6px; border-radius:50%;
+    background:var(--green);
+    display:inline-block;
+    box-shadow:0 0 6px var(--green);
+    animation:blink 2s ease-in-out infinite;
+  }
+
+  @keyframes blink{ 0%,100%{opacity:1} 50%{opacity:.35} }
+
+  .tabs{
+    display:flex;
+    gap:8px;
+    justify-content:center;
+    margin-bottom:22px;
+  }
+
+  .tab{
+    font-family:inherit;
+    font-size:13px;
+    color:var(--cream-dim);
+    background:var(--panel);
+    border:1px solid var(--panel-line);
+    padding:7px 16px;
+    border-radius:999px;
+    cursor:pointer;
+    transition:all .2s ease;
+  }
+
+  .tab:hover{ color:var(--cream); }
+
+  .tab.active{
+    background:var(--red);
+    border-color:var(--red);
+    color:#fff;
+    font-weight:700;
+  }
+
+  .list{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+
+  .card{
+    background:var(--panel);
+    border:1px solid var(--panel-line);
+    border-radius:14px;
+    padding:16px 16px 16px 14px;
+    display:flex;
+    gap:14px;
+    align-items:flex-start;
+    transition:opacity .2s ease, transform .2s ease;
+  }
+
+  .card.hidden{ display:none; }
+
+  .bowl-wrap{
+    flex:0 0 64px;
+    width:64px;
+    padding-top:2px;
+  }
+
+  .bowl{ width:64px; height:64px; overflow:visible; }
+
+  .bowl-outline{
+    fill:none;
+    stroke:var(--cream-dim);
+    stroke-width:1.6;
+  }
+
+  .bowl-rim{
+    fill:none;
+    stroke:var(--gold);
+    stroke-width:2;
+  }
+
+  .steam path{
+    fill:none;
+    stroke:var(--cream-dim);
+    stroke-width:1.4;
+    stroke-linecap:round;
+    opacity:0;
+  }
+
+  .card[data-status="open"] .steam path{
+    opacity:.55;
+    animation:rise 3.2s ease-in-out infinite;
+  }
+
+  .card[data-status="open"] .steam path:nth-child(2){ animation-delay:.5s; }
+  .card[data-status="open"] .steam path:nth-child(3){ animation-delay:1s; }
+
+  @keyframes rise{
+    0%{ transform:translateY(2px); opacity:0; }
+    30%{ opacity:.6; }
+    100%{ transform:translateY(-9px); opacity:0; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .card[data-status="open"] .steam path{ animation:none; opacity:.4; }
+    .status-bar .dot{ animation:none; }
+  }
+
+  .info{ flex:1; min-width:0; }
+
+  .info-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:8px;
+    flex-wrap:wrap;
+  }
+
+  .name{
+    font-family:'Ma Shan Zheng','Noto Sans TC', sans-serif;
+    font-weight:400;
+    font-size:22px;
+    margin:0;
+    color:var(--cream);
+    line-height:1.3;
+  }
+
+  .rating{
+    font-size:13px;
+    font-weight:700;
+    color:var(--gold);
+    white-space:nowrap;
+  }
+
+  .desc{
+    font-size:12.5px;
+    color:var(--cream-dim);
+    margin:4px 0 8px;
+    line-height:1.5;
+  }
+
+  .address{
+    display:inline-flex;
+    align-items:center;
+    gap:4px;
+    font-size:12.5px;
+    color:var(--cream-dim);
+    text-decoration:none;
+    border-bottom:1px dashed var(--panel-line);
+    margin-bottom:6px;
+  }
+
+  .address:hover{ color:var(--gold); border-color:var(--gold); }
+
+  .hours{
+    font-size:12px;
+    color:var(--ash);
+    margin-bottom:6px;
+  }
+
+  .status-line{
+    font-size:13px;
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+
+  .status-line .led{
+    width:7px; height:7px; border-radius:50%;
+    flex:0 0 auto;
+  }
+
+  .card[data-status="open"] .status-line{ color:var(--green); }
+  .card[data-status="open"] .status-line .led{ background:var(--green); box-shadow:0 0 6px var(--green); }
+  .card[data-status="closed"] .status-line{ color:var(--ash); }
+  .card[data-status="closed"] .status-line .led{ background:var(--ash); }
+  .card[data-status="open"].soon .status-line{ color:var(--gold); }
+  .card[data-status="open"].soon .status-line .led{ background:var(--gold); box-shadow:0 0 6px var(--gold); }
+
+  footer{
+    text-align:center;
+    font-size:11.5px;
+    color:var(--ash);
+    margin-top:26px;
+    line-height:1.7;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="kicker">板 橋 ‧ 牛 肉 麵</div>
+    <h1>板橋牛肉麵指南</h1>
+    <p class="subtitle">朋友整理推薦・共 7 間・依評分排序</p>
+    <div class="status-bar">
+      <span><span class="dot"></span> <span id="openCount">–</span> 間營業中</span>
+      <span id="clock">--:--</span>
+    </div>
+    <div class="tabs">
+      <button class="tab active" data-filter="all">全部</button>
+      <button class="tab" data-filter="open">營業中</button>
+      <button class="tab" data-filter="closed">已打烊</button>
+    </div>
+  </header>
+
+  <div class="list" id="list"></div>
+
+  <footer>
+    資料整理自 Google 地圖與朋友推薦，僅供參考。<br>
+    營業時間與公休請以店家最新公告為準；點選地址可開啟 Google 地圖導航。
+  </footer>
+
+</div>
+
+<script>
+// 0=Sun ... 6=Sat, 時間以「當日分鐘數」表示（例如 11:00 = 660）
+const shops = [
+  {
+    name: "老獅牛肉麵",
+    rating: 4.4,
+    desc: "位於新埔站附近的熱門牛肉麵店。",
+    address: "新北市板橋區互助街18號",
+    hoursText: "週一至週六 11:00–20:00・週日公休",
+    hours: { 0:[], 1:[[660,1200]], 2:[[660,1200]], 3:[[660,1200]], 4:[[660,1200]], 5:[[660,1200]], 6:[[660,1200]] }
+  },
+  {
+    name: "成都金賞味牛肉麵",
+    rating: 4.3,
+    desc: "位於龍興街，提供各式家常麵食與牛肉麵。",
+    address: "新北市板橋區龍興街71巷3號",
+    hoursText: "週一至週六 11:00–20:30・週日公休",
+    hours: { 0:[], 1:[[660,1230]], 2:[[660,1230]], 3:[[660,1230]], 4:[[660,1230]], 5:[[660,1230]], 6:[[660,1230]] }
+  },
+  {
+    name: "老張牛肉麵（清燉）",
+    rating: 4.3,
+    desc: "位在中正路，以清燉湯頭聞名。",
+    address: "新北市板橋區中正路43號",
+    hoursText: "週一至週五 11:00–14:00、17:00–20:30・週六日公休",
+    hours: { 0:[], 1:[[660,840],[1020,1230]], 2:[[660,840],[1020,1230]], 3:[[660,840],[1020,1230]], 4:[[660,840],[1020,1230]], 5:[[660,840],[1020,1230]], 6:[] }
+  },
+  {
+    name: "板橋正宗老張牛肉麵",
+    rating: 4.2,
+    desc: "位於中正路後段的另一間老張牛肉麵。",
+    address: "新北市板橋區中正路136號",
+    hoursText: "週二至週六 11:00–20:00・週一日公休",
+    hours: { 0:[], 1:[], 2:[[660,1200]], 3:[[660,1200]], 4:[[660,1200]], 5:[[660,1200]], 6:[[660,1200]] }
+  },
+  {
+    name: "大庭牛肉麵",
+    rating: 4.1,
+    desc: "板橋著名的宵夜與傳統牛肉麵老店。",
+    address: "新北市板橋區國光路39號",
+    hoursText: "每日 17:00–00:00",
+    hours: { 0:[[1020,1440]], 1:[[1020,1440]], 2:[[1020,1440]], 3:[[1020,1440]], 4:[[1020,1440]], 5:[[1020,1440]], 6:[[1020,1440]] }
+  },
+  {
+    name: "大東北牛肉麵水餃",
+    rating: 4.0,
+    desc: "位於四維路的眷村風味牛肉麵與水餃館。",
+    address: "新北市板橋區四維路115號",
+    hoursText: "週四至週日 11:30–20:30・週一至三公休",
+    hours: { 0:[[690,1230]], 1:[], 2:[], 3:[], 4:[[690,1230]], 5:[[690,1230]], 6:[[690,1230]] }
+  },
+  {
+    name: "金賞味成都牛肉麵",
+    rating: 3.6,
+    desc: "位在成都街的另一間同名店家。",
+    address: "新北市板橋區成都街21號",
+    hoursText: "每日 11:00–21:00",
+    hours: { 0:[[660,1260]], 1:[[660,1260]], 2:[[660,1260]], 3:[[660,1260]], 4:[[660,1260]], 5:[[660,1260]], 6:[[660,1260]] }
+  }
+];
+
+const DAY_LABEL = ["日","一","二","三","四","五","六"];
+
+function pad(n){ return n.toString().padStart(2,'0'); }
+function fmt(mins){
+  const m = ((mins % 1440) + 1440) % 1440;
+  return pad(Math.floor(m/60)) + ":" + pad(m%60);
+}
+
+function taipeiNow(){
+  return new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Taipei' }));
+}
+
+function computeStatus(shop, now){
+  const day = now.getDay();
+  const mins = now.getHours()*60 + now.getMinutes();
+
+  const todays = shop.hours[day] || [];
+  for(const [s,e] of todays){
+    if(mins >= s && mins < e){
+      return { open:true, remaining: e - mins, closeAt: fmt(e) };
+    }
+  }
+
+  // 尚未營業但今日稍後仍有場次
+  for(const [s] of todays){
+    if(mins < s){
+      return { open:false, nextLabel: "今日", nextTime: fmt(s) };
+    }
+  }
+
+  // 往後找最近的營業時段（最多找 7 天）
+  for(let offset=1; offset<=7; offset++){
+    const d = (day + offset) % 7;
+    const slots = shop.hours[d] || [];
+    if(slots.length){
+      const label = offset === 1 ? "明日" : ("週" + DAY_LABEL[d]);
+      return { open:false, nextLabel: label, nextTime: fmt(slots[0][0]) };
+    }
+  }
+  return { open:false, nextLabel:"", nextTime:"" };
+}
+
+function bowlSVG(idx, rating){
+  const top = 26, bottom = 48;
+  const fillH = (rating/5) * (bottom - top);
+  const y = bottom - fillH;
+  return `
+  <svg class="bowl" viewBox="0 0 60 60">
+    <defs>
+      <clipPath id="clip-${idx}">
+        <path d="M8 22 Q8 50 30 50 Q52 50 52 22 Z"/>
+      </clipPath>
+      <linearGradient id="liquid-${idx}" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#D8A853"/>
+        <stop offset="100%" stop-color="#C6472F"/>
+      </linearGradient>
+    </defs>
+    <rect x="4" y="${y}" width="52" height="${60-y}" fill="url(#liquid-${idx})" clip-path="url(#clip-${idx})"/>
+    <path class="bowl-outline" d="M8 22 Q8 50 30 50 Q52 50 52 22 Z"/>
+    <ellipse class="bowl-rim" cx="30" cy="22" rx="24" ry="6"/>
+    <g class="steam">
+      <path d="M20 14 q-3 -5 0 -10 q3 -5 0 -10"/>
+      <path d="M30 12 q3 -5 0 -10 q-3 -5 0 -10"/>
+      <path d="M40 14 q-3 -5 0 -10 q3 -5 0 -10"/>
+    </g>
+  </svg>`;
+}
+
+function render(){
+  const now = taipeiNow();
+  document.getElementById('clock').textContent = "現在 " + fmt(now.getHours()*60+now.getMinutes()) + "（台北時間）";
+
+  const list = document.getElementById('list');
+  list.innerHTML = "";
+
+  const sorted = [...shops].sort((a,b) => b.rating - a.rating);
+  let openCount = 0;
+
+  sorted.forEach((shop, idx) => {
+    const st = computeStatus(shop, now);
+    if(st.open) openCount++;
+
+    const soon = st.open && st.remaining <= 30;
+    const statusText = st.open
+      ? (soon ? `營業中・僅剩 ${st.remaining} 分鐘打烊（${st.closeAt}）` : `營業中・${st.closeAt} 打烊`)
+      : (st.nextTime ? `已打烊・${st.nextLabel} ${st.nextTime} 開始營業` : "已打烊");
+
+    const mapUrl = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(shop.address);
+
+    const card = document.createElement('div');
+    card.className = "card" + (soon ? " soon" : "");
+    card.dataset.status = st.open ? "open" : "closed";
+
+    card.innerHTML = `
+      <div class="bowl-wrap">${bowlSVG(idx, shop.rating)}</div>
+      <div class="info">
+        <div class="info-top">
+          <h2 class="name">${shop.name}</h2>
+          <div class="rating">★ ${shop.rating.toFixed(1)}</div>
+        </div>
+        <p class="desc">${shop.desc}</p>
+        <a class="address" href="${mapUrl}" target="_blank" rel="noopener">📍 ${shop.address}</a>
+        <div class="hours">${shop.hoursText}</div>
+        <div class="status-line"><span class="led"></span>${statusText}</div>
+      </div>
+    `;
+    list.appendChild(card);
+  });
+
+  document.getElementById('openCount').textContent = openCount;
+  applyFilter();
+}
+
+function applyFilter(){
+  const active = document.querySelector('.tab.active').dataset.filter;
+  document.querySelectorAll('.card').forEach(card => {
+    const show = active === 'all' || card.dataset.status === active;
+    card.classList.toggle('hidden', !show);
+  });
+}
+
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    applyFilter();
+  });
+});
+
+render();
+setInterval(render, 60000);
+</script>
+</body>
+</html>
