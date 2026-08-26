@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>小K暈船觀察報告</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --pink-bg1:#fff3f7;
+    --pink-bg2:#ffe3ee;
+    --bubble:#ffd1e4;
+    --hot:#ff6f9e;
+    --hot-deep:#ff4f86;
+    --rose-text:#7a3b54;
+    --rose-soft:#a9677f;
+    --white:#fffafc;
+    --gold:#ffb703;
+    --card-shadow: 0 10px 30px rgba(255,111,158,0.18);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Noto Sans TC', sans-serif;
+    background:linear-gradient(160deg,var(--pink-bg1),var(--pink-bg2) 60%, #ffeef5);
+    color:var(--rose-text);
+    overflow-x:hidden;
+    position:relative;
+    min-height:100vh;
+  }
+  .bubble-field{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+  .float-bubble{
+    position:absolute;bottom:-60px;border-radius:50%;
+    background:radial-gradient(circle at 30% 30%, #fff, var(--bubble) 70%);
+    opacity:0.55;
+    animation:rise linear infinite;
+  }
+  @keyframes rise{
+    0%{transform:translateY(0) translateX(0);opacity:0;}
+    10%{opacity:0.55;}
+    100%{transform:translateY(-115vh) translateX(20px);opacity:0;}
+  }
+  .wrap{max-width:560px;margin:0 auto;padding:28px 18px 80px;position:relative;z-index:1;}
+
+  header.hero{text-align:center;padding:18px 0 10px;}
+  .badge{
+    display:inline-block;font-family:'Fredoka';font-size:12px;letter-spacing:2px;
+    background:var(--hot);color:#fff;padding:5px 14px;border-radius:20px;
+    box-shadow:0 4px 10px rgba(255,79,134,0.35);
+  }
+  h1{
+    font-weight:900;font-size:2rem;line-height:1.35;margin:14px 0 6px;
+    color:var(--rose-text);
+  }
+  h1 span{color:var(--hot-deep);}
+  .subtitle{font-size:.9rem;color:var(--rose-soft);margin-bottom:22px;}
+  .note{
+    font-size:.78rem;background:#fff;border:1px dashed var(--bubble);
+    border-radius:14px;padding:10px 14px;color:var(--rose-soft);
+    margin:0 0 24px;
+  }
+
+  /* 手搖杯量表 */
+  .gauge-wrap{display:flex;flex-direction:column;align-items:center;margin:10px 0 30px;}
+  .cup{
+    position:relative;width:120px;height:150px;
+    background:linear-gradient(180deg, rgba(255,255,255,0.35), rgba(255,255,255,0.1));
+    border:3px solid var(--hot-deep);
+    border-radius:14px 14px 40px 40px;
+    overflow:hidden;
+    box-shadow:var(--card-shadow);
+  }
+  .cup:before{ /* 杯口 */
+    content:"";position:absolute;top:-10px;left:-6px;right:-6px;height:14px;
+    background:var(--hot-deep);border-radius:8px;
+  }
+  .liquid{
+    position:absolute;left:0;right:0;bottom:0;height:0%;
+    background:linear-gradient(180deg,#ffb3cf,var(--hot-deep));
+    transition:height 0.8s cubic-bezier(.4,1.4,.4,1);
+  }
+  .liquid .wave{
+    position:absolute;top:-6px;left:0;width:200%;height:12px;
+    background:radial-gradient(circle,#ffc4dc 45%,transparent 46%);
+    background-size:20px 20px;
+    animation:wave 2.4s linear infinite;
+    opacity:0.8;
+  }
+  @keyframes wave{ to{ transform:translateX(-20px); } }
+  .boba{
+    position:absolute;width:9px;height:9px;border-radius:50%;
+    background:#5c2e1f;opacity:0;transition:opacity .4s;
+  }
+  .straw{
+    position:absolute;top:-34px;right:26px;width:10px;height:60px;
+    background:linear-gradient(90deg,#ff9fc0,var(--hot));
+    border-radius:4px;transform:rotate(8deg);
+  }
+  .gauge-label{margin-top:12px;font-family:'Fredoka';text-align:center;}
+  .gauge-percent{font-size:2.1rem;font-weight:700;color:var(--hot-deep);}
+  .gauge-caption{font-size:.85rem;color:var(--rose-soft);margin-top:2px;}
+  .progress-hint{font-size:.75rem;color:var(--rose-soft);margin-top:6px;}
+
+  section.stage{margin:34px 0 10px;}
+  .stage-title{
+    display:flex;align-items:center;gap:8px;margin-bottom:4px;
+  }
+  .stage-num{
+    font-family:'Fredoka';background:var(--hot-deep);color:#fff;
+    width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-size:.85rem;flex:none;
+  }
+  .stage-title h2{font-size:1.05rem;margin:0;color:var(--rose-text);}
+  .stage-desc{font-size:.8rem;color:var(--rose-soft);margin:0 0 14px 36px;}
+
+  .card{
+    perspective:1200px;margin-bottom:14px;cursor:pointer;height:auto;
+  }
+  .card-inner{
+    position:relative;transition:transform .6s;transform-style:preserve-3d;
+    min-height:96px;
+  }
+  .card.flipped .card-inner{transform:rotateY(180deg);}
+  .card-face{
+    position:absolute;inset:0;width:100%;backface-visibility:hidden;
+    border-radius:16px;padding:16px 18px;box-shadow:var(--card-shadow);
+    display:flex;align-items:center;
+  }
+  .card-front{
+    background:var(--white);border:1.5px solid var(--bubble);
+    font-size:.92rem;color:var(--rose-text);line-height:1.55;
+  }
+  .card-front .quote-mark{color:var(--hot);font-size:1.2rem;margin-right:6px;flex:none;}
+  .card-back{
+    background:linear-gradient(135deg,#fff0f6,#ffe0ec);
+    border:1.5px solid var(--hot);transform:rotateY(180deg);
+    font-size:.82rem;line-height:1.6;color:var(--rose-text);
+    position:relative;
+  }
+  .card-back b{color:var(--hot-deep);}
+  .tap-hint{
+    font-size:.68rem;color:var(--rose-soft);text-align:right;margin-top:-4px;margin-bottom:14px;
+  }
+  .diagnosis{
+    margin-top:40px;background:var(--white);border-radius:22px;
+    padding:24px 22px;text-align:center;box-shadow:var(--card-shadow);
+    border:2px solid var(--bubble);
+  }
+  .diagnosis .emoji{font-size:2.4rem;}
+  .diagnosis h3{font-family:'Fredoka';font-size:1.3rem;color:var(--hot-deep);margin:6px 0 4px;}
+  .diagnosis p{font-size:.85rem;color:var(--rose-soft);margin:0;}
+
+  .rx{
+    margin-top:34px;background:#fff;border-radius:22px;padding:0;overflow:hidden;
+    box-shadow:var(--card-shadow);border:2px dashed var(--hot);
+  }
+  .rx-head{
+    background:linear-gradient(120deg,var(--hot),var(--hot-deep));
+    color:#fff;padding:16px 20px;display:flex;align-items:center;gap:10px;
+  }
+  .rx-head .rx-icon{font-size:1.6rem;}
+  .rx-head h3{margin:0;font-size:1rem;font-family:'Fredoka';letter-spacing:1px;}
+  .rx-body{padding:20px 22px 24px;}
+  .book-title{font-size:1.25rem;font-weight:900;margin:0 0 4px;color:var(--rose-text);}
+  .book-author{font-size:.8rem;color:var(--rose-soft);margin-bottom:12px;}
+  .book-blurb{font-size:.85rem;line-height:1.7;color:var(--rose-text);margin-bottom:18px;}
+  .book-blurb i{color:var(--hot-deep);}
+  .cta{
+    display:inline-flex;align-items:center;gap:6px;
+    background:var(--hot-deep);color:#fff;text-decoration:none;
+    padding:11px 22px;border-radius:30px;font-size:.85rem;font-weight:700;
+    box-shadow:0 6px 16px rgba(255,79,134,0.4);
+    transition:transform .2s;
+  }
+  .cta:hover{transform:translateY(-2px) scale(1.03);}
+  footer{text-align:center;font-size:.72rem;color:var(--rose-soft);margin-top:30px;}
+</style>
+</head>
+<body>
+
+<div class="bubble-field" id="bubbleField"></div>
+
+<div class="wrap">
+
+  <header class="hero">
+    <span class="badge">CONFIDENTIAL · 粉紅色警戒</span>
+    <h1>小K 的<span>暈船</span>觀察報告 🧋</h1>
+    <p class="subtitle">根據群組聊天實錄整理・機密等級：閨密限定</p>
+  </header>
+
+  <p class="note">💡 本報告基於好友間的群組對話彙整而成，純屬甜蜜嘲諷與愛的調侃，看完記得溫柔一點，別真的把小K逼下船 😄</p>
+
+  <div class="gauge-wrap">
+    <div class="cup" id="cup">
+      <div class="straw"></div>
+      <div class="liquid" id="liquid">
+        <div class="wave"></div>
+      </div>
+    </div>
+    <div class="gauge-label">
+      <div class="gauge-percent"><span id="scoreNum">0</span>%</div>
+      <div class="gauge-caption" id="gaugeCaption">尚在岸上，風平浪靜</div>
+    </div>
+    <div class="progress-hint">👇 點開下方每一張證據卡，看指數飆升</div>
+  </div>
+
+  <!-- Stage 1 -->
+  <section class="stage">
+    <div class="stage-title"><span class="stage-num">1</span><h2>自我感覺良好期</h2></div>
+    <p class="stage-desc">抓著一點甜頭，就自動放大成「我們很有默契」</p>
+
+    <div class="card" data-points="10">
+      <div class="card-inner">
+        <div class="card-face card-front"><span class="quote-mark">「</span>她還誇我有她的車牌鎖</div>
+        <div class="card-face card-back">特地準備對方車牌造型的鑰匙圈來吸引注意，對方只是順口誇一句，小K立刻發到群組炫耀 —— <b>渴望被認同</b>的心情藏不住。</div>
+      </div>
+    </div>
+    <div class="tap-hint">點一下翻牌 →</div>
+
+    <div class="card" data-points="10">
+      <div class="card-inner">
+        <div class="card-face card-front"><span class="quote-mark">「</span>跟她很有默契 猜到這台可能賣38.8</div>
+        <div class="card-face card-back">連猜個市場車價都能硬是連結成「我們很有默契」，是<b>標準戀愛腦的自我暗示</b>。</div>
+      </div>
+    </div>
+    <div class="tap-hint">點一下翻牌 →</div>
+
+    <div class="card" data-points="10">
+      <div class="card-inner">
+        <div class="card-face card-front"><span class="quote-mark">「</span>最後Q還主動找我合照 開心</div>
+        <div class="card-face card-back">直接不藏了，把「對方主動合照」當成當天最大戰利品，甚至直白打出「開心」兩個字 —— <b>心情全寫在臉上</b>。</div>
+      </div>
+    </div>
+    <div class="tap-hint">點一下翻牌 →</div>
+  </section>
+
+  <!-- Stage 2 -->
+  <section class="stage">
+    <div class="stage-title"><span class="stage-num">2</span><h2>過度關注期</h2></div>
+    <p class="stage-desc">行程與注意力 100% 圍繞著對方轉</p>
+
+    <div class="card" data-points="10">
+      <div class="card-inner">
+        <div class="card-face card-front"><span class="quote-mark">「</span>她好像住新莊三重的樣子…她說下橋就到 附近就台北橋 從三重那邊過來的</div>
+        <div class="card-face card-back">對方只講一句「下橋就到」，小K就像偵探一樣推敲出住處與騎車路線 —— <b>資訊蒐集程度直逼跟蹤等級的用心</b>。</div>
+      </div>
+    </div>
+    <div class="tap-hint">點一下翻牌 →</div>
+
+    <div class="card" data-points="10">
+      <div class="card-inner">
+        <div class="card-face card-front"><span class="quote-mark">「</span>早上她又睡過頭 顆顆</div>
+        <div class="card-face card-back">對方的小缺點（睡過頭），在小K眼裡全都變成帶著<b>親暱與包容</b>的「顆顆」，濾鏡全開。</div>
+      </div>
+    </div>
+    <div class="tap-hint">點一下翻牌 →</div>
+
+    <div class="card" data-points="10">
+      <div class="card-inner">
+        <div class="card-face card-front"><span class="quote-mark">「</span>她竟然把五分山和草山搞錯 上次跟她說路很難騎 她不信 結果今天才發現記錯地方</div>
+        <div class="card-face card-back">連對方「上次講過什麼話」都記得一清二楚，<b>心思完全被牽著走</b>，記憶體全部分配給對方。</div>
+      </div>
+    </div>
+    <div class="tap-hint">點一下翻牌 →</div>
+  </section>
+
+  <!-- Stage 3 -->
+  <section class="stage">
+    <div class="stage-title"><span class="stage-num">3</span><h2>免費工具人 & 保鑣期</h2></div>
+    <p class="stage-desc">搶著當護花使者，營造「她很需要我」的英雄主義</p>
+
+    <div class="card" data-points="10">
+      <div class="card-inner">
+        <div class="card-face card-front"><span class="quote-mark">「</span>市區到上市民環東 我帶路 因為她真的路癡</div>
+        <div class="card-face card-back">急著展示自己的價值，搶著帶路來營造「她很需要我、我是護花使者」的<b>英雄主義劇本</b>。</div>
+      </div>
+    </div>
+    <div class="tap-hint">點一下翻牌 →</div>
+
+    <div class="card" data-points="10">
+      <div class="card-inner">
+        <div class="card-face card-front"><span class="quote-mark">「</span>結論 草山大羊上的去 下山要很小心 前輪會觸發ABS</div>
+        <div class="card-face card-back">連對方騎車煞車、前輪ABS有沒有觸發都要全程<b>監控與擔心</b>，比保母還盡責。</div>
+      </div>
+    </div>
+    <div class="tap-hint">點一下翻牌 →</div>
+  </section>
+
+  <!-- Stage 4 -->
+  <section class="stage">
+    <div class="stage-title"><span class="stage-num">4</span><h2>雙標護短期（醋意大爆炸）</h2></div>
+    <p class="stage-desc">別人靠近就爆氣，自己靠近就撇清</p>
+
+    <div class="card" data-points="10">
+      <div class="card-inner">
+        <div class="card-face card-front"><span class="quote-mark">「</span>上禮拜三一起出遊發生的 有人直接徒手抓住Q都手臂…死變態</div>
+        <div class="card-face card-back">聽到其他異性接觸對方，情緒反應瞬間爆炸，直接飆粗口 —— <b>佔有慾與醋意全開</b>。</div>
+      </div>
+    </div>
+    <div class="tap-hint">點一下翻牌 →</div>
+
+    <div class="card" data-points="10">
+      <div class="card-inner">
+        <div class="card-face card-front"><span class="quote-mark">「</span>我又不是變態</div>
+        <div class="card-face card-back">被問到怎麼沒跟著去好市多，急著澄清撇清 —— 拼命維護自己在對方面前<b>「紳士、不唐突」</b>的形象。</div>
+      </div>
+    </div>
+    <div class="tap-hint">點一下翻牌 →</div>
+  </section>
+
+  <div class="diagnosis" id="diagnosis">
+    <div class="emoji" id="diagEmoji">🛟</div>
+    <h3 id="diagTitle">診斷等待中…</h3>
+    <p id="diagText">目前已開 <span id="openedCount">0</span> / 10 張證據，暈船指數仍在累積</p>
+  </div>
+
+  <div class="rx">
+    <div class="rx-head">
+      <div class="rx-icon">💊</div>
+      <h3>醫生處方箋・暈船急救包</h3>
+    </div>
+    <div class="rx-body">
+      <div class="book-title">當我想你時，全世界都救不了我</div>
+      <div class="book-author">肆一 著 ・ 三采文化</div>
+      <div class="book-blurb">
+        書裡把「想念」寫成一枚電源開關 —— 一旦被按下，<i>全世界都救不了你</i>。這正是重度暈船患者的終極寫照：明明知道對方未必知道，卻還是忍不住蒐集每一個細節、記住每一句話。如果小K想搞懂自己到底為什麼會暈船到這種程度，這本書大概是最貼切的一劍。
+      </div>
+      <a class="cta" href="https://www.books.com.tw/products/0010811682" target="_blank" rel="noopener">
+        前往博客來看看這本書 →
+      </a>
+    </div>
+  </div>
+
+  <footer>製作日期：2026年8月26日 ・ 僅供好友群內部流通，請溫柔對待暈船的小K 💗</footer>
+</div>
+
+<script>
+  // 背景泡泡
+  const field = document.getElementById('bubbleField');
+  const bubbleCount = 16;
+  for(let i=0;i<bubbleCount;i++){
+    const b = document.createElement('div');
+    b.className = 'float-bubble';
+    const size = 10 + Math.random()*34;
+    b.style.width = size+'px';
+    b.style.height = size+'px';
+    b.style.left = (Math.random()*100)+'%';
+    b.style.animationDuration = (10 + Math.random()*14)+'s';
+    b.style.animationDelay = (Math.random()*14)+'s';
+    field.appendChild(b);
+  }
+
+  // 卡片翻轉與計分
+  const cards = document.querySelectorAll('.card');
+  const liquid = document.getElementById('liquid');
+  const scoreNum = document.getElementById('scoreNum');
+  const gaugeCaption = document.getElementById('gaugeCaption');
+  const openedCount = document.getElementById('openedCount');
+  const diagTitle = document.getElementById('diagTitle');
+  const diagText = document.getElementById('diagText');
+  const diagEmoji = document.getElementById('diagEmoji');
+
+  let score = 0;
+  let opened = 0;
+  const totalCards = cards.length;
+
+  function updateGauge(){
+    liquid.style.height = score + '%';
+    scoreNum.textContent = score;
+    openedCount.textContent = opened;
+
+    let caption, title, emoji;
+    if(score === 0){
+      caption = '尚在岸上，風平浪靜';
+      title = '診斷等待中…';
+      emoji = '🛟';
+    } else if(score <= 30){
+      caption = '腳有點濕了，開始上船';
+      title = '輕度暈船・觀察中';
+      emoji = '🚤';
+    } else if(score <= 60){
+      caption = '船已離岸，回不去了';
+      title = '中度暈船・症狀明顯';
+      emoji = '🌊';
+    } else if(score <= 90){
+      caption = '風浪很大，理智快進水';
+      title = '重度暈船・已無法自控';
+      emoji = '🫠';
+    } else {
+      caption = '船已翻覆，全世界都救不了他';
+      title = '末期暈船・建議立即服用處方';
+      emoji = '🛳️💥';
+    }
+    gaugeCaption.textContent = caption;
+    diagTitle.textContent = title;
+    diagEmoji.textContent = emoji;
+    diagText.innerHTML = `目前已開 <span>${opened}</span> / ${totalCards} 張證據，暈船指數 <b>${score}%</b>`;
+  }
+
+  cards.forEach(card=>{
+    card.addEventListener('click', ()=>{
+      card.classList.toggle('flipped');
+      if(!card.dataset.counted){
+        card.dataset.counted = '1';
+        score = Math.min(100, score + parseInt(card.dataset.points,10));
+        opened += 1;
+        updateGauge();
+      }
+    });
+  });
+
+  updateGauge();
+</script>
+
+</body>
+</html>
