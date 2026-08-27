@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>楷哲的粉紅泡泡觀察所｜Q號戀愛研究計畫</title>
+<style>
+:root{
+  --pink:#ff5f9e; --pink2:#ff8fbd; --rose:#fff1f7; --deep:#7b214b;
+  --ink:#382b33; --muted:#8b7380; --card:#ffffffdd; --line:#ffd1e3;
+  --shadow:0 18px 45px rgba(170,58,105,.14);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:"Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;color:var(--ink);
+background:
+ radial-gradient(circle at 10% 10%,#ffd6e8 0 9%,transparent 10%),
+ radial-gradient(circle at 90% 18%,#ffe5ef 0 10%,transparent 11%),
+ linear-gradient(180deg,#fff8fb,#fff0f6 55%,#fff9fc);
+overflow-x:hidden}
+a{color:inherit}
+.top{position:fixed;top:0;left:0;right:0;z-index:50;background:#ffffffcf;backdrop-filter:blur(12px);border-bottom:1px solid #ffffff}
+.nav{max-width:1180px;margin:auto;display:flex;gap:8px;align-items:center;padding:12px 18px}
+.brand{font-weight:900;color:var(--deep);margin-right:auto}.nav a{font-size:13px;text-decoration:none;padding:8px 11px;border-radius:999px}.nav a:hover{background:var(--rose)}
+.hero{padding:120px 18px 50px;text-align:center;position:relative}
+.hero h1{font-size:clamp(35px,7vw,72px);line-height:1;margin:14px 0;color:var(--deep);letter-spacing:-2px}
+.hero p{max-width:760px;margin:18px auto;color:var(--muted);font-size:17px}
+.pill{display:inline-flex;gap:8px;padding:8px 14px;border-radius:999px;background:white;box-shadow:var(--shadow);font-size:13px;color:var(--deep);font-weight:800}
+.container{max-width:1180px;margin:auto;padding:0 18px 70px}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}
+.card{grid-column:span 6;background:var(--card);border:1px solid var(--line);border-radius:26px;padding:24px;box-shadow:var(--shadow);backdrop-filter:blur(10px)}
+.card.full{grid-column:1/-1}.card.third{grid-column:span 4}
+.card h2{margin:0 0 8px;color:var(--deep)} .card h3{color:#9f3864}
+.sub{color:var(--muted);font-size:14px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:18px}
+.stat{background:var(--rose);border-radius:18px;padding:14px;text-align:center}.stat b{display:block;font-size:26px;color:var(--pink)}
+.timeline{border-left:3px solid #ffc0d8;margin:20px 0 0 12px;padding-left:22px}.event{position:relative;margin:0 0 20px}.event:before{content:"💗";position:absolute;left:-35px;top:-3px;background:#fff;border-radius:50%;font-size:15px}.event b{color:var(--deep)}
+.quote{padding:15px 18px;border-radius:18px;background:#fff5f9;border-left:5px solid var(--pink);margin:12px 0;font-weight:700}
+button{border:0;cursor:pointer;font-weight:800;border-radius:13px;padding:11px 15px;background:var(--pink);color:white;box-shadow:0 8px 18px #ff5f9e35}
+button.secondary{background:#fff;color:var(--deep);border:1px solid var(--line);box-shadow:none}
+button:active{transform:translateY(1px)}
+.tag{display:inline-block;padding:6px 10px;border-radius:999px;background:#fff0f6;color:#a33164;margin:4px;font-size:12px;font-weight:800}
+.progress{height:12px;background:#ffe2ed;border-radius:999px;overflow:hidden}.bar{height:100%;width:0;background:linear-gradient(90deg,#ff77ae,#ffbad8);transition:.35s}
+.choice{display:block;width:100%;text-align:left;background:white;color:var(--ink);border:1px solid var(--line);box-shadow:none;margin:10px 0}.choice:hover{background:#fff1f7}
+.result{margin-top:16px;padding:18px;border-radius:20px;background:linear-gradient(135deg,#fff1f7,#fff);display:none}
+.score{font-size:52px;color:var(--pink);font-weight:900}.meterrow{display:grid;grid-template-columns:130px 1fr 50px;gap:10px;align-items:center;margin:9px 0;font-size:13px}
+.slider{width:100%;accent-color:var(--pink)}
+.forum{display:grid;grid-template-columns:1.4fr .8fr;gap:18px}
+.post{background:white;border:1px solid var(--line);border-radius:20px;padding:16px;margin:10px 0}.post .meta{font-size:12px;color:var(--muted)}.post .title{font-weight:900;color:var(--deep);margin:5px 0}
+textarea,input{width:100%;border:1px solid var(--line);border-radius:14px;padding:11px;background:#fffafc;outline:none}.bubble{display:inline-block;max-width:80%;background:white;border:1px solid var(--line);border-radius:19px 19px 19px 5px;padding:12px;margin:7px 0;box-shadow:0 5px 16px #aa3a6912}
+.chat{height:220px;overflow:auto;background:#fff7fa;border-radius:18px;padding:12px}
+.game3 .scenario{padding:17px;background:#fff5f9;border-radius:18px;font-weight:800;margin-bottom:12px}
+.hidden{display:none}.notice{font-size:12px;color:#9a7a88;margin-top:12px}
+footer{text-align:center;color:#a38391;padding:30px 18px 60px}
+@media(max-width:850px){.card,.card.third{grid-column:1/-1}.stats{grid-template-columns:repeat(2,1fr)}.forum{grid-template-columns:1fr}.nav a:nth-last-child(-n+4){display:none}}
+
+/* ===== Mobile-first pink-bubble expansion ===== */
+body.has-bubbles::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:1;
+  background:
+   radial-gradient(circle at 16% 30%,rgba(255,255,255,.82) 0 2px,transparent 3px),
+   radial-gradient(circle at 83% 64%,rgba(255,255,255,.72) 0 3px,transparent 4px);
+  background-size:92px 92px,137px 137px;opacity:.55;
+}
+main,.hero,footer,.top{position:relative;z-index:2}
+.heart-fx{position:fixed;z-index:100;font-size:22px;pointer-events:none;animation:floatHeart 1.5s ease-out forwards}
+@keyframes floatHeart{0%{transform:translate(-50%,10px) scale(.7);opacity:0}
+ 15%{opacity:1}100%{transform:translate(-50%,-120px) rotate(18deg) scale(1.35);opacity:0}}
+.pop{animation:pop .34s ease}.shake{animation:shake .35s ease}
+@keyframes pop{50%{transform:scale(1.035)}}@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.love-card{background:linear-gradient(145deg,#fff,#fff2f8);border:1px solid #ffc8df;border-radius:24px;padding:19px;box-shadow:0 14px 32px rgba(183,53,105,.11)}
+.big-heart{font-size:58px;line-height:1;display:block;text-align:center}
+.center{text-align:center}
+.choice-pink{background:linear-gradient(90deg,#ff6aa7,#ff9ac5);color:white;border:0;box-shadow:0 8px 18px rgba(255,95,158,.18)}
+.chips{display:flex;gap:8px;flex-wrap:wrap}.chipbtn{padding:9px 12px;border-radius:999px;background:#fff;color:#96335f;border:1px solid #ffd0e2;box-shadow:none}
+.heart-meter{height:16px;background:#ffe1ed;border-radius:999px;overflow:hidden}.heart-meter>i{display:block;height:100%;width:0;background:linear-gradient(90deg,#ff71ad,#ffb5d5);transition:.5s}
+.reaction{min-height:55px;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:800;color:#96335f}
+.sticker{display:inline-flex;align-items:center;justify-content:center;width:46px;height:46px;border-radius:50%;background:white;border:1px solid #ffd2e3;margin:5px;font-size:22px;cursor:pointer;box-shadow:0 7px 18px rgba(160,50,95,.1)}
+.journey{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.journey .step{padding:13px 10px;border-radius:18px;background:#fff;border:1px solid #ffd2e3;text-align:center;cursor:pointer;transition:.25s}
+.journey .step.active{transform:translateY(-4px);background:#fff0f7;border-color:#ff8fbb;box-shadow:0 10px 22px rgba(255,95,158,.15)}
+.bottom-nav{display:none}
+.floating-bubble{position:fixed;right:16px;bottom:24px;z-index:60;width:58px;height:58px;border-radius:50%;background:#ff6ca9;color:#fff;border:4px solid #fff;font-size:24px;box-shadow:0 12px 30px rgba(255,95,158,.3)}
+.forum-cta{display:flex;gap:9px;flex-wrap:wrap;align-items:center}.forum-cta a{display:inline-flex;text-decoration:none}
+.saved-badge{display:inline-block;padding:6px 10px;border-radius:999px;background:#ffe7f1;color:#a43162;font-size:12px;font-weight:800}
+@media(max-width:850px){
+  body{padding-bottom:76px}
+  .top{display:none}.hero{padding:76px 15px 30px}.container{padding:0 12px 45px}.grid{gap:13px}
+  .card{padding:18px;border-radius:21px}.card h2{font-size:21px}
+  .stats{grid-template-columns:repeat(2,1fr);gap:8px}.stat{padding:12px 8px}.stat b{font-size:24px}
+  .journey{grid-template-columns:repeat(2,1fr)}
+  .forum{grid-template-columns:1fr}
+  .meterrow{grid-template-columns:95px 1fr 42px}
+  button{width:100%;padding:13px 14px}.choice{padding:13px}
+  .forum-cta a{width:100%}.forum-cta a button{width:100%}
+  .bottom-nav{position:fixed;display:grid;grid-template-columns:repeat(5,1fr);left:8px;right:8px;bottom:8px;z-index:55;padding:7px;background:#ffffffec;border:1px solid #ffd2e2;border-radius:20px;box-shadow:0 14px 30px rgba(126,42,80,.15);backdrop-filter:blur(12px)}
+  .bottom-nav a{text-decoration:none;text-align:center;font-size:11px;color:#914063;font-weight:800;padding:6px 2px;border-radius:14px}.bottom-nav a:active{background:#fff0f7}
+  .bottom-nav span{display:block;font-size:19px;line-height:1.1;margin-bottom:2px}
+  .floating-bubble{bottom:92px}
+}
+@media(min-width:851px){.floating-bubble{right:26px;bottom:28px}}
+
+</style>
+</head>
+<body>
+<header class="top"><nav class="nav">
+  <div class="brand">💗 KAI × Q 觀察所</div>
+  <a href="#profile">基本資料</a><a href="#analysis">暈船解析</a><a href="#forum">機車論壇</a><a href="#games">三款遊戲</a><a href="#explore">自我探索</a><a href="#advice">建議</a>
+</nav></header>
+
+<section class="hero">
+  <span class="pill">🚨 深夜巡邏隊・戀愛觀察計畫</span>
+  <h1>楷哲的粉紅泡泡觀察所</h1>
+  <p>一個把「車友日常、姐姐情結、Q的互動、群組證詞」做成互動式體驗的戀愛研究所。</p>
+  <div>
+    <button onclick="document.querySelector('#games').scrollIntoView()">開始自我測驗 💘</button>
+    <button class="secondary" onclick="document.querySelector('#analysis').scrollIntoView()">先看看證據</button>
+  </div>
+  <p class="notice">本頁為娛樂／自我探索作品，不是心理診斷；Q的想法不能僅由楷哲的敘述推定。</p>
+</section>
+
+<main class="container">
+<div class="grid">
+
+<section class="card full" id="profile">
+<h2>01｜人物檔案：到底是哪一型的楷哲？</h2>
+<p class="sub">根據你提供的背景與群組資料整理。可把這區當作網站的「角色介紹頁」。</p>
+<div class="stats">
+<div class="stat"><b>33</b>年齡</div><div class="stat"><b>2</b>台車</div><div class="stat"><b>92</b>暈船指數</div><div class="stat"><b>25~35</b>實際推進感</div>
+</div>
+<div style="margin-top:15px">
+<span class="tag">機車重度使用者</span><span class="tag">模型車代工</span><span class="tag">論壇活躍</span><span class="tag">Q高關注</span><span class="tag">姐姐型安全感</span><span class="tag">高內耗低行動</span>
+</div>
+<div class="quote">核心矛盾：心理投入很高，但實際關係推進很低；嘴巴說「姐姐就好」，行為卻一直把Q放在生活敘事中心。</div>
+</section>
+
+<section class="card" id="analysis">
+<h2>02｜暈船大解析</h2>
+<p class="sub">不是問「有沒有喜歡」，而是拆解「怎麼暈」。</p>
+<div class="meterrow"><span>注意力集中</span><div class="progress"><div class="bar" style="width:100%"></div></div><b>10/10</b></div>
+<div class="meterrow"><span>情緒受影響</span><div class="progress"><div class="bar" style="width:90%"></div></div><b>9/10</b></div>
+<div class="meterrow"><span>細節記憶</span><div class="progress"><div class="bar" style="width:100%"></div></div><b>10/10</b></div>
+<div class="meterrow"><span>形象管理</span><div class="progress"><div class="bar" style="width:90%"></div></div><b>9/10</b></div>
+<div class="meterrow"><span>實際追求</span><div class="progress"><div class="bar" style="width:30%"></div></div><b>3/10</b></div>
+<div class="quote">「維持現狀 最佳解」＝本網站判定的關鍵句。可能代表珍惜現有互動，也可能代表害怕失去與被拒絕。</div>
+</section>
+
+<section class="card">
+<h2>💗 直接證據牆</h2>
+<div class="quote">「最後Q還主動找我合照 開心」</div>
+<div class="quote">「昨天又被她認證真愛粉XD」</div>
+<div class="quote">「在她面前形象不能破滅」</div>
+<div class="quote">「她站我旁邊，我就在往旁邊挪一下」</div>
+<div class="quote">「她的襪子穿了不會臭欸」</div>
+<p class="sub">觀察重點：不是任何一句話單獨決定「暈」，而是大量細節＋反覆分享＋情緒反應一起構成行為模式。</p>
+</section>
+
+<section class="card full">
+<h2>🕵️ 暈船進化時間線</h2>
+<div class="timeline">
+ <div class="event"><b>第一階段｜姐姐定位</b><br>把對方放進「姐姐／照顧者」角色，降低戀愛關係的風險。</div>
+ <div class="event"><b>第二階段｜一起騎車</b><br>共同興趣提供自然相處場景，開始大量累積「兩個人的故事」。</div>
+ <div class="event"><b>第三階段｜細節收藏</b><br>記住車種、路線、飲食、行為、家附近等各種細節。</div>
+ <div class="event"><b>第四階段｜正向回饋</b><br>主動合照、真愛粉認證、站在旁邊躲太陽等互動，都成為高價值事件。</div>
+ <div class="event"><b>第五階段｜維持現狀</b><br>投入越多，反而越害怕冒險，形成「很暈但不衝」的循環。</div>
+</div>
+</section>
+
+<section class="card full" id="forum">
+<h2>03｜小老婆機車論壇：另一個人格入口</h2>
+<p class="sub">把「車」當成認識楷哲的另一條路。這區模擬論壇瀏覽＋網友留言體驗。</p>
+<div class="forum">
+<div>
+<div class="post"><div class="meta">shuni0107・2026/03/12</div><div class="title">【模型製作】舊蘇花公路仁清隧道模型</div>模型製作，是他把興趣變成作品與收入的一條路。</div>
+<div class="post"><div class="meta">2026/06/18</div><div class="title">SENA SRL MESH 藍芽耳機開箱 & SHOEI GT-Air 2 使用心得</div>安全裝備、騎乘、硬體研究：車圈人格。</div>
+<div class="post"><div class="meta">2026/07/15</div><div class="title">2026 第十屆國際重型機車展參觀心得</div>大量文字＋圖片，是「很願意研究、很願意分享」的證據。</div>
+<div class="post"><div class="meta">2026/08</div><div class="title">模型／重機／路線研究：日常情報站</div>論壇不只是發文，也是他獲得興趣社群認同的地方。</div>
+</div>
+<div>
+<h3>💬 車友留言模擬器</h3>
+<div id="chat" class="chat">
+<div class="bubble">👤 車友A：楷哲，你今天又跑哪條？</div><div class="bubble">👤 車友B：聽說你最近很會帶路喔？😏</div><div class="bubble">👤 新北人：你不是還有一個Q的故事？</div>
+</div>
+<input id="chatInput" placeholder="輸入一句車友會講的話……">
+<button onclick="sendChat()" style="margin-top:8px">送出吐槽</button>
+</div>
+</div>
+<p class="notice">論壇區建議實際版可再加：文章卡片、年份篩選、車種篩選、留言投票、最愛文章、Q事件時間線。</p>
+</section>
+
+<section class="card full" id="games">
+<h2>04｜三款互動小遊戲</h2>
+<p class="sub">設計目標不是「抓包」，而是讓楷哲自己玩完後，看見自己的行為模式。</p>
+
+<div style="border-top:1px solid var(--line);padding-top:20px;margin-top:15px">
+<h3>🎯 遊戲一：你到底有多暈？</h3>
+<div id="quiz"></div>
+<div class="progress"><div id="quizbar" class="bar"></div></div>
+<div id="quizResult" class="result"></div>
+</div>
+
+<div style="border-top:1px solid var(--line);padding-top:20px;margin-top:26px">
+<h3>🚦 遊戲二：Q的行為，你會怎麼解讀？</h3>
+<p>每題選完，系統會把「事件本身」與「你的解讀」分開。</p>
+<div id="interpret"></div>
+<div id="interpretResult" class="result"></div>
+</div>
+
+<div class="game3" style="border-top:1px solid var(--line);padding-top:20px;margin-top:26px">
+<h3>🧠 遊戲三：心裡的小劇場</h3>
+<div class="scenario">情境：Q今天主動找你合照，晚上你看到照片，還被她說「今天辛苦了」。</div>
+<p>第一個跳進腦中的想法是：</p>
+<div id="thoughts">
+<button class="choice" onclick="thought('A')">A｜「她人真的很好。」</button>
+<button class="choice" onclick="thought('B')">B｜「她是不是其實對我有一點特別？」</button>
+<button class="choice" onclick="thought('C')">C｜「沒什麼，就普通車友互動。」</button>
+<button class="choice" onclick="thought('D')">D｜「完了，我是不是又開始暈了。」</button>
+</div>
+<div id="thoughtResult" class="result"></div>
+</div>
+</section>
+
+<section class="card full" id="explore">
+<h2>05｜自我探索：從「姐姐」到「Q」</h2>
+<p class="sub">這一區不替楷哲下診斷，而是把問題丟回本人。</p>
+<div class="grid" style="margin-top:12px">
+<div class="card third"><h3>👩 姐姐的位置</h3><p>你真正懷念的是某一個人，還是「有人照顧你、肯定你、陪你玩」的感覺？</p></div>
+<div class="card third"><h3>🏍️ 車友的位置</h3><p>如果Q不騎車了、不參加車聚了，你還會想和她保持同等程度的聯絡嗎？</p></div>
+<div class="card third"><h3>💗 Q的位置</h3><p>你喜歡的是「現在的Q」，還是你在心中想像出來的Q？這兩者差多少？</p></div>
+</div>
+<label><b>寫給未來自己的話</b></label>
+<textarea id="letter" rows="5" placeholder="例如：我希望三個月後的我……"></textarea>
+<button onclick="saveReflection()" style="margin-top:9px">保存到本機 💌</button>
+<div id="saved" class="result"></div>
+</section>
+
+<section class="card full" id="advice">
+<h2>06｜給楷哲的建議：不是叫你醒船，是叫你看清楚</h2>
+<div class="grid">
+<div class="card third"><h3>01｜把「事實」和「解讀」分開</h3><p>事實：Q主動找你合照。<br>解讀：Q是不是喜歡你。<br>兩者不要直接畫等號。</p></div>
+<div class="card third"><h3>02｜保留自己的生活</h3><p>車、模型、論壇、朋友、收入與自己的成長，都不能全部被單一對象取代。</p></div>
+<div class="card third"><h3>03｜不要用幻想替代答案</h3><p>真正重要的事情，最後還是要靠對方本人的選擇與表達，而不是群組推理。</p></div>
+</div>
+<div class="quote">最健康的版本不是「趕快告白」，也不是「永遠當弟弟」，而是：喜歡一個人時，仍然有能力過自己的生活，也能尊重對方的答案。</div>
+</section>
+
+<section class="card full">
+<h2>📊 最終報告生成器</h2>
+<p>按下按鈕，把你剛才的互動結果整理成一張「今日暈船體檢單」。</p>
+<button onclick="generateReport()">生成我的觀察報告</button>
+<div id="report" class="result"></div>
+</section>
+
+</div>
+
+<!-- ===== Extra pink-bubble interaction module ===== -->
+<section class="card full" id="bubble">
+<h2>💞 07｜粉紅泡泡回饋中心</h2>
+<p class="sub">這裡開始不只是「看報告」：每點一次，都會給你一個小小的戀愛回饋。</p>
+
+<div class="love-card center">
+  <span class="big-heart" id="heartIcon">💗</span>
+  <h3 id="bubbleTitle">今日的粉紅泡泡濃度</h3>
+  <div class="heart-meter"><i id="heartBar"></i></div>
+  <p id="bubbleText">先戳一下愛心，讓觀察所啟動。</p>
+  <div>
+    <button onclick="pinkTap()">💗 戳一下</button>
+    <button class="secondary" onclick="resetBubble()">清空泡泡</button>
+  </div>
+</div>
+
+<div style="margin-top:15px">
+<h3>🎀 今日戀愛氣泡：你是哪一顆？</h3>
+<div class="chips">
+<button class="chipbtn" onclick="bubbleMood('觀察型','👀','你不是在追蹤，你是在「研究」每個細節。')">👀 觀察型</button>
+<button class="chipbtn" onclick="bubbleMood('姐姐型','👩‍🦰','你在意的是被照顧、被理解、有人陪你走生活。')">👩‍🦰 姐姐型</button>
+<button class="chipbtn" onclick="bubbleMood('車友型','🏍️','有共同興趣，就能自然累積很多「只有我們知道」的故事。')">🏍️ 車友型</button>
+<button class="chipbtn" onclick="bubbleMood('腦補型','🫣','事實只是一張合照，腦內字幕已經播到片尾曲。')">🫣 腦補型</button>
+<button class="chipbtn" onclick="bubbleMood('煞車型','🚦','很在意，但更怕破壞現在的關係。')">🚦 煞車型</button>
+</div>
+<div id="moodBox" class="reaction">選一顆泡泡看看。</div>
+</div>
+</section>
+
+<section class="card full">
+<h2>💌 08｜戀愛劇情自動販賣機</h2>
+<p class="sub">抽一張「今天的Q事件卡」，然後選你腦內第一反應。</p>
+<div class="love-card">
+  <div class="center" style="font-size:42px" id="eventEmoji">🎴</div>
+  <h3 class="center" id="eventTitle">尚未抽卡</h3>
+  <p class="center" id="eventDesc">按下按鈕，讓今天的劇情開始。</p>
+  <button onclick="drawEvent()">🎴 抽一張今日事件</button>
+  <div id="eventChoices" style="margin-top:10px"></div>
+  <div id="eventFeedback" class="reaction"></div>
+</div>
+</section>
+
+<section class="card full">
+<h2>💘 09｜四階段「姐姐 → Q」心動路線</h2>
+<p class="sub">按階段看自己到底是在找人、找感覺，還是找一種安全感。</p>
+<div class="journey" id="journey">
+  <div class="step active" onclick="journey(0)"><div style="font-size:27px">👩</div><b>姐姐</b><small>被照顧</small></div>
+  <div class="step" onclick="journey(1)"><div style="font-size:27px">🏍️</div><b>車友</b><small>一起玩</small></div>
+  <div class="step" onclick="journey(2)"><div style="font-size:27px">💗</div><b>Q</b><small>特別的人</small></div>
+  <div class="step" onclick="journey(3)"><div style="font-size:27px">🫶</div><b>精神寄託</b><small>生活支點</small></div>
+</div>
+<div id="journeyText" class="reaction">姐姐：你要探索的不是「我喜不喜歡她」，而是「我喜歡被怎樣對待」。</div>
+</section>
+
+<section class="card full" id="forum2">
+<h2>🏍️ 10｜小老婆：直接進入楷哲的發文世界</h2>
+<p class="sub">原本的論壇模擬區，現在多一個真正的個人頁入口；手機點擊後直接跳到小老婆。</p>
+<div class="love-card">
+  <div class="forum-cta">
+    <a href="https://forum.jorsindo.com/home.php?mod=space&uid=343498&do=thread&view=me&from=space" target="_blank" rel="noopener">
+      <button>🔗 開啟 shuni0107 個人文章頁</button>
+    </a>
+    <a href="https://forum.jorsindo.com/" target="_blank" rel="noopener">
+      <button class="secondary">🏍️ 前往小老婆首頁</button>
+    </a>
+  </div>
+  <p class="notice">網站頁面在未登入狀態下可能會要求登入；入口仍會保留原始連結。小老婆網站本身包含二輪、四輪、科技及生活等論壇分類。 citeturn956818view0</p>
+</div>
+</section>
+
+<section class="card full">
+<h2>🪞 11｜今天的自己，比Q更值得觀察</h2>
+<p class="sub">三個瞬間，看看你真正被什麼打中。</p>
+<div class="grid">
+<div class="card third center"><div style="font-size:34px">💬</div><h3>一句話</h3><p>Q說一句什麼，你會記得一整天？</p><button class="secondary" onclick="micro('你記住的，通常不是句子，而是「她怎麼看我」。')">查看回饋</button></div>
+<div class="card third center"><div style="font-size:34px">📸</div><h3>一張照片</h3><p>合照最讓你在意的是照片，還是「她主動找你」？</p><button class="secondary" onclick="micro('真正讓你心動的，可能是「被選中」的感覺。')">查看回饋</button></div>
+<div class="card third center"><div style="font-size:34px">🏍️</div><h3>一段路</h3><p>假如不再一起騎車，你還想不想繼續認識她？</p><button class="secondary" onclick="micro('如果答案仍然是「想」，那你在意的就不只是騎車。')">查看回饋</button></div>
+</div>
+<div id="microBox" class="result"></div>
+</section>
+
+</main>
+
+
+<nav class="bottom-nav">
+  <a href="#profile"><span>👤</span>人物</a>
+  <a href="#analysis"><span>💗</span>暈船</a>
+  <a href="#games"><span>🎮</span>遊戲</a>
+  <a href="#bubble"><span>💞</span>泡泡</a>
+  <a href="#advice"><span>🪞</span>醒醒</a>
+</nav>
+<button class="floating-bubble" onclick="pinkTap()" aria-label="戳粉紅泡泡">💗</button>
+
+<footer>💗 楷哲的粉紅泡泡觀察所 · KAI × Q · For fun & self-reflection</footer>
+
+<script>
+const qs=[
+["今天Q做了一件很普通的事，你會不會回家一直想？","完全不會","有一點","會","會到睡前還在想",0,3],
+["Q主動找你合照，你的第一反應？","普通合照而已","覺得開心","會記很久","直接成為今日大事",0,3],
+["你有沒有為了在Q面前維持形象而刻意收斂？","沒有","偶爾","有","非常在意",0,3],
+["Q跟其他男生互動，你的注意力會？","不受影響","稍微注意","有點在意","會一直觀察",0,3],
+["如果Q突然三個月不出現在車聚，你會？","完全沒差","有點可惜","很想知道去哪","生活少了一大塊",0,3],
+["你能不能分清楚「她對你好」和「她喜歡你」？","非常能","大概能","有時混在一起","我懷疑我常混在一起",0,3],
+["你會不會把Q的小動作拿到群組分享？","不會","偶爾","常常","大家已經叫我不要講了",0,3],
+["你想到未來，會不會希望Q繼續在你的生活裡？","沒想過","也許","希望","非常希望",0,3]
+];
+let qi=0,qscore=0;
+function renderQuiz(){
+ if(qi>=qs.length){ 
+   const pct=Math.round(qscore/(qs.length*3)*100);
+   let text=pct<35?"🌱 穩定：你比較能把互動當互動。":pct<60?"🌸 有感：你開始注意Q，但還能踩煞車。":pct<80?"💗 明顯：Q已經佔據相當大的注意力。":"🚨 粉紅警報：你可能已經把Q寫進日常劇本。";
+   document.getElementById('quiz').innerHTML='<b>測驗完成！</b><div class="score">'+pct+'</div><p>'+text+'</p>';
+   document.getElementById('quizbar').style.width='100%';
+   window.quizPct=pct; return;
+ }
+ const q=qs[qi];
+ document.getElementById('quiz').innerHTML='<p><b>'+(qi+1)+'. '+q[0]+'</b></p>'+
+ q.slice(1,5).map((x,i)=>'<button class="choice" onclick="answer('+i+')">'+x+'</button>').join('');
+ document.getElementById('quizbar').style.width=(qi/qs.length*100)+'%';
+}
+function answer(i){qscore+=i;qi++;renderQuiz()}
+renderQuiz();
+
+const ints=[
+["Q主動找你合照","A｜她只是今天心情好","B｜她可能很重視我","C｜至少代表她對我很熟悉"],
+["Q站到你旁邊躲太陽","A｜剛好有陰影","B｜她是不是喜歡靠近我","C｜她覺得跟我待在一起很自然"],
+["Q認證你是真愛粉","A｜稱號而已","B｜她是不是在暗示什麼","C｜她知道我很支持她，而且接受這件事"],
+["Q願意跟你一起騎車","A｜車友行程","B｜這是不是約會","C｜代表有一定信任與舒適感"]
+];
+let ii=0,interp=0;
+function renderInterpret(){
+ if(ii>=ints.length){
+  window.interpScore=interp;
+  document.getElementById('interpret').innerHTML='<b>完成。</b>';
+  document.getElementById('interpretResult').style.display='block';
+  document.getElementById('interpretResult').innerHTML='<b>你的解讀風格：</b> '+(interp<6?'偏事實派，會先停在事件本身。':interp<9?'平衡派，偶爾會把互動延伸成可能性。':'高解讀派，容易把正向互動賦予戀愛意義。');
+  return;
+ }
+ let x=ints[ii];
+ document.getElementById('interpret').innerHTML='<p><b>事件：'+x[0]+'</b></p>'+
+ x.slice(1).map((v,j)=>'<button class="choice" onclick="interpretAnswer('+j+')">'+v+'</button>').join('');
+}
+function interpretAnswer(i){interp += [0,3,1][i]; ii++;renderInterpret()}
+renderInterpret();
+
+function thought(x){
+ let t={A:"🌷 很溫和：你先接收對方的善意，不急著定義關係。",
+ B:"💥 高風險腦內劇場：你很容易把正向互動往「特殊關係」延伸。",
+ C:"🧊 超穩定：你有很好的事件／解讀分離能力。",
+ D:"🪞 自我覺察型：你已經知道自己的暈船模式，這其實是很好的煞車系統。"}[x];
+ document.getElementById('thoughtResult').style.display='block';
+ document.getElementById('thoughtResult').innerHTML=t;
+ window.thoughtResult=x;
+}
+function sendChat(){
+ const input=document.getElementById('chatInput'); if(!input.value.trim())return;
+ const c=document.getElementById('chat'); c.innerHTML+='<div class="bubble">🫵 你：'+escapeHtml(input.value)+'</div><div class="bubble">👤 新北人：好喔，又開始了。😂</div>';input.value='';c.scrollTop=c.scrollHeight;
+}
+function escapeHtml(s){return s.replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+function saveReflection(){
+ const s=document.getElementById('letter').value.trim(); if(!s)return;
+ localStorage.setItem('kaizheReflection',s);
+ document.getElementById('saved').style.display='block';
+ document.getElementById('saved').innerHTML='💌 已保存在這台裝置的瀏覽器。下次打開仍可找回。';
+}
+function generateReport(){
+ const p=window.quizPct??null, i=window.interpScore??null;
+ let lines=[];
+ if(p!==null) lines.push('暈船測驗：'+p+'%');
+ if(i!==null) lines.push('互動解讀分數：'+i);
+ if(window.thoughtResult) lines.push('小劇場選擇：'+window.thoughtResult);
+ if(!lines.length)lines.push('尚未完成小遊戲，先去玩一輪吧 💗');
+ document.getElementById('report').style.display='block';
+ document.getElementById('report').innerHTML='<h3>📋 今日觀察單</h3>'+lines.map(x=>'<p>'+escapeHtml(x)+'</p>').join('')+
+ '<div class="quote">提醒：你喜歡一個人的程度，和對方喜不喜歡你，是兩個不同問題。把這兩題分開，會比較自在。</div>';
+}
+const saved=localStorage.getItem('kaizheReflection'); if(saved)document.getElementById('letter').value=saved;
+
+/* ===== extra interactions ===== */
+document.body.classList.add('has-bubbles');
+let bubbleScore=0;
+const bubbleTexts=[
+ "粉紅泡泡 +10：她只是在旁邊，你的心先自己加戲。",
+ "粉紅泡泡 +8：一句「真愛粉」，足以讓今日心情加成。",
+ "粉紅泡泡 +12：主動合照＝今日收藏事件。",
+ "粉紅泡泡 +6：你說維持現狀，但心已經偷偷存檔。",
+ "粉紅泡泡 +15：又記住一個Q的小細節。"
+];
+function floatHeart(x,y){
+  const e=document.createElement('span');e.className='heart-fx';e.textContent=['💗','💖','💕','💘','🌸'][Math.floor(Math.random()*5)];
+  e.style.left=x+'px';e.style.top=y+'px';document.body.appendChild(e);setTimeout(()=>e.remove(),1550)
+}
+function pinkTap(){
+ bubbleScore=Math.min(100,bubbleScore+7+Math.floor(Math.random()*8));
+ const bar=document.getElementById('heartBar');bar.style.width=bubbleScore+'%';
+ document.getElementById('heartIcon').textContent=bubbleScore>=80?'💘':bubbleScore>=55?'💖':'💗';
+ document.getElementById('bubbleText').textContent=bubbleTexts[Math.floor(Math.random()*bubbleTexts.length)];
+ document.querySelector('#bubble .love-card').classList.add('pop');setTimeout(()=>document.querySelector('#bubble .love-card').classList.remove('pop'),340);
+ floatHeart(window.innerWidth/2,window.innerHeight*.62);
+}
+function resetBubble(){bubbleScore=0;document.getElementById('heartBar').style.width='0%';document.getElementById('heartIcon').textContent='💗';document.getElementById('bubbleText').textContent='泡泡清空了。你現在看起來很理性。'}
+function bubbleMood(name,emoji,text){
+ document.getElementById('moodBox').innerHTML='<span style="font-size:30px">'+emoji+'</span> '+name+'：'+text;
+}
+const events=[
+ {e:'📸',t:'主動合照事件',d:'Q今天主動找你合照，還笑得很自然。',c:['「她是不是特別在意我？」','「開心，至少她跟我很熟。」','「拍照而已，沒什麼。」'],f:['🚨 腦內劇場啟動！先記得：行為是真的，戀愛意義還需要答案。','💗 這是比較穩的解讀：享受善意，但不急著定義。','🧊 超穩：把事實留在事實裡。']},
+ {e:'🌤️',t:'躲太陽事件',d:'你站在陰影處，Q也走到旁邊一起躲。',c:['「她就是想跟我站一起。」','「可能只是這裡比較涼。」','「她跟我待在一起很自然。」'],f:['💥 泡泡快速膨脹：你很容易把靠近轉譯成特殊。','🌱 理性小煞車上線：很健康。','🌸 中間路線：這確實代表舒適，但不直接等於戀愛。']},
+ {e:'🏍️',t:'一起騎車事件',d:'Q願意讓你帶路，路上還一直聊天。',c:['「我要負責把她安全帶回家！」','「她信任我，我很珍惜。」','「車友一起跑很正常。」'],f:['🛡️ 護花模式啟動：記得照顧人不等於要擁有對方。','💗 很成熟：把「信任」看成珍貴但不過度延伸。','🏍️ 車友模式MAX。']},
+ {e:'👑',t:'真愛粉認證',d:'Q笑著叫你「真愛粉」，你回家後想起這句話。',c:['「完了，我今晚睡不著。」','「她知道我的支持，我滿足了。」','「稱號而已。」'],f:['💘 這就是典型高情緒回饋。','💞 你在乎的是「她知道你在乎她」。','🧊 防暈船盾牌已裝備。']}
+];
+function drawEvent(){
+ const x=events[Math.floor(Math.random()*events.length)];
+ document.getElementById('eventEmoji').textContent=x.e;document.getElementById('eventTitle').textContent=x.t;document.getElementById('eventDesc').textContent=x.d;
+ document.getElementById('eventFeedback').textContent='';
+ document.getElementById('eventChoices').innerHTML=x.c.map((z,i)=>'<button class="choice" onclick="eventPick(this,'+i+')">'+z+'</button>').join('');
+ window.currentEvent=x;
+}
+function eventPick(btn,i){const x=window.currentEvent;document.getElementById('eventFeedback').innerHTML=x.f[i];document.querySelectorAll('#eventChoices .choice').forEach(b=>b.disabled=true);btn.classList.add('choice-pink');floatHeart(btn.getBoundingClientRect().left+btn.offsetWidth/2,btn.getBoundingClientRect().top)}
+function journey(i){
+ const xs=[
+ '姐姐：你要探索的不是「我喜不喜歡她」，而是「我喜歡被怎樣對待」。',
+ '車友：共同興趣讓關係變得自然，也讓你更容易累積共同回憶。',
+ 'Q：當一個人從「朋友」變成「特別的人」，你開始更在意她怎麼看你。',
+ '精神寄託：當一個人變成生活的重要情緒支點，就更要保留自己的世界。'
+ ];
+ document.getElementById('journeyText').textContent=xs[i];
+ document.querySelectorAll('#journey .step').forEach((e,k)=>e.classList.toggle('active',k===i));
+ floatHeart(window.innerWidth/2,window.innerHeight*.64);
+}
+function micro(t){const b=document.getElementById('microBox');b.style.display='block';b.innerHTML='💗 '+t}
+
+</script>
+</body>
+</html>
