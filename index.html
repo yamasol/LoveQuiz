@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LoveQuiz 全站導覽</title>
+<style>
+:root{
+  --bg:#fafafa; --card:#ffffff; --line:#e6e6e6;
+  --ink:#1c1c1c; --muted:#767676; --accent:#111111;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:"Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;color:var(--ink);background:var(--bg)}
+a{color:inherit;text-decoration:none}
+
+.hero{padding:56px 18px 28px;max-width:880px;margin:auto}
+.hero h1{font-size:clamp(24px,4vw,32px);margin:0 0 8px;font-weight:800;letter-spacing:-0.5px}
+.hero p{margin:0;color:var(--muted);font-size:14px;line-height:1.7}
+
+.container{max-width:880px;margin:auto;padding:0 18px 60px}
+
+.section-title{margin:34px 0 12px;color:var(--ink);font-weight:700;font-size:13px;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
+
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:14px;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  transition:.15s;
+}
+.card:hover{border-color:#c9c9c9;background:#f5f5f5}
+.card h3{margin:0;font-size:13.5px;font-weight:700;line-height:1.4}
+.card p{margin:0;font-size:11.5px;color:var(--muted);line-height:1.6}
+.card .go{margin-top:6px;font-size:11px;color:#999}
+
+footer{max-width:880px;margin:auto;padding:20px 18px 50px;color:#aaa;font-size:11.5px;border-top:1px solid var(--line)}
+footer a{color:#888}
+
+@media(max-width:760px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <h1>全站導覽</h1>
+  <p>收錄站內所有測驗、觀察報告與辭典頁面，點選卡片即可進入。</p>
+</section>
+
+<main class="container">
+
+  <div class="section-title">測驗與觀察</div>
+  <div class="grid">
+
+    <a class="card" href="kaizhe_pink_bubble_love_lab.html">
+      <h3>戀愛觀察所</h3>
+      <p>戀愛研究計畫，整理日常互動與暈船指數的互動式體驗。</p>
+      <span class="go">進入 →</span>
+    </a>
+
+    <a class="card" href="Observation.html">
+      <h3>暈船觀察報告</h3>
+      <p>第三方視角記錄暈船跡象與行為線索的觀察筆記。</p>
+      <span class="go">進入 →</span>
+    </a>
+
+    <a class="card" href="love.html">
+      <h3>人生副本診斷室</h3>
+      <p>用遊戲副本比喻拆解感情與人生課題。</p>
+      <span class="go">進入 →</span>
+    </a>
+
+    <a class="card" href="mbti.html">
+      <h3>MBTI 深度性格探索</h3>
+      <p>深入挖掘性格特質與行為傾向的性格測驗。</p>
+      <span class="go">進入 →</span>
+    </a>
+
+    <a class="card" href="tarot_test.html">
+      <h3>塔羅心靈測驗</h3>
+      <p>找出你的決策盲點，抽出屬於自己的命定書。</p>
+      <span class="go">進入 →</span>
+    </a>
+
+    <a class="card" href="bao.html">
+      <h3>水煎包生存學</h3>
+      <p>家庭溝通與人格毒舌測驗，用水煎包比喻拆解溝通模式。</p>
+      <span class="go">進入 →</span>
+    </a>
+
+  </div>
+
+  <div class="section-title">潮語／成語辭典</div>
+  <div class="grid">
+
+    <a class="card" href="Exgirl2.html">
+      <h3>精緻女孩</h3>
+      <p>網路流行語辭典詞條，拆解「真精緻」與「偽精緻」的差別。</p>
+      <span class="go">進入 →</span>
+    </a>
+
+    <a class="card" href="Mickey.html">
+      <h3>輝老鼠</h3>
+      <p>網路流行語辭典詞條，收錄詞義、造句與近反義詞。</p>
+      <span class="go">進入 →</span>
+    </a>
+
+    <a class="card" href="papertiger.html">
+      <h3>外強中乾</h3>
+      <p>經典四字成語詞條，說解本義、引申義與辨析提醒。</p>
+      <span class="go">進入 →</span>
+    </a>
+
+  </div>
+
+  <div class="section-title">生活指南</div>
+  <div class="grid">
+
+    <a class="card" href="noodle.html">
+      <h3>板橋牛肉麵指南</h3>
+      <p>整理板橋在地牛肉麵店家推薦與比較。</p>
+      <span class="go">進入 →</span>
+    </a>
+
+  </div>
+
+</main>
+
+<footer>LoveQuiz · <a href="https://yamasol.github.io/LoveQuiz/">yamasol.github.io/LoveQuiz</a></footer>
+
+</body>
+</html>
