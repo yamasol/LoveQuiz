@@ -1,0 +1,657 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#e31837">
+  <meta name="description" content="一頁式互動認識好市多 Costco：賣場心理學、精簡品項、Kirkland、會員費、退貨政策與海外策略。">
+  <title>一次認識好市多｜Costco 商業模式互動圖鑑</title>
+  <style>
+    :root{
+      --red:#e31837;
+      --red-dark:#b90f2b;
+      --blue:#005daa;
+      --ink:#202124;
+      --muted:#6b7280;
+      --line:#e5e7eb;
+      --bg:#f7f8fa;
+      --card:#ffffff;
+      --soft-red:#fff1f3;
+      --soft-blue:#eef6ff;
+      --soft-green:#effaf4;
+      --soft-yellow:#fff8e8;
+      --shadow:0 8px 24px rgba(15,23,42,.07);
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--ink);
+      font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","Microsoft JhengHei",sans-serif;
+      line-height:1.65;
+    }
+    a{color:inherit}
+    .wrap{width:min(1080px,100%);margin:auto;padding:0 16px}
+    .hero{
+      background:linear-gradient(145deg,#fff 0%,#fff 55%,#f2f7ff 100%);
+      border-bottom:1px solid var(--line);
+      padding:28px 0 22px;
+    }
+    .brand{
+      display:flex;align-items:center;gap:10px;
+      font-weight:900;letter-spacing:-.04em;
+    }
+    .brand-mark{
+      font-style:italic;font-size:30px;color:var(--red);
+      letter-spacing:-.08em;
+    }
+    .brand-sub{
+      color:var(--blue);font-size:11px;font-weight:800;
+      border-left:1px solid #cbd5e1;padding-left:10px;line-height:1.2;
+    }
+    h1{font-size:clamp(30px,8vw,52px);line-height:1.1;margin:18px 0 10px;letter-spacing:-.05em}
+    .hero p{margin:0;color:#4b5563;font-size:15px}
+    .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+    .chip{
+      background:#fff;border:1px solid var(--line);border-radius:999px;
+      padding:6px 11px;font-size:12px;font-weight:700;color:#4b5563
+    }
+    .sticky-nav{
+      position:sticky;top:0;z-index:10;
+      background:rgba(255,255,255,.94);backdrop-filter:blur(12px);
+      border-bottom:1px solid var(--line);
+    }
+    .nav-scroll{display:flex;gap:8px;overflow:auto;padding:9px 0;scrollbar-width:none}
+    .nav-scroll::-webkit-scrollbar{display:none}
+    .nav-scroll a{
+      flex:0 0 auto;text-decoration:none;border:1px solid var(--line);
+      border-radius:999px;padding:7px 11px;font-size:12px;font-weight:800;background:#fff
+    }
+    .nav-scroll a:hover{border-color:var(--red);color:var(--red)}
+    main{padding:22px 0 50px}
+    .intro{
+      background:#fff;border:1px solid var(--line);border-radius:var(--radius);
+      padding:18px;box-shadow:var(--shadow);margin-bottom:16px
+    }
+    .intro strong{color:var(--red)}
+    .section{margin:16px 0}
+    .section-head{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:26px 0 12px}
+    .section-kicker{font-size:11px;font-weight:900;color:var(--red);letter-spacing:.12em;text-transform:uppercase}
+    h2{margin:2px 0 0;font-size:23px;letter-spacing:-.04em}
+    .section-note{font-size:12px;color:var(--muted)}
+    .grid{display:grid;grid-template-columns:1fr;gap:12px}
+    .card{
+      background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+      padding:17px;box-shadow:0 5px 18px rgba(15,23,42,.045)
+    }
+    .card.red{background:var(--soft-red);border-color:#ffd2da}
+    .card.blue{background:var(--soft-blue);border-color:#cfe5ff}
+    .card.green{background:var(--soft-green);border-color:#cceedd}
+    .card.yellow{background:var(--soft-yellow);border-color:#f8e1a5}
+    .num{
+      display:inline-grid;place-items:center;width:30px;height:30px;border-radius:10px;
+      color:#fff;background:var(--red);font-weight:900;font-size:14px;margin-bottom:10px
+    }
+    .blue .num{background:var(--blue)}
+    .green .num{background:#198754}
+    .yellow .num{background:#c78300}
+    h3{margin:0 0 7px;font-size:17px;letter-spacing:-.025em}
+    .card p{margin:0;color:#4b5563;font-size:14px}
+    .metric{
+      display:flex;align-items:flex-end;gap:8px;margin:7px 0 5px
+    }
+    .metric b{font-size:34px;line-height:1;color:var(--red);letter-spacing:-.06em}
+    .metric span{font-size:12px;color:var(--muted);padding-bottom:2px}
+    .compare{
+      display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px
+    }
+    .compare > div{
+      background:#fff;border:1px solid rgba(0,0,0,.07);border-radius:13px;padding:11px
+    }
+    .compare small{display:block;color:var(--muted);font-size:11px}
+    .compare strong{font-size:20px}
+    .timeline{position:relative;padding-left:22px}
+    .timeline:before{
+      content:"";position:absolute;left:7px;top:4px;bottom:4px;width:2px;background:#fecdd3
+    }
+    .titem{position:relative;margin:0 0 14px}
+    .titem:before{
+      content:"";position:absolute;left:-20px;top:8px;width:9px;height:9px;
+      border-radius:50%;background:var(--red);border:3px solid #fff;box-shadow:0 0 0 1px #fecdd3
+    }
+    .titem b{font-size:14px}.titem p{margin:2px 0 0;font-size:13px;color:#596273}
+    .bar{
+      height:10px;background:#e9edf2;border-radius:99px;overflow:hidden;margin:9px 0 5px
+    }
+    .bar i{display:block;height:100%;background:var(--red);border-radius:99px}
+    details{
+      border-top:1px dashed #d6dbe3;margin-top:12px;padding-top:12px
+    }
+    summary{cursor:pointer;font-weight:800;font-size:13px;color:#374151}
+    .quote{
+      border-left:4px solid var(--red);padding:12px 14px;background:#fff;border-radius:0 12px 12px 0;
+      margin-top:12px;font-weight:800;font-size:14px
+    }
+    .takeaway{
+      background:linear-gradient(135deg,#e31837,#c41431);color:#fff;
+      border-radius:22px;padding:22px;box-shadow:var(--shadow);margin-top:20px
+    }
+    .takeaway h2{font-size:25px}.takeaway p{margin:8px 0 0;color:#fff0f2;font-size:14px}
+    .source{
+      background:#fff;border:1px solid var(--line);border-radius:var(--radius);
+      padding:18px;margin-top:16px
+    }
+    .source a{
+      display:inline-flex;align-items:center;gap:7px;margin-top:10px;
+      text-decoration:none;background:var(--red);color:#fff;border-radius:12px;padding:10px 13px;font-weight:800;font-size:13px
+    }
+    .meta{
+      display:grid;grid-template-columns:1fr;gap:8px;margin-top:14px;font-size:12px;color:var(--muted)
+    }
+    footer{
+      padding:22px 0 34px;text-align:center;color:#8a919d;font-size:11px
+    }
+    .tools{margin-top:8px}
+    @media (min-width:700px){
+      .wrap{padding:0 24px}
+      .hero{padding:42px 0 30px}
+      .grid.two{grid-template-columns:1fr 1fr}
+      .grid.three{grid-template-columns:repeat(3,1fr)}
+      .meta{grid-template-columns:1fr 1fr 1fr}
+      main{padding-top:30px}
+    }
+  
+    /* ===== Interactive layer ===== */
+    body::before{
+      content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;
+      background:
+        radial-gradient(circle at 12% 10%,rgba(227,24,55,.08),transparent 24%),
+        radial-gradient(circle at 88% 25%,rgba(0,93,170,.08),transparent 25%),
+        radial-gradient(circle at 50% 95%,rgba(25,135,84,.07),transparent 28%);
+    }
+    .progress-wrap{height:3px;background:#edf0f4;position:fixed;top:0;left:0;right:0;z-index:30}
+    .progress-bar{height:100%;width:0;background:linear-gradient(90deg,var(--red),var(--blue));transition:width .15s}
+    .hero-badge{
+      display:inline-flex;align-items:center;gap:7px;margin-top:18px;
+      padding:8px 12px;border-radius:999px;background:#fff;border:1px solid var(--line);
+      font-size:12px;font-weight:800;box-shadow:0 4px 14px rgba(15,23,42,.05)
+    }
+    .hero-badge .dot{width:8px;height:8px;border-radius:50%;background:#22c55e;animation:pulse 1.8s infinite}
+    @keyframes pulse{50%{transform:scale(1.5);opacity:.55}}
+    .tap-card{cursor:pointer;transition:transform .18s,box-shadow .18s,border-color .18s}
+    .tap-card:hover,.tap-card:active{transform:translateY(-2px);box-shadow:0 12px 28px rgba(15,23,42,.11);border-color:#cbd5e1}
+    .tap-hint{font-size:11px;color:var(--red);font-weight:900;margin-top:11px}
+    .reveal{
+      max-height:0;overflow:hidden;opacity:0;transition:max-height .4s ease,opacity .3s ease,margin .3s ease;
+      margin-top:0
+    }
+    .tap-card.open .reveal{max-height:220px;opacity:1;margin-top:10px}
+    .quiz{
+      background:#111827;color:#fff;border-radius:22px;padding:20px;box-shadow:var(--shadow);margin-top:16px
+    }
+    .quiz .kicker{color:#fda4af;font-size:11px;font-weight:900;letter-spacing:.12em}
+    .quiz h3{font-size:21px;margin:4px 0 12px}
+    .q-option{
+      width:100%;border:1px solid #374151;background:#1f2937;color:#fff;border-radius:13px;
+      padding:12px;text-align:left;margin:6px 0;cursor:pointer;font:inherit;font-size:13px;
+      transition:.18s
+    }
+    .q-option:hover{background:#273449;border-color:#6b7280}
+    .q-option.correct{background:#14532d;border-color:#4ade80}
+    .q-option.wrong{background:#7f1d1d;border-color:#f87171}
+    .quiz-result{min-height:22px;margin-top:9px;font-size:13px;font-weight:800}
+    .score{display:flex;justify-content:space-between;align-items:center;margin-top:14px;color:#d1d5db;font-size:12px}
+    .game{
+      background:linear-gradient(145deg,#fff7ed,#fff);border:1px solid #fed7aa;
+      border-radius:22px;padding:18px;margin-top:16px
+    }
+    .game-head{display:flex;justify-content:space-between;gap:10px;align-items:center}
+    .game h3{margin:0;font-size:19px}
+    .game small{color:var(--muted)}
+    .hunt-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:13px}
+    .hunt{
+      min-height:74px;border:1px solid #fdba74;background:#fff;border-radius:15px;
+      display:grid;place-items:center;font-size:27px;cursor:pointer;transition:.18s
+    }
+    .hunt.found{background:#fff1f2;border-color:#fb7185;transform:scale(.96)}
+    .hunt.miss{animation:shake .25s}
+    @keyframes shake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+    .flywheel{
+      display:grid;grid-template-columns:1fr;gap:8px;margin-top:14px
+    }
+    .wheel-step{
+      display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);
+      border-radius:14px;padding:10px;cursor:pointer;transition:.18s
+    }
+    .wheel-step.active{border-color:var(--red);box-shadow:0 0 0 3px rgba(227,24,55,.09);transform:translateX(3px)}
+    .wheel-icon{width:34px;height:34px;border-radius:10px;background:var(--soft-red);display:grid;place-items:center}
+    .wheel-step b{font-size:13px}.wheel-step span{display:block;font-size:11px;color:var(--muted)}
+    .floating-top{
+      position:fixed;right:14px;bottom:16px;z-index:20;width:44px;height:44px;border-radius:50%;
+      border:1px solid var(--line);background:#fff;box-shadow:var(--shadow);cursor:pointer;
+      opacity:0;pointer-events:none;transition:.2s
+    }
+    .floating-top.show{opacity:1;pointer-events:auto}
+    .toast{
+      position:fixed;left:50%;bottom:74px;transform:translate(-50%,15px);
+      background:#111827;color:#fff;padding:10px 14px;border-radius:999px;font-size:12px;font-weight:800;
+      opacity:0;pointer-events:none;transition:.25s;z-index:40;white-space:nowrap;max-width:90vw;overflow:hidden;text-overflow:ellipsis
+    }
+    .toast.show{opacity:1;transform:translate(-50%,0)}
+    .mini-counter{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+    .counter-pill{background:#fff;border:1px solid var(--line);border-radius:12px;padding:8px 10px;font-size:11px}
+    .counter-pill b{font-size:17px;color:var(--red);margin-right:3px}
+    @media (min-width:700px){
+      .flywheel{grid-template-columns:repeat(5,1fr)}
+      .wheel-step{display:block;text-align:center}
+      .wheel-icon{margin:0 auto 6px}
+    }
+
+  </style>
+</head>
+<body>
+  <div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
+  <header class="hero">
+    <div class="wrap">
+      <div class="brand">
+        <div class="brand-mark">COSTCO</div>
+        <div class="brand-sub">WHOLESALE<br>BUSINESS MODEL</div>
+      </div>
+      <h1>一次認識好市多<br><span style="color:var(--red)">Costco</span> 的獲利秘密</h1>
+      <p>它表面上是在賣商品，真正厲害的地方，卻是把「低價、會員、體驗與信任」組成一套商業模式。</p>
+      <div class="chips">
+        <span class="chip">🛒 賣場心理學</span>
+        <span class="chip">🏷 精簡品項</span>
+        <span class="chip">💳 會員制</span>
+        <span class="chip">↩️ 退貨政策</span>
+        <span class="chip">🌏 海外策略</span>
+      </div>
+      <div class="hero-badge"><span class="dot"></span>互動閱讀模式 ON　·　邊滑邊玩邊認識 Costco</div>
+    </div>
+  </header>
+
+  <nav class="sticky-nav">
+    <div class="wrap nav-scroll">
+      <a href="#layout">01 動線</a>
+      <a href="#selection">02 選品</a>
+      <a href="#money">03 獲利</a>
+      <a href="#trust">04 信任</a>
+      <a href="#global">05 海外</a>
+      <a href="#source">來源</a>
+    </div>
+  </nav>
+
+  <main class="wrap">
+    <section class="intro">
+      <strong>先記住一句話：</strong> Costco 的核心不是「把東西賣貴一點」，而是用有限的商品選擇與高會員黏著度，讓顧客願意持續付會員費、持續回店。
+      <div class="quote">低商品毛利 → 低價感 → 顧客信任 → 會員續卡 → 會員費成為重要獲利來源</div>
+    </section>
+
+    <section id="layout" class="section">
+      <div class="section-head">
+        <div><div class="section-kicker">01 / Store Psychology</div><h2>你以為在逛，其實動線在設計你</h2></div>
+      </div>
+      <div class="grid three">
+        <article class="card red tap-card" data-toast="你發現了：動線其實也是銷售員！">
+          <span class="num">1</span>
+          <h3>入口先放高單價</h3>
+          <p>家電、手機、黃金、鑽石等高價商品先建立「這裡很有料」的震撼感與高級感。</p>
+          <div class="tap-hint">👆 點我看看背後心理</div>
+          <div class="reveal"><p><b>想想看：</b>如果一進門就看到一台高階電視，你可能還沒打算買，但「這家店什麼都有」的印象已經先形成了。</p></div>
+        </article>
+        <article class="card red tap-card" data-toast="生鮮不是終點，而是購物旅程的後段！">
+          <span class="num">2</span>
+          <h3>生鮮放到最深處</h3>
+          <p>肉類、鮭魚等生鮮位於賣場深處，讓顧客先經過更多區域，延長逛店時間與接觸商品的機會。</p>
+          <div class="tap-hint">👆 點我看看為什麼</div>
+          <div class="reveal"><p>如果你先買完生鮮，可能會急著回家；把它放在後段，就能讓你先走過更多貨架。</p></div>
+        </article>
+        <article class="card red tap-card" data-toast="尋寶感會讓「逛逛看」變成一種遊戲！">
+          <span class="num">3</span>
+          <h3>Treasure Hunt 尋寶感</h3>
+          <p>部分特價、熱銷或季節性商品散布在不同區域，讓顧客產生「今天可能又挖到寶」的期待。</p>
+          <div class="tap-hint">👆 點我抽一個「今日寶藏」</div>
+          <div class="reveal"><p id="treasureResult">點一下，看看你今天會挖到什麼。</p></div>
+        </article>
+      </div>
+      <div class="card" style="margin-top:12px">
+        <h3>🧠 這套設計的關鍵</h3>
+        <div class="timeline">
+          <div class="titem"><b>先看到高價商品</b><p>建立商品價值與賣場的「高級感」。</p></div>
+          <div class="titem"><b>再一路往裡面逛</b><p>途中持續遇到不同品類，增加非計畫性購買。</p></div>
+          <div class="titem"><b>最後才到生鮮</b><p>把高頻、容易受時間影響的商品放在購物旅程後段。</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="quiz" id="quiz">
+        <div class="kicker">MINI QUIZ / 30 秒挑戰</div>
+        <h3>🤔 如果 Costco 想維持低價，它最希望你做什麼？</h3>
+        <button class="q-option" data-answer="a">A. 每個商品都賣很高的毛利</button>
+        <button class="q-option" data-answer="b">B. 成為會員，持續回店購物</button>
+        <button class="q-option" data-answer="c">C. 只買一次、買完就走</button>
+        <div class="quiz-result" id="quizResult">選一個答案試試看！</div>
+        <div class="score"><span>你的 Costco 商業模式雷達</span><b id="quizScore">0 / 1</b></div>
+      </div>
+    </section>
+
+    <section id="selection" class="section">
+      <div class="section-head">
+        <div><div class="section-kicker">02 / Merchandising</div><h2>少，不代表選擇少；而是幫你做選擇</h2></div>
+      </div>
+      <div class="grid two">
+        <article class="card blue">
+          <span class="num">A</span>
+          <h3>「減法行銷」：只留下值得賣的</h3>
+          <p>影片以約 3,800 種商品對比 Walmart 約 12 萬種，說明 Costco 透過精選品項降低選擇障礙。同類商品通常只給少量選擇。</p>
+          <div class="compare">
+            <div><small>Costco</small><strong>約 3,800</strong><small>精選品項</small></div>
+            <div><small>Walmart</small><strong>約 120,000</strong><small>品項規模</small></div>
+          </div>
+          <details><summary>為什麼「少」反而可能更好？</summary>
+            <p>當消費者不必在十幾個相似商品中比較，就能更快完成決策；而 Costco 也能把採購量集中在少數商品上，形成規模效益。</p>
+          </details>
+        </article>
+
+        <article class="card blue">
+          <span class="num">B</span>
+          <h3>Kirkland Signature：自有品牌的信任槓桿</h3>
+          <p>Kirkland 以高 CP 值與大廠代工思維建立品牌。影片提到成立於 1995 年，約占 Costco 總營收四分之一。</p>
+          <div class="metric"><b>¼</b><span>影片整理所述的營收占比</span></div>
+          <p>例：咖啡豆、電池等品項尋找知名供應商合作，讓「品質背書」與「價格優勢」同時存在。</p>
+          <details><summary>它真正賣的是什麼？</summary>
+            <p>不只是商品，而是「我不用研究太久，也比較不容易買錯」的安心感。這種信任又會反過來提高會員黏著度。</p>
+          </details>
+        </article>
+      </div>
+    </section>
+
+    <section id="money" class="section">
+      <div class="section-head">
+        <div><div class="section-kicker">03 / Profit Engine</div><h2>真正的獲利引擎：會員費</h2></div>
+      </div>
+      <div class="grid three">
+        <article class="card green">
+          <span class="num">01</span>
+          <h3>商品毛利有天花板</h3>
+          <p>影片指出創辦人設定商品毛利率不得超過 14%，核心目標是維持「便宜又值得」的價格印象。</p>
+          <div class="bar"><i style="width:70%"></i></div>
+          <small style="color:var(--muted)">影片整理：14% 上限</small>
+        </article>
+        <article class="card green">
+          <span class="num">02</span>
+          <h3>Loss Leader 引流</h3>
+          <p>烤雞、熱狗組等經典商品可以犧牲部分利潤，換取進店率與整體購物籃。</p>
+          <div class="metric"><b>低價</b><span>不是單品終點</span></div>
+          <p>目的：讓顧客覺得 Costco 值得，再帶動其他商品與續卡。</p>
+        </article>
+        <article class="card green">
+          <span class="num">03</span>
+          <h3>會員費才是關鍵</h3>
+          <p>影片以全球近 1.3 億會員、年營收逼近 2,800 億美元等數字，凸顯會員制度的重要性。</p>
+          <div class="metric"><b>93%</b><span>影片整理所述的台灣與北美等地續卡率</span></div>
+        </article>
+      </div>
+      <div class="takeaway">
+        <h2>Costco 的商業飛輪</h2>
+        <p>會員費 → 有底氣維持低價 → 顧客覺得超值 → 增加購物與信任 → 高續卡率 → 穩定會員收入 → 再把價格與選品做好。</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="card">
+        <div class="section-kicker">BUSINESS FLYWHEEL</div>
+        <h2>點擊看看 Costco 怎麼轉起來</h2>
+        <div class="flywheel" id="flywheel">
+          <div class="wheel-step active"><div class="wheel-icon">💳</div><b>會員費</b><span>先建立收入基礎</span></div>
+          <div class="wheel-step"><div class="wheel-icon">🏷️</div><b>低價感</b><span>維持超值印象</span></div>
+          <div class="wheel-step"><div class="wheel-icon">🛒</div><b>購物</b><span>增加購物籃</span></div>
+          <div class="wheel-step"><div class="wheel-icon">❤️</div><b>信任</b><span>降低購買風險</span></div>
+          <div class="wheel-step"><div class="wheel-icon">🔁</div><b>續卡</b><span>飛輪重新開始</span></div>
+        </div>
+        <div class="mini-counter">
+          <div class="counter-pill"><b id="wheelNo">1</b>/5 目前階段</div>
+          <div class="counter-pill" id="wheelText">會員費 → 提供低價策略的底氣</div>
+        </div>
+      </div>
+
+      <div class="game">
+        <div class="game-head">
+          <div><h3>🕵️ Costco 尋寶挑戰</h3><small>找出藏在貨架上的 3 個寶物！</small></div>
+          <b id="huntScore">0 / 3</b>
+        </div>
+        <div class="hunt-grid" id="huntGrid">
+          <button class="hunt">📦</button><button class="hunt">🥩</button><button class="hunt">❓</button>
+          <button class="hunt">🧻</button><button class="hunt">💎</button><button class="hunt">☕</button>
+          <button class="hunt">🔋</button><button class="hunt">🍗</button><button class="hunt">🎁</button>
+        </div>
+        <p id="huntMsg" style="font-size:12px;color:#9a5b16;margin:10px 0 0">提示：真正的寶物和 Costco 的「尋寶感」有關。</p>
+      </div>
+    </section>
+
+    <section id="trust" class="section">
+      <div class="section-head">
+        <div><div class="section-kicker">04 / Trust & Crisis</div><h2>退貨政策，其實也是信任機制</h2></div>
+      </div>
+      <div class="grid two">
+        <article class="card yellow">
+          <span class="num">↩</span>
+          <h3>寬鬆退貨 = 降低購買風險</h3>
+          <p>「買錯了可以退」會降低消費者第一次嘗試新商品的心理成本，也能強化會員制度的價值感。</p>
+          <details><summary>但不是所有商品都無期限</summary>
+            <p>影片提到近年針對輪胎、黃金／珠寶，以及 3C 商品等類別設置特定限制；3C 影片整理為 90 天內。</p>
+          </details>
+        </article>
+        <article class="card yellow">
+          <span class="num">!</span>
+          <h3>危機處理：快速補償、降低擴散</h3>
+          <p>影片以台灣 A 肝莓果事件、Lululemon 瑜伽褲專利相似度爭議為例，整理 Costco 偏向退費／賠償、低調處理的做法。</p>
+          <div class="quote">信任夠高時，會員可能更願意給品牌一次解決問題的機會。</div>
+        </article>
+      </div>
+    </section>
+
+    <section id="global" class="section">
+      <div class="section-head">
+        <div><div class="section-kicker">05 / Global Strategy</div><h2>為什麼中國市場不一定能照搬？</h2></div>
+      </div>
+      <div class="grid two">
+        <article class="card red">
+          <span class="num">CN</span>
+          <h3>中國市場：遇到強勢競爭者</h3>
+          <p>影片指出中國 Costco 門市數量較台灣少，並將原因之一歸於 Walmart 旗下 Sam's Club 的競爭。Sam's Club 針對中國中產階級，以會員費、尊榮感等方式建立差異化。</p>
+          <div class="compare">
+            <div><small>中國 Costco</small><strong>7 家</strong></div>
+            <div><small>台灣 Costco</small><strong>14 家</strong></div>
+          </div>
+        </article>
+        <article class="card blue">
+          <span class="num">TW</span>
+          <h3>台灣零售業的啟示</h3>
+          <p>不要只模仿「大包裝＋美式商品」。本土業者可以利用密集據點、貼近生活、精緻小份量、在地新鮮小農等優勢。</p>
+          <div class="chips">
+            <span class="chip">📍 密集據點</span>
+            <span class="chip">🏠 貼近生活</span>
+            <span class="chip">📦 小份量</span>
+            <span class="chip">🌱 在地小農</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div><div class="section-kicker">Quick Recap</div><h2>用 5 句話記住 Costco</h2></div>
+      </div>
+      <div class="grid">
+        <div class="card"><b>① 動線</b>：不是讓你最快買完，而是讓你願意多逛一下。</div>
+        <div class="card"><b>② 選品</b>：商品少而精，降低選擇障礙並集中採購量。</div>
+        <div class="card"><b>③ 品牌</b>：Kirkland 用高 CP 值與供應商能力建立信任。</div>
+        <div class="card"><b>④ 獲利</b>：商品低毛利維持便宜感，會員費提供重要獲利支撐。</div>
+        <div class="card"><b>⑤ 黏著</b>：退貨政策、尋寶體驗與價格感共同提高「我還要續卡」的理由。</div>
+      </div>
+    </section>
+
+    <section id="source" class="source">
+      <div class="section-kicker">Source / Credits</div>
+      <h2 style="margin-top:3px">資料來源與製作資訊</h2>
+      <p style="font-size:13px;color:#596273;margin-bottom:0">
+        本頁主要依據使用者提供的《下班經濟學》第 696 集重點整理製作，並保留影片中的時間戳作為閱讀索引。
+        數字與事件敘述屬於影片內容整理；若要作為商業研究、投資或正式報告，建議再查閱 Costco 官方年報及相關原始資料。
+      </p>
+      <a href="https://www.youtube.com/watch?v=qhqtrunAAJo" target="_blank" rel="noopener noreferrer">▶ 開啟原始影片</a>
+      <div class="meta">
+        <div><b>節目</b><br>《下班經濟學》EP.696：好市多的獲利真相</div>
+        <div><b>主持</b><br>謝哲青、張瓊方</div>
+        <div><b>來賓</b><br>阮慕驊（財經專家）</div>
+        <div><b>作者</b><br>睡覺的紅豬</div>
+        <div><b>使用工具</b><br>ChatGPT、HTML5、CSS3、JavaScript、image_gen</div>
+        <div><b>設計原則</b><br>Mobile-first／手機優先、響應式設計</div>
+      </div>
+      <details>
+        <summary>影片重點時間索引</summary>
+        <p style="font-size:12px;color:#596273">
+          00:48 賣場動線｜01:16 高單價入口｜02:08 生鮮深處｜02:36 Treasure Hunt｜
+          03:31 精簡品項｜05:03 Kirkland｜05:59 會員費獲利｜
+          08:03 退貨政策｜10:17 引流商品｜15:27 海外發展｜
+          17:08 公關危機｜18:51 續卡率｜19:16 台灣零售啟示
+        </p>
+      </details>
+    </section>
+  </main>
+
+  <footer>
+    <div>一次認識好市多｜Costco Business Model</div>
+    <div class="tools">作者：睡覺的紅豬　·　使用工具：ChatGPT＋HTML5＋CSS3＋JavaScript＋image_gen</div>
+    <div style="margin-top:5px">Mobile-first responsive webpage · 2026</div>
+  </footer>
+  <button class="floating-top" id="topBtn" aria-label="回到頂端">↑</button>
+  <div id="toast" class="toast"></div>
+
+<script>
+(function(){
+  const $ = s => document.querySelector(s);
+  const $$ = s => [...document.querySelectorAll(s)];
+
+  // Reading progress
+  const progress = $('#progressBar');
+  function updateProgress(){
+    const max = document.documentElement.scrollHeight - innerHeight;
+    progress.style.width = (max > 0 ? (scrollY / max) * 100 : 0) + '%';
+  }
+  addEventListener('scroll', updateProgress, {passive:true}); updateProgress();
+
+  // Tap cards: reveal + feedback
+  $$('.tap-card').forEach(card=>{
+    card.addEventListener('click', ()=>{
+      card.classList.toggle('open');
+      const toast = card.dataset.toast;
+      if(toast) showToast(card.classList.contains('open') ? '✨ '+toast : '已收起');
+      if(card.querySelector('#treasureResult') && card.classList.contains('open')){
+        const items=['Kirkland 神秘零食 🍪','限時小家電 ⚡','一大包衛生紙 🧻','烤雞 🍗','季節限定甜點 🍰'];
+        card.querySelector('#treasureResult').textContent='🎁 今日寶藏：'+items[Math.floor(Math.random()*items.length)];
+      }
+    });
+  });
+
+  // Quiz
+  let answered=false;
+  $$('.q-option').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(answered) return;
+      answered=true;
+      const result=$('#quizResult');
+      if(btn.dataset.answer==='b'){
+        btn.classList.add('correct');
+        result.textContent='🎉 答對！會員費是這套模式的重要核心，低商品毛利與高續卡率才能互相支撐。';
+        $('#quizScore').textContent='1 / 1';
+        showToast('答對啦！你抓到 Costco 的核心了');
+      }else{
+        btn.classList.add('wrong');
+        $$('.q-option[data-answer="b"]')[0].classList.add('correct');
+        result.textContent='💡 接近！真正關鍵是「會員費＋持續回店」，商品低毛利是用來建立超值感。';
+      }
+    });
+  });
+
+  // Flywheel
+  const wheelSteps=$$('.wheel-step');
+  const wheelText=[
+    '會員費 → 提供低價策略的底氣',
+    '低價感 → 讓會員覺得「有值回票價」',
+    '購物 → 增加整體購物籃，而非只買引流商品',
+    '信任 → 退貨政策與穩定體驗降低購買風險',
+    '續卡 → 高續卡率讓飛輪重新開始'
+  ];
+  wheelSteps.forEach((step,i)=>{
+    step.addEventListener('click',()=>{
+      wheelSteps.forEach(x=>x.classList.remove('active'));
+      step.classList.add('active');
+      $('#wheelNo').textContent=i+1;
+      $('#wheelText').textContent=wheelText[i];
+      showToast('🔄 飛輪第 '+(i+1)+' 步：'+wheelText[i].split(' → ')[0]);
+    });
+  });
+
+  // Treasure game: correct answers are 🔋 ☕ 🎁
+  const correct=['🔋','☕','🎁'];
+  let found=0;
+  $$('.hunt').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      if(btn.classList.contains('found')) return;
+      const emoji=btn.textContent.trim();
+      if(correct.includes(emoji)){
+        btn.classList.add('found');
+        btn.textContent='✨';
+        found++;
+        $('#huntScore').textContent=found+' / 3';
+        $('#huntMsg').textContent=found===3
+          ? '🏆 全部找到！你已解鎖「尋寶式購物」概念。'
+          : '✨ 找到了！再找 '+(3-found)+' 個。';
+        showToast('找到寶物！✨');
+      }else{
+        btn.classList.add('miss');
+        setTimeout(()=>btn.classList.remove('miss'),300);
+        $('#huntMsg').textContent='👀 不是這個，再看看其他貨架……';
+      }
+    });
+  });
+
+  // Toast
+  let toastTimer;
+  function showToast(text){
+    let t=$('#toast');
+    if(!t){
+      t=document.createElement('div');t.id='toast';t.className='toast';document.body.appendChild(t);
+    }
+    t.textContent=text;t.classList.add('show');
+    clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),1800);
+  }
+
+  // Back to top
+  const topBtn=$('#topBtn');
+  addEventListener('scroll',()=>topBtn.classList.toggle('show',scrollY>500),{passive:true});
+  topBtn.addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}));
+
+  // Section arrival feedback
+  const sections=$$('section[id]');
+  const observer=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting && e.intersectionRatio>.45){
+        const nav=document.querySelector('.nav-scroll a[href="#'+e.target.id+'"]');
+        if(nav){
+          $$('.nav-scroll a').forEach(a=>a.style.borderColor='');
+          nav.style.borderColor='var(--red)';
+        }
+      }
+    });
+  },{threshold:.45});
+  sections.forEach(s=>observer.observe(s));
+})();
+</script>
+
+</body>
+</html>
