@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>楷哲情感鑑定所｜你到底只是朋友還是暈船？</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+    background:
+        radial-gradient(circle at top, #ffe4ec 0%, #fff6f8 35%, #f7f7fb 100%);
+    color: #333;
+}
+
+.container {
+    max-width: 760px;
+    margin: auto;
+    padding: 20px;
+}
+
+.hero {
+    text-align: center;
+    padding: 40px 20px 25px;
+}
+
+.hero .emoji {
+    font-size: 60px;
+}
+
+.hero h1 {
+    margin: 10px 0;
+    font-size: 32px;
+}
+
+.hero p {
+    color: #777;
+    line-height: 1.7;
+}
+
+.card {
+    background: rgba(255,255,255,.95);
+    border-radius: 24px;
+    padding: 28px;
+    margin-bottom: 20px;
+    box-shadow: 0 12px 35px rgba(0,0,0,.08);
+}
+
+.hidden {
+    display: none;
+}
+
+.progress {
+    height: 9px;
+    background: #eee;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg,#ff7a9e,#ffb199);
+    transition: .4s;
+}
+
+.question-number {
+    color: #ff668d;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.question {
+    font-size: 23px;
+    font-weight: bold;
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+.option {
+    display: block;
+    width: 100%;
+    border: 2px solid #eee;
+    background: white;
+    padding: 17px;
+    border-radius: 15px;
+    margin: 10px 0;
+    text-align: left;
+    cursor: pointer;
+    transition: .2s;
+    font-size: 16px;
+}
+
+.option:hover {
+    border-color: #ff8eaa;
+    background: #fff4f7;
+    transform: translateY(-2px);
+}
+
+.option.selected {
+    border-color: #ff668d;
+    background: #ffeaf0;
+}
+
+button {
+    border: none;
+    border-radius: 14px;
+    padding: 14px 22px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.primary {
+    background: #ff668d;
+    color: white;
+    width: 100%;
+    margin-top: 15px;
+}
+
+.secondary {
+    background: #eee;
+    color: #555;
+}
+
+.result-title {
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.result-subtitle {
+    color: #777;
+    line-height: 1.7;
+}
+
+.score-box {
+    margin: 15px 0;
+}
+
+.score-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.score-track {
+    height: 12px;
+    background: #eee;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.score-fill {
+    height: 100%;
+    background: linear-gradient(90deg,#ff9ab3,#ff557e);
+    transition: width 1s ease;
+}
+
+.analysis {
+    background: #fff7f9;
+    border-left: 5px solid #ff668d;
+    padding: 18px;
+    border-radius: 10px;
+    line-height: 1.8;
+    margin: 20px 0;
+}
+
+.warning {
+    background: #fff4e5;
+    border-left: 5px solid #ff9800;
+    padding: 18px;
+    border-radius: 10px;
+    line-height: 1.8;
+}
+
+.advice {
+    background: #f3f7ff;
+    border-left: 5px solid #668cff;
+    padding: 18px;
+    border-radius: 10px;
+    line-height: 1.8;
+}
+
+.share {
+    margin-top: 20px;
+}
+
+.small {
+    font-size: 13px;
+    color: #999;
+    line-height: 1.6;
+}
+
+.tag {
+    display: inline-block;
+    padding: 7px 12px;
+    background: #ffe5ed;
+    color: #e34d75;
+    border-radius: 20px;
+    margin: 4px;
+    font-size: 13px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<section class="hero">
+    <div class="emoji">🛵❤️</div>
+    <h1>楷哲情感鑑定所</h1>
+    <p>
+        你到底只是把她當朋友？<br>
+        還是其實已經暈了，只是不敢承認？
+    </p>
+</section>
+
+<div id="start" class="card">
+    <h2>⚠️ 兄弟審判正式開始</h2>
+
+    <p style="line-height:1.8">
+        本測驗不是心理診斷，也不是算命。<br>
+        純粹根據你剛剛講出來的那些鬼故事，
+        分析你目前的情感狀態。
+    </p>
+
+    <div class="warning">
+        <b>提醒：</b><br>
+        這份測驗會很直白。<br>
+        如果結果很靠北，不是系統針對你，是你的答案自己出賣你。
+    </div>
+
+    <button class="primary" onclick="startQuiz()">
+        開始接受審判 🔥
+    </button>
+</div>
+
+<div id="quiz" class="card hidden">
+
+    <div class="progress">
+        <div id="progressBar" class="progress-bar"></div>
+    </div>
+
+    <div id="questionNumber" class="question-number"></div>
+    <div id="questionText" class="question"></div>
+
+    <div id="options"></div>
+
+    <button id="nextBtn" class="primary" onclick="nextQuestion()" disabled>
+        下一題 →
+    </button>
+
+</div>
+
+<div id="result" class="card hidden">
+
+    <div id="resultEmoji" style="font-size:55px;"></div>
+    <div id="resultTitle" class="result-title"></div>
+    <div id="resultSubtitle" class="result-subtitle"></div>
+
+    <div id="tags"></div>
+
+    <h2>📊 你的情感數據</h2>
+
+    <div id="scores"></div>
+
+    <div id="mainAnalysis" class="analysis"></div>
+
+    <div id="warningBox" class="warning"></div>
+
+    <div id="adviceBox" class="advice"></div>
+
+    <div class="share">
+        <button class="primary" onclick="copyResult()">
+            📋 複製我的測驗結果
+        </button>
+
+        <button class="secondary" onclick="location.reload()" style="width:100%;margin-top:10px;">
+            🔄 再測一次
+        </button>
+    </div>
+
+    <p class="small">
+        ※ 本測驗為娛樂性質，分析內容是根據回答建立的情感傾向模型，
+        不代表任何正式心理診斷。
+    </p>
+
+</div>
+
+</div>
+
+<script>
+
+const questions = [
+
+{
+    q: "她突然一天沒找你，你第一個反應是？",
+    options: [
+        ["沒差啊，她忙她的", {love:0,depend:0,need:0,expect:0,shadow:0,risk:0}],
+        ["喔？怎麼今天這麼安靜", {love:1,depend:2,need:1,expect:1,shadow:0,risk:0}],
+        ["會忍不住看她有沒有上線", {love:2,depend:3,need:2,expect:2,shadow:0,risk:1}],
+        ["幹，她是不是不想理我了？", {love:3,depend:3,need:3,expect:3,shadow:1,risk:2}]
+    ]
+},
+
+{
+    q: "如果她突然跟你說：「最近有人在追我。」",
+    options: [
+        ["喔，祝福啊", {love:0,depend:0,need:0,expect:0,shadow:0,risk:0}],
+        ["有點意外，但沒什麼", {love:1,depend:1,need:1,expect:1,shadow:0,risk:0}],
+        ["心裡會有一點不舒服", {love:2,depend:2,need:2,expect:2,shadow:1,risk:1}],
+        ["幹，誰？什麼人？為什麼我不知道？", {love:3,depend:3,need:2,expect:3,shadow:1,risk:3}]
+    ]
+},
+
+{
+    q: "你最喜歡跟她相處的地方是？",
+    options: [
+        ["騎車、吃飯、出去玩", {love:1,depend:1,need:0,expect:1,shadow:0,risk:0}],
+        ["她很願意陪我做事情", {love:1,depend:2,need:2,expect:1,shadow:0,risk:0}],
+        ["可以跟她聊天、講心事", {love:2,depend:3,need:3,expect:2,shadow:0,risk:1}],
+        ["她讓我覺得自己是被選中的那個", {love:2,depend:3,need:3,expect:3,shadow:2,risk:2}]
+    ]
+},
+
+{
+    q: "如果今天班上還有另外一個男生，她也跟他一樣親近，你會？",
+    options: [
+        ["完全沒差", {love:0,depend:0,need:0,expect:0,shadow:0,risk:0}],
+        ["覺得滿正常的", {love:1,depend:1,need:0,expect:1,shadow:0,risk:0}],
+        ["會開始想：為什麼她也跟他這麼好？", {love:2,depend:2,need:2,expect:2,shadow:1,risk:1}],
+        ["幹，我會開始不爽", {love:3,depend:3,need:3,expect:3,shadow:1,risk:3}]
+    ]
+},
+
+{
+    q: "她如果突然說「我們還是少聯絡一點好了」，你會？",
+    options: [
+        ["好啊，各自生活", {love:0,depend:0,need:0,expect:0,shadow:0,risk:0}],
+        ["會覺得可惜", {love:1,depend:2,need:1,expect:1,shadow:0,risk:0}],
+        ["會很失落", {love:2,depend:3,need:3,expect:2,shadow:1,risk:1}],
+        ["會覺得像被她拋棄", {love:3,depend:3,need:3,expect:3,shadow:2,risk:3}]
+    ]
+},
+
+{
+    q: "老實說，你有沒有想過「如果當初不是初戀告白，而是她呢？」",
+    options: [
+        ["完全沒想過", {love:0,depend:0,need:0,expect:0,shadow:0,risk:0}],
+        ["偶爾想過啦", {love:1,depend:1,need:1,expect:2,shadow:1,risk:0}],
+        ["其實想過很多次", {love:3,depend:2,need:2,expect:3,shadow:2,risk:1}],
+        ["幹，被你講中", {love:4,depend:3,need:2,expect:4,shadow:2,risk:2}]
+    ]
+},
+
+{
+    q: "你覺得她為什麼偏偏選你當好朋友？",
+    options: [
+        ["單純聊得來", {love:0,depend:1,need:1,expect:0,shadow:0,risk:0}],
+        ["可能我比較可靠", {love:1,depend:2,need:2,expect:1,shadow:0,risk:0}],
+        ["我一直很好奇這件事", {love:2,depend:2,need:2,expect:2,shadow:1,risk:1}],
+        ["我其實很想知道她是不是曾經喜歡過我", {love:3,depend:3,need:3,expect:4,shadow:2,risk:2}]
+    ]
+},
+
+{
+    q: "如果她現在是單身，而且主動約你單獨出去，你會？",
+    options: [
+        ["朋友出去很正常", {love:0,depend:1,need:0,expect:1,shadow:0,risk:0}],
+        ["去啊，但不會想太多", {love:1,depend:1,need:1,expect:2,shadow:0,risk:0}],
+        ["會開始期待是不是有機會", {love:3,depend:2,need:2,expect:3,shadow:1,risk:1}],
+        ["我會直接懷疑她是不是要告白", {love:4,depend:3,need:3,expect:4,shadow:1,risk:2}]
+    ]
+},
+
+{
+    q: "你現在最捨不得失去的是什麼？",
+    options: [
+        ["騎車的夥伴", {love:0,depend:1,need:0,expect:1,shadow:0,risk:0}],
+        ["聊天的朋友", {love:1,depend:2,need:2,expect:1,shadow:0,risk:0}],
+        ["那種被她理解的感覺", {love:2,depend:3,need:3,expect:2,shadow:1,risk:1}],
+        ["她在我生命中『特別的位置』", {love:3,depend:3,need:3,expect:4,shadow:2,risk:2}]
+    ]
+},
+
+{
+    q: "最後一題，最殘酷的問題：如果她明天結婚了，你會？",
+    options: [
+        ["恭喜她啊", {love:0,depend:0,need:0,expect:0,shadow:0,risk:0}],
+        ["會有點失落，但人生就是這樣", {love:1,depend:1,need:1,expect:1,shadow:1,risk:0}],
+        ["嘴巴祝福，心裡會幹一聲", {love:3,depend:2,need:2,expect:3,shadow:2,risk:1}],
+        ["我可能會難受一陣子", {love:4,depend:3,need:3,expect:4,shadow:3,risk:3}]
+    ]
+}
+
+];
+
+let current = 0;
+let answers = [];
+let selected = null;
+
+function startQuiz() {
+    document.getElementById("start").classList.add("hidden");
+    document.getElementById("quiz").classList.remove("hidden");
+    showQuestion();
+}
+
+function showQuestion() {
+
+    selected = null;
+
+    const q = questions[current];
+
+    document.getElementById("questionNumber").innerText =
+        `第 ${current + 1} / ${questions.length} 題`;
+
+    document.getElementById("questionText").innerText = q.q;
+
+    document.getElementById("progressBar").style.width =
+        `${(current / questions.length) * 100}%`;
+
+    const options = document.getElementById("options");
+    options.innerHTML = "";
+
+    q.options.forEach((item, index) => {
+
+        const btn = document.createElement("button");
+
+        btn.className = "option";
+        btn.innerText = item[0];
+
+        btn.onclick = () => {
+
+            document.querySelectorAll(".option")
+                .forEach(x => x.classList.remove("selected"));
+
+            btn.classList.add("selected");
+
+            selected = item[1];
+
+            document.getElementById("nextBtn").disabled = false;
+        };
+
+        options.appendChild(btn);
+    });
+
+    document.getElementById("nextBtn").innerText =
+        current === questions.length - 1
+        ? "看我的判決 🔥"
+        : "下一題 →";
+}
+
+function nextQuestion() {
+
+    if (!selected) return;
+
+    answers.push(selected);
+
+    current++;
+
+    if (current >= questions.length) {
+        showResult();
+        return;
+    }
+
+    showQuestion();
+}
+
+function calculateScores() {
+
+    const scores = {
+        love: 0,
+        depend: 0,
+        need: 0,
+        expect: 0,
+        shadow: 0,
+        risk: 0
+    };
+
+    answers.forEach(a => {
+        Object.keys(scores).forEach(k => {
+            scores[k] += a[k];
+        });
+    });
+
+    return scores;
+}
+
+function percentage(value, max) {
+    return Math.round((value / max) * 100);
+}
+
+function showResult() {
+
+    document.getElementById("quiz").classList.add("hidden");
+    document.getElementById("result").classList.remove("hidden");
+
+    const s = calculateScores();
+
+    const love = percentage(s.love, 40);
+    const depend = percentage(s.depend, 30);
+    const need = percentage(s.need, 30);
+    const expect = percentage(s.expect, 40);
+    const shadow = percentage(s.shadow, 30);
+    const risk = percentage(s.risk, 30);
+
+    let title;
+    let emoji;
+    let subtitle;
+    let analysis;
+    let warning;
+    let advice;
+    let tags = [];
+
+    const total = love + depend + expect;
+
+    if (love >= 65 && expect >= 65) {
+
+        emoji = "🚢💥";
+        title = "你不是朋友，你只是還沒承認自己暈了";
+        subtitle = "兄弟，船已經開了。你現在只是嘴巴還停在碼頭。";
+
+        tags = ["高度心動", "曖昧期待", "容易自我欺騙"];
+
+        analysis = `
+        <b>直白版：</b><br>
+        你對她已經不只是「朋友好就好」。<br><br>
+
+        你真正介意的不是她有沒有陪你騎車，
+        而是「你在她心裡到底是不是特別的」。<br><br>
+
+        如果她跟別的男生一樣親近，你會不舒服；
+        如果她離開，你會失落；
+        如果她主動找你，你又會開始腦補。<br><br>
+
+        這叫什麼？<br>
+        <b>這叫暈船，只是目前還沒有撞碼頭。</b>
+        `;
+
+        warning = `
+        <b>⚠️ 最大問題：</b><br>
+        不要因為她對你好，就自動解讀成她喜歡你。
+        「她選你當朋友」跟「她想跟你交往」是兩回事。
+        `;
+
+        advice = `
+        <b>🧭 兄弟建議：</b><br>
+        先不要衝告白。<br>
+        先觀察她是不是「只對你特別」，
+        還是她本來就是一個很會跟人建立關係的人。<br><br>
+
+        如果她目前有男友，更不用搞事。
+        能騎車就騎車、能聊天就聊天，
+        但不要把自己偷偷升級成「地下男友」。
+        `;
+
+    } else if (depend >= 65 && need >= 65) {
+
+        emoji = "🥹🛵";
+        title = "你未必愛她，你只是很捨不得這種感覺";
+        subtitle = "你真正上癮的可能是：有人主動、有人陪、有人需要你。";
+
+        tags = ["陪伴依賴", "被需要感", "情緒連結"];
+
+        analysis = `
+        <b>直白版：</b><br>
+        你現在最強的不是戀愛感，而是「被選擇感」。<br><br>
+
+        你以前很少有這種經驗，
+        所以當一個女生願意主動找你、拉你進朋友圈、
+        跟你聊心事、跟你一起出去，
+        你會特別珍惜。<br><br>
+
+        所以你一直想知道：
+        <b>「為什麼偏偏是我？」</b><br><br>
+
+        這個問題本身，就代表她對你而言已經不是普通朋友。
+        `;
+
+        warning = `
+        <b>⚠️ 小心：</b><br>
+        「我喜歡跟她在一起」不一定等於「我想跟她交往」。
+        你可能只是很喜歡那個被理解、被需要的自己。
+        `;
+
+        advice = `
+        <b>🧭 兄弟建議：</b><br>
+        不要急著定義關係。<br>
+        先問自己一句：<br><br>
+
+        <b>「如果她完全不需要我，我還會想跟她在一起嗎？」</b><br><br>
+
+        如果答案還是「會」，
+        那才比較接近真正的喜歡。
+        `;
+
+    } else if (shadow >= 60) {
+
+        emoji = "🩹❤️";
+        title = "你現在愛的可能有一部分是過去留下來的";
+        subtitle = "初戀沒有完全控制你，但她留下的東西還在影響你。";
+
+        tags = ["初戀陰影", "情感補償", "重新被接納"];
+
+        analysis = `
+        <b>直白版：</b><br>
+        你現在看到的女生，
+        很容易跟「大學時第一次被女生接納」這段記憶綁在一起。<br><br>
+
+        所以你珍惜的不只是她，
+        還有那個突然發現：
+        <b>「原來我也可以被女生喜歡、被女生需要。」</b>
+        的自己。<br><br>
+
+        初戀造成的傷，
+        可能讓你後來更重視「穩定、陪伴、聊天、理解」。
+        `;
+
+        warning = `
+        <b>⚠️ 注意：</b><br>
+        不要拿現在的女生去修復以前的自己。
+        她不是你的心理補丁，也不需要負責證明你值得被愛。
+        `;
+
+        advice = `
+        <b>🧭 兄弟建議：</b><br>
+        把「初戀」跟「現在這個女生」完全分開看。<br>
+        不要比較她們，也不要一直回頭研究：
+        「如果當初怎樣就好了」。<br><br>
+
+        你已經不是大學那個五十幾公斤的自己了。
+        現在真正要學的是：
+        <b>不要因為終於有人對你好，就把對方直接升級成真愛。</b>
+        `;
+
+    } else if (love >= 50 || expect >= 50) {
+
+        emoji = "🛵💭";
+        title = "中度暈船：嘴巴說朋友，腦袋偶爾開劇本";
+        subtitle = "還沒到告白程度，但你確實有在想像可能性。";
+
+        tags = ["中度心動", "曖昧想像", "朋友以上"];
+
+        analysis = `
+        <b>直白版：</b><br>
+        你現在還可以控制。<br><br>
+
+        但你已經不是完全把她當普通朋友。
+        你會想她為什麼選你、
+        會在意她跟誰出去、
+        會想像如果她單身會不會有機會。<br><br>
+
+        所以你現在的位置大概是：
+        <b>「我沒有要追她啦……但如果她真的喜歡我，好像也不是不行。」</b>
+        `;
+
+        warning = `
+        <b>⚠️ 最大風險：</b><br>
+        自己腦補 → 期待升高 → 對方沒做什麼 → 自己失望。
+        `;
+
+        advice = `
+        <b>🧭 兄弟建議：</b><br>
+        保持自然最好。<br>
+        不要測試她、不要故意吃醋、不要故意消失，
+        更不要找朋友套話。<br><br>
+
+        她如果真的對你有意思，
+        不需要你演八點檔才能看出來。
+        `;
+
+    } else {
+
+        emoji = "🧑‍🤝‍🧑";
+        title = "目前判定：朋友，真的就是朋友";
+        subtitle = "你確實珍惜她，但還沒有到戀愛腦的程度。";
+
+        tags = ["朋友關係", "情緒穩定", "低暈船"];
+
+        analysis = `
+        <b>直白版：</b><br>
+        你對她有好感、有信任、有共同回憶，
+        但目前還沒有強烈的佔有慾或戀愛期待。<br><br>
+
+        你比較像是：
+        <b>「這個朋友很難得，我想維持這段關係。」</b>
+        `;
+
+        warning = `
+        <b>⚠️ 不過：</b><br>
+        朋友關係也可能因為長期陪伴慢慢變質。
+        尤其是每天聊天、固定騎車、分享心事的情況。
+        `;
+
+        advice = `
+        <b>🧭 兄弟建議：</b><br>
+        不需要刻意發展，也不用刻意逃避。<br>
+        保持自己的生活圈，不要讓全部情緒需求都集中在一個女生身上。<br><br>
+
+        <b>朋友能長久，反而是很難得的事情。</b>
+        `;
+    }
+
+    document.getElementById("resultEmoji").innerText = emoji;
+    document.getElementById("resultTitle").innerText = title;
+    document.getElementById("resultSubtitle").innerText = subtitle;
+
+    document.getElementById("tags").innerHTML =
+        tags.map(t => `<span class="tag">${t}</span>`).join("");
+
+    const scoreData = [
+        ["❤️ 愛情心動", love],
+        ["🛵 陪伴依賴", depend],
+        ["🥹 被需要感", need],
+        ["💭 曖昧期待", expect],
+        ["🩹 過去陰影", shadow],
+        ["⚠️ 越界風險", risk]
+    ];
+
+    document.getElementById("scores").innerHTML =
+        scoreData.map(x => `
+            <div class="score-box">
+                <div class="score-label">
+                    <span>${x[0]}</span>
+                    <b>${x[1]}%</b>
+                </div>
+                <div class="score-track">
+                    <div class="score-fill" style="width:${x[1]}%"></div>
+                </div>
+            </div>
+        `).join("");
+
+    document.getElementById("mainAnalysis").innerHTML = analysis;
+    document.getElementById("warningBox").innerHTML = warning;
+    document.getElementById("adviceBox").innerHTML = advice;
+
+    window.finalResult = `${title}\n${subtitle}\n\n${analysis.replace(/<[^>]+>/g,"")}\n\n${advice.replace(/<[^>]+>/g,"")}`;
+}
+
+function copyResult() {
+
+    navigator.clipboard.writeText(window.finalResult)
+        .then(() => {
+            alert("結果已複製！可以貼到群組接受兄弟審判 😂");
+        })
+        .catch(() => {
+            alert("複製失敗，請手動截圖分享！");
+        });
+}
+
+</script>
+
+</body>
+</html>
