@@ -1,133 +1,158 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<meta name="theme-color" content="#fff8ef" />
-<title>今天要吃什麼？｜可愛選擇器</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#fff8ef">
+<meta name="application-name" content="推薦我要吃什麼的">
+<meta name="version" content="V1.0.2">
+<title>推薦我要吃什麼的｜選擇困難症救援中心</title>
 <style>
-  :root{
-    --bg:#fff8ef;
-    --card:#fffdf9;
-    --ink:#332e2a;
-    --muted:#8d8177;
-    --accent:#ff8fa3;
-    --accent2:#ffcc7a;
-    --accent3:#9ed8c5;
-    --line:#f0dfcf;
-    --shadow:0 10px 30px rgba(109,77,44,.10);
-    --radius:24px;
-  }
-  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-  html{scroll-behavior:smooth}
-  body{
-    margin:0; font-family:system-ui,-apple-system,BlinkMacSystemFont,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
-    background:linear-gradient(180deg,#fffaf3 0%,#fff7ee 48%,#fffdf9 100%); color:var(--ink); min-height:100vh;
-  }
-  button{font:inherit}
-  .wrap{width:min(680px,100%);margin:0 auto;padding:18px 16px 32px}
-  .hero{padding:8px 4px 18px;text-align:center;position:relative}
-  .spark{position:absolute;font-size:18px;animation:float 3s ease-in-out infinite}
-  .spark.s1{left:8%;top:16px}.spark.s2{right:10%;top:42px;animation-delay:.8s}.spark.s3{left:17%;bottom:8px;animation-delay:1.4s}
-  .eyebrow{display:inline-flex;gap:7px;align-items:center;padding:7px 12px;border:1px solid var(--line);border-radius:999px;background:#fff;box-shadow:0 5px 14px rgba(90,60,30,.05);font-size:12px;color:#806f63}
-  h1{font-size:34px;line-height:1.1;margin:13px 0 7px;letter-spacing:-1.2px}
-  .subtitle{font-size:14px;color:var(--muted);margin:0 auto;max-width:420px;line-height:1.7}
-  .tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;background:#f7ecdf;border:1px solid var(--line);padding:5px;border-radius:18px;position:sticky;top:10px;z-index:10;backdrop-filter:blur(10px)}
-  .tab{border:0;background:transparent;color:#8d7d70;padding:12px 8px;border-radius:14px;font-weight:800;cursor:pointer;transition:.25s}
-  .tab.active{background:#fff;box-shadow:0 5px 16px rgba(91,61,35,.08);color:var(--ink)}
-  .panel{display:none;animation:fade .35s ease}.panel.active{display:block}
-  .card{background:rgba(255,253,249,.92);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;margin-top:14px}
-  .section-title{font-size:18px;font-weight:900;margin:0 0 5px}.section-desc{font-size:13px;color:var(--muted);line-height:1.6;margin:0 0 16px}
-
-  /* Decision tree */
-  .progress{height:8px;background:#f5e7d9;border-radius:999px;overflow:hidden;margin:10px 0 17px}.progress > i{display:block;height:100%;width:20%;background:linear-gradient(90deg,var(--accent),#ffb36e);border-radius:999px;transition:.35s}
-  .round{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.round-badge{font-size:12px;font-weight:900;color:#b76376;background:#fff0f3;border-radius:999px;padding:7px 10px}.round-tip{font-size:12px;color:var(--muted)}
-  .question{font-size:23px;font-weight:950;line-height:1.35;text-align:center;margin:10px 8px 18px;letter-spacing:-.5px}
-  .choices{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  .choice{border:1px solid var(--line);background:#fff;border-radius:20px;padding:19px 12px;cursor:pointer;min-height:116px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;transition:transform .18s,box-shadow .18s,border-color .18s;background-image:radial-gradient(circle at 20% 0%,#fff8e8 0,transparent 38%)}
-  .choice:active{transform:scale(.97)}.choice:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(95,62,36,.09);border-color:#ecc8ae}
-  .choice .emoji{font-size:34px}.choice strong{font-size:16px}.choice small{font-size:11px;color:var(--muted)}
-  .tiny-row{display:flex;justify-content:center;gap:7px;margin-top:14px}.dot{width:7px;height:7px;border-radius:99px;background:#ecdccf}.dot.on{background:var(--accent)}
-  .result{display:none;text-align:center}.result.show{display:block;animation:pop .45s ease}.result .food-emoji{font-size:70px;line-height:1;margin:4px 0 8px}.result h2{font-size:27px;margin:0}.result .reason{font-size:13px;color:var(--muted);line-height:1.7;margin:9px auto 15px;max-width:440px}
-  .tagline{display:inline-flex;gap:6px;background:#f3f9f5;color:#5e8574;border-radius:999px;padding:8px 11px;font-size:12px;font-weight:800;margin-bottom:15px}
-  .cta-row{display:flex;gap:9px;justify-content:center;flex-wrap:wrap}.btn{border:0;border-radius:16px;padding:12px 16px;font-weight:900;cursor:pointer}.btn.primary{background:#ff9caf;color:#fff;box-shadow:0 8px 18px rgba(255,143,163,.25)}.btn.secondary{background:#f7eee6;color:#6f6157}
-
-  /* Wheel */
-  .wheel-wrap{position:relative;width:min(330px,86vw);margin:18px auto 10px;aspect-ratio:1}
-  #wheel{width:100%;height:100%;display:block;filter:drop-shadow(0 13px 17px rgba(80,51,25,.12));transition:transform 4s cubic-bezier(.14,.75,.18,1)}
-  .pointer{position:absolute;left:50%;top:-4px;transform:translateX(-50%);z-index:2;width:0;height:0;border-left:14px solid transparent;border-right:14px solid transparent;border-top:28px solid #4b4039;filter:drop-shadow(0 3px 3px rgba(0,0,0,.12))}
-  .hub{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:62px;height:62px;border-radius:50%;background:#fff;border:7px solid #ffe0bf;display:grid;place-items:center;font-size:25px;box-shadow:0 6px 12px rgba(80,51,25,.12);z-index:2}
-  .spin-btn{display:block;margin:2px auto 10px;width:min(260px,80%);border:0;border-radius:18px;padding:15px;background:linear-gradient(135deg,#ff99ad,#ffbe83);color:#fff;font-weight:950;font-size:17px;box-shadow:0 12px 24px rgba(255,144,158,.24);cursor:pointer}.spin-btn:disabled{opacity:.55;cursor:not-allowed}
-  .wheel-hint{text-align:center;color:var(--muted);font-size:12px;margin:8px 0 0}
-  .wheel-result{display:none;text-align:center;padding-top:6px}.wheel-result.show{display:block;animation:pop .45s ease}.picked{display:inline-flex;align-items:center;gap:9px;background:#fff4df;border:1px solid #f0d7ad;border-radius:999px;padding:9px 13px;font-weight:900}.picked b{font-size:23px}
-  .food-list{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin-top:15px}.food-chip{font-size:11px;color:#776b61;background:#faf4ed;border:1px solid #efe3d7;padding:6px 8px;border-radius:999px}
-
-  .footer{padding:22px 5px 0;text-align:center;color:#9a8d82;font-size:11px;line-height:1.7}.footer strong{color:#76675c}
-  .reset-link{background:none;border:0;color:#a07262;text-decoration:underline;cursor:pointer;font-size:12px;padding:5px}
-  @keyframes float{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-7px) rotate(5deg)}}
-  @keyframes fade{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
-  @keyframes pop{0%{opacity:0;transform:scale(.92)}100%{opacity:1;transform:scale(1)}}
-  @media (max-width:390px){h1{font-size:29px}.question{font-size:21px}.choice{min-height:106px}.card{padding:15px}}
+:root{
+  --bg:#fff8ef;--card:#fffdf9;--ink:#342e2a;--muted:#8c8076;--line:#efdfd0;
+  --pink:#ff91a6;--orange:#ffb66f;--mint:#a9dec9;--yellow:#ffe6a9;--shadow:0 12px 30px rgba(88,58,34,.09);
+  --r:24px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{margin:0;min-height:100vh;background:linear-gradient(180deg,#fffaf4,#fff7ee 45%,#fffdf9);color:var(--ink);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif}
+button{font:inherit}
+button{touch-action:manipulation}
+button:focus-visible{outline:3px solid #ffcb84;outline-offset:2px}
+.wrap{width:min(700px,100%);margin:auto;padding:14px 14px calc(34px + env(safe-area-inset-bottom))}
+.hero{text-align:center;padding:10px 6px 16px;position:relative}
+.float{position:absolute;font-size:19px;animation:float 3.4s ease-in-out infinite}
+.f1{left:7%;top:22px}.f2{right:8%;top:42px;animation-delay:.8s}.f3{left:17%;bottom:8px;animation-delay:1.5s}.f4{right:18%;bottom:2px;animation-delay:2s}
+.eyebrow{display:inline-flex;align-items:center;gap:6px;padding:7px 11px;border:1px solid var(--line);background:#fff;border-radius:999px;color:#7e7167;font-size:12px;box-shadow:0 5px 12px rgba(85,58,36,.04)}
+h1{font-size:32px;line-height:1.1;letter-spacing:-1.2px;margin:13px 0 7px}
+.sub{margin:0 auto;max-width:480px;color:var(--muted);font-size:14px;line-height:1.75}
+.tabs{position:sticky;top:8px;z-index:30;display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:5px;border:1px solid var(--line);background:rgba(248,238,226,.9);backdrop-filter:blur(12px);border-radius:18px;margin-bottom:10px}
+.tab{border:0;background:transparent;color:#85766b;font-weight:900;border-radius:13px;padding:11px 7px;cursor:pointer;transition:.2s;min-height:45px}
+.tab.active{background:#fff;box-shadow:0 5px 15px rgba(90,63,39,.08);color:var(--ink)}
+.panel{display:none;animation:fade .3s ease}.panel.active{display:block}
+.card{margin-top:12px;background:rgba(255,253,249,.95);border:1px solid var(--line);border-radius:var(--r);padding:17px;box-shadow:var(--shadow)}
+.card-title{font-size:18px;font-weight:950;margin:0 0 4px}.desc{font-size:13px;color:var(--muted);line-height:1.65;margin:0 0 14px}
+/* decision tree */
+.meta{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}.badge{font-size:12px;font-weight:900;color:#b96477;background:#fff0f3;border-radius:999px;padding:7px 10px}.hint{font-size:12px;color:var(--muted)}
+.progress{height:8px;background:#f3e7dc;border-radius:999px;overflow:hidden;margin:7px 0 17px}.progress i{display:block;height:100%;width:20%;background:linear-gradient(90deg,var(--pink),var(--orange));border-radius:999px;transition:.3s}
+.question{font-size:22px;font-weight:950;line-height:1.4;text-align:center;margin:5px 5px 17px}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:10px}.choice{border:1px solid var(--line);background:#fff;border-radius:20px;min-height:118px;padding:14px 10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;cursor:pointer;transition:.18s;box-shadow:0 4px 9px rgba(84,56,35,.03)}.choice:active{transform:scale(.97)}.choice:hover{transform:translateY(-2px);box-shadow:0 10px 20px rgba(84,56,35,.09);border-color:#ebc5ae}.choice .emoji{font-size:34px}.choice strong{font-size:16px}.choice small{font-size:11px;color:var(--muted);text-align:center}
+.dots{display:flex;justify-content:center;gap:7px;margin-top:13px}.dot{width:7px;height:7px;border-radius:50%;background:#eadbcd}.dot.on{background:var(--pink)}
+.result{text-align:center;display:none}.result.show{display:block;animation:pop .38s ease}.result .big{font-size:67px;line-height:1;margin:4px 0 7px}.result h2{margin:0;font-size:28px}.reason{margin:9px auto 14px;max-width:470px;color:var(--muted);font-size:13px;line-height:1.7}.tag{display:inline-flex;background:#f1f8f4;color:#5c8272;border-radius:999px;padding:7px 10px;font-size:12px;font-weight:900}.actions{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}.btn{border:0;border-radius:16px;padding:12px 15px;font-weight:950;cursor:pointer}.primary{background:linear-gradient(135deg,#ff92a6,#ffb478);color:#fff;box-shadow:0 10px 20px rgba(255,147,168,.23)}.secondary{background:#f7ede3;color:#6f6259}
+/* breakfast */
+.breakfast-intro{display:grid;grid-template-columns:1.05fr .95fr;gap:10px;margin-top:5px}.mini-card{padding:14px;border-radius:20px;border:1px solid var(--line);background:#fff}.mini-card strong{display:block;font-size:14px;margin-bottom:4px}.mini-card span{font-size:12px;color:var(--muted);line-height:1.55}
+.breakfast-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:13px}.b-item{border:1px solid var(--line);background:#fff;border-radius:20px;padding:13px;cursor:pointer;text-align:left;transition:.18s;min-height:108px}.b-item:active{transform:scale(.98)}.b-item:hover{transform:translateY(-2px);box-shadow:0 9px 18px rgba(85,58,36,.08)}.b-emoji{font-size:31px}.b-item strong{display:block;font-size:15px;margin-top:6px}.b-item small{display:block;color:var(--muted);font-size:11px;line-height:1.5;margin-top:3px}
+.breakfast-picked{display:none;margin-top:12px;padding:14px;background:#fff8e8;border:1px solid #f0ddb8;border-radius:18px;text-align:center}.breakfast-picked.show{display:block;animation:pop .3s}.breakfast-picked .bp-emoji{font-size:42px}.breakfast-picked strong{font-size:20px}.breakfast-controls{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}.control-pill{flex:1;min-width:130px;border:1px solid var(--line);background:#fff;border-radius:15px;padding:11px;font-weight:900;color:#65584f;cursor:pointer}
+/* wheel */
+.wheel-box{display:flex;flex-direction:column;align-items:center}.wheel-stage{position:relative;width:min(350px,88vw);aspect-ratio:1;margin:10px auto 7px}.wheel-stage canvas{width:100%;height:100%;display:block;filter:drop-shadow(0 14px 18px rgba(75,47,26,.13));will-change:transform}
+.pointer{position:absolute;z-index:3;left:50%;top:-1px;transform:translateX(-50%);width:0;height:0;border-left:15px solid transparent;border-right:15px solid transparent;border-top:30px solid #4c433e;filter:drop-shadow(0 4px 3px rgba(0,0,0,.12));pointer-events:none}
+.hub{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:65px;height:65px;border-radius:50%;background:#fff;border:7px solid #ffe1bc;display:grid;place-items:center;font-size:25px;box-shadow:0 8px 14px rgba(80,51,25,.12);z-index:2;pointer-events:none}
+.spin{width:min(285px,88%);border:0;border-radius:18px;padding:15px;background:linear-gradient(135deg,#ff94aa,#ffb879);color:#fff;font-weight:950;font-size:17px;box-shadow:0 12px 24px rgba(255,145,166,.24);cursor:pointer}.spin:disabled{opacity:.55}
+.wheel-tools{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%;margin-top:10px}.tool{border:1px solid var(--line);background:#fff;border-radius:15px;padding:10px;font-weight:900;color:#65584f;cursor:pointer}.tool:disabled{opacity:.45}
+.wheel-msg{text-align:center;min-height:22px;margin:9px 0 0;color:var(--muted);font-size:12px}.picked{display:none;margin-top:11px;border:1px solid #efd9b2;background:#fff5df;border-radius:18px;padding:12px;text-align:center}.picked.show{display:block;animation:pop .35s}.picked .pemoji{font-size:34px}.picked strong{font-size:21px;margin-left:5px}
+.food-list{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin-top:14px}.chip{padding:6px 8px;background:#faf2e9;border:1px solid #ecdfd2;border-radius:999px;color:#786b61;font-size:11px}
+.footer{text-align:center;color:#988c81;font-size:11px;line-height:1.7;padding:20px 6px 0}.footer strong{color:#76665b}.reset{margin-top:4px;border:0;background:none;text-decoration:underline;color:#9b7465;padding:5px;cursor:pointer}
+.toast{position:fixed;left:50%;bottom:16px;transform:translate(-50%,20px);background:#3c3430;color:#fff;padding:10px 14px;border-radius:999px;font-size:12px;font-weight:900;opacity:0;pointer-events:none;transition:.25s;z-index:100}.toast.show{opacity:1;transform:translate(-50%,0)}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-8px) rotate(5deg)}}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}@keyframes pop{0%{opacity:0;transform:scale(.93)}100%{opacity:1;transform:scale(1)}}
+@media(max-width:420px){h1{font-size:29px}.tabs{grid-template-columns:1fr 1fr 1fr}.tab{font-size:12px;padding:10px 4px}.question{font-size:21px}.choice{min-height:108px}.breakfast-intro{grid-template-columns:1fr}.breakfast-grid{gap:8px}.card{padding:15px}.wheel-stage{width:min(330px,89vw)}}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header class="hero">
-    <span class="spark s1">🍡</span><span class="spark s2">✨</span><span class="spark s3">🥢</span>
-    <div class="eyebrow">🍴 今日份選擇障礙處理中心</div>
-    <h1>今天到底要吃什麼？</h1>
-    <p class="subtitle">不用想太久。讓我幫你從「你的心情」一路選到「你的晚餐」。</p>
+    <span class="float f1">🍡</span><span class="float f2">✨</span><span class="float f3">🥢</span><span class="float f4">💭</span>
+    <div class="eyebrow">🍴 選擇困難症救援中心</div>
+    <h1>推薦我要吃什麼的</h1>
+    <p class="sub">今天不用想太久。你只要按幾下，剩下的交給我。<br>「都可以」不是答案，讓我們把它變成一個答案。😌</p>
   </header>
 
-  <nav class="tabs" aria-label="模式切換">
-    <button class="tab active" data-tab="tree">🌱 五關決策樹</button>
+  <nav class="tabs" aria-label="吃什麼模式">
+    <button class="tab active" data-tab="tree">🌱 五關決策</button>
+    <button class="tab" data-tab="breakfast">🌞 早餐模式</button>
     <button class="tab" data-tab="wheel">🎡 命運轉盤</button>
   </nav>
 
-  <section id="tree" class="panel active">
+  <section class="panel active" id="tree">
     <div class="card">
-      <div class="round"><span class="round-badge" id="roundBadge">第 1 關／共 5 關</span><span class="round-tip">越直覺，答案越準 😎</span></div>
+      <div class="meta"><span class="badge" id="roundBadge">第 1 關／共 5 關</span><span class="hint" id="roundHint">先憑直覺就好</span></div>
       <div class="progress"><i id="progressBar"></i></div>
-      <div id="questionView">
+      <div id="treeQuestionView">
         <div class="question" id="question"></div>
         <div class="choices" id="choices"></div>
-        <div class="tiny-row" id="dots"></div>
+        <div class="dots" id="dots"></div>
       </div>
       <div class="result" id="treeResult">
-        <div class="tagline" id="resultTag">🎯 今日命中你的胃</div>
-        <div class="food-emoji" id="resultEmoji">🍜</div>
-        <h2 id="resultFood">滷肉飯</h2>
-        <p class="reason" id="resultReason"></p>
-        <div class="cta-row"><button class="btn primary" id="againBtn">再算一次 🔄</button><button class="btn secondary" id="jumpWheel">不服？轉盤決勝 🎡</button></div>
+        <div class="tag">🎯 今日命中你的胃</div>
+        <div class="big" id="treeEmoji">🍚</div>
+        <h2 id="treeFood">滷肉飯</h2>
+        <p class="reason" id="treeReason"></p>
+        <div class="actions">
+          <button class="btn primary" id="againBtn">再算一次 🔄</button>
+          <button class="btn secondary" id="treeWheelBtn">我還是不敢決定 🎡</button>
+        </div>
       </div>
+    </div>
+    <div class="card">
+      <h2 class="card-title">🧠 給選擇困難症的小提示</h2>
+      <p class="desc" style="margin-bottom:0">真正難選的時候，不要比較「哪個最好」，改成比較「現在的我比較想要哪個」。這個頁面故意把問題切小，讓你不用一次想完整頓飯。</p>
     </div>
   </section>
 
-  <section id="wheel" class="panel">
+  <section class="panel" id="breakfast">
     <div class="card">
-      <h2 class="section-title">🎡 命運轉盤</h2>
-      <p class="section-desc">把「都可以」交給命運。這裡放了台北街頭常見、下班後相對好取得的平民美食。</p>
-      <div class="wheel-wrap">
-        <canvas id="wheelCanvas" width="700" height="700" aria-label="美食轉盤"></canvas>
-        <div class="pointer"></div><div class="hub">🍴</div>
+      <h2 class="card-title">🌞 台灣早餐救援區</h2>
+      <p class="desc">早上腦袋還沒開機？這裡準備 12 個很常見的早餐選擇。點一下就幫你決定，不需要再思考。</p>
+      <div class="breakfast-intro">
+        <div class="mini-card"><strong>😵 不知道吃什麼</strong><span>先按「幫我選」讓系統替你排除選項。</span></div>
+        <div class="mini-card"><strong>💰 想省一點</strong><span>蛋餅、吐司、飯糰、蘿蔔糕都是安全牌。</span></div>
       </div>
-      <button class="spin-btn" id="spinBtn">開始轉！今天吃這個 🎉</button>
-      <p class="wheel-hint">小技巧：先深呼吸，再按下去。禁止反悔 10 秒 🤭</p>
-      <div class="wheel-result" id="wheelResult"><div class="picked"><b id="pickedEmoji">🍜</b><span>命運指定：<span id="pickedFood">滷肉飯</span></span></div></div>
+      <div class="breakfast-controls">
+        <button class="control-pill" id="breakfastPick">🎲 幫我選早餐</button>
+        <button class="control-pill" id="breakfastReset">↩️ 全部重新來</button>
+      </div>
+      <div class="breakfast-grid" id="breakfastGrid"></div>
+      <div class="breakfast-picked" id="breakfastPicked"><div class="bp-emoji" id="bpEmoji">🥚</div><strong id="bpFood">蛋餅</strong><div style="color:var(--muted);font-size:12px;margin-top:4px" id="bpReason">今天就吃它，早餐不需要做太多決策。</div></div>
+    </div>
+  </section>
+
+  <section class="panel" id="wheel">
+    <div class="card">
+      <h2 class="card-title">🎡 不要想了，讓命運決定</h2>
+      <p class="desc">轉盤本身就是答案。你不必控制結果，只需要按一下。每次旋轉都會重新抽籤，並且確實停在抽到的食物上。</p>
+      <div class="wheel-box">
+        <div class="wheel-stage">
+          <canvas id="wheelCanvas" width="900" height="900" aria-label="美食命運轉盤"></canvas>
+          <div class="pointer"></div>
+          <div class="hub">🍴</div>
+        </div>
+        <button class="spin" id="spinBtn">🎉 開始轉！今天吃這個</button>
+        <div class="wheel-tools">
+          <button class="tool" id="rerollBtn" disabled>🔁 不服，再抽一次</button>
+          <button class="tool" id="removeBtn" disabled>🚫 今天先不要它</button>
+        </div>
+        <div class="wheel-msg" id="wheelMsg">可以放心按，轉盤不會卡住。</div>
+        <div class="picked" id="picked"><span class="pemoji" id="pickedEmoji">🍚</span> <strong id="pickedFood">滷肉飯</strong><div style="font-size:12px;color:var(--muted);margin-top:4px">命運已經幫你選好了。今天不要再想了 😎</div></div>
+      </div>
       <div class="food-list" id="foodList"></div>
     </div>
   </section>
 
   <footer class="footer">
-    <div>Made with 🍚 + ☕ + 一點選擇困難</div>
+    <div>Made with 🍚 + ☕ + 一點「到底要吃什麼啦」</div>
     <div><strong>作者：睡覺的紅豬</strong> ｜ 製作工具：ChatGPT（GPT-5.6 Luna）＋ HTML / CSS / JavaScript</div>
-    <button class="reset-link" id="resetAll">把一切恢復原廠設定</button>
+    <div style="margin-top:2px">版本：V1.0.2</div>
+    <button class="reset" id="resetAll">把所有選擇恢復原廠設定</button>
   </footer>
 </div>
+<div class="toast" id="toast"></div>
 
 <script>
 (() => {
-  const foods = [
+  const $ = id => document.getElementById(id);
+  const showToast = (msg) => { const t=$('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(showToast.timer); showToast.timer=setTimeout(()=>t.classList.remove('show'),1800); };
+
+  const dinnerFoods = [
     {name:'滷肉飯',emoji:'🍚'},{name:'雞排',emoji:'🍗'},{name:'牛肉麵',emoji:'🍜'},{name:'鍋燒麵',emoji:'🍲'},
     {name:'鹽酥雞',emoji:'🍟'},{name:'蚵仔煎',emoji:'🦪'},{name:'臭豆腐',emoji:'🧈'},{name:'水餃',emoji:'🥟'},
     {name:'牛肉湯',emoji:'🥣'},{name:'排骨飯',emoji:'🍖'},{name:'炒飯',emoji:'🍳'},{name:'炒麵',emoji:'🍝'},
@@ -135,111 +160,113 @@
     {name:'日式拉麵',emoji:'🍜'},{name:'韓式拌飯',emoji:'🍚'},{name:'蔥抓餅',emoji:'🥞'},{name:'胡椒餅',emoji:'🥯'}
   ];
 
-  const decisionTree = [
-    {q:'現在的你，比較想要哪一種療癒？',opts:[['🍚','飽到心情好','想吃正餐、來點踏實的'],['🍟','爽到就對了','想吃香、脆、濃郁或邪惡一點的']]},
-    {q:'你今晚的飢餓值大概幾分？',opts:[['🐣','5～7 分','正常餓，吃剛剛好'],['🐯','8～10 分','我可以吞下一頭牛！']]},
-    {q:'你願意為今晚花多少？',opts:[['💰','平價派','100～180 元最舒服'],['💎','犒賞派','今天多花一點也可以']]},
-    {q:'吃東西時，你現在想要哪個感覺？',opts:[['🥢','慢慢吃','坐下來好好吃一餐'],['🏃','快速解決','外帶、邊走邊吃也 OK']]},
-    {q:'最後一題：現在最想要哪一派？',opts:[['🌶️','重口味','我要香、辣、鹹、過癮！'],['🌿','舒服派','清爽、溫暖、順口就好']]}
+  const breakfastFoods = [
+    {name:'蛋餅',emoji:'🥚',reason:'鹹香又方便，早上不知道吃什麼的第一安全牌。'},
+    {name:'飯糰',emoji:'🍙',reason:'想要比較有飽足感，飯糰很穩。'},
+    {name:'蘿蔔糕',emoji:'🧇',reason:'外酥內軟，配蛋或醬油膏都很對味。'},
+    {name:'火腿蛋吐司',emoji:'🥪',reason:'熟悉、快速、幾乎不會踩雷。'},
+    {name:'鐵板麵',emoji:'🍝',reason:'今天早上想吃一份有份量的，那就來盤鐵板麵。'},
+    {name:'燒餅油條',emoji:'🥖',reason:'中式早餐經典組合，酥脆系就是香。'},
+    {name:'漢堡蛋',emoji:'🍔',reason:'想吃鹹香又快速，漢堡蛋直接解決。'},
+    {name:'三明治',emoji:'🥪',reason:'比較清爽、邊走邊吃也方便。'},
+    {name:'蛋餅加起司',emoji:'🧀',reason:'普通蛋餅不夠療癒？加起司就對了。'},
+    {name:'蘿蔔糕加蛋',emoji:'🍳',reason:'想吃點熱呼呼、又要有蛋香的時候很適合。'},
+    {name:'豆漿＋油條',emoji:'🥛',reason:'經典早餐組合，想吃簡單就選它。'},
+    {name:'粥品',emoji:'🥣',reason:'今天只想溫柔對待胃，就讓一碗粥收服你。'}
   ];
 
-  const outcomeMap = {
-    '00000':['雞肉飯','🍗','今天適合一份平價又有安全感的主食：雞肉飯。'],
-    '00001':['牛肉麵','🍜','有餓、有預算，而且想舒服地吃一碗，熱湯派勝出。'],
-    '00010':['排骨飯','🍖','踏實、飽足、CP 值在線，今天就是便當系答案。'],
-    '00011':['滷肉飯','🍚','不用想太多，滷肉飯就是「今天先好好吃飯」的代表。'],
-    '00100':['燒臘飯','🍱','今天值得升級一下，燒臘飯是平價犒賞系的穩牌。'],
-    '00101':['日式拉麵','🍜','想獎勵自己又不想太浮誇？熱呼呼的一碗剛剛好。'],
-    '00110':['咖哩飯','🍛','香濃、滿足、吃完有被安慰到的感覺。'],
-    '00111':['韓式拌飯','🍚','想吃得有變化又要夠爽，這題交給韓式拌飯。'],
-    '01000':['鍋燒麵','🍲','餓但想舒服吃，鍋燒麵的熱呼呼是今晚的答案。'],
-    '01001':['牛肉湯','🥣','大餓模式啟動，來碗牛肉湯補充幸福值。'],
-    '01010':['炒飯','🍳','便宜、快、飽，餓到發抖就先吃炒飯。'],
-    '01011':['牛肉麵','🍜','又餓又想坐下來好好吃，牛肉麵勝率超高。'],
-    '01100':['排骨飯','🍖','平價中的豪華感，今天就讓排骨補一下士氣。'],
-    '01101':['雞排','🍗','高飢餓＋想快速解決：大雞排出場！'],
-    '01110':['燒臘飯','🍱','餓到 8 分以上，就該拿一盒紮實的燒臘飯。'],
-    '01111':['鹽酥雞','🍟','今天就是想爽一波，鹽酥雞懂你的胃。'],
-    '10000':['蔥抓餅','🥞','想吃香香脆脆又不用坐太久，蔥抓餅很可以。'],
-    '10001':['胡椒餅','🥯','外帶方便、熱熱吃超香，今晚走街頭美食路線。'],
-    '10010':['水餃','🥟','簡單、好吃、份量好掌握，水餃是選擇困難的安全牌。'],
-    '10011':['鍋燒麵','🍲','想吃舒服熱食又快速，鍋燒麵給你一個溫暖收尾。'],
-    '10100':['蚵仔煎','🦪','今天想來點台味又有夜市感，蚵仔煎很適合。'],
-    '10101':['臭豆腐','🧈','想要強烈存在感？臭豆腐直接把「過癮」拉滿。'],
-    '10110':['炒麵','🍝','快速、香、飽，逛街走累了就吃這個。'],
-    '10111':['雞排','🍗','今晚拒絕清淡，雞排就是最直接的幸福。'],
-    '11000':['水餃','🥟','小吃派、坐下來慢慢吃，水餃好取得又很穩。'],
-    '11001':['牛肉麵','🍜','今天需要一點熱湯與麵的安慰，牛肉麵來了。'],
-    '11010':['咖哩飯','🍛','香濃系療癒擔當，吃一口就比較不想生氣了。'],
-    '11011':['日式拉麵','🍜','值得犒賞一下自己，就用一碗拉麵收工。'],
-    '11100':['鹽酥雞','🍟','重口味＋快速解決＝鹽酥雞，公式很漂亮。'],
-    '11101':['雞排','🍗','今天不需要大道理，需要的是一塊脆脆的雞排。'],
-    '11110':['臭豆腐','🧈','重口味想吃得有個性，臭豆腐直接過關。'],
-    '11111':['蚵仔煎','🦪','夜市靈魂上線，台味、香氣與罪惡感一次到位。']
-  };
-
-  // Tabs
-  document.querySelectorAll('.tab').forEach(btn => btn.addEventListener('click', () => {
+  // tabs
+  document.querySelectorAll('.tab').forEach(btn=>btn.addEventListener('click',()=>{
     document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
     document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
-    btn.classList.add('active'); document.getElementById(btn.dataset.tab).classList.add('active');
+    btn.classList.add('active'); $(btn.dataset.tab).classList.add('active');
     window.scrollTo({top:0,behavior:'smooth'});
   }));
 
-  // Decision tree
+  // decision tree - deliberately orthogonal: hunger / budget / dining style / flavour / mood
+  const rounds = [
+    {q:'現在的你，最重要的是哪件事？',hint:'先抓真正需求',opts:[['🍚','吃飽最重要','我要有飽足感'],['💥','爽最重要','我要被食物療癒']]},
+    {q:'你的飢餓程度？',hint:'感受一下你的胃',opts:[['🙂','普通餓','正常一餐就好'],['🐯','超級餓','我快可以吃兩份了']]},
+    {q:'今天錢包願意配合嗎？',hint:'先把預算壓力拿掉',opts:[['💰','平價就好','大約 100～180 元'],['💎','今天犒賞自己','多花一點沒關係']]},
+    {q:'你現在比較想怎麼吃？',hint:'符合今天的行程',opts:[['🪑','坐下來吃','好好吃一餐'],['🏃','快速解決','外帶也可以']]},
+    {q:'最後一票：口味走哪邊？',hint:'最後直覺選',opts:[['🌶️','香重口味','鹹香、濃郁、過癮'],['🌿','溫柔舒服','順口、熱呼呼、安心']]} 
+  ];
+  const outcomes = [
+    ['雞肉飯','🍗','平價、快速、又有飽足感，今天先把「吃飽」這件事做好。'],['牛肉麵','🍜','你今天需要的是坐下來好好吃，熱湯與麵的安慰很剛好。'],
+    ['排骨飯','🍖','你想吃一頓踏實的正餐，便當系的穩定感最適合。'],['滷肉飯','🍚','安全牌就是安全牌，香、飽、好取得，今天不用冒險。'],
+    ['燒臘飯','🍱','今天可以犒賞自己，但還是想要一份實在的主食。'],['日式拉麵','🍜','舒服地坐下來，再用熱呼呼的一碗把今天收尾。'],
+    ['咖哩飯','🍛','香濃系療癒啟動，這就是今天的「想被照顧一下」。'],['韓式拌飯','🍚','想換點口味又要有飽足感，今天適合來一點變化。'],
+    ['鍋燒麵','🍲','想暖、想飽、又不想太複雜，鍋燒麵很懂你的胃。'],['牛肉湯','🥣','現在的你只想把飢餓快速消掉，一碗熱湯派勝出。'],
+    ['炒飯','🍳','超餓又想快速解決，炒飯就是穩定高勝率答案。'],['牛肉麵','🍜','又餓又想坐下來慢慢吃，牛肉麵直接過關。'],
+    ['排骨飯','🍖','平價裡面帶一點獎勵感，今天就用排骨提升士氣。'],['雞排','🍗','餓到高點又不想等太久，那就讓雞排直接接管今晚。'],
+    ['燒臘飯','🍱','餓到 8 分以上，來一盒紮實燒臘，結束選擇。'],['鹽酥雞','🍟','今天的需求很簡單：香、脆、爽。鹽酥雞懂。'],
+    ['蔥抓餅','🥞','想吃香香的又不用花太久時間，街頭小吃最剛好。'],['胡椒餅','🥯','外帶方便、熱熱吃超香，適合正在趕行程的你。'],
+    ['水餃','🥟','好取得、份量好控制、又不容易踩雷，選擇困難安全牌。'],['鍋燒麵','🍲','快速又溫暖，今天不需要更多人生難題了。'],
+    ['蚵仔煎','🦪','今天想要台味與夜市感，蚵仔煎很有「出門吃點東西」的感覺。'],['臭豆腐','🧈','想要強烈一點的存在感？那就直接把口味拉滿。'],
+    ['炒麵','🍝','快速、香、飽，走累了就用它結束今天的覓食。'],['雞排','🍗','今天不用大道理，只需要一塊脆脆的雞排。'],
+    ['水餃','🥟','坐下來慢慢吃也可以，簡單、實在、很穩。'],['牛肉麵','🍜','熱湯＋麵的組合，專門處理「我今天有點累」的情緒。'],
+    ['咖哩飯','🍛','香濃系的幸福感上線，吃完通常心情會好一點。'],['日式拉麵','🍜','既然今天都犒賞自己了，就好好吃一碗。'],
+    ['鹽酥雞','🍟','重口味＋快速解決，公式很漂亮。'],['雞排','🍗','不想再比較了，那就讓雞排成為最後一票。'],
+    ['臭豆腐','🧈','口味要有個性，那就勇敢一點。'],['蚵仔煎','🦪','台味、香氣、夜市感，一次打包完成。']
+  ];
   let round=0, answers=[];
-  const qEl=document.getElementById('question'), choicesEl=document.getElementById('choices'), dotsEl=document.getElementById('dots');
-  const resultEl=document.getElementById('treeResult'), progress=document.getElementById('progressBar');
-  function renderDecision(){
-    if(round>=decisionTree.length){ showTreeResult(); return; }
-    const item=decisionTree[round];
-    document.getElementById('roundBadge').textContent=`第 ${round+1} 關／共 5 關`;
-    document.querySelector('.round-tip').textContent = ['先憑直覺','感受一下你的胃','錢包 OK 嗎？','想坐下還是快吃？','最後一票！'][round];
-    progress.style.width=((round+1)/5*100)+'%'; qEl.textContent=item.q; choicesEl.innerHTML=''; dotsEl.innerHTML='';
-    for(let i=0;i<5;i++){const d=document.createElement('i');d.className='dot '+(i<=round?'on':'');dotsEl.appendChild(d)}
-    item.opts.forEach((o,idx)=>{const b=document.createElement('button');b.className='choice';b.innerHTML=`<span class="emoji">${o[0]}</span><strong>${o[1]}</strong><small>${o[2]}</small>`;b.onclick=()=>{answers.push(idx);round++;renderDecision()};choicesEl.appendChild(b)});
+  function renderTree(){
+    if(round===rounds.length){showTreeResult();return}
+    const r=rounds[round]; $('roundBadge').textContent=`第 ${round+1} 關／共 5 關`; $('roundHint').textContent=r.hint; $('progressBar').style.width=((round+1)/5*100)+'%'; $('question').textContent=r.q; $('choices').innerHTML=''; $('dots').innerHTML='';
+    for(let i=0;i<5;i++){const d=document.createElement('i');d.className='dot '+(i<=round?'on':'');$('dots').appendChild(d)}
+    r.opts.forEach((o,idx)=>{const b=document.createElement('button');b.className='choice';b.innerHTML=`<span class="emoji">${o[0]}</span><strong>${o[1]}</strong><small>${o[2]}</small>`;b.addEventListener('click',()=>{answers.push(idx);round++;renderTree();});$('choices').appendChild(b)})
   }
   function showTreeResult(){
-    document.getElementById('questionView').style.display='none'; resultEl.classList.add('show');
-    const key=answers.join(''); const fallback=['滷肉飯','🍚','這是綜合你的飢餓、預算與當下口味後的安全牌。'];
-    const r=outcomeMap[key]||fallback;
-    document.getElementById('resultEmoji').textContent=r[1]; document.getElementById('resultFood').textContent=r[0]; document.getElementById('resultReason').textContent=r[2];
-    progress.style.width='100%'; document.getElementById('roundBadge').textContent='🎉 五關完成';
+    $('treeQuestionView').style.display='none';$('treeResult').classList.add('show');$('progressBar').style.width='100%';$('roundBadge').textContent='🎉 五關完成';
+    // Hash the 5 decisions into 32 deterministic outcomes.
+    const idx=parseInt(answers.join(''),2); const r=outcomes[idx]||outcomes[3]; $('treeEmoji').textContent=r[1];$('treeFood').textContent=r[0];$('treeReason').textContent=r[2];
   }
-  document.getElementById('againBtn').onclick=()=>{round=0;answers=[];resultEl.classList.remove('show');document.getElementById('questionView').style.display='block';renderDecision();};
-  document.getElementById('jumpWheel').onclick=()=>document.querySelector('[data-tab="wheel"]').click();
-  renderDecision();
+  function resetTree(){round=0;answers=[];$('treeQuestionView').style.display='block';$('treeResult').classList.remove('show');renderTree()}
+  $('againBtn').addEventListener('click',resetTree);$('treeWheelBtn').addEventListener('click',()=>document.querySelector('[data-tab="wheel"]').click());renderTree();
 
-  // Wheel
-  const canvas=document.getElementById('wheelCanvas'),ctx=canvas.getContext('2d');
-  const N=foods.length, cx=350, cy=350, radius=333, slice=2*Math.PI/N;
+  // breakfast
+  const bGrid=$('breakfastGrid'); let breakfastPool=[...breakfastFoods];
+  breakfastFoods.forEach((f,i)=>{const b=document.createElement('button');b.className='b-item';b.innerHTML=`<div class="b-emoji">${f.emoji}</div><strong>${f.name}</strong><small>${f.reason}</small>`;b.dataset.i=i;b.addEventListener('click',()=>pickBreakfast(i));bGrid.appendChild(b)});
+  function pickBreakfast(i){const f=breakfastFoods[i];$('bpEmoji').textContent=f.emoji;$('bpFood').textContent=f.name;$('bpReason').textContent=f.reason;$('breakfastPicked').classList.add('show');window.setTimeout(()=>$('breakfastPicked').scrollIntoView({behavior:'smooth',block:'nearest'}),30)}
+  $('breakfastPick').addEventListener('click',()=>{if(!breakfastPool.length) breakfastPool=[...breakfastFoods];const index=Math.floor(Math.random()*breakfastPool.length);const f=breakfastPool.splice(index,1)[0];pickBreakfast(breakfastFoods.indexOf(f));showToast('🎯 今天早餐就決定它！')});
+  $('breakfastReset').addEventListener('click',()=>{breakfastPool=[...breakfastFoods];$('breakfastPicked').classList.remove('show');showToast('早餐選項已全部恢復')});
+
+  // wheel - requestAnimationFrame animation for reliable mobile behaviour
+  const canvas=$('wheelCanvas'),ctx=canvas.getContext('2d'),N=dinnerFoods.length,TAU=Math.PI*2,S=canvas.width/2,R=canvas.width*0.47, slice=TAU/N;
   const palette=['#FFD6A5','#FDFFB6','#CAFFBF','#9BF6FF','#A0C4FF','#BDB2FF','#FFC6FF','#FFADAD'];
   function drawWheel(){
-    ctx.clearRect(0,0,700,700);
+    ctx.clearRect(0,0,canvas.width,canvas.height);
     for(let i=0;i<N;i++){
-      const a0=-Math.PI/2+i*slice, a1=a0+slice;
-      ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,radius,a0,a1);ctx.closePath();ctx.fillStyle=palette[i%palette.length];ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=5;ctx.stroke();
-      ctx.save();ctx.translate(cx,cy);ctx.rotate(a0+slice/2);ctx.textAlign='right';ctx.fillStyle='#4b4039';ctx.font='bold 20px system-ui';ctx.fillText(foods[i].name,radius-23,7);ctx.restore();
+      const a0=-Math.PI/2+i*slice,a1=a0+slice;
+      ctx.beginPath();ctx.moveTo(S,S);ctx.arc(S,S,R,a0,a1);ctx.closePath();ctx.fillStyle=palette[i%palette.length];ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=5;ctx.stroke();
+      ctx.save();ctx.translate(S,S);ctx.rotate(a0+slice/2);ctx.textAlign='right';ctx.textBaseline='middle';ctx.fillStyle='#473e38';ctx.font='bold 22px system-ui,-apple-system,BlinkMacSystemFont,sans-serif';ctx.fillText(dinnerFoods[i].name,R-28,0);ctx.restore();
     }
-    ctx.beginPath();ctx.arc(cx,cy,radius,0,Math.PI*2);ctx.strokeStyle='#fff';ctx.lineWidth=8;ctx.stroke();
+    ctx.beginPath();ctx.arc(S,S,R,0,TAU);ctx.strokeStyle='#fff';ctx.lineWidth=9;ctx.stroke();
   }
   drawWheel();
-  const wheelEl=canvas;
-  let rotation=0,busy=false;
-  document.getElementById('spinBtn').onclick=()=>{
-    if(busy)return; busy=true; document.getElementById('spinBtn').disabled=true; document.getElementById('wheelResult').classList.remove('show');
-    const winner=Math.floor(Math.random()*N);
-    // Pointer is at top; make selected slice land under pointer.
-    const target = 360 - (winner*(360/N) + (360/N)/2);
-    rotation += 360*5 + target - ((rotation%360)+360)%360;
-    wheelEl.style.transform=`rotate(${rotation}deg)`;
-    setTimeout(()=>{
-      const f=foods[winner];document.getElementById('pickedEmoji').textContent=f.emoji;document.getElementById('pickedFood').textContent=f.name;document.getElementById('wheelResult').classList.add('show');busy=false;document.getElementById('spinBtn').disabled=false;
-    },4100);
-  };
-  const list=document.getElementById('foodList'); foods.forEach(f=>{const s=document.createElement('span');s.className='food-chip';s.textContent=f.emoji+' '+f.name;list.appendChild(s)});
+  let rotation=0,busy=false,lastWinner=-1,disabledFoods=new Set(),raf=0;
+  function normalizeDeg(d){d%=360;return d<0?d+360:d}
+  function easeOut(t){return 1-Math.pow(1-t,4)}
+  function animateTo(target,duration,done){const start=rotation,delta=target-start,t0=performance.now();function frame(now){const p=Math.min(1,(now-t0)/duration);rotation=start+delta*easeOut(p);canvas.style.transform=`rotate(${rotation}deg)`;if(p<1){raf=requestAnimationFrame(frame)}else{rotation=normalizeDeg(rotation);canvas.style.transform=`rotate(${rotation}deg)`;done()}}raf=requestAnimationFrame(frame)}
+  function availableIndices(){const a=[];for(let i=0;i<N;i++)if(!disabledFoods.has(i))a.push(i);return a}
+  function spin(){
+    if(busy)return;let available=availableIndices();if(!available.length){disabledFoods.clear();available=availableIndices();showToast('大家都被你禁吃光了 😂 已恢復全部選項');renderChips()}
+    busy=true;$('spinBtn').disabled=true;$('rerollBtn').disabled=true;$('removeBtn').disabled=true;$('picked').classList.remove('show');$('wheelMsg').textContent='轉轉轉……今天不用再想了 ✨';
+    let pool=available.filter(i=>i!==lastWinner);
+    if(!pool.length) pool=available;
+    const winner=pool[Math.floor(Math.random()*pool.length)];lastWinner=winner;
+    // Slice i starts at -90deg. Its center is -90 + (i+0.5)*slice. Rotate by -(i+0.5)*slice so center lands at top pointer.
+    const desired=-(winner+0.5)*(360/N); const current=normalizeDeg(rotation); let delta=desired-current; if(delta<0)delta+=360; const turns=5+Math.floor(Math.random()*2);
+    animateTo(rotation+turns*360+delta,4200,()=>{
+      const f=dinnerFoods[winner];$('pickedEmoji').textContent=f.emoji;$('pickedFood').textContent=f.name;$('picked').classList.add('show');$('wheelMsg').textContent=`命運停在「${f.name}」！可以反悔，也可以把它踢出今天的候選名單 😎`;$('spinBtn').disabled=false;$('rerollBtn').disabled=false;$('removeBtn').disabled=false;busy=false;
+    });
+  }
+  $('spinBtn').addEventListener('click',spin);$('rerollBtn').addEventListener('click',spin);
+  $('removeBtn').addEventListener('click',()=>{if(lastWinner<0||busy)return;disabledFoods.add(lastWinner);const f=dinnerFoods[lastWinner];$('picked').classList.remove('show');$('wheelMsg').textContent=`已把「${f.name}」放到今天的黑名單 🚫`;renderChips();spin()});
+  function renderChips(){const list=$('foodList');list.innerHTML='';dinnerFoods.forEach((f,i)=>{const s=document.createElement('span');s.className='chip';s.style.opacity=disabledFoods.has(i)?'.35':'1';s.textContent=(disabledFoods.has(i)?'🚫 ':'')+f.emoji+' '+f.name;list.appendChild(s)})}
+  renderChips();
 
-  document.getElementById('resetAll').onclick=()=>{localStorage.removeItem('eatChoiceData');round=0;answers=[];document.getElementById('treeResult').classList.remove('show');document.getElementById('questionView').style.display='block';renderDecision();rotation=0;wheelEl.style.transform='rotate(0deg)';document.getElementById('wheelResult').classList.remove('show');window.scrollTo({top:0,behavior:'smooth'});};
+  $('resetAll').addEventListener('click',()=>{resetTree();breakfastPool=[...breakfastFoods];$('breakfastPicked').classList.remove('show');disabledFoods.clear();lastWinner=-1;$('picked').classList.remove('show');$('wheelMsg').textContent='可以放心按，轉盤不會卡住。';cancelAnimationFrame(raf);rotation=0;canvas.style.transform='rotate(0deg)';renderChips();showToast('✨ 全部恢復原廠設定')});
 })();
 </script>
 </body>

@@ -2,42 +2,42 @@
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>今天吃什麼？美食終結選擇障礙</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>吃什麼選擇器 V1.0.2 - 拯救選擇困難症</title>
   <style>
     :root {
-      --bg-color: #FFF9F5;
+      --primary: #FF7B54;
+      --primary-light: #FFB26B;
+      --accent: #FFD56F;
+      --bg: #FFF9F4;
       --card-bg: #FFFFFF;
-      --primary: #FF8E72;
-      --primary-hover: #FF7555;
-      --secondary: #6BCB77;
-      --accent-yellow: #FFD93D;
-      --accent-blue: #4D96FF;
-      --text-main: #3E3E3E;
-      --text-muted: #8E8E8E;
-      --shadow: 0 10px 25px rgba(255, 142, 114, 0.15);
-      --radius: 24px;
+      --text: #2D3142;
+      --text-muted: #9098A9;
+      --border-radius: 24px;
+      --shadow: 0 12px 30px rgba(255, 123, 84, 0.12);
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", "PingFang TC", "Microsoft JhengHei", sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang TC", "Noto Sans TC", sans-serif;
       -webkit-tap-highlight-color: transparent;
+      user-select: none;
     }
 
     body {
-      background-color: var(--bg-color);
-      color: var(--text-main);
+      background-color: var(--bg);
+      color: var(--text);
       display: flex;
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
-      padding: 20px 16px;
+      padding: 16px 12px 32px 12px;
+      overflow-x: hidden;
     }
 
-    .container {
+    .app-container {
       width: 100%;
       max-width: 440px;
       display: flex;
@@ -45,443 +45,818 @@
       align-items: center;
     }
 
-    /* Header */
+    /* 頂部標題 */
     header {
       text-align: center;
-      margin-bottom: 20px;
+      margin: 10px 0 16px;
     }
-
-    .app-title {
-      font-size: 26px;
-      font-weight: 800;
+    .main-title {
+      font-size: 24px;
+      font-weight: 900;
       color: var(--primary);
-      letter-spacing: 1px;
+      letter-spacing: 0.5px;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 6px;
     }
-
-    .app-subtitle {
+    .sub-title {
       font-size: 13px;
       color: var(--text-muted);
       margin-top: 4px;
+      font-weight: 500;
     }
 
-    /* Tab Switcher */
-    .tab-bar {
-      display: flex;
-      background: #FFE8E0;
-      padding: 6px;
-      border-radius: 40px;
+    /* 三大功能分頁切換器 */
+    .nav-tabs {
       width: 100%;
-      margin-bottom: 20px;
-      position: relative;
+      background: #FFE8DF;
+      padding: 5px;
+      border-radius: 30px;
+      display: flex;
+      gap: 4px;
+      margin-bottom: 16px;
     }
-
-    .tab-btn {
+    .tab-item {
       flex: 1;
       border: none;
       background: transparent;
-      padding: 10px 16px;
-      font-size: 15px;
-      font-weight: 700;
-      color: #A06B5B;
-      border-radius: 30px;
+      padding: 10px 0;
+      font-size: 13.5px;
+      font-weight: 800;
+      color: #9E5B4B;
+      border-radius: 24px;
       cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: all 0.25s ease;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
     }
-
-    .tab-btn.active {
-      background: white;
+    .tab-item.active {
+      background: #FFFFFF;
       color: var(--primary);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.06);
       transform: scale(1.02);
     }
 
-    /* Content Area */
-    .view-content {
+    /* 核心卡片容器 */
+    .content-panel {
       width: 100%;
       background: var(--card-bg);
-      border-radius: var(--radius);
-      padding: 24px 20px;
+      border-radius: var(--border-radius);
+      padding: 22px 16px;
       box-shadow: var(--shadow);
       min-height: 480px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: space-between;
       position: relative;
-      overflow: hidden;
     }
 
     .hidden {
       display: none !important;
     }
 
-    /* ================= 決策樹樣式 ================= */
-    .tree-step-badge {
-      background: #FFF0EB;
-      color: var(--primary);
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 13px;
-      font-weight: 700;
-      margin-bottom: 12px;
-    }
-
-    .tree-question {
-      font-size: 20px;
-      font-weight: 800;
-      text-align: center;
-      margin-bottom: 24px;
-      line-height: 1.4;
-      min-height: 56px;
-      display: flex;
-      align-items: center;
-    }
-
-    .options-grid {
+    /* ================= 決策樹 (過五關) ================= */
+    .tree-box {
       width: 100%;
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      align-items: center;
+      flex-grow: 1;
+      justify-content: center;
+    }
+    .progress-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #FFF1EB;
+      color: var(--primary);
+      padding: 6px 14px;
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 14px;
+    }
+    .progress-dots {
+      display: flex;
+      gap: 4px;
+    }
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #FFCDBC;
+    }
+    .dot.active {
+      background: var(--primary);
+      width: 12px;
+      border-radius: 10px;
     }
 
-    .opt-card {
-      background: #FAFAFA;
-      border: 2px solid #F0F0F0;
+    .tree-q-title {
+      font-size: 19px;
+      font-weight: 900;
+      text-align: center;
+      margin-bottom: 20px;
+      min-height: 52px;
+      display: flex;
+      align-items: center;
+      color: #2D3142;
+    }
+
+    .tree-cards {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .choice-card {
+      background: #FFFDFB;
+      border: 2px solid #F3EDE8;
       border-radius: 18px;
-      padding: 18px 16px;
-      cursor: pointer;
+      padding: 16px;
       display: flex;
       align-items: center;
       gap: 14px;
-      transition: all 0.2s ease;
-      text-align: left;
+      cursor: pointer;
+      transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
     }
-
-    .opt-card:active {
+    .choice-card:active {
       transform: scale(0.97);
+      background: #FFF4EF;
       border-color: var(--primary);
-      background: #FFF5F2;
     }
-
-    .opt-icon {
+    .choice-icon {
       font-size: 32px;
-      background: white;
-      padding: 10px;
+      background: #FFF;
+      width: 52px;
+      height: 52px;
       border-radius: 14px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.04);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.03);
     }
-
-    .opt-text h4 {
+    .choice-info h4 {
       font-size: 16px;
-      font-weight: 700;
-      margin-bottom: 2px;
+      font-weight: 800;
+      margin-bottom: 3px;
+      color: #333;
     }
-
-    .opt-text p {
+    .choice-info p {
       font-size: 12px;
       color: var(--text-muted);
+      line-height: 1.3;
     }
 
-    /* 決策樹結果卡 */
-    .result-box {
+    .back-step-btn {
+      margin-top: 14px;
+      background: none;
+      border: none;
+      color: #B5B5B5;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 12px;
+    }
+    .back-step-btn:active {
+      color: var(--primary);
+    }
+
+    /* 結果展現卡 */
+    .result-view {
       text-align: center;
-      animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      padding: 10px 0;
+      animation: popIn 0.35s ease;
     }
-
-    .result-emoji {
-      font-size: 64px;
+    .result-badge {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--primary);
+      background: #FFF0EB;
+      padding: 5px 14px;
+      border-radius: 20px;
+      display: inline-block;
       margin-bottom: 12px;
+    }
+    .result-big-icon {
+      font-size: 72px;
+      margin-bottom: 8px;
       display: inline-block;
       animation: bounce 1.2s infinite;
     }
-
-    .result-tag {
-      color: var(--primary);
-      font-weight: 700;
-      font-size: 14px;
-      letter-spacing: 1px;
-    }
-
-    .result-title {
-      font-size: 28px;
+    .result-name {
+      font-size: 24px;
       font-weight: 900;
-      margin: 8px 0 12px 0;
-      color: var(--text-main);
+      margin-bottom: 10px;
     }
-
-    .result-desc {
+    .result-story {
       font-size: 14px;
       color: #666;
       line-height: 1.6;
-      margin-bottom: 24px;
+      margin-bottom: 22px;
       padding: 0 10px;
     }
 
-    .action-btn {
-      background: var(--primary);
-      color: white;
-      border: none;
-      padding: 12px 32px;
-      font-size: 15px;
-      font-weight: 700;
-      border-radius: 30px;
-      cursor: pointer;
-      box-shadow: 0 6px 16px rgba(255, 142, 114, 0.4);
-      transition: all 0.2s;
+    /* ================= 轉盤系統 ================= */
+    .wheel-container {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
-
-    .action-btn:active {
-      transform: scale(0.95);
-    }
-
-    /* ================= 轉盤樣式 ================= */
-    .wheel-wrapper {
+    .wheel-stage {
       position: relative;
       width: 290px;
       height: 290px;
-      margin-bottom: 20px;
+      margin: 10px 0 16px;
     }
 
-    canvas#wheelCanvas {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-    }
-
-    .wheel-pointer {
+    /* 指針 */
+    .wheel-indicator {
       position: absolute;
-      top: -12px;
+      top: -10px;
       left: 50%;
       transform: translateX(-50%);
       width: 0;
       height: 0;
-      border-left: 14px solid transparent;
-      border-right: 14px solid transparent;
+      border-left: 13px solid transparent;
+      border-right: 13px solid transparent;
       border-top: 24px solid #FF4757;
-      z-index: 10;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+      z-index: 20;
+      filter: drop-shadow(0 3px 4px rgba(0,0,0,0.25));
     }
 
-    .wheel-center-btn {
+    .wheel-disk {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+      transition: transform 4.5s cubic-bezier(0.12, 0.8, 0.15, 1);
+      will-change: transform;
+    }
+
+    /* 轉盤中央實體按鈕 */
+    .wheel-center-trigger {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 56px;
-      height: 56px;
-      background: white;
+      width: 60px;
+      height: 60px;
+      background: #FFFFFF;
       border-radius: 50%;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.2);
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      font-weight: 800;
-      font-size: 15px;
+      font-size: 14px;
+      font-weight: 900;
       color: var(--primary);
       cursor: pointer;
-      user-select: none;
-      z-index: 5;
+      z-index: 10;
+      border: 3px solid #FFF1EB;
+    }
+    .wheel-center-trigger:active {
+      transform: translate(-50%, -50%) scale(0.92);
     }
 
-    .wheel-center-btn:active {
-      transform: translate(-50%, -50%) scale(0.9);
-    }
-
-    .wheel-result-banner {
-      min-height: 48px;
+    .result-banner {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--primary);
+      min-height: 38px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 18px;
-      font-weight: 800;
-      color: var(--primary);
       text-align: center;
+      padding: 0 8px;
     }
 
-    /* Footer */
+    /* 排除特定品項標籤 (選擇困難者的刪除法) */
+    .filter-section {
+      width: 100%;
+      margin-top: 12px;
+      border-top: 1px dashed #EEDCD4;
+      padding-top: 12px;
+    }
+    .filter-header {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .tags-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      max-height: 85px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+    .food-tag {
+      font-size: 11.5px;
+      padding: 4px 8px;
+      background: #F3EDE8;
+      border-radius: 8px;
+      color: #666;
+      cursor: pointer;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .food-tag.disabled {
+      text-decoration: line-through;
+      background: #F8F8F8;
+      color: #C0C0C0;
+    }
+
+    /* 通用大按鈕 */
+    .primary-btn {
+      width: 100%;
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 14px 20px;
+      font-size: 16px;
+      font-weight: 800;
+      border-radius: 100px;
+      cursor: pointer;
+      box-shadow: 0 6px 16px rgba(255, 123, 84, 0.35);
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .primary-btn:active {
+      transform: scale(0.97);
+      box-shadow: 0 2px 8px rgba(255, 123, 84, 0.3);
+    }
+    .secondary-btn {
+      background: #FFF2ED;
+      color: var(--primary);
+      box-shadow: none;
+      margin-top: 8px;
+    }
+
+    /* 頁尾 */
     footer {
-      margin-top: 24px;
+      margin-top: 18px;
       text-align: center;
       font-size: 12px;
       color: var(--text-muted);
-      line-height: 1.8;
+      line-height: 1.6;
     }
-
-    .author-badge {
+    .author-tag {
       display: inline-block;
       background: #FFF;
-      padding: 4px 12px;
+      padding: 3px 12px;
       border-radius: 20px;
-      font-weight: 600;
-      color: #666;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+      font-weight: 700;
+      color: #555;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
       margin-bottom: 4px;
     }
 
     /* 動畫 */
     @keyframes popIn {
-      from { opacity: 0; transform: scale(0.8); }
+      from { opacity: 0; transform: scale(0.88); }
       to { opacity: 1; transform: scale(1); }
     }
-
     @keyframes bounce {
       0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
+      50% { transform: translateY(-7px); }
     }
   </style>
 </head>
 <body>
 
-<div class="container">
+<div class="app-container">
   <header>
-    <div class="app-title">🍽️ 今天吃什麼？</div>
-    <div class="app-subtitle">擺脫選擇障礙・專治「隨便都可以」</div>
+    <div class="main-title">🍜 今天到底要吃什麼？</div>
+    <div class="sub-title">選擇障礙終結者・專治「我都好、都可以」 | V1.0.2</div>
   </header>
 
-  <div class="tab-bar">
-    <button class="tab-btn active" id="tabTree" onclick="switchMode('tree')">🌿 五關靈魂抉擇</button>
-    <button class="tab-btn" id="tabWheel" onclick="switchMode('wheel')">🎡 台北街頭轉盤</button>
+  <div class="nav-tabs">
+    <button class="tab-item active" onclick="setAppTab('tree')">🌿 5步決策</button>
+    <button class="tab-item" onclick="setAppTab('dinner_wheel')">🏮 街頭美食 (20)</button>
+    <button class="tab-item" onclick="setAppTab('breakfast_wheel')">🍳 晨光早餐 (12)</button>
   </div>
 
-  <div id="treeView" class="view-content">
-    <div id="treeQuiz" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
-      <div class="tree-step-badge" id="stepBadge">關卡 1 / 5</div>
-      <div class="tree-question" id="questionText">載入中...</div>
-      
-      <div class="options-grid">
-        <div class="opt-card" onclick="makeChoice('A')">
-          <div class="opt-icon" id="iconA">🔥</div>
-          <div class="opt-text">
-            <h4 id="titleA">選項 A</h4>
-            <p id="subA">說明文字</p>
+  <div class="content-panel">
+
+    <div id="treeSection" class="tree-box">
+      <div id="treeQuestionBox" style="width:100%; display: flex; flex-direction:column; align-items:center;">
+        <div class="progress-pill">
+          <span id="stepLabel">關卡 1 / 5</span>
+          <div class="progress-dots" id="dotsContainer">
+            <div class="dot active"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
           </div>
         </div>
 
-        <div class="opt-card" onclick="makeChoice('B')">
-          <div class="opt-icon" id="iconB">❄️</div>
-          <div class="opt-text">
-            <h4 id="titleB">選項 B</h4>
-            <p id="subB">說明文字</p>
+        <div class="tree-q-title" id="qTitle">題目加載中...</div>
+
+        <div class="tree-cards">
+          <div class="choice-card" onclick="chooseTreeOption('A')">
+            <div class="choice-icon" id="optIconA">🍲</div>
+            <div class="choice-info">
+              <h4 id="optTitleA">選項 A</h4>
+              <p id="optSubA">副標題文字</p>
+            </div>
+          </div>
+          <div class="choice-card" onclick="chooseTreeOption('B')">
+            <div class="choice-icon" id="optIconB">🥗</div>
+            <div class="choice-info">
+              <h4 id="optTitleB">選項 B</h4>
+              <p id="optSubB">副標題文字</p>
+            </div>
           </div>
         </div>
+
+        <button class="back-step-btn" id="backBtn" onclick="goBackTreeStep()" style="visibility:hidden;">
+          ↩ 返回上一關
+        </button>
+      </div>
+
+      <div id="treeResultBox" class="result-view hidden">
+        <div class="result-badge">經過 5 道靈魂抉擇的終極答案</div>
+        <div class="result-big-icon" id="resEmoji">🍱</div>
+        <div class="result-name" id="resName">排骨便當</div>
+        <div class="result-story" id="resDesc">說明文字</div>
+        <button class="primary-btn" onclick="resetDecisionTree()">再測一次 🔄</button>
+        <button class="primary-btn secondary-btn" onclick="directAcceptAlert()">就決定是它了！🎉</button>
       </div>
     </div>
 
-    <div id="treeResult" class="result-box hidden">
-      <div class="result-emoji" id="resEmoji">🍱</div>
-      <div class="result-tag">✨ 專屬你的命中之選 ✨</div>
-      <div class="result-title" id="resTitle">排骨便當</div>
-      <div class="result-desc" id="resDesc">香酥多汁的排骨搭配白飯與三樣配菜，飽足感十足，最踏實的美味！</div>
-      <button class="action-btn" onclick="restartTree()">再測一次 🔄</button>
-    </div>
-  </div>
+    <div id="wheelSection" class="wheel-container hidden">
+      <div class="wheel-stage">
+        <div class="wheel-indicator"></div>
+        <canvas id="wheelCanvas" class="wheel-disk" width="600" height="600"></canvas>
+        <div class="wheel-center-trigger" onclick="spinActiveWheel()">
+          <span>GO!</span>
+        </div>
+      </div>
 
-  <div id="wheelView" class="view-content hidden">
-    <div class="wheel-wrapper">
-      <div class="wheel-pointer"></div>
-      <canvas id="wheelCanvas" width="580" height="580"></canvas>
-      <div class="wheel-center-btn" onclick="spinWheel()">GO!</div>
+      <div class="result-banner" id="wheelBanner">點擊 GO 開始隨機轉動！</div>
+
+      <button class="primary-btn" onclick="spinActiveWheel()" id="spinActionBtn" style="margin-top: 6px;">
+        🎯 開始轉動
+      </button>
+
+      <div class="filter-section">
+        <div class="filter-header">
+          <span>點擊剔除「今天不想吃」的選項：</span>
+          <span style="font-size:11px; color:var(--primary); cursor:pointer;" onclick="restoreAllTags()">全部重設</span>
+        </div>
+        <div class="tags-cloud" id="tagsCloud"></div>
+      </div>
     </div>
-    <div class="wheel-result-banner" id="wheelResultText">點擊中間「GO」交給命運！</div>
-    <button class="action-btn" style="margin-top: 10px;" onclick="spinWheel()">隨機轉動 🎲</button>
+
   </div>
 
   <footer>
-    <div class="author-badge">作者：睡覺的紅豬 🐷💤</div>
-    <div>製作工具：Gemini AI / HTML5 & Canvas</div>
+    <div class="author-tag">作者：睡覺的紅豬 🐷💤 | V1.0.2</div>
+    <div>製作工具：Gemini AI / HTML5 Canvas & Web Audio API</div>
   </footer>
 </div>
 
 <script>
-  /* ================= 決策樹邏輯 (過五關) =================
-     維度規劃：
-     關卡 1: 體感溫度 (熱騰騰/現煮 vs 爽口/乾爽/常溫)
-     關卡 2: 飽足慾望 (大口吃肉/扎實主食 vs 輕食/點心/解饞)
-     關卡 3: 調味傾向 (濃郁重口/辛香酸辣 vs 純粹清淡/鮮甜原味)
-     關卡 4: 用餐情境 (街頭小吃/立吞速決 vs 坐定內用/儀式感)
-     關卡 5: 澱粉基底 (米飯/麵食/特色主體)
-  */
+  /* ================= 聲效合成器 ================= */
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  function playTickSound() {
+    if (audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(520, audioCtx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(120, audioCtx.currentTime + 0.04);
+    gain.gain.setValueAtTime(0.18, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.04);
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start();
+    osc.stop(audioCtx.currentTime + 0.04);
+  }
 
-  const decisionTree = {
+  function playWinSound() {
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    [523.25, 659.25, 783.99, 1046.50].forEach((freq, i) => {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, audioCtx.currentTime + i * 0.09);
+      gain.gain.setValueAtTime(0.2, audioCtx.currentTime + i * 0.09);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + i * 0.09 + 0.25);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start(audioCtx.currentTime + i * 0.09);
+      osc.stop(audioCtx.currentTime + i * 0.09 + 0.25);
+    });
+  }
+
+  /* ================= 資料集設定 ================= */
+  const streetFoodsPreset = [
+    "麥當勞雙層牛肉吉事堡", "肯德基咔啦脆雞 (多加辣粉)", "Vasa 美式披薩", "香酥鹽酥雞 (大辣)", 
+    "鮮肉小籠包", "大腸包小腸", "炭烤胡椒餅", "蒜香烤魚排", 
+    "酥炸排骨便當", "濃郁豚骨拉麵", "麻辣鴨血臭豆腐", "清爽鹽水雞 (多加雞胸)", 
+    "港式三寶燒臘", "九層塔抓餅加雙蛋", "個人麻辣火鍋", "鮮甜鮑魚海鮮粥", 
+    "皮蛋瘦肉粥", "炙燒鮭魚丼飯", "韓式烤肉石鍋拌飯", "高蛋白雞胸波奇碗"
+  ];
+
+  const breakfastPreset = [
+    "脆皮烤肉蛋餅", "台式傳統飯糰 (加滷蛋)", "黑胡椒鐵板麵加雙蛋", "燒餅夾蔥肉蛋", 
+    "烤總匯三明治", "蘿蔔糕加蔥蛋", "港式小籠湯包", "麥當勞滿福堡加蛋", 
+    "古早味麵線羹 (多加辣椒醬)", "無糖紅茶搭鮮肉包", "現烤香蒜厚片", "地瓜白粥配荷包蛋"
+  ];
+
+  const palette = [
+    "#FFB4A2", "#E5989B", "#B5E2FA", "#F9F871", "#C7F9CC", 
+    "#FFD6A5", "#FDFFB6", "#CAFFBF", "#9BF6FF", "#A0C4FF", 
+    "#BDB2FF", "#FFC6FF", "#FFD1DC", "#D8E2DC", "#FFE5D9"
+  ];
+
+  /* ================= 模式與轉盤狀態管理 ================= */
+  let currentMode = 'tree'; 
+  let activeFoodList = [...streetFoodsPreset];
+  let disabledItems = new Set();
+  let isSpinning = false;
+  let currentRotation = 0;
+
+  function setAppTab(mode) {
+    if (isSpinning) return;
+    currentMode = mode;
+    
+    document.querySelectorAll('.tab-item').forEach((btn, idx) => {
+      btn.classList.toggle('active', (mode === 'tree' && idx === 0) || 
+                                     (mode === 'dinner_wheel' && idx === 1) || 
+                                     (mode === 'breakfast_wheel' && idx === 2));
+    });
+
+    const treeSec = document.getElementById('treeSection');
+    const wheelSec = document.getElementById('wheelSection');
+
+    if (mode === 'tree') {
+      treeSec.classList.remove('hidden');
+      wheelSec.classList.add('hidden');
+    } else {
+      treeSec.classList.add('hidden');
+      wheelSec.classList.remove('hidden');
+      
+      disabledItems.clear();
+      if (mode === 'dinner_wheel') {
+        activeFoodList = [...streetFoodsPreset];
+        document.getElementById('wheelBanner').textContent = "🏮 街頭小吃 20 選 1，點擊旋轉！";
+      } else {
+        activeFoodList = [...breakfastPreset];
+        document.getElementById('wheelBanner').textContent = "🍳 活力早晨 12 選 1，點擊旋轉！";
+      }
+      renderTagsCloud();
+      drawWheel();
+    }
+  }
+
+  /* ================= 轉盤核心繪製與旋轉 ================= */
+  const canvas = document.getElementById('wheelCanvas');
+  const ctx = canvas.getContext('2d');
+
+  function getAvailableItems() {
+    return activeFoodList.filter(food => !disabledItems.has(food));
+  }
+
+  function drawWheel() {
+    const items = getAvailableItems();
+    const total = items.length;
+    const center = canvas.width / 2;
+    const radius = center - 8;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    if (total === 0) {
+      ctx.beginPath();
+      ctx.arc(center, center, radius, 0, 2 * Math.PI);
+      ctx.fillStyle = '#E0E0E0';
+      ctx.fill();
+      ctx.fillStyle = '#666';
+      ctx.font = 'bold 28px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('請至少保留一個選項', center, center + 10);
+      return;
+    }
+
+    const arcStep = (2 * Math.PI) / total;
+
+    for (let i = 0; i < total; i++) {
+      const angle = i * arcStep;
+      
+      ctx.beginPath();
+      ctx.moveTo(center, center);
+      ctx.arc(center, center, radius, angle, angle + arcStep);
+      ctx.fillStyle = palette[i % palette.length];
+      ctx.fill();
+      ctx.lineWidth = 4;
+      ctx.strokeStyle = '#FFFFFF';
+      ctx.stroke();
+
+      ctx.save();
+      ctx.translate(center, center);
+      ctx.rotate(angle + arcStep / 2);
+      ctx.textAlign = 'right';
+      ctx.fillStyle = '#333333';
+      ctx.font = total > 14 ? 'bold 21px sans-serif' : 'bold 25px sans-serif';
+      ctx.fillText(items[i], radius - 26, 8);
+      ctx.restore();
+    }
+  }
+
+  function spinActiveWheel() {
+    if (isSpinning) return;
+    const items = getAvailableItems();
+    if (items.length <= 1) {
+      alert("請至少保留 2 個以上的選項再來轉動命運唷！");
+      return;
+    }
+
+    if (navigator.vibrate) navigator.vibrate(30);
+
+    isSpinning = true;
+    document.getElementById('wheelBanner').textContent = "命運齒輪轉動中... 🌀";
+
+    const total = items.length;
+    const sliceDeg = 360 / total;
+    
+    const extraTurns = Math.floor(Math.random() * 5) + 6;
+    const randomDeg = Math.floor(Math.random() * 360);
+    const targetRotation = currentRotation + (extraTurns * 360) + randomDeg;
+
+    let lastTickAngle = currentRotation;
+    const tickInterval = sliceDeg;
+    const startTime = performance.now();
+    const duration = 4500;
+
+    function trackSound(now) {
+      const progress = Math.min((now - startTime) / duration, 1);
+      const ease = 1 - Math.pow(1 - progress, 3);
+      const simulatedDeg = currentRotation + (targetRotation - currentRotation) * ease;
+      
+      if (simulatedDeg - lastTickAngle >= tickInterval) {
+        playTickSound();
+        if (navigator.vibrate && progress < 0.7) navigator.vibrate(10);
+        lastTickAngle = simulatedDeg;
+      }
+
+      if (progress < 1) {
+        requestAnimationFrame(trackSound);
+      }
+    }
+    requestAnimationFrame(trackSound);
+
+    canvas.style.transform = `rotate(${targetRotation}deg)`;
+    currentRotation = targetRotation;
+
+    setTimeout(() => {
+      isSpinning = false;
+      playWinSound();
+      if (navigator.vibrate) navigator.vibrate([40, 60, 40]);
+
+      const actualDeg = (targetRotation % 360);
+      const winningAngle = (270 - actualDeg + 360) % 360;
+      const winningIndex = Math.floor(winningAngle / sliceDeg);
+      const selected = items[winningIndex];
+
+      document.getElementById('wheelBanner').innerHTML = `🎉 命運為你選定：<span style="font-size:22px; color:#FF4757; text-decoration: underline;">${selected}</span>！`;
+    }, 4550);
+  }
+
+  /* ================= 標籤過濾機制 ================= */
+  function renderTagsCloud() {
+    const cloud = document.getElementById('tagsCloud');
+    cloud.innerHTML = '';
+    activeFoodList.forEach(food => {
+      const tag = document.createElement('span');
+      tag.className = 'food-tag' + (disabledItems.has(food) ? ' disabled' : '');
+      tag.textContent = (disabledItems.has(food) ? '✕ ' : '✓ ') + food;
+      tag.onclick = () => toggleTag(food);
+      cloud.appendChild(tag);
+    });
+  }
+
+  function toggleTag(food) {
+    if (isSpinning) return;
+    if (disabledItems.has(food)) {
+      disabledItems.delete(food);
+    } else {
+      if (getAvailableItems().length <= 2) {
+        alert("至少要留 2 個選項才能做選擇喔！");
+        return;
+      }
+      disabledItems.add(food);
+    }
+    renderTagsCloud();
+    drawWheel();
+  }
+
+  function restoreAllTags() {
+    if (isSpinning) return;
+    disabledItems.clear();
+    renderTagsCloud();
+    drawWheel();
+  }
+
+  /* ================= 決策樹資料與狀態 ================= */
+  const treeRoot = {
     step: 1,
-    title: "1. 現在胃口的溫度渴望？",
+    title: "1. 摸摸肚子，現在想吃熱的還是清爽的？",
     A: {
-      text: "熱氣騰騰",
-      sub: "想要暖胃、現炒、冒著白煙的食物",
+      text: "冒著白煙的現煮熱食",
+      sub: "暖心暖胃、熱氣騰騰的幸福感",
       icon: "♨️",
       next: {
         step: 2,
-        title: "2. 食量與飽足感需求？",
+        title: "2. 食量與飽足渴望？",
         A: {
-          text: "扎實吃飽",
-          sub: "想吃滿滿的肉與主食",
+          text: "就是要扎實吃飽！",
+          sub: "大口吃肉、飯麵主食少不了",
           icon: "🥩",
           next: {
             step: 3,
-            title: "3. 喜歡什麼口味層次？",
+            title: "3. 調味傾向想要哪一種？",
             A: {
-              text: "濃郁重口",
-              sub: "辛香、醬濃、鹹香開胃",
+              text: "濃郁重口・醬香辛香",
+              sub: "下飯開胃，味道層次分明",
               icon: "🌶️",
               next: {
                 step: 4,
-                title: "4. 用餐想要哪種節奏？",
+                title: "4. 想在哪種氣氛下用餐？",
                 A: {
-                  text: "街邊接地氣",
-                  sub: "夜市、老店、大排檔感",
+                  text: "街邊接地氣快活小吃",
+                  sub: "夜市老店、路邊熱炒攤",
                   icon: "🏮",
                   next: {
                     step: 5,
-                    title: "5. 主食想翻誰的牌？",
-                    A: { text: "熱騰騰白米飯", sub: "醬汁淋飯最對味", icon: "🍚", result: { emoji: "🍛", name: "台式滷肉飯 + 控肉便當", desc: "濃郁膠質的滷汁澆在熱飯上，配顆滷蛋和油豆腐，幸福感瞬間拉滿！" } },
-                    B: { text: "彈牙麵條/熱湯", sub: "吸飽濃郁湯汁精華", icon: "🍜", result: { emoji: "🍜", name: "紅燒牛肉麵", desc: "厚切牛肉搭配紅燒濃郁湯頭與酸菜，大口吃肉吸麵超爽快！" } }
+                    title: "5. 今晚想翻誰的牌子？",
+                    A: { text: "熱騰騰白米飯", sub: "滷肉醬汁淋滿滿", icon: "🍚", result: { emoji: "🍛", name: "台式黑金滷肉飯 + 控肉便當", desc: "滿滿膠質的滷汁澆淋在熱騰騰白飯上，配上筍絲和滷蛋，最接地氣的幸福！" } },
+                    B: { text: "麥當勞外送", sub: "大口咬下速食的快樂", icon: "🍔", result: { emoji: "🍔", name: "麥當勞雙層牛肉堡", desc: "懶得出門時的救星，多要兩包番茄醬，享受大口吃肉的快感！" } }
                   }
                 },
                 B: {
-                  text: "舒適內用店",
-                  sub: "坐著吹冷氣、享受料理",
+                  text: "坐定店內慢慢享受",
+                  sub: "舒適內用、吹冷氣吃鍋",
                   icon: "🏬",
                   next: {
                     step: 5,
-                    title: "5. 今晚想來點什麼風格？",
-                    A: { text: "異國辛香系", sub: "泰式/日式/韓式料理", icon: "🥘", result: { emoji: "🥘", name: "韓式泡菜豆腐鍋 / 石鍋拌飯", desc: "滋滋作響的石鍋與酸辣熱湯，暖胃又超開胃！" } },
-                    B: { text: "滾燙熱湯鍋", sub: "肉片海鮮自己涮", icon: "🍲", result: { emoji: "🍲", name: "個人麻辣小火鍋", desc: "鴨血、豆腐加上現涮肉片，香麻過癮，一次滿足多種願望！" } }
+                    title: "5. 風味偏好？",
+                    A: { text: "個人麻辣鍋物", sub: "鴨血豆腐肉片一次滿足", icon: "🍲", result: { emoji: "🍲", name: "個人麻辣小火鍋", desc: "咕嚕咕嚕滾燙的麻辣湯底，涮上雪花牛與吸飽湯汁的老油條，過癮極致！" } },
+                    B: { text: "美式餐廳披薩", sub: "現烤牽絲大份量", icon: "🍕", result: { emoji: "🍕", name: "Vasa 美式餐廳披薩", desc: "剛烤好熱氣騰騰的披薩，餅皮酥脆配料豐富，大口咬下超級滿足。" } }
                   }
                 }
               }
             },
             B: {
-              text: "鮮甜清爽原味",
-              sub: "不油膩、喝一口清甜暖湯",
+              text: "甘醇鮮甜・清雅原味",
+              sub: "不油不膩，喝一口純粹鮮美",
               icon: "🥣",
               next: {
                 step: 4,
-                title: "4. 蛋白質偏好？",
+                title: "4. 想吃海味還是鮮禽？",
                 A: {
-                  text: "鮮甜魚肉/海鮮",
-                  sub: "低脂清甜無負擔",
+                  text: "鮮嫩魚肉海鮮",
+                  sub: "薑絲鮮甜低負擔",
                   icon: "🐟",
                   next: {
                     step: 5,
-                    title: "5. 想要怎樣的搭配？",
-                    A: { text: "經典台式老味道", sub: "薑絲、油蔥提味", icon: "🍲", result: { emoji: "🥣", name: "台南虱目魚肚湯 + 雞肉飯", desc: "清甜無刺虱目魚肚湯，配上一碗鹹香雞肉飯，清爽無負擔又有飽足感。" } },
-                    B: { text: "日式鮮美鍋物", sub: "昆布柴魚清甜高湯", icon: "🍤", result: { emoji: "🍲", name: "昆布海鮮日式鍋物", desc: "清澈甘甜的柴魚高湯，品嘗鮮蝦魚片與蔬菜的純粹鮮味。" } }
+                    title: "5. 經典台式組合？",
+                    A: { text: "無刺虱目魚肚湯", sub: "搭一碗蒜香雞肉飯", icon: "🐟", result: { emoji: "🥣", name: "台南無刺虱目魚肚湯 + 雞肉飯", desc: "清澈見底的薑絲高湯，襯托魚肚油脂甘甜，配上雞肉飯清爽飽足。" } },
+                    B: { text: "蒜香烤魚排", sub: "豐富蛋白質與焦香", icon: "🐟", result: { emoji: "🍱", name: "蒜香烤魚排定食", desc: "滿滿蛋白質，魚皮烤得酥脆，肉質細嫩，健康又有飽足感。" } }
                   }
                 },
                 B: {
-                  text: "嫩雞/排骨原盅",
-                  sub: "溫補養氣暖心湯",
+                  text: "慢火慢燉雞湯",
+                  sub: "溫補順口超療癒",
                   icon: "🍗",
                   next: {
                     step: 5,
-                    title: "5. 想喝什麼風味？",
-                    A: { text: "經典香菇蒜頭雞", sub: "濃郁蒜香肉質軟嫩", icon: "🧄", result: { emoji: "🍲", name: "香菇蛤蜊雞湯麵線", desc: "蛤蜊的鮮與雞肉的甜完美結合，滑順的手工麵線暖胃又療癒。" } },
-                    B: { text: "清燉排骨/蘿蔔", sub: "清甜軟爛入味", icon: "🥕", result: { emoji: "🥣", name: "清燉蘿蔔排骨酥湯", desc: "燉到軟嫩的白蘿蔔吸飽肉汁，湯頭甘醇清雅。" } }
+                    title: "5. 配料靈魂是？",
+                    A: { text: "香菇蛤蜊土雞麵線", sub: "雙重鮮味交織", icon: "🍄", result: { emoji: "🍲", name: "香菇蛤蜊雞湯麵線", desc: "蛤蜊的海味與香菇土雞融合，手工麵線吸附精華，一口入魂！" } },
+                    B: { text: "清燉蘿蔔排骨湯", sub: "燉至入口即化的清甜", icon: "🥕", result: { emoji: "🥣", name: "清燉白玉蘿蔔排骨湯", desc: "白蘿蔔甘甜軟爛，骨肉輕輕一撥就分離，暖心又無負擔。" } }
                   }
                 }
               }
@@ -489,221 +864,190 @@
           }
         },
         B: {
-          text: "輕食小點心",
-          sub: "不想吃太撐，幾樣小點剛好",
+          text: "解饞小確幸・不想吃太撐",
+          sub: "夜市幾樣點心、剛剛好的滿足",
           icon: "🥟",
           next: {
             step: 3,
-            title: "3. 烘烤煎炸 vs 蒸煮蒸籠？",
+            title: "3. 烘烤油煎 vs 籠蒸點心？",
             A: {
               text: "蒸籠皮薄爆汁",
-              sub: "鎖住鮮甜湯汁精華",
+              sub: "鮮肉湯汁封在麵皮裡",
               icon: "🥟",
               next: {
                 step: 4,
-                title: "4. 外皮厚度偏好？",
+                title: "4. 口感風格？",
                 A: {
-                  text: "薄皮透亮爆汁",
-                  sub: "一口咬下湯汁四溢",
+                  text: "透光薄皮湯包",
+                  sub: "沾點薑絲白醋",
                   icon: "🥢",
                   next: {
                     step: 5,
-                    title: "5. 搭配哪種佐料？",
-                    A: { text: "薑絲烏醋經典配", sub: "酸香去膩", icon: "🫚", result: { emoji: "🥟", name: "鮮肉小籠湯包", desc: "皮薄餡香，咬開先喝一口鮮美高湯，再沾薑絲醋一口下肚！" } },
-                    B: { text: "港式黃金燒賣", sub: "蝦仁肉餡扎實Q彈", icon: "🍤", result: { emoji: "🥟", name: "港式蒸籠點心 (燒賣+珍珠丸)", desc: "精巧美味的港點，一口一個，解饞又無過多負擔。" } }
+                    title: "5. 份量期望？",
+                    A: { text: "一籠8顆現蒸湯包", sub: "皮薄多汁一口吞", icon: "🥟", result: { emoji: "🥟", name: "鮮肉小籠湯包", desc: "先咬一小口吮吸鮮甜湯汁，再連同薑絲醋一口下肚，絕美滋味！" } },
+                    B: { text: "綜合港式燒賣點心", sub: "扎實蝦仁肉餡", icon: "🍤", result: { emoji: "🥟", name: "綜合港式點心盤 (蝦餃+燒賣)", desc: "晶瑩剔透又彈牙，不用大費周章就能享受精緻小點。" } }
                   }
                 },
                 B: {
-                  text: "厚皮蓬鬆老麵",
-                  sub: "嚼勁十足麵香濃",
+                  text: "老麵蓬鬆肉包",
+                  sub: "麵香十足咬勁佳",
                   icon: "🥟",
                   next: {
                     step: 5,
-                    title: "5. 內餡想吃什麼？",
-                    A: { text: "鹹香蔥肉/鮮肉", sub: "肉汁滲入麵皮", icon: "🥩", result: { emoji: "🥟", name: "手工老麵鮮肉包 + 溫無糖豆漿", desc: "蓬鬆帶勁的包子皮包覆飽滿鮮肉，最純粹踏實的小確幸。" } },
-                    B: { text: "高麗菜/香菇筍絲", sub: "爽脆清甜素香", icon: "🥬", result: { emoji: "🥬", name: "高麗菜香菇菜包 + 蒸餃", desc: "脆甜的高麗菜與香菇丁，清爽解膩，宵夜也無負擔。" } }
+                    title: "5. 搭配什麼飲品？",
+                    A: { text: "無糖紅茶或綠茶", sub: "解膩清爽", icon: "🍵", result: { emoji: "🥟", name: "手工老麵鮮肉包 + 無糖茶", desc: "扎實老麵香氣與香蔥肉餡，配上無糖茶，解饞又不會太負擔。" } },
+                    B: { text: "脆甜高麗菜包", sub: "搭水煮蛋補充蛋白質", icon: "🥚", result: { emoji: "🥬", name: "高麗菜香菇菜包 + 兩顆茶葉蛋", desc: "清脆的高麗菜與香菇丁，加上雞蛋補充營養，深夜解饞首選。" } }
                   }
                 }
               }
             },
             B: {
-              text: "現烤酥脆焦香",
-              sub: "外酥內嫩、香氣撲鼻",
-              icon: "🫓",
+              text: "炸烤酥脆油香",
+              sub: "焦香撲鼻超誘人",
+              icon: "🥙",
               next: {
                 step: 4,
-                title: "4. 鹹甜取向？",
+                title: "4. 肯德基還是夜市？",
                 A: {
-                  text: "鹹香酥脆肉餡",
-                  sub: "炭烤蔥花椒香",
-                  icon: "🥙",
+                  text: "夜市鹹香小吃",
+                  sub: "炭烤或鐵板香氣",
+                  icon: "🔥",
                   next: {
                     step: 5,
-                    title: "5. 料理手法？",
-                    A: { text: "窯烤赤肉炭香", sub: "外殼焦香胡椒味足", icon: "🔥", result: { emoji: "🥙", name: "夜市炭烤胡椒餅", desc: "外皮酥脆帶有炭烤焦香，內餡蔥花與黑胡椒赤肉肉汁滿溢！" } },
-                    B: { text: "鐵板香煎酥脆", sub: "金黃千層脆皮", icon: "🍳", result: { emoji: "🥞", name: "九層塔蛋餅 / 蔥抓餅加蛋", desc: "鐵板煎得金黃酥脆，九層塔與雞蛋的撲鼻香氣讓人欲罷不能。" } }
+                    title: "5. 經典街頭推薦？",
+                    A: { text: "炭烤窯烤胡椒餅", sub: "外脆內嫩肉汁燙口", icon: "🔥", result: { emoji: "🥙", name: "夜市現烤胡椒餅", desc: "貼爐烘烤的酥脆外皮，滿滿黑胡椒蔥花赤肉餡，剛出爐香氣逼人！" } },
+                    B: { text: "九層塔蛋抓餅", sub: "加雙蛋更過癮", icon: "🍳", result: { emoji: "🥞", name: "現煎九層塔雙蛋抓餅", desc: "酥脆千層餅皮夾入現煎九層塔與兩顆蛋，淋上一點蒜蓉醬油膏超銷魂。" } }
                   }
                 },
                 B: {
-                  text: "甜甜酥酥小確幸",
-                  sub: "奶香、甜香治癒心情",
-                  icon: "🧇",
+                  text: "炸雞的快樂",
+                  sub: "肯德基或鹽酥雞",
+                  icon: "🍗",
                   next: {
                     step: 5,
-                    title: "5. 偏好哪種口感？",
-                    A: { text: "外脆內Q像蛋糕", sub: "剛出爐蛋奶香", icon: "🥞", result: { emoji: "🧇", name: "現烤脆皮雞蛋糕 / 鯛魚燒", desc: "剛出爐熱騰騰，外層薄脆內裡綿密，午後療癒極品！" } },
-                    B: { text: "酥炸軟糯拔絲", sub: "傳統夜市古早味", icon: "🍠", result: { emoji: "🍠", name: "黃金地瓜球 / 白糖粿", desc: "外皮酥脆內心極致Q彈，越嚼越香的經典街邊小點！" } }
+                    title: "5. 辣度選擇？",
+                    A: { text: "多要幾包辣椒粉！", sub: "辣味咔啦脆雞", icon: "🌶️", result: { emoji: "🍗", name: "肯德基咔啦脆雞 (狂撒辣椒粉)", desc: "金黃酥脆的外皮，撒上滿滿辣椒粉，罪惡但無比爽快！" } },
+                    B: { text: "經典鹽酥雞加辣", sub: "配九層塔與蒜頭", icon: "🧄", result: { emoji: "🍗", name: "香酥鹽酥雞 (大辣)", desc: "一定要加滿蒜頭和九層塔，再請老闆大辣，這是台灣人的浪漫。" } }
                   }
                 }
               }
             }
           }
         }
-      }
-    },
-    B: {
-      text: "涼爽常溫",
-      sub: "想要清爽、不流汗、開胃解膩的選擇",
-      icon: "🥗",
-      next: {
-        step: 2,
-        title: "2. 食物主要來源偏好？",
-        A: {
-          text: "爽口主食澱粉",
-          sub: "涼麵、壽司、捲餅等",
-          icon: "🍣",
-          next: {
-            step: 3,
-            title: "3. 調味基底想要什麼？",
-            A: {
-              text: "濃郁麻醬/辛香蒜味",
-              sub: "台式道地開胃冷吃",
-              icon: "🧄",
-              next: {
-                step: 4,
-                title: "4. 配菜豐富度？",
-                A: {
-                  text: "簡單俐落小黃瓜絲",
-                  sub: "經典蒜泥麻醬",
-                  icon: "🥒",
-                  next: {
-                    step: 5,
-                    title: "5. 辣度接受度？",
-                    A: { text: "加點小辣花椒油", sub: "麻香開胃超提味", icon: "🌶️", result: { emoji: "🍜", name: "蒜味麻醬涼麵 + 三合一湯", desc: "冰涼Q彈的麵條裹滿濃郁麻醬與蒜泥，配碗味噌蛋花貢丸湯超經典！" } },
-                    B: { text: "原味甘醇香麻醬", sub: "純粹芝麻香氣", icon: "🥜", result: { emoji: "🥢", name: "傳統芝麻涼麵 + 皮蛋豆腐", desc: "滑順爽口的傳統涼麵，搭上一塊冰涼柴魚皮蛋豆腐，消暑首選。" } }
-                  }
-                },
-                B: {
-                  text: "滿滿雞絲與滷味",
-                  sub: "高蛋白豐富配料",
-                  icon: "🍗",
-                  next: {
-                    step: 5,
-                    title: "5. 口味走向？",
-                    A: { text: "川味紅油口水雞涼麵", sub: "酸辣麻爽層次豐富", icon: "🔥", result: { emoji: "🥗", name: "川味雞絲涼麵 + 冰紅茶", desc: "鮮嫩雞絲配上酸辣花椒醬汁，食慾不振時的最佳救星！" } },
-                    B: { text: "台式鹽水鹹香", sub: "蔥薑冷切爽脆", icon: "🥒", result: { emoji: "🍗", name: "鮮嫩鹽水雞 (加滿脆筍與時蔬)", desc: "去骨雞肉搭配脆筍、高麗菜、小黃瓜，微胡椒蒜香，超清爽無負擔！" } }
+      },
+      B: {
+        text: "常溫/涼爽清淡",
+        sub: "天氣熱沒胃口、不想流汗的開胃選擇",
+        icon: "🥗",
+        next: {
+          step: 2,
+          title: "2. 主食想走哪種路線？",
+          A: {
+            text: "爽口冷麵・日式壽司",
+            sub: "冰涼Q彈、醋香提味",
+            icon: "🍣",
+            next: {
+              step: 3,
+              title: "3. 風味調調？",
+              A: {
+                text: "台式蒜味麻醬",
+                sub: "香濃滑順、蒜香撲鼻",
+                icon: "🧄",
+                next: {
+                  step: 4,
+                  title: "4. 配料份量？",
+                  A: {
+                    text: "經典小黃瓜涼麵",
+                    sub: "加碗味噌貢丸湯",
+                    icon: "🥒",
+                    next: {
+                      step: 5,
+                      title: "5. 辣度需求？",
+                      A: { text: "一定要加一勺辣油！", sub: "花椒香氣直衝腦門", icon: "🌶️", result: { emoji: "🍜", name: "麻辣蒜味涼麵 + 三合一綜合湯", desc: "冰鎮黃麵條裹滿濃郁麻醬與特製辣油，配上貢丸味噌蛋花湯，台北老饕標準配備！" } },
+                      B: { text: "純粹麻醬蒜泥香", sub: "甘甜順口不嗆喉", icon: "🥜", result: { emoji: "🥢", name: "傳統芝麻涼麵 + 皮蛋豆腐", desc: "冰涼爽滑的麵條與柴魚皮蛋豆腐，吃完神清氣爽！" } }
+                    }
+                  },
+                  B: {
+                    text: "加滿雞胸肉與脆筍",
+                    sub: "冷切鹽水雞蔬菜拼盤",
+                    icon: "🍗",
+                    next: {
+                      step: 5,
+                      title: "5. 口味走向？",
+                      A: { text: "鮮嫩鹽水雞 (加點辣)", sub: "微鹹胡椒爽口", icon: "🥒", result: { emoji: "🍗", name: "特選去骨鹽水雞 (多雞胸+微辣)", desc: "去骨雞肉鮮嫩多汁，拌上脆筍與高麗菜，低卡清涼又解饞，蛋白質滿點！" } },
+                      B: { text: "川味紅油口水雞絲麵", sub: "酸辣麻香超醒腦", icon: "🔥", result: { emoji: "🥗", name: "川味口水雞絲涼麵", desc: "花椒紅油與酸醋調和，刺激每一顆沉睡的味蕾！" } }
+                    }
                   }
                 }
-              }
-            },
-            B: {
-              text: "日式和風/微酸醋飯",
-              sub: "乾淨清雅日系風",
-              icon: "🍣",
-              next: {
-                step: 4,
-                title: "4. 海鮮生食 vs 熟食配料？",
-                A: {
-                  text: "鮮美海鮮/生魚片",
-                  sub: "芥末醬油提鮮",
-                  icon: "🐟",
-                  next: {
-                    step: 5,
-                    title: "5. 份量期望？",
-                    A: { text: "大口吃魚生魚丼", sub: "滿滿海味覆蓋醋飯", icon: "🍱", result: { emoji: "🍣", name: "炙燒鮭魚海鮮丼飯", desc: "肥美鮭魚微炙燒出油脂香氣，搭配冰涼酸甜醋飯，極致享受！" } },
-                    B: { text: "隨夾隨吃握壽司", sub: "精緻小巧多樣化", icon: "🍙", result: { emoji: "🍣", name: "旋轉壽司 / 綜合握壽司組合", desc: "干貝、鮭魚、鮪魚任選，自由度最高，清爽無負擔。" } }
-                  }
-                },
-                B: {
-                  text: "熟食/手捲/日式涼麵",
-                  sub: "沾柴魚露清爽入喉",
-                  icon: "🥢",
-                  next: {
-                    step: 5,
-                    title: "5. 麵體與配菜？",
-                    A: { text: "日式蕎麥冷麵", sub: "冰鎮蕎麥沾山葵醬汁", icon: "🥢", result: { emoji: "🍜", name: "冰鎮日式蕎麥冷麵 + 茶碗蒸", desc: "浸泡在甘甜柴魚露中的冰涼蕎麥麵，一口吸入，暑氣全消！" } },
-                    B: { text: "日式飯糰手捲", sub: "酥脆海苔包覆白米", icon: "🍙", result: { emoji: "🍙", name: "日式明太子飯糰 + 關東煮輕食", desc: "海苔清脆、米飯甘甜，簡單俐落又美味。" } }
+              },
+              B: {
+                text: "日式醋飯・生鮮和風",
+                sub: "乾淨清雅、原汁原味",
+                icon: "🍱",
+                next: {
+                  step: 4,
+                  title: "4. 海鮮生食 or 炙燒熟食？",
+                  A: {
+                    text: "肥美鮭魚海鮮丼",
+                    sub: "滿滿海味鋪在醋飯上",
+                    icon: "🐟",
+                    next: {
+                      step: 5,
+                      title: "5. 想怎麼吃？",
+                      A: { text: "炙燒焦糖鮭魚丼", sub: "微融油脂香氣爆發", icon: "🍣", result: { emoji: "🍣", name: "炙燒鮭魚海鮮丼飯", desc: "炙燒逼出鮭魚豐厚油脂，搭配冰涼醋飯與芥末醬油，極致奢華享受。" } },
+                      B: { text: "隨選握壽司組合", sub: "多種魚料隨心搭配", icon: "🍙", result: { emoji: "🍣", name: "綜合握壽司 8 貫組合", desc: "干貝、鮭魚、鮪魚一次網羅，份量精緻優雅。" } }
+                    }
+                  },
+                  B: {
+                    text: "和風蕎麥冷麵",
+                    sub: "冰鎮麵條沾柴魚醬汁",
+                    icon: "🥢",
+                    next: {
+                      step: 5,
+                      title: "5. 經典配餐？",
+                      A: { text: "冰鎮蕎麥麵 + 茶碗蒸", sub: "滑順蛋香與清爽蕎麥", icon: "🥢", result: { emoji: "🍜", name: "日式蕎麥冷麵套餐", desc: "將蕎麥麵浸入加入蔥花山葵的甘甜柴魚露中，一口吸入暑氣全消！" } },
+                      B: { text: "日式烤御飯糰 + 溏心蛋", sub: "海苔酥脆米飯香甜", icon: "🍙", result: { emoji: "🍙", name: "明太子烤飯糰 + 日式溏心蛋", desc: "外皮微焦香脆，搭配冰涼半熟蛋，完美組合。" } }
+                    }
                   }
                 }
               }
             }
-          }
-        },
-        B: {
-          text: "高纖蔬果/健康原型",
-          sub: "少油低卡，注重體態與健康",
-          icon: "🥗",
-          next: {
-            step: 3,
-            title: "3. 蛋白質基底？",
-            A: {
-              text: "舒肥雞胸/水煮蛋/牛排",
-              sub: "低脂高蛋白精準控卡",
-              icon: "🥩",
-              next: {
-                step: 4,
-                title: "4. 主食基底要什麼？",
-                A: {
-                  text: "紫米/地瓜/五穀飯",
-                  sub: "低GI優質碳水",
-                  icon: "🍠",
-                  next: {
-                    step: 5,
-                    title: "5. 醬汁風格？",
-                    A: { text: "胡麻 / 和風柚子醬", sub: "鹹甜清香爽口", icon: "🍋", result: { emoji: "🥗", name: "舒肥雞胸夏威夷拌飯 (Poké Bowl)", desc: "自選豐富時蔬、毛豆、舒肥雞肉與特調和風醬，色彩繽紛營養滿分！" } },
-                    B: { text: "油醋 / 泰式酸辣醬", sub: "微酸開胃解膩", icon: "🥗", result: { emoji: "🍱", name: "健康低卡水煮舒肥餐盒", desc: "少油少鹽烹調，清甜烤時蔬配軟嫩舒肥肉品，吃得飽又無罪惡感。" } }
-                  }
-                },
-                B: {
-                  text: "純脆綠葉生菜/無澱粉",
-                  sub: "極致輕盈無負擔",
-                  icon: "🥬",
-                  next: {
-                    step: 5,
-                    title: "5. 配料豐富感？",
-                    A: { text: "加堅果起司與煙燻鮭魚", sub: "優質好油與香氣", icon: "🧀", result: { emoji: "🥗", name: "煙燻鮭魚木碗沙拉 + 無糖優格", desc: "豐富綜合生菜搭配濃郁煙燻鮭魚與酥脆堅果，滿滿微量元素與好油脂。" } },
-                    B: { text: "新鮮水果與鮮蝦", sub: "酸甜多汁又彈牙", icon: "🍤", result: { emoji: "🥗", name: "鮮蝦酪梨沙拉盒", desc: "彈牙白蝦與滑順酪梨的完美組合，清爽可口，精神百倍！" } }
-                  }
-                }
-              }
-            },
-            B: {
-              text: "鮮果昔/優格輕食",
-              sub: "完全沒胃口時的天然滋養",
-              icon: "🥑",
-              next: {
-                step: 4,
-                title: "4. 稠度與口感？",
-                A: {
-                  text: "濃郁希臘優格碗",
-                  sub: "搭配燕麥脆片與水果",
-                  icon: "🥣",
-                  next: {
-                    step: 5,
-                    title: "5. 甜味來源？",
-                    A: { text: "天然野莓與蜂蜜", sub: "酸甜抗氧化", icon: "🫐", result: { emoji: "🫐", name: "巴西莓果優格碗 (Acai Bowl)", desc: "滿滿藍莓、香蕉、格蘭諾拉麥片與優格，顏值與美味兼具的輕食首選。" } },
-                    B: { text: "香蕉花生醬堅果", sub: "濃郁滑順富飽足", icon: "🥜", result: { emoji: "🍌", name: "香蕉堅果希臘優格盃", desc: "高蛋白濃稠優格搭配香濃堅果，飽足感剛剛好。" } }
-                  }
-                },
-                B: {
-                  text: "現打蔬果汁/豆乳",
-                  sub: "直接喝下純粹營養",
-                  icon: "🥤",
-                  next: {
-                    step: 5,
-                    title: "5. 風味偏好？",
-                    A: { text: "鮮濃木瓜牛奶/香蕉牛奶", sub: "台式夜市古早味鮮打", icon: "🥛", result: { emoji: "🥤", name: "現打無糖木瓜牛奶 + 烤全麥吐司", desc: "香濃醇厚的現打木瓜牛奶，配片烤吐司，簡單快速的極簡一餐。" } },
-                    B: { text: "綠拿鐵精力湯", sub: "羽衣甘藍、蘋果、奇異果", icon: "🥝", result: { emoji: "🥬", name: "綠拿鐵高纖精力果昔", desc: "一口喝進滿滿膳食纖維與維生素，為疲累的身體重新開機！" } }
+          },
+          B: {
+            text: "健康原型・高蛋白低負擔",
+            sub: "滿滿肉類蛋白、舒肥雞胸",
+            icon: "🥑",
+            next: {
+              step: 3,
+              title: "3. 蛋白質主力選擇？",
+              A: {
+                text: "舒肥嫩雞胸 / 鮮蝦 / 瘦肉",
+                sub: "精準控卡、肌肉最愛",
+                icon: "🥩",
+                next: {
+                  step: 4,
+                  title: "4. 主食基底搭配？",
+                  A: {
+                    text: "健康五穀紫米飯",
+                    sub: "低GI抗氧化碳水",
+                    icon: "🍠",
+                    next: {
+                      step: 5,
+                      title: "5. 醬汁風格？",
+                      A: { text: "夏威夷和風柚子醬", sub: "色彩繽紛自選配料", icon: "🥗", result: { emoji: "🥗", name: "夏威夷高蛋白波奇碗 (Poké)", desc: "自選毛豆、紫米、舒肥雞與水煮蛋，拌上清爽柚香醬，健康美味雙贏！" } },
+                      B: { text: "特製義式香草油醋", sub: "溫熱舒肥健康餐盒", icon: "🍱", result: { emoji: "🍱", name: "低卡舒肥雞肉魚排餐盒", desc: "少油少鹽細火慢烤的時蔬與軟嫩肉質，吃得飽足且身材零負擔。" } }
+                    }
+                  },
+                  B: {
+                    text: "純粹生菜與雞蛋基底",
+                    sub: "極低碳水、高蛋白質",
+                    icon: "🥬",
+                    next: {
+                      step: 5,
+                      title: "5. 想要一點罪惡感點綴嗎？",
+                      A: { text: "來點堅果與鮮蝦", sub: "優質油脂與海鮮", icon: "🦐", result: { emoji: "🥗", name: "鮮蝦堅果沙拉搭水煮蛋", desc: "清脆生菜搭配鮮甜白蝦與堅果，補充滿滿維生素與優質蛋白。" } },
+                      B: { text: "還是想吃點微辣的", sub: "肯德基外送", icon: "🌶️", result: { emoji: "🍗", name: "肯德基咔啦脆雞沙拉 (多加辣椒粉)", desc: "雖然是吃沙拉，但配上微辣的脆雞與辣椒粉，才是人生啊！" } }
+                    }
                   }
                 }
               }
@@ -714,175 +1058,87 @@
     }
   };
 
-  let currentNode = decisionTree;
+  /* ================= 決策樹邏輯操作 ================= */
+  let currentTreeNode = treeRoot;
+  let treeHistory = [];
 
-  function renderTree() {
-    if (currentNode.result) {
-      // 顯示結果
-      document.getElementById('treeQuiz').classList.add('hidden');
-      const resBox = document.getElementById('treeResult');
-      resBox.classList.remove('hidden');
-      document.getElementById('resEmoji').textContent = currentNode.result.emoji;
-      document.getElementById('resTitle').textContent = currentNode.result.name;
-      document.getElementById('resDesc').textContent = currentNode.result.desc;
-    } else {
-      document.getElementById('treeQuiz').classList.remove('hidden');
-      document.getElementById('treeResult').classList.add('hidden');
-      document.getElementById('stepBadge').textContent = `關卡 ${currentNode.step} / 5`;
-      document.getElementById('questionText').textContent = currentNode.title;
-      
-      document.getElementById('iconA').textContent = currentNode.A.icon;
-      document.getElementById('titleA').textContent = currentNode.A.text;
-      document.getElementById('subA').textContent = currentNode.A.sub;
+  function renderTreeQuestion() {
+    const qTitle = document.getElementById('qTitle');
+    const stepLabel = document.getElementById('stepLabel');
+    const optTitleA = document.getElementById('optTitleA');
+    const optSubA = document.getElementById('optSubA');
+    const optIconA = document.getElementById('optIconA');
+    const optTitleB = document.getElementById('optTitleB');
+    const optSubB = document.getElementById('optSubB');
+    const backBtn = document.getElementById('backBtn');
+    const dots = document.querySelectorAll('#dotsContainer .dot');
 
-      document.getElementById('iconB').textContent = currentNode.B.icon;
-      document.getElementById('titleB').textContent = currentNode.B.text;
-      document.getElementById('subB').textContent = currentNode.B.sub;
-    }
-  }
+    qTitle.textContent = currentTreeNode.title;
+    stepLabel.textContent = `關卡 ${currentTreeNode.step} / 5`;
+    
+    optTitleA.textContent = currentTreeNode.A.text;
+    optSubA.textContent = currentTreeNode.A.sub;
+    optIconA.textContent = currentTreeNode.A.icon;
+    
+    optTitleB.textContent = currentTreeNode.B.text;
+    optSubB.textContent = currentTreeNode.B.sub;
+    optIconB.textContent = currentTreeNode.B.icon;
 
-  function makeChoice(choice) {
-    if (currentNode[choice]) {
-      if (currentNode[choice].next) {
-        currentNode = currentNode[choice].next;
-      } else if (currentNode[choice].result) {
-        currentNode = { result: currentNode[choice].result };
-      }
-      renderTree();
-    }
-  }
+    backBtn.style.visibility = treeHistory.length > 0 ? 'visible' : 'hidden';
 
-  function restartTree() {
-    currentNode = decisionTree;
-    renderTree();
-  }
-
-  /* ================= 轉盤邏輯 (20種台北街頭平民小吃) ================= */
-  const foods = [
-    { name: "台灣滷肉飯", color: "#FFB8B8" },
-    { name: "紅燒牛肉麵", color: "#FFD8A8" },
-    { name: "蒜味涼麵", color: "#FFF3BF" },
-    { name: "酥脆鹽酥雞", color: "#D8F5A2" },
-    { name: "小籠湯包", color: "#B2F2BB" },
-    { name: "大腸包小腸", color: "#A5D8FF" },
-    { name: "鮮肉胡椒餅", color: "#D0BFFF" },
-    { name: "蚵仔麵線", color: "#FCC2D7" },
-    { name: "排骨便當", color: "#FFC9C9" },
-    { name: "日式拉麵", color: "#FFE3E3" },
-    { name: "麻辣臭豆腐", color: "#FFE8CC" },
-    { name: "清爽鹽水雞", color: "#E9FAC8" },
-    { name: "廣東燒臘飯", color: "#C3FAE8" },
-    { name: "九層塔抓餅", color: "#D0EBFF" },
-    { name: "個人小火鍋", color: "#E5DBFF" },
-    { name: "鮮甜海鮮粥", color: "#FFDEEB" },
-    { name: "皮蛋瘦肉粥", color: "#F1F3F5" },
-    { name: "炙燒壽司丼", color: "#FFE066" },
-    { name: "韓式石鍋拌飯", color: "#FFA8A8" },
-    { name: "夏威夷波奇碗", color: "#A9E34B" }
-  ];
-
-  const canvas = document.getElementById('wheelCanvas');
-  const ctx = canvas.getContext('2d');
-  const numSlices = foods.length;
-  const sliceAngle = (2 * Math.PI) / numSlices;
-  let currentAngle = 0;
-  let isSpinning = false;
-
-  function drawWheel() {
-    const center = canvas.width / 2;
-    const radius = center - 12;
-
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    for (let i = 0; i < numSlices; i++) {
-      const angle = currentAngle + i * sliceAngle;
-      
-      // 扇形
-      ctx.beginPath();
-      ctx.moveTo(center, center);
-      ctx.arc(center, center, radius, angle, angle + sliceAngle);
-      ctx.closePath();
-      ctx.fillStyle = foods[i].color;
-      ctx.fill();
-      ctx.lineWidth = 3;
-      ctx.strokeStyle = '#FFFFFF';
-      ctx.stroke();
-
-      // 文字
-      ctx.save();
-      ctx.translate(center, center);
-      ctx.rotate(angle + sliceAngle / 2);
-      ctx.textAlign = 'right';
-      ctx.fillStyle = '#444444';
-      ctx.font = 'bold 22px -apple-system, sans-serif';
-      ctx.fillText(foods[i].name, radius - 24, 8);
-      ctx.restore();
-    }
-  }
-
-  function spinWheel() {
-    if (isSpinning) return;
-    isSpinning = true;
-    document.getElementById('wheelResultText').textContent = "命運齒輪轉動中... 🌀";
-
-    const spinRotations = 5 + Math.random() * 5; // 轉 5 到 10 圈
-    const targetAngle = currentAngle + spinRotations * 2 * Math.PI;
-    const duration = 4000;
-    const startTime = performance.now();
-    const startAngle = currentAngle;
-
-    function animate(now) {
-      const elapsed = now - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      
-      // 緩降動態 (Ease out cubic)
-      const easeProgress = 1 - Math.pow(1 - progress, 3);
-      currentAngle = startAngle + (targetAngle - startAngle) * easeProgress;
-      drawWheel();
-
-      if (progress < 1) {
-        requestAnimationFrame(animate);
+    dots.forEach((dot, index) => {
+      if (index < currentTreeNode.step) {
+        dot.classList.add('active');
       } else {
-        isSpinning = false;
-        calculateResult();
+        dot.classList.remove('active');
       }
-    }
-
-    requestAnimationFrame(animate);
+    });
   }
 
-  function calculateResult() {
-    // 指針在上方 (270度 / 1.5 * PI)
-    const normalizedAngle = (1.5 * Math.PI - (currentAngle % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
-    const winningIndex = Math.floor(normalizedAngle / sliceAngle);
-    const selectedFood = foods[winningIndex].name;
-    document.getElementById('wheelResultText').innerHTML = `🎉 命運決定就是：<span style="font-size: 22px; color: #FF4757; text-decoration: underline;">${selectedFood}</span>！`;
-  }
+  function chooseTreeOption(choice) {
+    const nextNode = currentTreeNode[choice].next;
+    const resultNode = currentTreeNode[choice].result;
 
-  /* ================= 介面切換 ================= */
-  function switchMode(mode) {
-    const treeView = document.getElementById('treeView');
-    const wheelView = document.getElementById('wheelView');
-    const tabTree = document.getElementById('tabTree');
-    const tabWheel = document.getElementById('tabWheel');
-
-    if (mode === 'tree') {
-      treeView.classList.remove('hidden');
-      wheelView.classList.add('hidden');
-      tabTree.classList.add('active');
-      tabWheel.classList.remove('active');
-    } else {
-      treeView.classList.add('hidden');
-      wheelView.classList.remove('hidden');
-      tabTree.classList.remove('active');
-      tabWheel.classList.add('active');
-      drawWheel();
+    if (resultNode) {
+      showTreeResult(resultNode);
+    } else if (nextNode) {
+      treeHistory.push(currentTreeNode);
+      currentTreeNode = nextNode;
+      renderTreeQuestion();
     }
   }
 
-  // 初始化
-  renderTree();
-  drawWheel();
+  function goBackTreeStep() {
+    if (treeHistory.length > 0) {
+      currentTreeNode = treeHistory.pop();
+      renderTreeQuestion();
+    }
+  }
+
+  function showTreeResult(result) {
+    document.getElementById('treeQuestionBox').classList.add('hidden');
+    const resBox = document.getElementById('treeResultBox');
+    resBox.classList.remove('hidden');
+    
+    document.getElementById('resEmoji').textContent = result.emoji;
+    document.getElementById('resName').textContent = result.name;
+    document.getElementById('resDesc').textContent = result.desc;
+  }
+
+  function resetDecisionTree() {
+    currentTreeNode = treeRoot;
+    treeHistory = [];
+    document.getElementById('treeQuestionBox').classList.remove('hidden');
+    document.getElementById('treeResultBox').classList.add('hidden');
+    renderTreeQuestion();
+  }
+
+  function directAcceptAlert() {
+    alert("就決定是它了！祝您用餐愉快！🎉");
+  }
+
+  // 初始化執行
+  renderTreeQuestion();
 </script>
 </body>
 </html>
