@@ -266,7 +266,7 @@ h1{font-size:32px;line-height:1.1;letter-spacing:-1.2px;margin:13px 0 7px}
   function renderChips(){const list=$('foodList');list.innerHTML='';dinnerFoods.forEach((f,i)=>{const s=document.createElement('span');s.className='chip';s.style.opacity=disabledFoods.has(i)?'.35':'1';s.textContent=(disabledFoods.has(i)?'🚫 ':'')+f.emoji+' '+f.name;list.appendChild(s)})}
   renderChips();
 
-  $('resetAll').addEventListener('click',()=>{resetTree();breakfastPool=[...breakfastFoods];$('breakfastPicked').classList.remove('show');disabledFoods.clear();lastWinner=-1;$('picked').classList.remove('show');$('wheelMsg').textContent='可以放心按，轉盤不會卡住。';cancelAnimationFrame(raf);rotation=0;canvas.style.transform='rotate(0deg)';renderChips();showToast('✨ 全部恢復原廠設定')});
+  $('resetAll').addEventListener('click',()=>{resetTree();breakfastPool=[...breakfastFoods];$('breakfastPicked').classList.remove('show');disabledFoods.clear();lastWinner=-1;$('picked').classList.remove('show');$('wheelMsg').textContent='可以放心按，轉盤不會卡住。';cancelAnimationFrame(raf);raf=0;rotation=0;busy=false;$('spinBtn').disabled=false;$('rerollBtn').disabled=true;$('removeBtn').disabled=true;canvas.style.transform='rotate(0deg)';renderChips();showToast('✨ 全部恢復原廠設定')});
 })();
 </script>
 </body>
