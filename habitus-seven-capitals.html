@@ -1,0 +1,842 @@
+<title>慣習．七大資本</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300&family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@400;600;900&display=swap">
+
+<style>
+:root{
+  --paper:#E9EBE8;
+  --surface:#F5F6F3;
+  --surface-2:#DFE2DD;
+  --ink:#161A18;
+  --ink-soft:#3A423E;
+  --muted:#646E69;
+  --hair:#C7CCC6;
+  --brass:#7E6128;
+  --deep:#1F3D36;
+  --c1:#3A6485;  /* 知識 */
+  --c2:#7E6128;  /* 物質 */
+  --c3:#75506B;  /* 社會 */
+  --c4:#985641;  /* 文化 */
+  --c5:#456F53;  /* 身體 */
+  --c6:#2B6674;  /* 語言 */
+  --c7:#54509A;  /* 心理 */
+  --radar:#1F3D36;
+  --shadow:0 1px 2px rgba(22,26,24,.06),0 8px 24px -12px rgba(22,26,24,.18);
+  --maxw:41rem;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#101312;
+    --surface:#181C1A;
+    --surface-2:#212724;
+    --ink:#E7EBE8;
+    --ink-soft:#C2C9C5;
+    --muted:#8E9A95;
+    --hair:#2E3532;
+    --brass:#C9A45C;
+    --deep:#8CC0B0;
+    --c1:#79A9CD;
+    --c2:#C9A45C;
+    --c3:#BE90B2;
+    --c4:#D7907A;
+    --c5:#77B48D;
+    --c6:#63AEBE;
+    --c7:#948FD8;
+    --radar:#8CC0B0;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#101312;
+  --surface:#181C1A;
+  --surface-2:#212724;
+  --ink:#E7EBE8;
+  --ink-soft:#C2C9C5;
+  --muted:#8E9A95;
+  --hair:#2E3532;
+  --brass:#C9A45C;
+  --deep:#8CC0B0;
+  --c1:#79A9CD;
+  --c2:#C9A45C;
+  --c3:#BE90B2;
+  --c4:#D7907A;
+  --c5:#77B48D;
+  --c6:#63AEBE;
+  --c7:#948FD8;
+  --radar:#8CC0B0;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 28px -14px rgba(0,0,0,.7);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:"Noto Serif TC","Songti TC",serif;
+  font-size:17px;
+  line-height:1.9;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+p{margin:0 0 1.15em}
+a{color:inherit;text-underline-offset:3px;text-decoration-color:var(--hair)}
+a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--brass);outline-offset:3px;border-radius:3px}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace}
+.lat{font-family:"Newsreader",Georgia,serif}
+
+/* ─── top rail ─── */
+.rail{
+  position:sticky;top:0;z-index:40;
+  background:color-mix(in srgb,var(--paper) 88%,transparent);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--hair);
+}
+.rail-in{max-width:var(--maxw);margin:0 auto;display:flex;align-items:center;gap:14px;padding:9px 22px}
+.rail-mark{font-family:"Noto Serif TC",serif;font-weight:900;font-size:15px;letter-spacing:.06em;white-space:nowrap}
+.rail-nav{display:flex;gap:16px;overflow-x:auto;scrollbar-width:none;flex:1;-webkit-overflow-scrolling:touch}
+.rail-nav::-webkit-scrollbar{display:none}
+.rail-nav a{
+  font-family:"Noto Sans TC",sans-serif;font-size:12.5px;color:var(--muted);
+  white-space:nowrap;text-decoration:none;padding:3px 0;letter-spacing:.04em;
+}
+.rail-nav a:hover{color:var(--ink)}
+.tog{
+  border:1px solid var(--hair);background:transparent;color:var(--muted);
+  border-radius:999px;width:30px;height:30px;flex:none;cursor:pointer;font-size:13px;line-height:1;
+}
+.tog:hover{color:var(--ink);border-color:var(--muted)}
+
+/* ─── hero ─── */
+.hero{position:relative;padding:56px 0 44px;overflow:hidden}
+.hero-svg{position:absolute;inset:0;margin:auto;width:min(112vw,640px);height:min(112vw,640px);opacity:.5;pointer-events:none}
+.hero .wrap{position:relative}
+.eyebrow{
+  font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.24em;
+  text-transform:uppercase;color:var(--brass);margin:0 0 22px
+}
+h1{
+  font-size:clamp(3.2rem,17vw,5.4rem);font-weight:900;line-height:.94;
+  letter-spacing:.06em;margin:0;text-wrap:balance;
+}
+h1 .sub{display:block;font-family:"Newsreader",Georgia,serif;font-style:italic;font-weight:300;
+  font-size:clamp(1.3rem,6vw,2rem);letter-spacing:.01em;color:var(--muted);margin-top:10px}
+.dek{
+  font-size:1.06rem;color:var(--ink-soft);margin:26px 0 0;max-width:31rem;
+  border-left:2px solid var(--brass);padding-left:16px;line-height:1.85;
+}
+.credits{
+  margin-top:30px;padding-top:18px;border-top:1px solid var(--hair);
+  font-family:"Noto Sans TC",sans-serif;font-size:12.5px;line-height:2;color:var(--muted);
+}
+.credits b{color:var(--ink);font-weight:500}
+
+/* ─── sections ─── */
+section{padding:42px 0}
+.shead{margin-bottom:26px}
+.snum{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.2em;color:var(--brass);display:block;margin-bottom:8px}
+h2{font-size:1.62rem;font-weight:900;letter-spacing:.03em;margin:0;line-height:1.4;text-wrap:balance}
+h3{font-size:1.12rem;font-weight:600;letter-spacing:.03em;margin:0 0 .5em}
+.lede{font-size:1rem;color:var(--muted);margin-top:10px}
+
+.rule{height:1px;background:var(--hair);border:0;margin:0}
+.band{background:var(--surface);border-block:1px solid var(--hair)}
+
+/* pull quote */
+.pull{
+  margin:26px 0;padding:20px 0 20px 20px;border-left:3px solid var(--brass);
+  font-size:1.14rem;font-weight:600;line-height:1.75;letter-spacing:.02em;
+}
+.pull cite{display:block;margin-top:10px;font-style:normal;font-family:"Noto Sans TC",sans-serif;
+  font-size:12px;letter-spacing:.1em;color:var(--muted);font-weight:400}
+
+/* experiment box */
+.box{background:var(--surface);border:1px solid var(--hair);border-radius:2px;padding:22px;box-shadow:var(--shadow)}
+.box + .box{margin-top:14px}
+.box h3{margin-bottom:.4em}
+.split{display:grid;gap:12px;margin:16px 0 4px}
+@media(min-width:560px){.split{grid-template-columns:1fr 1fr}}
+.arm{border-top:2px solid var(--hair);padding-top:12px;font-size:.95rem;line-height:1.75}
+.arm.win{border-top-color:var(--brass)}
+.arm b{display:block;font-family:"Noto Sans TC",sans-serif;font-size:11.5px;letter-spacing:.14em;color:var(--muted);margin-bottom:6px;font-weight:500}
+
+/* ─── capital cards ─── */
+.caps{display:flex;flex-direction:column;gap:14px}
+.cap{
+  background:var(--surface);border:1px solid var(--hair);border-radius:2px;
+  overflow:hidden;box-shadow:var(--shadow);
+}
+.cap-top{display:flex;gap:14px;align-items:baseline;padding:18px 20px 0}
+.cap-i{font-family:"Noto Serif TC",serif;font-size:26px;font-weight:900;line-height:1;color:var(--ck);flex:none}
+.cap-t{flex:1}
+.cap-t h3{margin:0;font-size:1.2rem;letter-spacing:.05em}
+.cap-t .en{font-family:"Newsreader",serif;font-style:italic;font-size:.86rem;color:var(--muted);letter-spacing:.02em}
+.cap-body{padding:12px 20px 20px}
+.cap-def{font-size:.97rem;color:var(--ink-soft);margin:0 0 14px}
+.cap-q{
+  font-size:.97rem;line-height:1.8;margin:0 0 14px;padding:12px 14px;
+  background:color-mix(in srgb,var(--ck) 9%,transparent);
+  border-left:2px solid var(--ck);
+}
+.cap-do{margin:0;padding:0;list-style:none;font-family:"Noto Sans TC",sans-serif;font-size:.9rem;line-height:1.7}
+.cap-do li{display:flex;gap:9px;padding:4px 0}
+.cap-do li::before{content:"→";color:var(--ck);flex:none;font-family:"IBM Plex Mono",monospace;font-size:.85em;padding-top:.2em}
+.cap-label{font-family:"Noto Sans TC",sans-serif;font-size:10.5px;letter-spacing:.18em;color:var(--muted);display:block;margin:0 0 7px}
+.trap{
+  font-family:"Noto Sans TC",sans-serif;font-size:.88rem;color:var(--muted);
+  margin:14px 0 0;padding-top:12px;border-top:1px dashed var(--hair);line-height:1.7
+}
+
+/* ─── radar tool ─── */
+.tool{background:var(--surface);border:1px solid var(--hair);border-radius:2px;box-shadow:var(--shadow);overflow:hidden}
+.radar-stage{padding:14px 8px 0;display:flex;justify-content:center}
+#radar{width:100%;max-width:400px;height:auto;display:block}
+.readout{
+  display:flex;flex-wrap:wrap;gap:10px 22px;align-items:baseline;justify-content:center;
+  padding:6px 20px 16px;border-bottom:1px solid var(--hair)
+}
+.big{font-family:"IBM Plex Mono",monospace;font-size:2rem;font-weight:500;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.big small{font-size:.9rem;color:var(--muted)}
+.badge{font-family:"Noto Sans TC",sans-serif;font-size:12px;letter-spacing:.08em;color:var(--muted)}
+.badge b{color:var(--ink);font-weight:500}
+.sliders{padding:16px 20px 4px;display:flex;flex-direction:column;gap:2px}
+.sl{display:grid;grid-template-columns:5.4em 1fr 2.1em;align-items:center;gap:10px;padding:5px 0}
+.sl label{font-family:"Noto Sans TC",sans-serif;font-size:13px;letter-spacing:.05em;color:var(--ink-soft)}
+.sl .v{font-family:"IBM Plex Mono",monospace;font-size:13px;text-align:right;color:var(--ck);font-variant-numeric:tabular-nums}
+input[type=range]{
+  -webkit-appearance:none;appearance:none;background:transparent;width:100%;height:22px;margin:0;cursor:pointer
+}
+input[type=range]::-webkit-slider-runnable-track{height:3px;background:var(--surface-2);border-radius:2px}
+input[type=range]::-moz-range-track{height:3px;background:var(--surface-2);border-radius:2px}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;width:17px;height:17px;border-radius:50%;background:var(--ck);
+  border:2px solid var(--surface);margin-top:-7px;box-shadow:0 1px 3px rgba(0,0,0,.25)
+}
+input[type=range]::-moz-range-thumb{
+  width:15px;height:15px;border-radius:50%;background:var(--ck);border:2px solid var(--surface)
+}
+.advice{
+  margin:8px 20px 20px;padding:16px;background:var(--paper);border:1px solid var(--hair);
+  font-size:.95rem;line-height:1.8
+}
+.advice .cap-label{margin-bottom:6px}
+.tool-actions{display:flex;gap:10px;padding:0 20px 20px;flex-wrap:wrap}
+.btn{
+  font-family:"Noto Sans TC",sans-serif;font-size:13px;letter-spacing:.06em;
+  background:transparent;color:var(--ink);border:1px solid var(--hair);
+  padding:8px 16px;border-radius:999px;cursor:pointer
+}
+.btn:hover{border-color:var(--muted)}
+.btn-p{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.btn-p:hover{opacity:.86}
+.saved{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--muted);align-self:center}
+
+/* ─── quiz ─── */
+.quiz{display:flex;flex-direction:column;gap:14px}
+.q{background:var(--surface);border:1px solid var(--hair);border-radius:2px;padding:20px;box-shadow:var(--shadow)}
+.q-n{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.16em;color:var(--brass);display:block;margin-bottom:8px}
+.q-t{font-size:1.02rem;font-weight:600;line-height:1.7;margin:0 0 14px;letter-spacing:.02em}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{
+  font-family:"Noto Sans TC",sans-serif;font-size:.93rem;line-height:1.6;text-align:left;
+  background:var(--paper);border:1px solid var(--hair);color:var(--ink);
+  padding:11px 14px;border-radius:2px;cursor:pointer;display:flex;gap:10px;align-items:flex-start
+}
+.opt:hover:not(:disabled){border-color:var(--muted)}
+.opt:disabled{cursor:default}
+.opt .k{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--muted);flex:none;padding-top:.15em}
+.opt.ok{border-color:var(--c5);background:color-mix(in srgb,var(--c5) 12%,var(--paper))}
+.opt.ok .k{color:var(--c5)}
+.opt.no{border-color:var(--c4);background:color-mix(in srgb,var(--c4) 12%,var(--paper))}
+.opt.no .k{color:var(--c4)}
+.exp{
+  margin:12px 0 0;padding:12px 14px;background:var(--paper);border-left:2px solid var(--brass);
+  font-size:.9rem;line-height:1.75;color:var(--ink-soft);display:none
+}
+.exp.on{display:block}
+.score{
+  text-align:center;padding:22px;background:var(--surface);border:1px solid var(--hair);
+  box-shadow:var(--shadow)
+}
+.score .big{display:block;margin-bottom:4px}
+.score p{margin:0;font-family:"Noto Sans TC",sans-serif;font-size:.92rem;color:var(--muted)}
+
+/* ─── closing ─── */
+.ask{
+  padding:30px 24px;border:1px solid var(--brass);background:var(--surface);
+  text-align:center;box-shadow:var(--shadow)
+}
+.ask .q-big{font-size:1.24rem;font-weight:900;line-height:1.7;letter-spacing:.03em;margin:0;text-wrap:balance}
+.ask .lede{max-width:26rem;margin:12px auto 0}
+
+/* ─── colophon ─── */
+.colo{background:var(--surface);border-top:1px solid var(--hair);margin-top:20px;padding:40px 0 56px}
+.colo h2{font-size:1.05rem;letter-spacing:.14em;font-weight:600}
+.meta{
+  font-family:"Noto Sans TC",sans-serif;font-size:13px;line-height:1.9;
+  display:grid;gap:10px 20px;margin:20px 0 0
+}
+@media(min-width:560px){.meta{grid-template-columns:auto 1fr}}
+.meta dt{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.16em;color:var(--muted);text-transform:uppercase;padding-top:.35em}
+.meta dd{margin:0;color:var(--ink-soft)}
+.vtable{width:100%;border-collapse:collapse;margin-top:14px;font-family:"Noto Sans TC",sans-serif;font-size:12.5px}
+.vscroll{overflow-x:auto}
+.vtable th,.vtable td{text-align:left;padding:9px 12px 9px 0;border-bottom:1px solid var(--hair);vertical-align:top}
+.vtable th{font-family:"IBM Plex Mono",monospace;font-weight:400;font-size:10.5px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase}
+.vtable td:first-child{font-family:"IBM Plex Mono",monospace;color:var(--brass);white-space:nowrap;font-variant-numeric:tabular-nums}
+.vtable td:nth-child(2){white-space:nowrap;color:var(--muted);font-variant-numeric:tabular-nums}
+.note{font-size:12px;color:var(--muted);font-family:"Noto Sans TC",sans-serif;line-height:1.8;margin-top:22px;padding-top:16px;border-top:1px solid var(--hair)}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms !important;transition-duration:.001ms !important}
+}
+.draw{stroke-dasharray:1;stroke-dashoffset:1;animation:draw 2.4s ease forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+</style>
+
+<div class="rail">
+  <div class="rail-in">
+    <span class="rail-mark">慣習</span>
+    <nav class="rail-nav">
+      <a href="#start">出身</a>
+      <a href="#seven">七大資本</a>
+      <a href="#radar-sec">自評雷達</a>
+      <a href="#quiz-sec">測驗</a>
+      <a href="#change">蛻變</a>
+      <a href="#colophon">版本</a>
+    </nav>
+    <button class="tog" id="tog" aria-label="切換深淺色">◐</button>
+  </div>
+</div>
+
+<header class="hero">
+  <svg class="hero-svg" viewBox="0 0 400 400" aria-hidden="true">
+    <g fill="none" stroke="var(--hair)" stroke-width="1">
+      <circle cx="200" cy="200" r="60"/><circle cx="200" cy="200" r="105"/>
+      <circle cx="200" cy="200" r="150"/><circle cx="200" cy="200" r="192"/>
+    </g>
+    <g id="heroWeb" fill="none" stroke="var(--brass)" stroke-width="1.4" opacity=".85"></g>
+  </svg>
+  <div class="wrap">
+    <p class="eyebrow">Reading Note · No.01</p>
+    <h1>慣習<span class="sub">Habitus — the seven capitals</span></h1>
+    <p class="dek">階級差異的本質，不是誰家有錢，而是七種你從來沒注意過的「隱形資本」。看懂它們，你也能優雅蛻變。</p>
+    <div class="credits">
+      <div><b>原書</b>　《慣習 Habitus：輕鬆做好準備，躍向人生顛峰》／朵莉絲・馬爾汀（Doris Märtin）著．先覺出版</div>
+      <div><b>影片</b>　<a href="https://www.youtube.com/watch?v=y_s5QejSOeo" target="_blank" rel="noopener">下一本讀什麼？瓦基｜階級差異的本質是什麼？</a>（24:00）</div>
+      <div><b>整理</b>　Sol　·　<b>版本</b>　<span class="mono">v1.0.0</span>　·　<b>更新</b>　<span class="mono">2026-08-31</span></div>
+    </div>
+  </div>
+</header>
+
+<hr class="rule">
+
+<section id="start">
+  <div class="wrap">
+    <div class="shead">
+      <span class="snum">01 — 前提</span>
+      <h2>你的出身不會決定你的未來</h2>
+      <p class="lede">一個心理學實驗，先把這件事講清楚。</p>
+    </div>
+
+    <div class="box">
+      <h3>史帝芬斯的大學新生實驗</h3>
+      <p style="margin:0;font-size:.97rem;color:var(--ink-soft)">心理學家妮可・史帝芬斯找來一群家庭與教育環境較弱勢的大一新生，分成兩組上不同的課。</p>
+      <div class="split">
+        <div class="arm">
+          <b>A 組｜解題導向</b>
+          告訴他們「成績不好可能有哪些原因」，然後教怎麼解決這些問題。
+        </div>
+        <div class="arm win">
+          <b>B 組｜出身分析</b>
+          帶他們分析自己的家庭背景，仔細想「父母沒讀過大學」會造成哪些困難，再想辦法克服。
+        </div>
+      </div>
+      <p style="margin:14px 0 0;font-size:.97rem">學年結束時，<b>認真分析過自己「出身劣勢」的 B 組，成績明顯變好</b>，甚至追上中上階層的同學。</p>
+    </div>
+
+    <blockquote class="pull">
+      「出身所帶來的慣習雖然是我們的一部分，但並不能夠阻止我們成長發展。」
+      <cite>《慣習》</cite>
+    </blockquote>
+
+    <p>那什麼是「慣習」（Habitus）？簡單說，就是一個人在特定社會環境中，長出來的<b>思維模式、行為習慣與價值觀念</b>——你覺得什麼是正常的、什麼值得追求、什麼場合該怎麼站怎麼說話。</p>
+    <p>而這些慣習的背後，是由七種資本組成的。最容易成功蛻變的人，正是那些<b>意識到「慣習如何決定自己的世界觀、品味與抱負」</b>的人。</p>
+  </div>
+</section>
+
+<div class="band">
+<section id="seven">
+  <div class="wrap">
+    <div class="shead">
+      <span class="snum">02 — 主體</span>
+      <h2>七大資本：看懂社會階級的密碼</h2>
+      <p class="lede">大部分人只顧著累積前兩種。真正拉開差距的，往往是後面五種。</p>
+    </div>
+
+    <div class="caps">
+
+      <article class="cap" style="--ck:var(--c1)">
+        <div class="cap-top"><span class="cap-i">一</span>
+          <div class="cap-t"><h3>知識資本</h3><span class="en">Knowledge Capital</span></div>
+        </div>
+        <div class="cap-body">
+          <p class="cap-def">你的專業技能、學歷背景、解決問題的能力。</p>
+          <p class="cap-q">「對自己的專業優勢最好不要太過張揚，要有自信，但不要咄咄逼人。社會地位愈高，展現成功就愈不是透過功績，而是透過慣習，因此強調自己的能力與成就也就愈不得體。」</p>
+          <span class="cap-label">今天可以做</span>
+          <ul class="cap-do">
+            <li>把一次「證明我很懂」的發言，改成一次「幫對方前進」的提問</li>
+            <li>選一個領域，做到能對外行人講清楚的程度</li>
+            <li>把你的專業變成別人的資源，而不是你的武器</li>
+          </ul>
+          <p class="trap">常見盲點：能力很強，但每次開口都讓人不舒服——問題不在知識量，在展現方式。</p>
+        </div>
+      </article>
+
+      <article class="cap" style="--ck:var(--c2)">
+        <div class="cap-top"><span class="cap-i">二</span>
+          <div class="cap-t"><h3>物質資本</h3><span class="en">Material Capital</span></div>
+        </div>
+        <div class="cap-body">
+          <p class="cap-def">你的金錢、房產、投資等有形財富。</p>
+          <p class="cap-q">「金錢可以使人變聰明、有教養、經驗豐富，還能讓人建立良好的人際圈。但是金錢要產生這些影響，只有在我們有意識地使用它，用來增加其他六種資本的時候才可能發生。」</p>
+          <span class="cap-label">今天可以做</span>
+          <ul class="cap-do">
+            <li>檢查上個月的支出：有多少錢，換到了另外六種資本？</li>
+            <li>把「買奢侈品」的預算，改成買書、課程、教練、旅行、優質社交</li>
+            <li>建立不必依賴他人善意過活的財務底線</li>
+          </ul>
+          <p class="trap">關鍵不是你有「多少錢」，而是你怎麼「用這些錢」。錢是工具，不是目的。</p>
+        </div>
+      </article>
+
+      <article class="cap" style="--ck:var(--c3)">
+        <div class="cap-top"><span class="cap-i">三</span>
+          <div class="cap-t"><h3>社會資本</h3><span class="en">Social Capital</span></div>
+        </div>
+        <div class="cap-body">
+          <p class="cap-def">你的人脈網絡、社交圈子、人際關係。</p>
+          <p class="cap-q">「周遭的人會影響並改變我們的慣習……你跟誰相處、你平常關注誰，會決定你的慣習。」</p>
+          <span class="cap-label">今天可以做</span>
+          <ul class="cap-do">
+            <li>盤點你每天接觸最多的五個人，與你追蹤的十個帳號</li>
+            <li>刻意讓一位「正確的榜樣」進入你的日常視野</li>
+            <li>對拉你後腿的聲音，維持禮貌但不改變方向</li>
+          </ul>
+          <p class="trap">螃蟹效應：漁夫把螃蟹丟進桶子，其中一隻本來爬得出去，但其他螃蟹會用盡力氣把牠扯下來。你開始成長時遇到的阻力，往往來自身邊的人——這是正常的。</p>
+        </div>
+      </article>
+
+      <article class="cap" style="--ck:var(--c4)">
+        <div class="cap-top"><span class="cap-i">四</span>
+          <div class="cap-t"><h3>文化資本</h3><span class="en">Cultural Capital</span></div>
+        </div>
+        <div class="cap-body">
+          <p class="cap-def">你的品味、審美、對藝術與文化的理解。</p>
+          <p class="cap-q">「在所有資本中，文化資本是最重要的貨幣……其中，品味甚至比金錢更重要。」<br>「在成功人士眼裡，只有缺乏美學素養的人才會拿豪華車、名牌標誌，以及大手筆舉辦派對招搖炫耀。真正老資格的上層階級只會在幽暗處炫耀。」</p>
+          <span class="cap-label">今天可以做</span>
+          <ul class="cap-do">
+            <li>每週讀一本書；定期逛美術館或書店</li>
+            <li>學會分辨咖啡或茶的差異，把感受講得出來</li>
+            <li>聽不同類型的音樂，並了解背後的故事</li>
+          </ul>
+          <p class="trap">文化資本愈高，財富通常愈不外顯。這種能力不需要很多錢，但需要時間用心培養。</p>
+        </div>
+      </article>
+
+      <article class="cap" style="--ck:var(--c5)">
+        <div class="cap-top"><span class="cap-i">五</span>
+          <div class="cap-t"><h3>身體資本</h3><span class="en">Physical Capital</span></div>
+        </div>
+        <div class="cap-body">
+          <p class="cap-def">你的外表、健康狀況、運動能力、肢體語言。</p>
+          <p class="cap-q">「長得好看又會打扮的人，會增加成功機會。否認這種說法只是自欺欺人而已。」<br>「成功就是當努力、炫耀及地位象徵，全都變得多餘的時候。」</p>
+          <span class="cap-label">今天可以做</span>
+          <ul class="cap-do">
+            <li>建立一個能長期維持的運動習慣，而不是一次猛練</li>
+            <li>整理衣櫃：留下合身、耐看、能重複穿搭的</li>
+            <li>注意站姿與坐姿——安全感會從肢體語言洩漏出來</li>
+          </ul>
+          <p class="trap">為什麼馬拉松成為高階主管最愛的運動？因為「在運動場上全力奮鬥的人，也會在其他方面追求優秀成績」——鍛鍊身材的同時，也在鍛鍊心性。</p>
+        </div>
+      </article>
+
+      <article class="cap" style="--ck:var(--c6)">
+        <div class="cap-top"><span class="cap-i">六</span>
+          <div class="cap-t"><h3>語言溝通資本</h3><span class="en">Linguistic Capital</span></div>
+        </div>
+        <div class="cap-body">
+          <p class="cap-def">你的表達能力、說話技巧、溝通魅力。</p>
+          <p class="cap-q">「多使用讚賞、肯定、感激的詞句……對他人成就明確表示讚賞，能顯示個人自信，創造凝聚力，並且有助於建立個人及他人的自我意識。」</p>
+          <span class="cap-label">今天可以做</span>
+          <ul class="cap-do">
+            <li>把「你做得很好」升級成具體版：讚美<em>哪一個決定</em>、為什麼有效</li>
+            <li>每天記下一個「我錯過的、值得讚賞的時刻」</li>
+            <li>把挑毛病的力氣，分一半去看見別人的貢獻</li>
+          </ul>
+          <p class="trap">下層階級常見的心態是「不罵你就已經是讚美了」。長期待在這種環境，會練出很強的批評能力，卻退化掉欣賞的能力。</p>
+        </div>
+      </article>
+
+      <article class="cap" style="--ck:var(--c7)">
+        <div class="cap-top"><span class="cap-i">七</span>
+          <div class="cap-t"><h3>心理資本</h3><span class="en">Psychological Capital</span></div>
+        </div>
+        <div class="cap-body">
+          <p class="cap-def">你的自信心、韌性、對未來的掌控感。其他六種資本的驅動力。</p>
+          <p class="cap-q">「沒有不能改變的慣習。今日我們所經歷的、閱讀的、聽到的，以及為自己所做的，會影響明天的我們。」<br>「下層階級的人等待幸運降臨……較高階層的人不等待，而是朝著既定的目標前進。」</p>
+          <span class="cap-label">今天可以做</span>
+          <ul class="cap-do">
+            <li>寫下今年一個明確、可檢核的重大目標</li>
+            <li>把「我還不夠好」改寫成「我還沒練到」</li>
+            <li>每週留 30 分鐘檢視計畫，而不是等機會找上門</li>
+          </ul>
+          <p class="trap">書中數據：<b>70% 的有錢人每年至少訂下一項重大目標，窮人只有 3%</b>。差別不在聰明，在於是否遵循計畫行事。</p>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+</div>
+
+<section id="radar-sec">
+  <div class="wrap">
+    <div class="shead">
+      <span class="snum">03 — 互動</span>
+      <h2>七大資本．自評雷達圖</h2>
+      <p class="lede">拉動滑桿，誠實給自己 0–10 分。圖形會即時變化，並指出你最該先動手的那一格。</p>
+    </div>
+
+    <div class="tool">
+      <div class="radar-stage">
+        <svg id="radar" viewBox="0 0 380 356" role="img" aria-label="七大資本自評雷達圖"></svg>
+      </div>
+      <div class="readout">
+        <span class="big" id="total">35<small> / 70</small></span>
+        <span class="badge">最強　<b id="best">—</b></span>
+        <span class="badge">最弱　<b id="worst">—</b></span>
+        <span class="badge">失衡指數　<b id="gap">—</b></span>
+      </div>
+      <div class="sliders" id="sliders"></div>
+      <div class="advice">
+        <span class="cap-label">給你的下一步</span>
+        <div id="advice">拉動上面的滑桿開始。</div>
+      </div>
+      <div class="tool-actions">
+        <button class="btn btn-p" id="save">儲存我的分數</button>
+        <button class="btn" id="reset">全部歸零</button>
+        <span class="saved" id="savedNote"></span>
+      </div>
+    </div>
+    <p class="note" style="border:0;padding-top:14px">分數只存在你自己的瀏覽器裡，不會上傳任何地方。</p>
+  </div>
+</section>
+
+<div class="band">
+<section id="quiz-sec">
+  <div class="wrap">
+    <div class="shead">
+      <span class="snum">04 — 測驗</span>
+      <h2>你真的讀懂《慣習》了嗎？</h2>
+      <p class="lede">八題．選完立刻看解析。</p>
+    </div>
+    <div class="quiz" id="quiz"></div>
+    <div class="score" id="score" style="display:none;margin-top:16px">
+      <span class="big" id="scoreNum">0<small> / 8</small></span>
+      <p id="scoreMsg"></p>
+    </div>
+  </div>
+</section>
+</div>
+
+<section id="change">
+  <div class="wrap">
+    <div class="shead">
+      <span class="snum">05 — 蛻變</span>
+      <h2>蛻變是一種創造性的不滿足</h2>
+    </div>
+
+    <p>「一直想往上爬，會不會太勢利、太功利？」書中的回答很漂亮：</p>
+
+    <blockquote class="pull">
+      「出人頭地的願望並不是出自忘恩負義的不知足，而是創造性的不滿足。」
+      <cite>《慣習》</cite>
+    </blockquote>
+
+    <p>成長不是為了比別人優越，是為了成為更好的自己。追求富足並不是自大——恰恰相反，對自我發展而言，<b>追求上進的渴望是必須的</b>。</p>
+
+    <div class="box">
+      <h3>三個要記得的機制</h3>
+      <ul class="cap-do" style="--ck:var(--brass);margin-top:10px">
+        <li><b>遲滯現象</b>：慣習會延遲。提升到上一個階層時，要真的生活一段時間才能內化，改變需要時間，給自己耐心。</li>
+        <li><b>螃蟹效應</b>：你開始改變時的阻力，常常來自身邊的人。有見識的人會支持你成長，批評你的人往往是因為你的改變讓他們不安。</li>
+        <li><b>一次一格</b>：不必同時改變所有事。挑一種資本，慢慢地、有意識地提升。</li>
+      </ul>
+    </div>
+
+    <p style="margin-top:26px">作者也說得很清楚，這本書不是寫給前 3% 的人的：「這本書的寫作對象是像你和我這樣的人，處在社會中等階層，認為教育很重要……培養出一種慣習，能在金錢與能力之外，為自己創造更多的可能與機會。」</p>
+
+    <div class="ask" style="margin-top:30px">
+      <p class="q-big">如果可以重新設計自己的人生，<br>你會優先提升哪一種資本？為什麼？</p>
+      <p class="lede">這題沒有標準答案。但想清楚它，你會更知道自己真正想要什麼。</p>
+    </div>
+
+    <p style="margin-top:26px;text-align:center;font-weight:600;letter-spacing:.03em">你的出身不會決定你的未來，但你今天的選擇會。</p>
+  </div>
+</section>
+
+<footer class="colo" id="colophon">
+  <div class="wrap">
+    <h2>版本與製作說明</h2>
+    <dl class="meta">
+      <dt>Version</dt><dd><span class="mono">v1.0.0</span>　（語意化版本：主版本 . 內容更新 . 修正）</dd>
+      <dt>Updated</dt><dd><span class="mono">2026-08-31</span></dd>
+      <dt>Author</dt><dd>Sol　·　<span class="mono">sollin@iqs-t.com</span></dd>
+      <dt>AI Tools</dt><dd>Claude Opus 5（Anthropic）於 Claude Cowork 桌面環境中製作：影片與原文擷取、知識點整理、互動邏輯與前端實作。</dd>
+      <dt>Sources</dt><dd>
+        影片：<a href="https://www.youtube.com/watch?v=y_s5QejSOeo" target="_blank" rel="noopener">下一本讀什麼？《慣習》</a><br>
+        文字版：<a href="https://readingoutpost.com/habitus/" target="_blank" rel="noopener">閱讀前哨站｜《慣習》讀後心得</a><br>
+        原書：《慣習 Habitus：輕鬆做好準備，躍向人生顛峰》朵莉絲・馬爾汀著，先覺出版（2023）
+      </dd>
+    </dl>
+
+    <div class="vscroll">
+      <table class="vtable">
+        <thead><tr><th>版本</th><th>日期</th><th>變更內容</th></tr></thead>
+        <tbody>
+          <tr><td>v1.0.0</td><td>2026-08-31</td><td>首次發布：七大資本知識卡、自評雷達圖、八題測驗、蛻變機制、深淺色主題</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="note">本頁為個人學習筆記，引文出自上述書籍與公開文章，著作權屬原作者所有；若需完整脈絡請支持原書與原影片。分數與作答僅儲存在你的瀏覽器本機。</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ── theme toggle ── */
+  var root=document.documentElement, tog=document.getElementById('tog');
+  try{var t=localStorage.getItem('habitus-theme'); if(t) root.setAttribute('data-theme',t);}catch(e){}
+  tog.addEventListener('click',function(){
+    var cur=root.getAttribute('data-theme');
+    if(!cur){cur=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}
+    var next=cur==='dark'?'light':'dark';
+    root.setAttribute('data-theme',next);
+    try{localStorage.setItem('habitus-theme',next);}catch(e){}
+  });
+
+  /* ── data ── */
+  var CAPS=[
+    {n:'知識',v:'c1',adv:'找一個題目做到「能對外行人講清楚」。專業的價值不在你懂多少，而在別人因你懂了多少。'},
+    {n:'物質',v:'c2',adv:'翻出上個月的帳，圈出哪幾筆真的換到了其他六種資本。錢是工具，不是分數。'},
+    {n:'社會',v:'c3',adv:'列出每天接觸最多的五個人。刻意讓一位「正確的榜樣」進入你的日常視野。'},
+    {n:'文化',v:'c4',adv:'這週選一件小事開始：一本書、一間書店、一杯認真喝的咖啡。品味不用花大錢，要花時間。'},
+    {n:'身體',v:'c5',adv:'先求能長期維持，再求強度。順手整理衣櫃，只留合身、耐看、能重複穿搭的。'},
+    {n:'語言',v:'c6',adv:'今天挑一個人，具體地讚美他做對的那個決定，並說出為什麼有效。'},
+    {n:'心理',v:'c7',adv:'寫下今年一個明確、可檢核的重大目標——70% 的有錢人這麼做，只有 3% 的窮人這麼做。'}
+  ];
+  var N=CAPS.length, vals=CAPS.map(function(){return 5;});
+
+  /* ── hero web ── */
+  (function(){
+    var g=document.getElementById('heroWeb'), cx=200, cy=200, R=[192,150,105,60];
+    function poly(r,rot){
+      var pts=[];
+      for(var i=0;i<N;i++){
+        var a=(-90+rot+i*360/N)*Math.PI/180;
+        pts.push((cx+r*Math.cos(a)).toFixed(1)+','+(cy+r*Math.sin(a)).toFixed(1));
+      }
+      return pts.join(' ');
+    }
+    R.forEach(function(r,i){
+      var p=document.createElementNS('http://www.w3.org/2000/svg','polygon');
+      p.setAttribute('points',poly(r,i*7));
+      p.setAttribute('opacity',(0.85-i*0.16).toFixed(2));
+      p.setAttribute('pathLength','1');
+      p.setAttribute('class','draw');
+      p.style.animationDelay=(i*0.18)+'s';
+      g.appendChild(p);
+    });
+  })();
+
+  /* ── radar ── */
+  var SVG='http://www.w3.org/2000/svg';
+  var radar=document.getElementById('radar');
+  var CX=190, CY=172, RMAX=112, RLAB=140;
+  function pt(i,f){
+    var a=(-90+i*360/N)*Math.PI/180;
+    return [CX+RMAX*f*Math.cos(a), CY+RMAX*f*Math.sin(a)];
+  }
+  function el(tag,attrs){
+    var e=document.createElementNS(SVG,tag);
+    for(var k in attrs) e.setAttribute(k,attrs[k]);
+    return e;
+  }
+  var shape;
+  (function buildRadar(){
+    [0.25,0.5,0.75,1].forEach(function(f){
+      var p=[];
+      for(var i=0;i<N;i++){var q=pt(i,f); p.push(q[0].toFixed(1)+','+q[1].toFixed(1));}
+      radar.appendChild(el('polygon',{points:p.join(' '),fill:'none',stroke:'var(--hair)','stroke-width':1}));
+    });
+    for(var i=0;i<N;i++){
+      var q=pt(i,1);
+      radar.appendChild(el('line',{x1:CX,y1:CY,x2:q[0].toFixed(1),y2:q[1].toFixed(1),stroke:'var(--hair)','stroke-width':1}));
+    }
+    shape=el('polygon',{fill:'color-mix(in srgb, var(--radar) 20%, transparent)',stroke:'var(--radar)','stroke-width':2,'stroke-linejoin':'round'});
+    radar.appendChild(shape);
+    for(var j=0;j<N;j++){
+      var d=el('circle',{r:3.6,fill:'var(--'+CAPS[j].v+')'});
+      d.setAttribute('data-dot',j); radar.appendChild(d);
+    }
+    for(var k=0;k<N;k++){
+      var a=(-90+k*360/N)*Math.PI/180;
+      var lx=CX+RLAB*Math.cos(a), ly=CY+RLAB*Math.sin(a);
+      var anchor = Math.abs(Math.cos(a))<0.25 ? 'middle' : (Math.cos(a)>0?'start':'end');
+      var tx=el('text',{x:lx.toFixed(1),y:(ly+4.5).toFixed(1),'text-anchor':anchor,
+        fill:'var(--'+CAPS[k].v+')','font-size':'13','font-family':'"Noto Sans TC", sans-serif','letter-spacing':'.04em'});
+      tx.textContent=CAPS[k].n;
+      radar.appendChild(tx);
+    }
+  })();
+
+  /* ── sliders ── */
+  var wrap=document.getElementById('sliders');
+  CAPS.forEach(function(c,i){
+    var row=document.createElement('div');
+    row.className='sl'; row.style.setProperty('--ck','var(--'+c.v+')');
+    row.innerHTML='<label for="s'+i+'">'+c.n+'資本</label>'+
+      '<input type="range" id="s'+i+'" min="0" max="10" step="1" value="5" aria-label="'+c.n+'資本評分">'+
+      '<span class="v" id="v'+i+'">5</span>';
+    wrap.appendChild(row);
+    row.querySelector('input').addEventListener('input',function(e){
+      vals[i]=+e.target.value; render();
+    });
+  });
+
+  function render(){
+    var p=[];
+    for(var i=0;i<N;i++){
+      var f=Math.max(vals[i],0.001)/10, q=pt(i,f);
+      p.push(q[0].toFixed(1)+','+q[1].toFixed(1));
+      var dot=radar.querySelector('[data-dot="'+i+'"]');
+      dot.setAttribute('cx',q[0].toFixed(1)); dot.setAttribute('cy',q[1].toFixed(1));
+      document.getElementById('v'+i).textContent=vals[i];
+      document.getElementById('s'+i).value=vals[i];
+    }
+    shape.setAttribute('points',p.join(' '));
+
+    var sum=vals.reduce(function(a,b){return a+b;},0);
+    var mx=Math.max.apply(null,vals), mn=Math.min.apply(null,vals);
+    document.getElementById('total').innerHTML=sum+'<small> / 70</small>';
+    document.getElementById('best').textContent=CAPS[vals.indexOf(mx)].n+'資本';
+    var wi=vals.indexOf(mn);
+    document.getElementById('worst').textContent=CAPS[wi].n+'資本';
+    document.getElementById('gap').textContent=(mx-mn);
+
+    var head;
+    if(mx-mn>=5) head='你的資本組合明顯偏科。書裡的重點是「七種一起長」——先補最短的那一根。';
+    else if(sum>=56) head='整體很均衡且紮實。接下來的關鍵是深度，而不是再多開一條戰線。';
+    else if(sum<=21) head='起點低沒關係，出身不決定未來。挑一種資本，做三十天就好。';
+    else head='中段班，這正是作者寫這本書的對象。一次專心提升一種資本。';
+    document.getElementById('advice').innerHTML=
+      '<p style="margin:0 0 8px">'+head+'</p>'+
+      '<p style="margin:0"><b style="color:var(--'+CAPS[wi].v+')">先從「'+CAPS[wi].n+'資本」下手：</b>'+CAPS[wi].adv+'</p>';
+  }
+
+  document.getElementById('save').addEventListener('click',function(){
+    try{
+      localStorage.setItem('habitus-scores',JSON.stringify(vals));
+      localStorage.setItem('habitus-saved-at',new Date().toISOString().slice(0,10));
+      document.getElementById('savedNote').textContent='已儲存於本機　'+new Date().toISOString().slice(0,10);
+    }catch(e){ document.getElementById('savedNote').textContent='此瀏覽器無法儲存'; }
+  });
+  document.getElementById('reset').addEventListener('click',function(){
+    vals=CAPS.map(function(){return 0;}); render();
+    document.getElementById('savedNote').textContent='';
+  });
+  try{
+    var s=JSON.parse(localStorage.getItem('habitus-scores')||'null');
+    if(Array.isArray(s)&&s.length===N){
+      vals=s.map(function(x){return Math.min(10,Math.max(0,+x||0));});
+      var at=localStorage.getItem('habitus-saved-at');
+      if(at) document.getElementById('savedNote').textContent='已讀取上次紀錄　'+at;
+    }
+  }catch(e){}
+  render();
+
+  /* ── quiz ── */
+  var QS=[
+    {q:'史帝芬斯的實驗中，成績進步最明顯的是哪一組學生？',
+     o:['被教「成績不好的原因與解法」的那組','被帶著分析自己出身劣勢的那組','兩組差不多','中上階層的對照組'],
+     a:1,e:'認真分析過自己出身劣勢的學生，學年結束時成績明顯變好，甚至追上中上階層的同學。看見慣習如何形塑自己，本身就是改變的起點。'},
+    {q:'書中認為，在七大資本裡「最重要的貨幣」是哪一種？',
+     o:['物質資本','知識資本','文化資本','社會資本'],
+     a:2,e:'「在所有資本中，文化資本是最重要的貨幣。」書中甚至說，品味比金錢更重要——而培養品味不需要很多錢，需要的是時間。'},
+    {q:'關於金錢，書中的核心觀點比較接近下列哪一句？',
+     o:['錢愈多，其他資本自然會跟著變多','錢只有在被有意識地用來增加其他六種資本時，才會產生影響','錢和其他資本無關','先追求文化資本，錢自然會來'],
+     a:1,e:'金錢是工具不是目的。差別不在你有多少錢，而在你怎麼用——買書、上課、請教練、旅行、優質社交，都能換成其他資本。'},
+    {q:'「螃蟹效應」在書中用來說明什麼？',
+     o:['社會階層較低的群體容易見不得別人好，會把想爬出去的人扯下來','人脈愈廣，機會愈多','群體決策比個人決策更準確','努力的人會互相帶動'],
+     a:0,e:'漁夫把螃蟹丟進桶子，本來有螃蟹爬得出去，但其他螃蟹會盡一切力量把牠扯下來。你開始成長時遇到的阻力，常常來自身邊的人。'},
+    {q:'書中提到的統計對比：每年至少訂下一項重大目標的比例是——',
+     o:['有錢人 40%，窮人 20%','有錢人 70%，窮人 3%','有錢人 90%，窮人 50%','兩者差不多'],
+     a:1,e:'70% vs 3%。作者強調：有錢人在財務上收穫更多，是因為他們遵循計畫行事，而不是因為他們更聰明。'},
+    {q:'依照書中的觀點，社會地位愈高的人，展現成功的方式會——',
+     o:['愈強調自己的功績與能力','愈依賴頭銜與名牌','愈透過慣習，而不是強調功績','愈頻繁地公開比較'],
+     a:2,e:'「社會地位愈高，展現成功就愈不是透過功績，而是透過慣習，因此強調自己的能力與成就也就愈不得體。」真正老資格的上層階級，只會在幽暗處炫耀。'},
+    {q:'書中說慣習有一種「遲滯現象」，意思是——',
+     o:['慣習一旦養成就無法改變','提升到上一個階層後，要生活一段時間才能真正內化慣習','慣習只會在年輕時形成','改變慣習會讓人退步'],
+     a:1,e:'改變需要時間。你可以先進入新的環境，但內化需要真實地生活一段時間——所以要給自己耐心，而不是懷疑自己不適合。'},
+    {q:'作者如何看待「想往上流動」這件事？',
+     o:['是忘恩負義的不知足','是一種創造性的不滿足，是自我發展的必需','是菁英才該有的想法','應該盡量壓抑'],
+     a:1,e:'「出人頭地的願望並不是出自忘恩負義的不知足，而是創造性的不滿足。」成長不是為了比別人優越，是為了成為更好的自己。'}
+  ];
+  var quizEl=document.getElementById('quiz'), answered=0, correct=0;
+  var KEY=['A','B','C','D'];
+  QS.forEach(function(item,qi){
+    var card=document.createElement('div'); card.className='q';
+    var h='<span class="q-n">Q'+String(qi+1).padStart(2,'0')+'</span><p class="q-t">'+item.q+'</p><div class="opts">';
+    item.o.forEach(function(o,oi){
+      h+='<button class="opt" data-o="'+oi+'"><span class="k">'+KEY[oi]+'</span><span>'+o+'</span></button>';
+    });
+    h+='</div><p class="exp"></p>';
+    card.innerHTML=h;
+    quizEl.appendChild(card);
+    var btns=card.querySelectorAll('.opt'), exp=card.querySelector('.exp');
+    btns.forEach(function(b){
+      b.addEventListener('click',function(){
+        if(card.dataset.done) return;
+        card.dataset.done='1'; answered++;
+        var pick=+b.dataset.o, ok=pick===item.a;
+        if(ok) correct++;
+        btns.forEach(function(x){
+          x.disabled=true;
+          if(+x.dataset.o===item.a) x.classList.add('ok');
+          else if(x===b) x.classList.add('no');
+        });
+        exp.innerHTML='<b>'+(ok?'答對了。':'正解是 '+KEY[item.a]+'。')+'</b> '+item.e;
+        exp.classList.add('on');
+        if(answered===QS.length) finish();
+      });
+    });
+  });
+  function finish(){
+    var box=document.getElementById('score');
+    box.style.display='block';
+    document.getElementById('scoreNum').innerHTML=correct+'<small> / 8</small>';
+    var m;
+    if(correct===8) m='全對。你不只看過，是真的讀進去了。';
+    else if(correct>=6) m='掌握得不錯，回頭再翻一次卡片就完整了。';
+    else if(correct>=4) m='觀念有了，細節可以再走一遍七大資本卡。';
+    else m='沒關係——這正是書裡說的：出身不決定未來，重讀一次就是。';
+    document.getElementById('scoreMsg').textContent=m;
+    box.scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+})();
+</script>
