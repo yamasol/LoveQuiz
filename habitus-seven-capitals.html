@@ -1,3 +1,5 @@
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>慣習．七大資本</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -396,7 +398,9 @@ h2{font-size:clamp(1.55rem,6.2vw,1.85rem);font-weight:900;letter-spacing:.03em;m
 <script>
 (function(){
   "use strict";
-  var root=document.documentElement, tog=document.getElementById('tog');
+  var root=document.documentElement;
+  if(!root.getAttribute('lang')) root.setAttribute('lang','zh-Hant');
+  var tog=document.getElementById('tog');
   try{var th=localStorage.getItem('habitus-theme'); if(th) root.setAttribute('data-theme',th);}catch(e){}
   tog.addEventListener('click',function(){
     var cur=root.getAttribute('data-theme');
