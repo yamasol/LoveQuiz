@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>箭還插在身上 ── 毒箭之喻</title>
-<!-- 毒箭之喻 互動導讀 ── v1.1.0 ── 2026-08-31 ── 作者：睡覺的紅豬 -->
-<meta name="version" content="1.1.0">
+<!-- 毒箭之喻 互動導讀 ── v1.2.0 ── 2026-08-31 ── 作者：睡覺的紅豬 -->
+<meta name="version" content="1.2.0">
 <meta name="author" content="睡覺的紅豬">
 <meta name="description" content="佛典毒箭之喻（中部第63經／佛說箭喻經）的互動導讀：親手選擇要先問問題，還是先拔箭。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -157,11 +157,34 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--saffron);outlin
 .threat{max-width:36em;font-size:1.02rem}
 
 /* ---------- meaning ---------- */
-.lessons{margin-top:44px;display:grid;gap:34px}
+.lessons{margin-top:40px;display:grid;gap:34px}
 .lesson{display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:start}
 .lesson .mark{font-family:var(--serif);font-size:1.6rem;color:var(--saffron);line-height:1;padding-top:4px;white-space:nowrap}
 .lesson h3{font-size:1.2rem;margin-bottom:8px}
 .lesson p{margin:0;max-width:42em;color:#D5CBB4}
+
+/* ---------- folded sources ---------- */
+.folds{margin-top:38px;border-top:1px solid var(--line)}
+.fold{border-bottom:1px solid var(--line)}
+.fold summary{
+  cursor:pointer;list-style:none;padding:22px 40px 22px 0;position:relative;
+  display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 18px;
+}
+.fold summary::-webkit-details-marker{display:none}
+.fold summary::after{
+  content:"";position:absolute;right:8px;top:32px;width:9px;height:9px;
+  border-right:1px solid var(--saffron);border-bottom:1px solid var(--saffron);
+  transform:rotate(45deg);transition:transform .25s ease;
+}
+.fold[open] summary::after{transform:rotate(-135deg)}
+.fold summary:hover .fold-t{color:var(--saffron)}
+.fold-t{font-family:var(--serif);font-size:1.2rem;font-weight:700;letter-spacing:.05em;transition:color .2s}
+.fold-h{font-size:.9rem;color:var(--leaf-dim)}
+.fold-body{padding:2px 0 34px}
+.fold-body .two{margin-top:6px}
+.fold-body .intro{margin-bottom:0}
+.fold-body .hist{margin-top:6px}
+.fold-body .timeline{margin-top:36px}
 
 /* ---------- history ---------- */
 .hist{max-width:40em;margin-top:38px}
@@ -225,6 +248,10 @@ footer p{max-width:44em}
   .pull{width:100%;text-align:center;padding:16px 20px}
   .reset{width:100%;padding:6px 0}
   .verdict{padding:22px 20px}
+  .fold summary{padding:20px 34px 20px 0}
+  .fold summary::after{top:29px}
+  .fold-t{font-size:1.1rem}
+  .fold-body{padding-bottom:28px}
 }
 @media (max-width:430px){
   .hero h1{font-size:2.25rem}
@@ -248,7 +275,7 @@ footer p{max-width:44em}
       <p class="lede">一個人被毒箭射中。醫生已經到了，手就在箭上。他卻說：等一下，先告訴我射箭的人姓什麼、住哪裡、那支箭的羽毛取自哪一種鳥。</p>
       <p class="lede">佛陀用這個畫面回答一個追問形上學的弟子。兩千五百年後，它更常出現在另一種場合：有人在關係裡受了傷，非要弄清「他為什麼要這樣對我」才肯開始復原。</p>
       <p class="src">《中部》第 63 經　鬘童子小經　／　漢譯《佛說箭喻經》</p>
-      <p class="byline"><span class="ver">v1.1.0</span><span>整理與撰文　<span class="name">睡覺的紅豬</span></span><a href="#credits">製作說明</a></p>
+      <p class="byline"><span class="ver">v1.2.0</span><span>整理與撰文　<span class="name">睡覺的紅豬</span></span><a href="#credits">製作說明</a></p>
     </div>
     <div class="hero-art" aria-hidden="true">
       <svg viewBox="0 0 340 380" xmlns="http://www.w3.org/2000/svg">
@@ -353,79 +380,11 @@ footer p{max-width:44em}
   </div>
 </section>
 
-<section id="origin">
-  <div class="wrap">
-    <p class="kicker">出處</p>
-    <h2>這段話寫在哪裡</h2>
-    <p class="intro">同一場對話，南北傳各有版本，情節與譬喻幾乎一致，可以互相對讀。</p>
-    <div class="two">
-      <div class="tradition">
-        <h3>南傳巴利藏</h3>
-        <p class="pali">Majjhima Nikāya 63 · Cūḷa-Māluṅkyovāda Sutta</p>
-        <p>《中部》第 63 經，中譯作〈鬘童子小經〉。名字裡的「小」是相對於同一集裡篇幅更長的第 64 經而言，不是內容分量的高下。</p>
-      </div>
-      <div class="tradition">
-        <h3>漢譯經典</h3>
-        <p class="pali">《佛說箭喻經》· 大正藏 T01 No. 94</p>
-        <p>另有《中阿含經》第 221 經〈箭喻經〉，屬同一系傳本。漢譯把提問的弟子譯作摩羅鳩摩羅、鬘童子等不同名字。</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="history">
-  <div class="wrap">
-    <p class="kicker">歷史典故</p>
-    <h2>這個比喻為什麼是「箭」</h2>
-
-    <div class="hist">
-      <h3>說法的年代與地點</h3>
-      <p>時間大約在公元前五世紀，恆河中游。城市與商路正在興起，摩揭陀、憍薩羅這些王國兼併小邦，舊有的婆羅門祭祀權威被一批出家遊行的沙門挑戰。這一經的場景設在憍薩羅國舍衛城的祇樹給孤獨園，也就是佛陀後半生最常駐留、最多經典成立的地方。</p>
-
-      <h3>當時的知識圈在比什麼</h3>
-      <p>世界有沒有邊界、靈魂與身體是一還是二、解脫者死後存不存在 ── 這些不是鬘童子個人的怪問題，而是那個時代辯論場上的標準題目。各家沙門與婆羅門互相立論、互相破斥，答得漂亮就有名聲與供養。早期佛典把這類論題整理得很清楚：《長部》第 1 經〈梵網經〉列出六十二種見解，一張一張攤開來看它們怎麼生成。</p>
-      <p>佛陀對其中十個問題採取的態度，巴利文獻稱為 <span class="pali-word">avyākata</span>，不予斷言、不作記說，漢譯作「無記」。要注意他的理由不是「我不知道」，而是「這樣問，答了也到不了目的地」。鬘童子的不滿正在這裡：他把沉默當成隱瞞。</p>
-
-      <h3>箭醫是一個真的職業</h3>
-      <p>比喻挑箭不是修辭上的巧合。塗毒的箭在當時的戰爭與狩獵中是實物，拔箭治傷是專門技術，巴利文獻裡的外科醫叫 <span class="pali-word">sallakatta</span>，字面就是「處理箭的人」。聽眾腦中浮現的是他們見過的場面：有人被抬進來，箭還在肉裡，時間以呼吸計算。</p>
-      <p>醫療語彙貫穿整個早期佛法。四聖諦的結構本身就是一份診斷書 ── 症狀、病因、可以痊癒、療程。毒箭之喻只是把這份診斷書講給一個正在追問弓弦材質的人聽。</p>
-
-      <div class="timeline">
-        <div class="tl-row"><div class="tl-when">約公元前 5 世紀</div><div class="tl-what">佛陀於舍衛城說此經，以口傳合誦的方式在僧團中保存。</div></div>
-        <div class="tl-row"><div class="tl-when">約公元前 1 世紀</div><div class="tl-what">巴利三藏在斯里蘭卡首次書寫成文，《中部》第 63 經定型於此系傳本。</div></div>
-        <div class="tl-row"><div class="tl-when">公元 397–398 年</div><div class="tl-what">《中阿含經》六十卷譯出於東晉，其中第 221 經即〈箭喻經〉。單行的《佛說箭喻經》一般標為失譯，歸在東晉錄下。</div></div>
-        <div class="tl-row"><div class="tl-when">1924–1934 年</div><div class="tl-what">《大正新脩大藏經》編成，單行本編為 T01 No. 94，成為今日引用的通行編號。</div></div>
-        <div class="tl-row"><div class="tl-when">二十世紀至今</div><div class="tl-what">這個比喻走出經藏，被引用在醫學倫理、心理治療與哲學課堂上，用來談「哪些問題該先放下」。</div></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="context">
-  <div class="wrap">
-    <p class="kicker">當時的場面</p>
-    <h2>弟子問的其實是這十件事</h2>
-    <p class="threat">鬘童子把一串問題排在佛陀面前，並且加了條件：不回答，他就還俗、不再跟著修行。</p>
-    <div class="ten">
-      <span>世界是永恆的嗎</span>
-      <span>世界不是永恆的嗎</span>
-      <span>世界有邊界嗎</span>
-      <span>世界沒有邊界嗎</span>
-      <span>身與心是同一件事嗎</span>
-      <span>身與心是兩件事嗎</span>
-      <span>如來死後還存在嗎</span>
-      <span>如來死後就不存在了嗎</span>
-      <span>是既存在又不存在嗎</span>
-      <span>是既非存在也非不存在嗎</span>
-    </div>
-    <p class="threat">佛陀沒有一題一題回答，也沒有說這些問題沒有意義。他指出的是另一件事：從出家到現在，他從未承諾要解答這些；而在答案出現之前，人已經在生老病死裡了。接著他講了中箭的那個人。</p>
-  </div>
-</section>
-
 <section id="meaning">
   <div class="wrap">
-    <p class="kicker">讀出來的東西</p>
+    <p class="kicker">給現代人的寓意</p>
     <h2>先活下來，再問為什麼</h2>
+    <p class="intro">佛陀講這個比喻是為了排順序。同一個順序，放在今天的關係、失落與委屈上一樣成立。</p>
     <div class="lessons">
       <div class="lesson">
         <span class="mark">先</span>
@@ -452,6 +411,81 @@ footer p{max-width:44em}
   </div>
 </section>
 
+<section id="sources">
+  <div class="wrap">
+    <p class="kicker">典故考據</p>
+    <h2>想深入的話，資料在這裡</h2>
+    <p class="intro">下面三個區塊預設收起來。看完上面的部分就夠用了，這裡是給想追原典的人。</p>
+
+    <div class="folds">
+      <details class="fold">
+        <summary><span class="fold-t">經文出處</span><span class="fold-h">南北傳兩個版本的編號與差異</span></summary>
+        <div class="fold-body">
+          <p class="intro">同一場對話，南北傳各有版本，情節與譬喻幾乎一致，可以互相對讀。</p>
+          <div class="two">
+            <div class="tradition">
+              <h3>南傳巴利藏</h3>
+              <p class="pali">Majjhima Nikāya 63 · Cūḷa-Māluṅkyovāda Sutta</p>
+              <p>《中部》第 63 經，中譯作〈鬘童子小經〉。名字裡的「小」是相對於同一集裡篇幅更長的第 64 經而言，不是內容分量的高下。</p>
+            </div>
+            <div class="tradition">
+              <h3>漢譯經典</h3>
+              <p class="pali">《佛說箭喻經》· 大正藏 T01 No. 94</p>
+              <p>另有《中阿含經》第 221 經〈箭喻經〉，屬同一系傳本。漢譯把提問的弟子譯作摩羅鳩摩羅、鬘童子等不同名字。</p>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <details class="fold">
+        <summary><span class="fold-t">當時的場面</span><span class="fold-h">鬘童子開出的十個問題與他的威脅</span></summary>
+        <div class="fold-body">
+          <p class="threat">鬘童子把一串問題排在佛陀面前，並且加了條件：不回答，他就還俗、不再跟著修行。</p>
+          <div class="ten">
+            <span>世界是永恆的嗎</span>
+            <span>世界不是永恆的嗎</span>
+            <span>世界有邊界嗎</span>
+            <span>世界沒有邊界嗎</span>
+            <span>身與心是同一件事嗎</span>
+            <span>身與心是兩件事嗎</span>
+            <span>如來死後還存在嗎</span>
+            <span>如來死後就不存在了嗎</span>
+            <span>是既存在又不存在嗎</span>
+            <span>是既非存在也非不存在嗎</span>
+          </div>
+          <p class="threat">佛陀沒有一題一題回答，也沒有說這些問題沒有意義。他指出的是另一件事：從出家到現在，他從未承諾要解答這些；而在答案出現之前，人已經在生老病死裡了。接著他講了中箭的那個人。</p>
+        </div>
+      </details>
+
+      <details class="fold">
+        <summary><span class="fold-t">歷史典故</span><span class="fold-h">說法的年代、當時的辯論風氣，以及流傳年表</span></summary>
+        <div class="fold-body">
+          <div class="hist">
+            <h3>說法的年代與地點</h3>
+            <p>時間大約在公元前五世紀，恆河中游。城市與商路正在興起，摩揭陀、憍薩羅這些王國兼併小邦，舊有的婆羅門祭祀權威被一批出家遊行的沙門挑戰。這一經的場景設在憍薩羅國舍衛城的祇樹給孤獨園，也就是佛陀後半生最常駐留、最多經典成立的地方。</p>
+
+            <h3>當時的知識圈在比什麼</h3>
+            <p>世界有沒有邊界、靈魂與身體是一還是二、解脫者死後存不存在 ── 這些不是鬘童子個人的怪問題，而是那個時代辯論場上的標準題目。各家沙門與婆羅門互相立論、互相破斥，答得漂亮就有名聲與供養。早期佛典把這類論題整理得很清楚：《長部》第 1 經〈梵網經〉列出六十二種見解，一張一張攤開來看它們怎麼生成。</p>
+            <p>佛陀對其中十個問題採取的態度，巴利文獻稱為 <span class="pali-word">avyākata</span>，不予斷言、不作記說，漢譯作「無記」。要注意他的理由不是「我不知道」，而是「這樣問，答了也到不了目的地」。鬘童子的不滿正在這裡：他把沉默當成隱瞞。</p>
+
+            <h3>箭醫是一個真的職業</h3>
+            <p>比喻挑箭不是修辭上的巧合。塗毒的箭在當時的戰爭與狩獵中是實物，拔箭治傷是專門技術，巴利文獻裡的外科醫叫 <span class="pali-word">sallakatta</span>，字面就是「處理箭的人」。聽眾腦中浮現的是他們見過的場面：有人被抬進來，箭還在肉裡，時間以呼吸計算。</p>
+            <p>醫療語彙貫穿整個早期佛法。四聖諦的結構本身就是一份診斷書 ── 症狀、病因、可以痊癒、療程。毒箭之喻只是把這份診斷書講給一個正在追問弓弦材質的人聽。</p>
+
+            <div class="timeline">
+              <div class="tl-row"><div class="tl-when">約公元前 5 世紀</div><div class="tl-what">佛陀於舍衛城說此經，以口傳合誦的方式在僧團中保存。</div></div>
+              <div class="tl-row"><div class="tl-when">約公元前 1 世紀</div><div class="tl-what">巴利三藏在斯里蘭卡首次書寫成文，《中部》第 63 經定型於此系傳本。</div></div>
+              <div class="tl-row"><div class="tl-when">公元 397–398 年</div><div class="tl-what">《中阿含經》六十卷譯出於東晉，其中第 221 經即〈箭喻經〉。單行的《佛說箭喻經》一般標為失譯，歸在東晉錄下。</div></div>
+              <div class="tl-row"><div class="tl-when">1924–1934 年</div><div class="tl-what">《大正新脩大藏經》編成，單行本編為 T01 No. 94，成為今日引用的通行編號。</div></div>
+              <div class="tl-row"><div class="tl-when">二十世紀至今</div><div class="tl-what">這個比喻走出經藏，被引用在醫學倫理、心理治療與哲學課堂上，用來談「哪些問題該先放下」。</div></div>
+            </div>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
 <section id="credits">
   <div class="wrap">
     <p class="kicker">製作說明</p>
@@ -471,13 +505,15 @@ footer p{max-width:44em}
       </div>
       <div class="credit">
         <dt>目前版本</dt>
-        <dd>v1.1.0<span>2026-08-31 發布</span></dd>
+        <dd>v1.2.0<span>2026-08-31 發布</span></dd>
       </div>
     </dl>
 
     <details class="log-box">
       <summary>版本紀錄</summary>
       <dl class="rel">
+        <dt>v1.2.0</dt>
+        <dd>把「給現代人的寓意」移到互動之後，讓核心結論先出現；經文出處、當時的場面、歷史典故三段合併為頁面最後的摺疊區，預設收起。<em>　2026-08-31</em></dd>
         <dt>v1.1.0</dt>
         <dd>新增「歷史典故」章節與流傳年表；加上作者標示、AI 工具說明與本版本紀錄；重做行動版介面，手機上身體圖與毒量計改為釘在畫面頂端的窄條，按鈕改為單欄全寬。<em>　2026-08-31</em></dd>
         <dt>v1.0.0</dt>
@@ -490,7 +526,7 @@ footer p{max-width:44em}
 <footer>
   <div class="wrap">
     <p>這一頁是導讀，不是經文全文。想讀原典，可查《中部》第 63 經或大正藏 T01 No. 94；十個形上學問題與傷者的提問清單，依經文內容改寫為現代中文，年代標示為學界通行的概略區間。</p>
-    <p style="margin-top:14px">睡覺的紅豬　·　v1.1.0</p>
+    <p style="margin-top:14px">睡覺的紅豬　·　v1.2.0</p>
   </div>
 </footer>
 
