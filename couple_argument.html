@@ -12,10 +12,10 @@
   --sub:#7c7a74;
   --line:#e6e3dd;
   --accent:#3d3b36;
-  --m:#5b7c99;        /* 男方 冷色 */
-  --f:#b5766a;        /* 女方 暖色 */
+  --m:#c8a021;        /* 男方 · 海綿黃 */
+  --f:#c9718c;        /* 女方 · 星星粉 */
   --bub-m:#ffffff;
-  --bub-f:#eef2ee;
+  --bub-f:#fdeef2;
 }
 @media (prefers-color-scheme: dark){
   :root{
@@ -25,10 +25,10 @@
     --sub:#94918a;
     --line:#2c2c28;
     --accent:#e9e7e2;
-    --m:#8aaac4;
-    --f:#d69a8e;
+    --m:#e0be48;
+    --f:#e293ab;
     --bub-m:#232320;
-    --bub-f:#25302a;
+    --bub-f:#33232a;
   }
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -40,6 +40,7 @@ body{
   -webkit-font-smoothing:antialiased;
 }
 .wrap{max-width:640px;margin:0 auto;background:var(--bg)}
+.sprite{position:absolute;width:0;height:0;overflow:hidden}
 
 /* ---- header ---- */
 header{
@@ -62,14 +63,22 @@ header{
 .panel{display:none}
 .panel.active{display:block}
 
+/* ---- avatar ---- */
+.av{
+  flex:0 0 38px;width:38px;height:38px;border-radius:50%;
+  overflow:hidden;align-self:flex-end;
+  box-shadow:0 0 0 1px var(--line) inset;
+  background:#fff;display:block;
+}
+.av svg{display:block;width:100%;height:100%}
+.av.sm{flex-basis:22px;width:22px;height:22px;align-self:center}
+
 /* ---- tab 1 ---- */
 .analysis{padding:26px 20px 56px}
 
 .lede{margin:0 0 30px}
 .lede .lbl{font-size:11px;letter-spacing:.18em;color:var(--sub);text-transform:uppercase}
-.lede h2{
-  margin:8px 0 0;font-size:22px;font-weight:600;line-height:1.5;letter-spacing:0;
-}
+.lede h2{margin:8px 0 0;font-size:22px;font-weight:600;line-height:1.5;letter-spacing:0}
 .lede h2 span{color:var(--sub);font-weight:400}
 .lede p{margin:12px 0 0;font-size:14.5px;color:var(--sub);line-height:1.75}
 
@@ -78,7 +87,7 @@ header{
 section.blk{margin-bottom:34px}
 section.blk > h3{
   margin:0 0 3px;font-size:15px;font-weight:600;
-  display:flex;align-items:baseline;gap:9px;
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
 }
 .tag{
   font-size:11px;font-weight:600;letter-spacing:.08em;
@@ -92,8 +101,8 @@ section.blk > .note{margin:0 0 16px;font-size:13px;color:var(--sub)}
 .item:last-child{margin-bottom:0}
 .item b{display:block;font-size:14.5px;font-weight:600;margin-bottom:2px}
 .item p{margin:0;font-size:14px;color:var(--sub);line-height:1.75}
-.blk.male .item{border-left-color:color-mix(in srgb,var(--m) 45%,transparent)}
-.blk.female .item{border-left-color:color-mix(in srgb,var(--f) 45%,transparent)}
+.blk.male .item{border-left-color:color-mix(in srgb,var(--m) 50%,transparent)}
+.blk.female .item{border-left-color:color-mix(in srgb,var(--f) 50%,transparent)}
 
 .split{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:6px;overflow:hidden;margin-top:6px}
 .split > div{background:var(--card);padding:15px 16px}
@@ -114,41 +123,104 @@ section.blk > .note{margin:0 0 16px;font-size:13px;color:var(--sub)}
 }
 
 /* ---- tab 2 ---- */
-.chat{padding:24px 18px 60px}
-.meta{
-  text-align:center;font-size:11.5px;letter-spacing:.12em;color:var(--sub);
-  padding-bottom:22px;
+.chat{
+  position:relative;padding:20px 16px 60px;overflow:hidden;
+  background:
+    /* 小圓點 */
+    radial-gradient(circle, rgba(255,255,255,.75) 1.7px, transparent 1.9px) 0 0/20px 20px,
+    /* 大泡泡 */
+    radial-gradient(circle at 8% 12%, rgba(255,255,255,.55) 0 26px, transparent 27px),
+    radial-gradient(circle at 92% 30%, rgba(255,255,255,.45) 0 18px, transparent 19px),
+    radial-gradient(circle at 14% 58%, rgba(255,255,255,.40) 0 14px, transparent 15px),
+    radial-gradient(circle at 86% 74%, rgba(255,255,255,.50) 0 22px, transparent 23px),
+    radial-gradient(circle at 30% 92%, rgba(255,255,255,.40) 0 16px, transparent 17px),
+    /* 底色 */
+    linear-gradient(170deg,#d9f1fa 0%,#e8f6f2 45%,#fdeef4 100%);
 }
-.row{display:flex;margin-bottom:14px}
-.row.f{justify-content:flex-end}
+@media (prefers-color-scheme: dark){
+  .chat{
+    background:
+      radial-gradient(circle, rgba(255,255,255,.10) 1.7px, transparent 1.9px) 0 0/20px 20px,
+      radial-gradient(circle at 8% 12%, rgba(255,255,255,.06) 0 26px, transparent 27px),
+      radial-gradient(circle at 92% 30%, rgba(255,255,255,.05) 0 18px, transparent 19px),
+      radial-gradient(circle at 14% 58%, rgba(255,255,255,.05) 0 14px, transparent 15px),
+      radial-gradient(circle at 86% 74%, rgba(255,255,255,.06) 0 22px, transparent 23px),
+      radial-gradient(circle at 30% 92%, rgba(255,255,255,.05) 0 16px, transparent 17px),
+      linear-gradient(170deg,#15242c 0%,#1a2622 45%,#2a1c22 100%);
+  }
+}
+/* 底部沙地 */
+.chat::after{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:46px;
+  background:
+    radial-gradient(circle at 20% 100%, #f2e2b8 0 40px, transparent 41px),
+    radial-gradient(circle at 62% 100%, #f2e2b8 0 52px, transparent 53px),
+    linear-gradient(#f6ebcd,#f2e2b8);
+  opacity:.85;pointer-events:none;
+}
+@media (prefers-color-scheme: dark){
+  .chat::after{background:linear-gradient(#2a2618,#332d1c);opacity:.55}
+}
+.chat > *{position:relative;z-index:1}
+.meta{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  font-size:11.5px;letter-spacing:.1em;color:#5b7480;
+  background:rgba(255,255,255,.6);border-radius:99px;
+  padding:5px 14px;margin:0 auto 22px;width:fit-content;
+}
+@media (prefers-color-scheme: dark){
+  .meta{color:#9db4bd;background:rgba(255,255,255,.07)}
+}
+.row{display:flex;align-items:flex-end;gap:9px;margin-bottom:12px}
+.row.f{flex-direction:row-reverse}
+.row.m + .row.m > .av,
+.row.f + .row.f > .av{visibility:hidden}
 .bub{
-  max-width:82%;padding:10px 14px;font-size:15px;line-height:1.72;
-  border-radius:14px;word-break:break-word;
+  max-width:calc(100% - 60px);padding:10px 14px;font-size:15px;line-height:1.72;
+  border-radius:16px;word-break:break-word;
+  box-shadow:0 1px 3px rgba(60,80,90,.10);
 }
 .row.m .bub{
-  background:var(--bub-m);border:1px solid var(--line);
-  border-bottom-left-radius:4px;
+  background:#fffdf4;border:1px solid rgba(200,160,33,.28);
+  border-bottom-left-radius:5px;
 }
 .row.f .bub{
-  background:var(--bub-f);border:1px solid transparent;
-  border-bottom-right-radius:4px;
+  background:#fff0f5;border:1px solid rgba(201,113,140,.24);
+  border-bottom-right-radius:5px;
 }
-.spk{
-  font-size:11px;letter-spacing:.1em;color:var(--sub);
-  margin:16px 0 5px;
+@media (prefers-color-scheme: dark){
+  .row.m .bub{background:#2b2718;border-color:rgba(224,190,72,.28)}
+  .row.f .bub{background:#33232a;border-color:rgba(226,147,171,.26)}
+  .bub{box-shadow:none}
 }
-.spk.f{text-align:right}
-.spk.m{color:var(--m)}
-.spk.f{color:var(--f)}
+.av{box-shadow:0 0 0 2px rgba(255,255,255,.85), 0 1px 3px rgba(60,80,90,.18)}
+@media (prefers-color-scheme: dark){
+  .av{box-shadow:0 0 0 2px rgba(255,255,255,.14)}
+}
+.av.sm{box-shadow:0 0 0 1px var(--line)}
+.spk{font-size:11px;letter-spacing:.1em;margin:18px 0 6px;font-weight:600}
+.spk.m{color:#9a7a10;padding-left:47px}
+.spk.f{color:#a8546e;text-align:right;padding-right:47px}
+@media (prefers-color-scheme: dark){
+  .spk.m{color:var(--m)} .spk.f{color:var(--f)}
+}
 .aside{
-  text-align:center;font-size:12px;color:var(--sub);
-  margin:16px auto;max-width:74%;font-style:italic;
+  text-align:center;font-size:12px;color:#5b7480;
+  margin:16px auto;max-width:80%;
+  background:rgba(255,255,255,.62);border-radius:99px;padding:5px 14px;width:fit-content;
 }
-.bub i{font-style:normal;color:var(--f);font-size:13px}
-.row.m .bub i{color:var(--m)}
+@media (prefers-color-scheme: dark){
+  .aside{color:#9db4bd;background:rgba(255,255,255,.07)}
+}
+.bub i{font-style:normal;color:#a8546e;font-size:13px}
+.row.m .bub i{color:#9a7a10}
 .fin{
-  text-align:center;font-size:11.5px;letter-spacing:.14em;color:var(--sub);
-  margin-top:26px;
+  text-align:center;font-size:11.5px;letter-spacing:.14em;color:#5b7480;
+  margin:26px auto 0;background:rgba(255,255,255,.62);
+  border-radius:99px;padding:5px 16px;width:fit-content;
+}
+@media (prefers-color-scheme: dark){
+  .fin{color:#9db4bd;background:rgba(255,255,255,.07)}
 }
 .foot{
   padding:16px 20px 42px;font-size:11.5px;color:var(--sub);
@@ -157,6 +229,60 @@ section.blk > .note{margin:0 0 16px;font-size:13px;color:var(--sub)}
 </style>
 </head>
 <body>
+
+<!-- ===== 頭像圖形（原創簡化風格） ===== -->
+<svg class="sprite" aria-hidden="true">
+  <symbol id="av-sponge" viewBox="0 0 100 100">
+    <rect width="100" height="100" fill="#F5DF4D"/>
+    <g fill="#E0C838">
+      <ellipse cx="13" cy="18" rx="9" ry="6"/>
+      <ellipse cx="88" cy="26" rx="8" ry="5.5"/>
+      <ellipse cx="17" cy="78" rx="10" ry="6.5"/>
+      <ellipse cx="84" cy="84" rx="8" ry="5"/>
+      <ellipse cx="50" cy="9" rx="7" ry="4"/>
+      <ellipse cx="6" cy="48" rx="6" ry="8"/>
+    </g>
+    <g stroke="#4a4020" stroke-width="2.6" fill="#fff">
+      <circle cx="33" cy="41" r="14"/>
+      <circle cx="67" cy="41" r="14"/>
+    </g>
+    <circle cx="34" cy="42" r="6.2" fill="#4FA3DC"/>
+    <circle cx="66" cy="42" r="6.2" fill="#4FA3DC"/>
+    <circle cx="34" cy="42" r="2.9" fill="#22200f"/>
+    <circle cx="66" cy="42" r="2.9" fill="#22200f"/>
+    <g stroke="#4a4020" stroke-width="2.2" stroke-linecap="round" fill="none">
+      <path d="M25 26 l-6 -6"/><path d="M41 24 l-3 -8"/>
+      <path d="M75 26 l6 -6"/><path d="M59 24 l3 -8"/>
+      <path d="M50 52 q4 7 -1 11"/>
+      <path d="M28 68 q22 17 44 0"/>
+    </g>
+    <g fill="#fff" stroke="#4a4020" stroke-width="1.6">
+      <rect x="43.5" y="68" width="6" height="7.5" rx="1.5"/>
+      <rect x="50.5" y="68" width="6" height="7.5" rx="1.5"/>
+    </g>
+  </symbol>
+
+  <symbol id="av-star" viewBox="0 0 100 100">
+    <rect width="100" height="100" fill="#EE9BB1"/>
+    <path d="M50 -14 L66 30 L114 32 L78 60 L92 108 L50 80 L8 108 L22 60 L-14 32 L34 30 Z" fill="#F6B7C7"/>
+    <g fill="#E0849E">
+      <circle cx="17" cy="60" r="3.2"/><circle cx="86" cy="54" r="2.6"/>
+      <circle cx="26" cy="22" r="2.4"/><circle cx="74" cy="80" r="2.6"/>
+    </g>
+    <g stroke="#6b3a48" stroke-width="2.4" fill="#fff">
+      <ellipse cx="35" cy="44" rx="11" ry="12"/>
+      <ellipse cx="65" cy="44" rx="11" ry="12"/>
+    </g>
+    <circle cx="36" cy="46" r="3.6" fill="#2b1a20"/>
+    <circle cx="64" cy="46" r="3.6" fill="#2b1a20"/>
+    <g stroke="#6b3a48" stroke-width="3" stroke-linecap="round" fill="none">
+      <path d="M25 29 q10 -5 19 -1"/>
+      <path d="M75 29 q-10 -5 -19 -1"/>
+      <path d="M33 68 q17 13 34 -1"/>
+    </g>
+  </symbol>
+</svg>
+
 <div class="wrap">
 
 <header>
@@ -183,7 +309,7 @@ section.blk > .note{margin:0 0 16px;font-size:13px;color:var(--sub)}
     <div class="rule"></div>
 
     <section class="blk male">
-      <h3><span class="tag m">男方</span>訴求：專一的陪伴與尊重</h3>
+      <h3><span class="av sm"><svg><use href="#av-sponge"/></svg></span><span class="tag m">男方</span>訴求：專一的陪伴與尊重</h3>
       <p class="note">擴音裡的男聲，情緒集中在「被夾在中間」。</p>
 
       <div class="item">
@@ -201,7 +327,7 @@ section.blk > .note{margin:0 0 16px;font-size:13px;color:var(--sub)}
     </section>
 
     <section class="blk female">
-      <h3><span class="tag f">女方</span>訴求：個人空間與標準不一</h3>
+      <h3><span class="av sm"><svg><use href="#av-star"/></svg></span><span class="tag f">女方</span>訴求：個人空間與標準不一</h3>
       <p class="note">錄影的一方，情緒集中在「怎麼做都不對」。</p>
 
       <div class="item">
@@ -249,73 +375,77 @@ section.blk > .note{margin:0 0 16px;font-size:13px;color:var(--sub)}
 <!-- ============ TAB 2 ============ -->
 <div class="panel" id="p2" role="tabpanel" aria-labelledby="t2">
   <div class="chat">
-    <div class="meta">女方錄影 ／ 男方擴音</div>
+    <div class="meta">
+      <span class="av sm"><svg><use href="#av-sponge"/></svg></span>
+      男方擴音 ／ 女方錄影
+      <span class="av sm"><svg><use href="#av-star"/></svg></span>
+    </div>
 
     <div class="spk f">女方</div>
-    <div class="row f"><div class="bub">跟我朋友講電話啦。</div></div>
+    <div class="row f"><span class="av"><svg><use href="#av-star"/></svg></span><div class="bub">跟我朋友講電話啦。</div></div>
 
     <div class="spk m">男方</div>
-    <div class="row m"><div class="bub">跟我朋友講電話啊，結果講到睡著，然後連理都不理我這樣啊。</div></div>
+    <div class="row m"><span class="av"><svg><use href="#av-sponge"/></svg></span><div class="bub">跟我朋友講電話啊，結果講到睡著，然後連理都不理我這樣啊。</div></div>
 
-    <div class="row f"><div class="bub">因為我睡著啊，我要怎麼理？</div></div>
+    <div class="row f"><span class="av"><svg><use href="#av-star"/></svg></span><div class="bub">因為我睡著啊，我要怎麼理？</div></div>
 
-    <div class="row m"><div class="bub">我們講電話的時間，然後妳去跟妳的朋友講電話，妳有在尊重我嗎？</div></div>
+    <div class="row m"><span class="av"><svg><use href="#av-sponge"/></svg></span><div class="bub">我們講電話的時間，然後妳去跟妳的朋友講電話，妳有在尊重我嗎？</div></div>
 
-    <div class="row f"><div class="bub">我就睡著了，我要怎麼理？我就沒知覺了。</div></div>
+    <div class="row f"><span class="av"><svg><use href="#av-star"/></svg></span><div class="bub">我就睡著了，我要怎麼理？我就沒知覺了。</div></div>
 
-    <div class="row m"><div class="bub">妳說啊，除了昨天以外，之前不是都一樣？不是都有？我打給妳的時候妳不是在跟他講電話？或者是我們在通電話，通到一半妳再跟他講電話，沒有嗎？</div></div>
+    <div class="row m"><span class="av"><svg><use href="#av-sponge"/></svg></span><div class="bub">妳說啊，除了昨天以外，之前不是都一樣？不是都有？我打給妳的時候妳不是在跟他講電話？或者是我們在通電話，通到一半妳再跟他講電話，沒有嗎？</div></div>
 
-    <div class="row f"><div class="bub">我為什麼不能跟我朋友講電話？他是母的耶！他又不是異性！</div></div>
+    <div class="row f"><span class="av"><svg><use href="#av-star"/></svg></span><div class="bub">我為什麼不能跟我朋友講電話？他是母的耶！他又不是異性！</div></div>
 
-    <div class="row m"><div class="bub"><i>（提高音量）</i>妳再講一次！我沒有說不行，我是說你們講電話的時候，為什麼要動到我跟妳的時間！這句話要講幾次啊？</div></div>
+    <div class="row m"><span class="av"><svg><use href="#av-sponge"/></svg></span><div class="bub"><i>（提高音量）</i>妳再講一次！我沒有說不行，我是說你們講電話的時候，為什麼要動到我跟妳的時間！這句話要講幾次啊？</div></div>
 
-    <div class="row f"><div class="bub">妳兇什麼啦！</div></div>
+    <div class="row f"><span class="av"><svg><use href="#av-star"/></svg></span><div class="bub">妳兇什麼啦！</div></div>
 
-    <div class="row m"><div class="bub">是誰先兇啦！這句話已經講了幾百次了，我前面也有跟妳講，妳要跟他通電話那就不要跟我講。</div></div>
+    <div class="row m"><span class="av"><svg><use href="#av-sponge"/></svg></span><div class="bub">是誰先兇啦！這句話已經講了幾百次了，我前面也有跟妳講，妳要跟他通電話那就不要跟我講。</div></div>
 
-    <div class="row f"><div class="bub">那我沒有跟⋯那我沒有跟妳講的時候啊，我沒有跟妳講的時候你又一直找我、一直找我啊。</div></div>
+    <div class="row f"><span class="av"><svg><use href="#av-star"/></svg></span><div class="bub">那我沒有跟⋯那我沒有跟妳講的時候啊，我沒有跟妳講的時候你又一直找我、一直找我啊。</div></div>
 
-    <div class="row m"><div class="bub">我前面沒有跟妳好好講嗎？沒有嗎？</div></div>
+    <div class="row m"><span class="av"><svg><use href="#av-sponge"/></svg></span><div class="bub">我前面沒有跟妳好好講嗎？沒有嗎？</div></div>
 
-    <div class="row f"><div class="bub">你不是剛才在那邊白目問說，那我們兩個通電話我可以再跟他講電話嗎？沒有嗎？</div></div>
+    <div class="row f"><span class="av"><svg><use href="#av-star"/></svg></span><div class="bub">你不是剛才在那邊白目問說，那我們兩個通電話我可以再跟他講電話嗎？沒有嗎？</div></div>
 
-    <div class="row m"><div class="bub">什麼叫白目？我就是好好問妳，啊不行就不行，可以就可以。妳自己講可以的，然後又在那邊生氣。啊然後，結果帶進去洗澡，出來，看到你們在那邊講話，我看了就不爽所以我掛掉啊，我做錯了嗎？</div></div>
+    <div class="row m"><span class="av"><svg><use href="#av-sponge"/></svg></span><div class="bub">什麼叫白目？我就是好好問妳，啊不行就不行，可以就可以。妳自己講可以的，然後又在那邊生氣。啊然後，結果帶進去洗澡，出來，看到你們在那邊講話，我看了就不爽所以我掛掉啊，我做錯了嗎？</div></div>
 
-    <div class="row f"><div class="bub">那我有做錯什麼對不起你的事嗎？</div></div>
+    <div class="row f"><span class="av"><svg><use href="#av-star"/></svg></span><div class="bub">那我有做錯什麼對不起你的事嗎？</div></div>
 
-    <div class="row m"><div class="bub">我沒有說啊，我沒有說妳做錯什麼對不起我的事啊，我只是跟妳講而已啊，我前面沒有跟妳講嗎？</div></div>
+    <div class="row m"><span class="av"><svg><use href="#av-sponge"/></svg></span><div class="bub">我沒有說啊，我沒有說妳做錯什麼對不起我的事啊，我只是跟妳講而已啊，我前面沒有跟妳講嗎？</div></div>
 
-    <div class="row f"><div class="bub">啊我有做錯什麼對不起你的事嗎？我跟我的女性朋友，然後在廁所裡面聊八卦、然後聊聊天這樣子，也不可以，是嗎？</div></div>
+    <div class="row f"><span class="av"><svg><use href="#av-star"/></svg></span><div class="bub">啊我有做錯什麼對不起你的事嗎？我跟我的女性朋友，然後在廁所裡面聊八卦、然後聊聊天這樣子，也不可以，是嗎？</div></div>
 
     <div class="aside">男方試圖插話，女方繼續講</div>
 
-    <div class="row f"><div class="bub">可以的話你就不會不爽了嘛！</div></div>
+    <div class="row f"><span class="av"><svg><use href="#av-star"/></svg></span><div class="bub">可以的話你就不會不爽了嘛！</div></div>
 
-    <div class="row m"><div class="bub">我前面跟妳講最後一次，這些時間本來都是我們平常會講電話的時間。我不爽的是，為什麼我們講電話的時間，有人在中間插著，就變成三個人，然後妳在跟那個人講話。不管我們講了什麼或者是我們沒有講話，我們一直以來的相處模式，或者是我們沒有見面的時候，我們一直都是這樣，對不對？不管有沒有講話，不管有沒有講說什麼東西，還是再聊什麼，那我們的時間是不是都是這樣子？那妳有沒有問過我喜不喜歡？</div></div>
+    <div class="row m"><span class="av"><svg><use href="#av-sponge"/></svg></span><div class="bub">我前面跟妳講最後一次，這些時間本來都是我們平常會講電話的時間。我不爽的是，為什麼我們講電話的時間，有人在中間插著，就變成三個人，然後妳在跟那個人講話。不管我們講了什麼或者是我們沒有講話，我們一直以來的相處模式，或者是我們沒有見面的時候，我們一直都是這樣，對不對？不管有沒有講話，不管有沒有講說什麼東西，還是再聊什麼，那我們的時間是不是都是這樣子？那妳有沒有問過我喜不喜歡？</div></div>
 
-    <div class="row f"><div class="bub">所以你不喜歡，是吧？</div></div>
+    <div class="row f"><span class="av"><svg><use href="#av-star"/></svg></span><div class="bub">所以你不喜歡，是吧？</div></div>
 
-    <div class="row m"><div class="bub">那妳就少說嘛！那還說什麼誰要接電話要掛著什麼的。那就⋯那很簡單嘛，很簡單嘛。</div></div>
+    <div class="row m"><span class="av"><svg><use href="#av-sponge"/></svg></span><div class="bub">那妳就少說嘛！那還說什麼誰要接電話要掛著什麼的。那就⋯那很簡單嘛，很簡單嘛。</div></div>
 
-    <div class="row f"><div class="bub">不是啊，那你電話掛著，然後我叫你，你都不回。然後好，開著鏡頭 FaceTime，然後也照著牆壁，不然就照著天花板，然後你又在看你的《名偵探柯南》，不然就是在打《風之谷》。我叫你，我叫了你好幾聲你也沒回！</div></div>
+    <div class="row f"><span class="av"><svg><use href="#av-star"/></svg></span><div class="bub">不是啊，那你電話掛著，然後我叫你，你都不回。然後好，開著鏡頭 FaceTime，然後也照著牆壁，不然就照著天花板，然後你又在看你的《名偵探柯南》，不然就是在打《風之谷》。我叫你，我叫了你好幾聲你也沒回！</div></div>
 
-    <div class="row m"><div class="bub">欸，前陣子是不是那個有問題？我們不是重打了好幾次，我根本就沒有聽到妳的聲音！完全沒聲音，是不是重打了好幾次所以後面才有聲音？</div></div>
+    <div class="row m"><span class="av"><svg><use href="#av-sponge"/></svg></span><div class="bub">欸，前陣子是不是那個有問題？我們不是重打了好幾次，我根本就沒有聽到妳的聲音！完全沒聲音，是不是重打了好幾次所以後面才有聲音？</div></div>
 
-    <div class="row f"><div class="bub">那後面還是繼續也掛著，就這樣。</div></div>
+    <div class="row f"><span class="av"><svg><use href="#av-star"/></svg></span><div class="bub">那後面還是繼續也掛著，就這樣。</div></div>
 
-    <div class="row m"><div class="bub">然後勒？所以妳現在在抱怨我們講電話都⋯我們在通電話的時候都沒有什麼那個嘛，都沒有什麼互動這樣嘛，所以妳才會去跟別人講電話，然後硬要把我這邊弄那個⋯就是放在那邊嘛，對不對？</div></div>
+    <div class="row m"><span class="av"><svg><use href="#av-sponge"/></svg></span><div class="bub">然後勒？所以妳現在在抱怨我們講電話都⋯我們在通電話的時候都沒有什麼那個嘛，都沒有什麼互動這樣嘛，所以妳才會去跟別人講電話，然後硬要把我這邊弄那個⋯就是放在那邊嘛，對不對？</div></div>
 
-    <div class="row f"><div class="bub">什麼叫硬要？</div></div>
+    <div class="row f"><span class="av"><svg><use href="#av-star"/></svg></span><div class="bub">什麼叫硬要？</div></div>
 
-    <div class="row m"><div class="bub">我是不是⋯我是不是有跟妳講，妳要跟他講電話，那我們就不要通電話。我的感受不好，我跟妳講我的感受不好！我有跟妳好好講過喔。然後妳現在在跟我抱怨說什麼，我們通電話的時候我都在幹嘛、掛著，這是兩碼子事吧？</div></div>
+    <div class="row m"><span class="av"><svg><use href="#av-sponge"/></svg></span><div class="bub">我是不是⋯我是不是有跟妳講，妳要跟他講電話，那我們就不要通電話。我的感受不好，我跟妳講我的感受不好！我有跟妳好好講過喔。然後妳現在在跟我抱怨說什麼，我們通電話的時候我都在幹嘛、掛著，這是兩碼子事吧？</div></div>
 
-    <div class="row f"><div class="bub">那你有跟我講說你的感受不好，那好啊，那我就尊重你啊！所以我在跟別人講電話的時候，我就不會跟你講電話，那我現在跟你講電話的時候，就不會跟別人講電話，不是嗎？那你剛剛打給我的時候，啊我剛好在跟張X文通電話，然後我就馬上掛掉，然後我就馬上打給你了，不是嗎？那（你的）第一句是什麼？「妳很忙喔？」</div></div>
+    <div class="row f"><span class="av"><svg><use href="#av-star"/></svg></span><div class="bub">那你有跟我講說你的感受不好，那好啊，那我就尊重你啊！所以我在跟別人講電話的時候，我就不會跟你講電話，那我現在跟你講電話的時候，就不會跟別人講電話，不是嗎？那你剛剛打給我的時候，啊我剛好在跟張X文通電話，然後我就馬上掛掉，然後我就馬上打給你了，不是嗎？那（你的）第一句是什麼？「妳很忙喔？」</div></div>
 
-    <div class="row m"><div class="bub">對啊，「妳很忙喔？」我從昨天晚上打電話給妳，不管妳有沒有睡覺怎樣，我打電話給妳，妳連⋯連那種亮、亮著的都沒有。你感受會好？如果妳是我，妳感受會好？從昨天晚上到現在，妳感受會好？妳回答我嘛，如果是妳的話，妳感受會好嗎？然後妳把焦點放在說什麼「我在控制妳」，我根本就沒有控制妳，我就只是跟妳說我的想法而已。然後妳這陣子一直去跟別人講話然後把我放在中間，我就跟妳講說妳要講就去講，我講了好幾百次了妳要講就去講⋯</div></div>
+    <div class="row m"><span class="av"><svg><use href="#av-sponge"/></svg></span><div class="bub">對啊，「妳很忙喔？」我從昨天晚上打電話給妳，不管妳有沒有睡覺怎樣，我打電話給妳，妳連⋯連那種亮、亮著的都沒有。你感受會好？如果妳是我，妳感受會好？從昨天晚上到現在，妳感受會好？妳回答我嘛，如果是妳的話，妳感受會好嗎？然後妳把焦點放在說什麼「我在控制妳」，我根本就沒有控制妳，我就只是跟妳說我的想法而已。然後妳這陣子一直去跟別人講話然後把我放在中間，我就跟妳講說妳要講就去講，我講了好幾百次了妳要講就去講⋯</div></div>
 
-    <div class="row f"><div class="bub">那我要講⋯我要講，你又說佔用到我跟你的時間！</div></div>
+    <div class="row f"><span class="av"><svg><use href="#av-star"/></svg></span><div class="bub">那我要講⋯我要講，你又說佔用到我跟你的時間！</div></div>
 
-    <div class="row m"><div class="bub">欸我跟妳講，妳不要斷章取義喔！我是跟妳講說，這個本來⋯</div></div>
+    <div class="row m"><span class="av"><svg><use href="#av-sponge"/></svg></span><div class="bub">欸我跟妳講，妳不要斷章取義喔！我是跟妳講說，這個本來⋯</div></div>
 
     <div class="fin">逐字稿到此中斷</div>
   </div>
