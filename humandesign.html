@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>人類圖手記</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ===== 淺色（預設・米白紙感 + 墨綠） ===== */
+:root{
+  --paper:#F6F2E8; --paper-2:#FFFDF7; --paper-3:#EFE9DA;
+  --ink:#23282A; --ink-2:#5A6360; --ink-3:#8B938E;
+  --green:#1F4A3C; --green-3:#5C8F7B; --green-wash:#E3EDE6;
+  --clay:#A85E38; --clay-wash:#F5E6DC; --clay-ink:#8C4F2E;
+  --line:#DED6C4;
+  --fill-strong:#1F4A3C; --on-strong:#FFFDF7;
+  --deep:#1F4A3C; --deep-2:#173B30; --on-deep:#F2EFE6; --deep-line:rgba(242,239,230,.14);
+  --shadow:0 1px 2px rgba(35,40,42,.04),0 8px 24px -12px rgba(35,40,42,.18);
+  --shadow-lg:0 2px 4px rgba(35,40,42,.05),0 20px 48px -20px rgba(35,40,42,.28);
+  --tint-a:rgba(31,74,60,.035); --tint-b:rgba(168,94,56,.035);
+  /* 九宮格 */
+  --sv-def:#1F4A3C; --sv-half:#A85E38; --sv-empty:#E4DDCC;
+  --sv-on-fill:#1F4A3C; --sv-on-stroke:#173B30; --sv-on-label:#F2EFE6;
+  --sv-off-fill:#FFFDF7; --sv-off-stroke:#D2C9B4; --sv-off-label:#A79E89;
+  --sv-gfull-fill:#F2EFE6; --sv-gfull-ink:#1F4A3C;
+  --sv-ghalf-fill:#A85E38; --sv-ghalf-stroke:#7C4326; --sv-ghalf-ink:#FFF7F0;
+  --r:16px;
+  --serif:"Noto Serif TC",Georgia,"Songti TC",serif;
+  --sans:"Noto Sans TC",-apple-system,BlinkMacSystemFont,"PingFang TC","Helvetica Neue",sans-serif;
+}
+/* ===== 深色（系統偏好，除非使用者明確選淺色） ===== */
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#141A18; --paper-2:#1B2320; --paper-3:#253029;
+    --ink:#E9E5D9; --ink-2:#A9B3AC; --ink-3:#78837C;
+    --green:#9FD8BC; --green-3:#6FA98F; --green-wash:#1E2E27;
+    --clay:#DB9E76; --clay-wash:#33251D; --clay-ink:#EBB690;
+    --line:#2E3A34;
+    --fill-strong:#7FBFA2; --on-strong:#101714;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px -12px rgba(0,0,0,.7);
+    --shadow-lg:0 2px 4px rgba(0,0,0,.35),0 20px 48px -20px rgba(0,0,0,.8);
+    --tint-a:rgba(127,191,162,.05); --tint-b:rgba(219,158,118,.045);
+    --sv-def:#7FBFA2; --sv-half:#DB9E76; --sv-empty:#2C3831;
+    --sv-on-fill:#2C6A53; --sv-on-stroke:#7FBFA2; --sv-on-label:#EAF3ED;
+    --sv-off-fill:#1B2320; --sv-off-stroke:#3A473F; --sv-off-label:#78837C;
+    --sv-gfull-fill:#EAF3ED; --sv-gfull-ink:#173B30;
+    --sv-ghalf-fill:#DB9E76; --sv-ghalf-stroke:#A5704B; --sv-ghalf-ink:#2A1810;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#141A18; --paper-2:#1B2320; --paper-3:#253029;
+  --ink:#E9E5D9; --ink-2:#A9B3AC; --ink-3:#78837C;
+  --green:#9FD8BC; --green-3:#6FA98F; --green-wash:#1E2E27;
+  --clay:#DB9E76; --clay-wash:#33251D; --clay-ink:#EBB690;
+  --line:#2E3A34;
+  --fill-strong:#7FBFA2; --on-strong:#101714;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px -12px rgba(0,0,0,.7);
+  --shadow-lg:0 2px 4px rgba(0,0,0,.35),0 20px 48px -20px rgba(0,0,0,.8);
+  --tint-a:rgba(127,191,162,.05); --tint-b:rgba(219,158,118,.045);
+  --sv-def:#7FBFA2; --sv-half:#DB9E76; --sv-empty:#2C3831;
+  --sv-on-fill:#2C6A53; --sv-on-stroke:#7FBFA2; --sv-on-label:#EAF3ED;
+  --sv-off-fill:#1B2320; --sv-off-stroke:#3A473F; --sv-off-label:#78837C;
+  --sv-gfull-fill:#EAF3ED; --sv-gfull-ink:#173B30;
+  --sv-ghalf-fill:#DB9E76; --sv-ghalf-stroke:#A5704B; --sv-ghalf-ink:#2A1810;
+}
+
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--sans);font-weight:400;font-size:16px;line-height:1.85;
+  letter-spacing:.01em;-webkit-font-smoothing:antialiased;
+  background-image:
+    radial-gradient(circle at 12% 8%, var(--tint-a), transparent 45%),
+    radial-gradient(circle at 88% 62%, var(--tint-b), transparent 40%);
+  background-attachment:fixed;overflow-x:hidden;
+}
+img,svg{max-width:100%}
+.wrap{max-width:620px;margin:0 auto;padding:0 20px}
+:focus-visible{outline:2px solid var(--green-3);outline-offset:3px;border-radius:6px}
+@media (prefers-reduced-motion:reduce){
+  *,*:before,*:after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+}
+
+#bar{position:fixed;top:0;left:0;height:2px;background:var(--fill-strong);width:0;z-index:99;transition:width .1s linear}
+
+/* ===== HERO ===== */
+.hero{padding:76px 20px 52px;text-align:center;position:relative;overflow:hidden}
+.hero .eyebrow{font-size:11px;letter-spacing:.32em;color:var(--green-3);font-weight:500;margin-bottom:26px}
+.hero h1{font-family:var(--serif);font-weight:700;font-size:clamp(34px,10vw,46px);line-height:1.25;margin:0 0 6px;letter-spacing:.02em;text-wrap:balance}
+.hero h1 em{font-style:normal;color:var(--green)}
+.hero .sub{font-size:14px;color:var(--ink-2);margin-top:18px;line-height:2}
+.hero .names{display:flex;gap:10px;justify-content:center;margin-top:30px;flex-wrap:wrap}
+.namechip{background:var(--paper-2);border:1px solid var(--line);border-radius:999px;padding:9px 18px;font-size:13px;box-shadow:var(--shadow);display:flex;align-items:center;gap:8px}
+.namechip b{font-family:var(--serif);font-size:15px;color:var(--green)}
+.namechip span{color:var(--ink-3);font-size:11.5px}
+.seal{width:54px;height:54px;margin:0 auto 24px;border:1.5px solid var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;position:relative;animation:breathe 5s ease-in-out infinite}
+.seal:after{content:"";position:absolute;inset:6px;border:1px dashed var(--green-3);border-radius:50%;opacity:.5;animation:spin 40s linear infinite}
+.seal b{font-family:var(--serif);font-size:19px;color:var(--green)}
+@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+section{padding:44px 0;position:relative}
+.sec-num{font-family:var(--serif);font-size:11px;letter-spacing:.3em;color:var(--green-3);margin-bottom:10px;display:block}
+h2{font-family:var(--serif);font-weight:700;font-size:26px;line-height:1.4;margin:0 0 8px;letter-spacing:.01em;text-wrap:balance}
+h2 .dot{color:var(--clay)}
+.lede{color:var(--ink-2);font-size:14.5px;margin:0 0 26px;line-height:2}
+h3{font-family:var(--serif);font-size:19px;font-weight:600;margin:34px 0 10px;line-height:1.5;text-wrap:balance}
+h4{font-size:15px;font-weight:700;margin:22px 0 8px;color:var(--green)}
+p{margin:0 0 14px}
+.rule{height:1px;background:linear-gradient(90deg,transparent,var(--line),transparent);margin:8px 0}
+
+.card{background:var(--paper-2);border:1px solid var(--line);border-radius:var(--r);padding:20px;box-shadow:var(--shadow);margin:14px 0}
+.card.tight{padding:16px}
+.card h4{margin-top:0}
+.q{color:var(--ink-3);font-size:13px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:380px){.grid2{grid-template-columns:1fr}}
+
+details{background:var(--paper-2);border:1px solid var(--line);border-radius:14px;margin:10px 0;overflow:hidden;transition:box-shadow .25s}
+details[open]{box-shadow:var(--shadow)}
+summary{list-style:none;cursor:pointer;padding:15px 18px;font-weight:500;font-size:15px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+summary::-webkit-details-marker{display:none}
+summary:after{content:"";width:8px;height:8px;border-right:1.5px solid var(--green-3);border-bottom:1.5px solid var(--green-3);transform:rotate(45deg);transition:transform .3s;flex:0 0 auto;margin-top:-4px}
+details[open] summary:after{transform:rotate(-135deg);margin-top:2px}
+details .body{padding:0 18px 18px;font-size:14.5px;color:var(--ink-2);line-height:2;animation:fadeIn .35s ease}
+details .body p{margin:0 0 12px}
+details .body p:last-child{margin-bottom:0}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+
+.tag{display:inline-block;font-size:11.5px;padding:3px 10px;border-radius:999px;background:var(--green-wash);color:var(--green);font-weight:500;letter-spacing:.04em}
+.tag.clay{background:var(--clay-wash);color:var(--clay-ink)}
+.tag.grey{background:var(--paper-3);color:var(--ink-3)}
+
+.eg{border-left:2px solid var(--green-3);padding:2px 0 2px 14px;margin:12px 0;font-size:14px;color:var(--ink-2);line-height:1.95}
+.eg b{color:var(--green);font-weight:600}
+.eg.clay{border-color:var(--clay)}
+.eg.clay b{color:var(--clay-ink)}
+
+.pull{font-family:var(--serif);font-size:19px;line-height:1.85;color:var(--green);text-align:center;padding:26px 12px;margin:26px 0;position:relative;text-wrap:balance}
+.pull:before,.pull:after{content:"";display:block;width:28px;height:1px;background:var(--green-3);margin:0 auto;opacity:.5}
+.pull:before{margin-bottom:18px}
+.pull:after{margin-top:18px}
+
+.rise{opacity:0;transform:translateY(18px);transition:opacity .7s cubic-bezier(.2,.7,.3,1),transform .7s cubic-bezier(.2,.7,.3,1)}
+.rise.in{opacity:1;transform:none}
+
+.person-head{background:linear-gradient(160deg,var(--deep) 0%,var(--deep-2) 100%);color:var(--on-deep);border-radius:22px;padding:26px 22px;box-shadow:var(--shadow-lg);position:relative;overflow:hidden}
+.person-head:before{content:"";position:absolute;width:180px;height:180px;border:1px solid var(--deep-line);border-radius:50%;top:-70px;right:-60px}
+.person-head:after{content:"";position:absolute;width:110px;height:110px;border:1px solid var(--deep-line);border-radius:50%;bottom:-50px;left:-30px}
+.person-head .who{font-family:var(--serif);font-size:32px;font-weight:700;letter-spacing:.06em;margin:0}
+.person-head .cross{font-size:12px;opacity:.72;margin-top:4px;letter-spacing:.03em}
+.ph-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--deep-line);border-radius:12px;overflow:hidden;margin-top:20px;position:relative;z-index:1}
+.ph-grid div{background:var(--deep);padding:12px 13px}
+.ph-grid .k{font-size:10.5px;opacity:.62;letter-spacing:.16em;margin-bottom:3px}
+.ph-grid .v{font-family:var(--serif);font-size:16.5px;font-weight:600}
+.ph-grid .v small{font-size:11px;font-weight:400;opacity:.66;display:block;letter-spacing:.02em;font-family:var(--sans);margin-top:2px}
+
+.bg-wrap{background:var(--paper-2);border:1px solid var(--line);border-radius:20px;padding:14px 8px 10px;margin:16px 0;box-shadow:var(--shadow)}
+.bg-legend{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-size:11.5px;color:var(--ink-3);padding:8px 4px 4px;border-top:1px dashed var(--line);margin-top:6px}
+.bg-legend i{display:inline-block;width:16px;height:3px;border-radius:2px;vertical-align:middle;margin-right:5px}
+.ctr{cursor:pointer}
+.gnum{font-size:7.5px;font-family:var(--sans);font-weight:600;pointer-events:none;user-select:none}
+.tap-hint{text-align:center;font-size:12px;color:var(--ink-3);margin:0 0 4px;letter-spacing:.04em}
+.detailbox{background:var(--green-wash);border-radius:14px;padding:16px 18px;font-size:14px;line-height:1.95;color:var(--ink);min-height:96px;margin:0 6px 6px}
+.detailbox .t{font-family:var(--serif);font-weight:600;font-size:16px;color:var(--green);margin-bottom:2px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.detailbox .s{font-size:11.5px;color:var(--ink-3);margin-bottom:8px;letter-spacing:.05em}
+
+.ctr-list{display:flex;flex-direction:column;gap:8px;margin:14px 0}
+.ctr-row{display:flex;gap:12px;align-items:flex-start;background:var(--paper-2);border:1px solid var(--line);border-radius:13px;padding:13px 15px}
+.ctr-row .ic{width:26px;height:26px;border-radius:7px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;margin-top:2px}
+.ic.on{background:var(--fill-strong);color:var(--on-strong)}
+.ic.off{background:var(--paper-3);color:var(--ink-3);border:1px dashed var(--ink-3)}
+.ctr-row .tx{flex:1;min-width:0}
+.ctr-row .nm{font-weight:600;font-size:14.5px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.ctr-row .ds{font-size:13.5px;color:var(--ink-2);line-height:1.9;margin-top:3px}
+
+.gate-card{background:var(--paper-2);border:1px solid var(--line);border-radius:14px;padding:0;margin:9px 0;overflow:hidden}
+.gate-card .hd{display:flex;align-items:center;gap:12px;padding:13px 15px;cursor:pointer;width:100%;border:0;background:none;text-align:left;font-family:var(--sans);color:inherit}
+.gate-card .num{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-weight:700;font-size:15px;flex:0 0 auto}
+.num.full{background:var(--fill-strong);color:var(--on-strong)}
+.num.half{background:var(--clay);color:#FFF7F0}
+.gate-card .ttl{flex:1;min-width:0}
+.gate-card .ttl b{font-size:14.5px;font-weight:600;display:block}
+.gate-card .ttl span{font-size:11.5px;color:var(--ink-3)}
+.gate-card .arw{width:7px;height:7px;border-right:1.5px solid var(--ink-3);border-bottom:1.5px solid var(--ink-3);transform:rotate(45deg);transition:transform .3s;flex:0 0 auto}
+.gate-card.open .arw{transform:rotate(-135deg)}
+.gate-card .bd{display:none;padding:0 15px 15px;font-size:14px;color:var(--ink-2);line-height:1.95}
+.gate-card.open .bd{display:block;animation:fadeIn .3s ease}
+
+.tri{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:16px 0}
+.tri button{border:1px solid var(--line);background:var(--paper-2);border-radius:12px;padding:12px 6px;font-family:var(--sans);font-size:13px;font-weight:500;color:var(--ink-2);cursor:pointer;transition:all .25s}
+.tri button.on{background:var(--fill-strong);color:var(--on-strong);border-color:var(--fill-strong);transform:translateY(-2px);box-shadow:var(--shadow)}
+.demo-stage{background:var(--paper-2);border:1px solid var(--line);border-radius:16px;padding:22px 18px;text-align:center;box-shadow:var(--shadow)}
+.demo-stage svg{margin:0 auto 10px;display:block}
+#demoTxt{font-size:14px;line-height:1.95;color:var(--ink-2);text-align:left;min-height:110px}
+#demoTxt b{color:var(--green)}
+
+.quiz-pick{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0}
+.quiz-pick button{border:1px solid var(--line);background:var(--paper-2);border-radius:14px;padding:16px 8px;font-family:var(--serif);font-size:18px;font-weight:600;color:var(--green);cursor:pointer;transition:all .25s}
+.quiz-pick button.on{background:var(--fill-strong);color:var(--on-strong);border-color:var(--fill-strong);box-shadow:var(--shadow)}
+.qcard{background:var(--paper-2);border:1px solid var(--line);border-radius:16px;padding:18px;margin:12px 0;box-shadow:var(--shadow)}
+.qcard .qn{font-size:11px;letter-spacing:.2em;color:var(--green-3);margin-bottom:6px;font-variant-numeric:tabular-nums}
+.qcard .qt{font-size:15.5px;font-weight:500;line-height:1.75;margin-bottom:14px}
+.opt{border:1px solid var(--line);background:var(--paper);border-radius:11px;padding:12px 14px;font-size:14px;line-height:1.7;cursor:pointer;margin-bottom:8px;transition:all .2s;display:flex;gap:10px;align-items:flex-start}
+.opt:last-of-type{margin-bottom:0}
+.opt .mk{width:18px;height:18px;border-radius:50%;border:1.5px solid var(--ink-3);flex:0 0 auto;margin-top:3px;transition:all .2s;position:relative}
+.opt.sel{border-color:var(--fill-strong);background:var(--green-wash)}
+.opt.sel .mk{border-color:var(--fill-strong);background:var(--fill-strong)}
+.opt.sel .mk:after{content:"";position:absolute;inset:4px;background:var(--on-strong);border-radius:50%}
+.fb{margin-top:12px;border-radius:11px;padding:13px 15px;font-size:13.5px;line-height:1.9;display:none;animation:fadeIn .35s ease}
+.fb.show{display:block}
+.fb.yes{background:var(--green-wash);color:var(--green)}
+.fb.no{background:var(--clay-wash);color:var(--clay-ink)}
+.fb b{display:block;margin-bottom:3px;font-size:14px}
+.score{background:linear-gradient(160deg,var(--deep),var(--deep-2));color:var(--on-deep);border-radius:20px;padding:28px 22px;text-align:center;box-shadow:var(--shadow-lg);margin-top:20px;display:none}
+.score.show{display:block;animation:fadeIn .5s ease}
+.score .big{font-family:var(--serif);font-size:52px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+.score .big small{font-size:18px;opacity:.6}
+.score p{font-size:14px;opacity:.9;line-height:2;margin:14px 0 0;text-align:left}
+.btn{display:inline-block;border:1px solid var(--fill-strong);background:transparent;color:var(--green);border-radius:999px;padding:11px 26px;font-family:var(--sans);font-size:14px;cursor:pointer;transition:all .25s;font-weight:500}
+.btn.solid{background:var(--fill-strong);color:var(--on-strong)}
+.center{text-align:center}
+
+footer{background:var(--deep);color:#DCE5DE;padding:44px 20px 60px;margin-top:40px;text-align:center}
+footer .v{font-family:var(--serif);font-size:13px;letter-spacing:.2em;opacity:.7}
+footer h5{font-family:var(--serif);font-size:20px;margin:14px 0 6px;color:var(--on-deep);font-weight:600}
+footer .meta{font-size:12.5px;line-height:2.1;opacity:.8;margin-top:18px}
+footer .meta b{color:var(--on-deep);font-weight:500}
+footer .dis{font-size:11.5px;line-height:1.95;opacity:.62;margin-top:22px;border-top:1px solid var(--deep-line);padding-top:18px;text-align:left}
+
+.toc{background:var(--paper-2);border:1px solid var(--line);border-radius:18px;padding:8px;box-shadow:var(--shadow);margin:24px 0 0;text-align:left}
+.toc a{display:flex;align-items:center;gap:12px;padding:12px 14px;text-decoration:none;color:var(--ink);font-size:14.5px;border-radius:12px;transition:background .2s}
+.toc a:active{background:var(--green-wash)}
+.toc a + a{border-top:1px solid var(--line)}
+.toc a i{font-family:var(--serif);font-style:normal;font-size:12px;color:var(--green-3);width:20px;flex:0 0 auto;font-variant-numeric:tabular-nums}
+.toc a s{margin-left:auto;text-decoration:none;color:var(--ink-3);font-size:11.5px}
+</style>
+</head>
+<body>
+<div id="bar"></div>
+
+<header class="hero">
+  <div class="seal"><b>圖</b></div>
+  <div class="eyebrow">H U M A N &nbsp; D E S I G N</div>
+  <h1>人類圖<em>手記</em></h1>
+  <div class="sub">給初學者的一份說明書<br>—— 阿主 &amp; 阿派</div>
+  <div class="names">
+    <div class="namechip"><b>阿主</b><span>投射者 · 4/6 · 二分</span></div>
+    <div class="namechip"><b>阿派</b><span>投射者 · 2/4 · 二分</span></div>
+  </div>
+  <nav class="toc rise">
+    <a href="#intro"><i>01</i>人類圖是什麼<s>先看這個</s></a>
+    <a href="#myth"><i>02</i>這算玄學嗎？<s>誠實談</s></a>
+    <a href="#howto"><i>03</i>怎麼看懂九宮格<s>通／半通／沒通</s></a>
+    <a href="#zhu"><i>04</i>阿主的設計<s>完整分析</s></a>
+    <a href="#pai"><i>05</i>阿派的設計<s>完整分析</s></a>
+    <a href="#quiz"><i>06</i>自我驗證測驗<s>10 題</s></a>
+    <a href="#bonus"><i>07</i>兩張圖放在一起<s>附錄</s></a>
+  </nav>
+</header>
+<main class="wrap">
+
+<!-- ========== 01 人類圖是什麼 ========== -->
+<section id="intro">
+  <span class="sec-num rise">0 1</span>
+  <h2 class="rise">人類圖是什麼？<span class="dot">.</span></h2>
+  <p class="lede rise">先講最重要的一句：<b>它是一張「原廠設定表」，不是一張「命運判決書」。</b></p>
+
+  <div class="card rise">
+    <h4>一句話版本</h4>
+    <p style="margin:0">人類圖用你出生的那一刻（年月日時分＋地點），畫出一張像電路板的圖。這張圖告訴你：你天生哪些地方是<b>穩定的</b>、哪些地方是<b>敏感的</b>、以及你做決定時<b>最不會後悔的那個方式</b>是什麼。</p>
+  </div>
+
+  <div class="pull rise">它說的是「你怎麼運作」，<br>不是「你會怎樣」。</div>
+
+  <h3 class="rise">這張圖是怎麼算出來的</h3>
+  <p class="rise">兩個時間點，兩組資料，疊在同一張圖上：</p>
+  <div class="card tight rise">
+    <div style="display:flex;gap:14px;align-items:flex-start;margin-bottom:14px">
+      <div style="width:8px;height:8px;border-radius:50%;background:var(--clay);margin-top:9px;flex:0 0 auto"></div>
+      <div><b style="color:var(--clay)">Design（紅色）</b><br><span style="font-size:13.5px;color:var(--ink-2);line-height:1.9">出生前約 88 天。這是你的「身體設定」—— 你自己感覺不太到，但別人常常一眼就看出來。像是你走路的樣子、你的體質、你反射性的反應。</span></div>
+    </div>
+    <div class="rule"></div>
+    <div style="display:flex;gap:14px;align-items:flex-start;margin-top:14px">
+      <div style="width:8px;height:8px;border-radius:50%;background:var(--ink);margin-top:9px;flex:0 0 auto"></div>
+      <div><b>Personality（黑色）</b><br><span style="font-size:13.5px;color:var(--ink-2);line-height:1.9">出生的那一刻。這是你的「意識設定」—— 你認得出來的自己，你會說「對，我就是這樣的人」的部分。</span></div>
+    </div>
+  </div>
+  <p class="rise" style="font-size:14px;color:var(--ink-2)">所以你在圖上會看到左邊一排紅色數字、右邊一排黑色數字。那就是你的兩份設定。<b>紅色是你不知道、但別人知道的你；黑色是你知道的你。</b></p>
+
+  <h3 class="rise">四種類型（先認自己是哪一種就好）</h3>
+  <p class="rise" style="font-size:14px;color:var(--ink-2)">類型決定你「怎麼開始一件事」。這是整張圖裡最實用的一格。</p>
+
+  <details class="rise"><summary>🔨 顯示者 Manifestor <span class="tag grey">約 9%</span></summary><div class="body">
+    <p><b>策略：告知。</b>你可以自己啟動、自己開始，不用等誰。但你的行動會影響到周圍的人，所以事前<b>先講一聲</b>，能省掉八成的阻力。</p>
+    <p><b>不對勁的訊號：憤怒。</b>當你發現自己老是在生氣、覺得被擋、被質問，通常是因為你「做了但沒說」。</p>
+  </div></details>
+
+  <details class="rise"><summary>⚙️ 生產者 Generator <span class="tag grey">約 37%</span></summary><div class="body">
+    <p><b>策略：等待，然後回應。</b>你有一個穩定的能量發電機（薦骨）。它不是用「想」的來啟動，是用「回應」的 —— 有東西出現在你面前，你的身體會給出「嗯哼（要）」或「嗯嗯（不要）」。</p>
+    <p><b>不對勁的訊號：挫折。</b>努力半天卡住、覺得白費力氣，通常是因為你在「發起」而不是在「回應」。</p>
+  </div></details>
+
+  <details class="rise"><summary>⚡ 顯示生產者 Manifesting Generator <span class="tag grey">約 33%</span></summary><div class="body">
+    <p><b>策略：回應，然後告知。</b>同時有發電機和快速啟動能力。做事很快、常常跳過步驟，然後回頭補。這不是缺點，是設計。</p>
+    <p><b>不對勁的訊號：挫折 ＋ 憤怒。</b>兩種都會有。</p>
+  </div></details>
+
+  <details class="rise" open><summary>🔭 投射者 Projector <span class="tag">約 20% · 阿主 &amp; 阿派都是</span></summary><div class="body">
+    <p><b>策略：等待被邀請。</b>你沒有持續穩定的能量，但你有一個別人沒有的能力 —— <b>你能看穿別人</b>。你會看出他哪裡沒用對力氣、哪裡可以更順。</p>
+    <p>但這個能力有個條件：<b>對方要「準備好聽」，你的看見才會變成禮物；對方沒準備好，同樣一句話就變成「你很煩」。</b></p>
+    <p><b>不對勁的訊號：苦澀。</b>「我明明看得出來、我明明說了、為什麼沒人理我」—— 那個又酸又累的感覺，就是苦澀。它不是在說你錯了，它是在提醒你：<b>你這次是自己衝上去的，不是被邀請的。</b></p>
+    <p style="color:var(--green)"><b>投射者的三個關鍵字：等 · 被看見 · 節省力氣。</b></p>
+  </div></details>
+
+  <details class="rise"><summary>🌙 反映者 Reflector <span class="tag grey">約 1%</span></summary><div class="body">
+    <p><b>策略：等一個月亮週期（約 28 天）再做重大決定。</b>九個中心全部空白，像一面鏡子，反映周圍環境的狀態。</p>
+    <p><b>不對勁的訊號：失望。</b></p>
+  </div></details>
+
+  <h3 class="rise">為什麼阿派沒有表格，我也知道他是投射者</h3>
+  <p class="rise" style="font-size:14px;color:var(--ink-2)">這一段是給想知道「這東西是不是隨便講講」的人看的。判斷類型完全是<b>機械式的推導</b>，沒有任何解讀空間：</p>
+  <div class="card rise">
+    <div class="eg"><b>第一步：列出所有閘道。</b>阿派的行星表共活化 21 個閘道 —— 4、5、13、14、18、22、26、27、32、35、39、43、45、47、48、49、51、54、55、61、63。</div>
+    <div class="eg"><b>第二步：看哪些能配成對。</b>每條「通道」需要固定的兩個閘道。這 21 個裡只有三組配得起來：63＋4、32＋54、39＋55。其他 15 個都是單邊。</div>
+    <div class="eg"><b>第三步：看點亮了哪些中心。</b>頭腦、Ajna、脾、情緒、根 → 亮了 5 個。喉嚨、G、意志力、<b>薦骨</b> → 空白。</div>
+    <div class="eg"><b>第四步：套流程圖。</b>薦骨空白 → 不是生產者也不是顯示生產者。沒有任何動力中心連到喉嚨 → 不是顯示者。有中心是亮的 → 不是反映者。<b>剩下只有投射者。</b></div>
+    <div class="eg clay"><b>權威也是同樣推法：</b>情緒中心（太陽神經叢）有定義 → 情緒中心一亮，就一定是情緒型權威，沒有例外，其他中心自動退位。</div>
+  </div>
+  <p class="rise" style="font-size:13.5px;color:var(--ink-3)">阿主那張圖本身就附了表格（投射者／4-6／二分人／情緒型權威），我用同樣的方法回推核對過一次，結果吻合。</p>
+</section>
+
+<div class="rule"></div>
+
+<!-- ========== 02 這算玄學嗎 ========== -->
+<section id="myth">
+  <span class="sec-num rise">0 2</span>
+  <h2 class="rise">這算玄學嗎？<span class="dot">.</span></h2>
+  <p class="lede rise">會問這個問題很好。你越是清楚它是什麼、不是什麼，它對你才越有用。</p>
+
+  <div class="card rise">
+    <h4>誠實的答案：一半一半</h4>
+    <p style="margin:0 0 12px">人類圖 1987 年由 Ra Uru Hu 提出，公開說法是「一次八天的靈性經驗」。它把四套東西縫在一起：</p>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px">
+      <span class="tag">易經 64 卦</span><span class="tag">占星</span><span class="tag">猶太卡巴拉</span><span class="tag">印度脈輪</span><span class="tag clay">＋ 遺傳學／中微子（借用詞彙）</span>
+    </div>
+    <p style="margin:0">前四項是<b>象徵系統</b>，不是自然科學。第五項是它借用的科學語彙，但<b>沒有經過同儕審查的證據</b>支持「中微子攜帶星象資訊寫進人體」這個說法。</p>
+  </div>
+
+  <details class="rise"><summary>那為什麼很多人覺得「準到爆」？</summary><div class="body">
+    <p><b>1. 巴納姆效應。</b>「你有時候很外向，但也需要獨處」—— 這種描述誰看都準。任何人格系統都有這個成分。</p>
+    <p><b>2. 但也有真的擊中的部分。</b>人類圖比多數系統多做一件事：它會給出<b>具體的、可以被否證的行為預測</b>。像「你在說出建議之前如果沒被問，對方八成會不高興」—— 這句話你可以回想過去五年，去驗證它對不對。這比「你是個溫暖的人」有價值得多。</p>
+    <p><b>3. 語言給了你名字。</b>很多人的「準」其實是：<b>那個一直存在但講不出來的感覺，終於有名字了。</b>「苦澀」這兩個字之所以打中投射者，不是因為星星，是因為那確實是他每天的體感。</p>
+  </div></details>
+
+  <details class="rise"><summary>所以我該怎麼用它才不會走歪？</summary><div class="body">
+    <p><b>把它當成「假設」，不是「答案」。</b>它給你一句話：「你可能是這樣運作的。」你的工作是拿去生活裡試，看對不對。對就留著，不對就丟掉 —— 這才是這份文件最後有測驗的原因。</p>
+    <p><b>它是工具，不是身分證。</b>「我是投射者所以我不能努力」是誤用。正確的用法是「我是投射者，所以我努力的方式要換一種，我把力氣花在被看見、而不是花在跟人拚體力」。</p>
+    <p><b>不要拿它替自己或別人設限。</b>不要用它決定要不要交往、要不要錄用一個人、小孩該念什麼科系。</p>
+    <p><b>不能取代專業。</b>身心狀況、醫療、法律、財務，找專業的人。人類圖不處理這些。</p>
+  </div></details>
+
+  <div class="pull rise">人類圖說：你被設計成這樣。<br>但剩下的，還是要靠你自己。</div>
+
+  <div class="card rise" style="background:var(--green-wash);border-color:var(--green-3)">
+    <h4 style="margin-top:0">最重要的一段，請讀兩次</h4>
+    <p>這張圖<b>不會替你做任何一件事</b>。</p>
+    <p>它不會讓你變好、不會讓機會自己上門、不會讓難相處的人變得好相處。它只做一件事：<b>告訴你你的力氣該花在哪裡，才不會白花。</b></p>
+    <p style="margin:0">知道自己是投射者，不等於機會就會來。你還是要去累積實力、要讓自己被看見、要練習在沒被邀請的時候閉嘴、要在被邀請的時候拿得出東西。<b>圖只給你地形，路還是你自己走。</b></p>
+  </div>
+</section>
+<div class="rule"></div>
+
+<!-- ========== 03 怎麼看懂 ========== -->
+<section id="howto">
+  <span class="sec-num rise">0 3</span>
+  <h2 class="rise">怎麼看懂九宮格<span class="dot">.</span></h2>
+  <p class="lede rise">整張圖只有三個零件：<b>中心、通道、閘道</b>。看懂這三個，你就能自己讀圖了。</p>
+
+  <div class="card rise">
+    <h4>中心 · 9 個方塊三角</h4>
+    <p style="margin:0 0 8px">像九個房間。<b>有顏色＝這個房間有自己的燈</b>，你在這件事上有固定、穩定、一輩子不太會變的運作方式。<b>白色＝這個房間沒燈</b>，靠外面的光照進來。</p>
+    <div class="eg"><b>關鍵觀念：</b>有顏色不是「比較好」，白色也不是「比較差」。有顏色＝穩定但固執；白色＝不穩定但敏感、有彈性、學得快。</div>
+  </div>
+
+  <div class="card rise">
+    <h4>通道 · 36 條線</h4>
+    <p style="margin:0">連接兩個中心的線。<b>一條通道 ＝ 兩個閘道，一邊一個。</b>兩邊都有 → 這條線點亮 → 兩端的中心一起變成有顏色。</p>
+  </div>
+
+  <div class="card rise">
+    <h4>閘道 · 64 個數字</h4>
+    <p style="margin:0">每條通道的<b>半邊</b>。圖上被圈起來的數字，就是你出生那一刻被啟動的閘道。這就是為什麼你會有一堆「單邊的、沒接上的」數字 —— 那是重點，不是 bug。</p>
+  </div>
+
+  <h3 class="rise">通 ／ 通一半 ／ 沒通 —— 差在哪？</h3>
+  <p class="rise" style="font-size:14px;color:var(--ink-2)">這是最多人卡住的地方。點下面三顆按鈕，看差別：</p>
+
+  <div class="tri rise">
+    <button data-demo="full" class="on">✅ 通了</button>
+    <button data-demo="half">🌗 通一半</button>
+    <button data-demo="none">⬜ 沒通</button>
+  </div>
+
+  <div class="demo-stage rise">
+    <svg width="200" height="130" viewBox="0 0 200 130" id="demoSvg" aria-hidden="true">
+      <rect id="dcA" x="55" y="6" width="90" height="34" rx="8" stroke-width="1.5"/>
+      <rect id="dcB" x="55" y="90" width="90" height="34" rx="8" stroke-width="1.5"/>
+      <line id="dl1" x1="100" y1="40" x2="100" y2="65" stroke-width="7" stroke-linecap="round"/>
+      <line id="dl2" x1="100" y1="65" x2="100" y2="90" stroke-width="7" stroke-linecap="round"/>
+      <circle id="dg1" cx="100" cy="34" r="9" stroke-width="1.2"/>
+      <circle id="dg2" cx="100" cy="96" r="9" stroke-width="1.2"/>
+      <text x="100" y="37" text-anchor="middle" font-size="9" font-weight="700" id="dt1">43</text>
+      <text x="100" y="99" text-anchor="middle" font-size="9" font-weight="700" id="dt2">23</text>
+      <text x="100" y="26" text-anchor="middle" font-size="8" id="dLa">Ajna</text>
+      <text x="100" y="114" text-anchor="middle" font-size="8" id="dLb">喉嚨</text>
+    </svg>
+    <div id="demoTxt"></div>
+  </div>
+
+  <h3 class="rise">三種狀態，用一句話記住</h3>
+  <div class="ctr-list rise">
+    <div class="ctr-row"><div class="ic on">✓</div><div class="tx"><div class="nm">通了 <span class="tag">兩邊閘道都有</span></div>
+      <div class="ds"><b>「這是我，永遠都是我。」</b>穩定、可靠、不用充電就有。也是你最固執、最難被說服的地方 —— 因為對你來說這根本不是選擇，是本能。</div></div></div>
+    <div class="ctr-row"><div class="ic" style="background:var(--clay);color:#FFF7F0">◐</div><div class="tx"><div class="nm">通一半 <span class="tag clay">只有一邊，等另一半</span></div>
+      <div class="ds"><b>「我一直在找一個人，讓我變完整。」</b>這是<b>吸引力的來源</b>。當你遇到剛好有另一半閘道的人，那條線瞬間接上，你會有一種說不出的「跟他在一起我變成另一個人」的感覺 —— 那是真的，電路真的接上了。也因為這樣，這種關係最黏，也最容易失去自己。</div></div></div>
+    <div class="ctr-row"><div class="ic off">–</div><div class="tx"><div class="nm">沒通 <span class="tag grey">完全空白</span></div>
+      <div class="ds"><b>「我沒有設定，所以我什麼都收得到，而且會放大。」</b>你不是沒有這個能力，你是<b>沒有固定的版本</b>。所以你能感覺到全場的人在這件事上的狀態，還會不小心當成自己的。這裡是你的智慧，也是你最容易被牽著走的地方。</div></div></div>
+  </div>
+
+  <div class="card rise" style="background:var(--clay-wash);border-color:var(--clay)">
+    <h4 style="margin-top:0;color:var(--clay)">你說的「他知道我不知道」，說的其實是這個</h4>
+    <p>你有一個很準的直覺 —— 這件事在人類圖裡叫做<b>「空白中心的放大與誤認」</b>，是整套系統最實用的一個觀念：</p>
+    <div class="eg clay"><b>空白中心會放大它接收到的東西。</b>一個情緒中心空白的人，走進一個有人在生氣的房間，他會比當事人還激動。但那個情緒不是他的，是他收進來又放大的。</div>
+    <div class="eg clay"><b>然後他會誤以為那是自己的。</b>「我今天心情好差」——其實是隔壁同事心情差。「我一定要趕快做決定」——其實是主管在急。</div>
+    <div class="eg clay"><b>所以他會發展出「智慧」，也會發展出「偽裝」。</b>因為一輩子在觀察這件事，他變成這方面的專家（智慧）；但也因為想要那個穩定的感覺，他會用力假裝自己有（偽裝）。</div>
+    <p style="margin-bottom:0"><b>一句話：有顏色的地方你是「發送者」，空白的地方你是「接收器＋放大器」。</b>你以為是自己的，很多時候是別人的。<br><br>而你原本的直覺「好像是他知道我不知道」—— 更精準的說法是：<b>紅色（Design）的部分是「別人看得到、你自己看不到」；空白的部分是「你收得到、但你以為是自己的」。</b></p>
+  </div>
+
+  <h3 class="rise">三個名詞，先記住就好</h3>
+  <div class="grid2 rise">
+    <div class="card tight"><b style="font-size:14px">策略 Strategy</b><div style="font-size:13px;color:var(--ink-2);line-height:1.85;margin-top:4px">你「怎麼開始」一件事。投射者＝等被邀請。</div></div>
+    <div class="card tight"><b style="font-size:14px">權威 Authority</b><div style="font-size:13px;color:var(--ink-2);line-height:1.85;margin-top:4px">你「怎麼決定」一件事。兩人都是情緒型。</div></div>
+    <div class="card tight"><b style="font-size:14px">非自己主題</b><div style="font-size:13px;color:var(--ink-2);line-height:1.85;margin-top:4px">你走偏時會出現的情緒。投射者＝苦澀。</div></div>
+    <div class="card tight"><b style="font-size:14px">人生角色 Profile</b><div style="font-size:13px;color:var(--ink-2);line-height:1.85;margin-top:4px">你「扮演什麼戲份」。4/6、2/4。</div></div>
+  </div>
+
+  <h4 class="rise" style="margin-top:28px">情緒型權威：一條規則就好</h4>
+  <div class="card rise" style="border-color:var(--green-3)">
+    <p style="margin:0 0 10px"><b style="color:var(--green);font-size:16px">當下沒有真相。</b></p>
+    <p style="margin:0 0 10px">情緒中心有定義的人（阿主、阿派都是），情緒會像波浪一樣上上下下 —— 有時候高、有時候低，而且<b>跟外面發生什麼事沒有關係</b>，它自己會跑。</p>
+    <p style="margin:0 0 12px">問題在於：<b>在高點你會覺得什麼都好，在低點你會覺得什麼都爛。</b>而這兩個都不是真相。</p>
+    <div class="eg"><b>錯的做法：</b>朋友問「明天要不要去？」你當下心情好 → 「好啊！」。隔天心情降下來 → 超後悔，找藉口取消。</div>
+    <div class="eg"><b>對的做法：</b>「我想一下，晚點回你。」<b>睡一覺</b>，或至少隔幾個小時，等情緒走過一個高一個低，看看兩次都還想去嗎？兩次都想 → 那是真的。</div>
+    <div class="eg"><b>能等多久就等多久。</b>小事等幾小時，大事等幾天。這不是拖延，這是你的<b>正確決策方式</b>。任何逼你「現在就決定」的人事物，對情緒型權威來說都是紅燈。</div>
+  </div>
+</section>
+<div class="rule"></div>
+
+<!-- ========== 04 阿主 ========== -->
+<section id="zhu">
+  <span class="sec-num rise">0 4</span>
+  <h2 class="rise">阿主的設計<span class="dot">.</span></h2>
+
+  <div class="person-head rise">
+    <p class="who">阿主</p>
+    <div class="cross">輪迴交叉 · 右角度交叉之滲透 3（57/51 | 53/54）</div>
+    <div class="ph-grid">
+      <div><div class="k">類 型</div><div class="v">投射者<small>Projector</small></div></div>
+      <div><div class="k">人生角色</div><div class="v">4 / 6<small>機會主義者的角色模範</small></div></div>
+      <div><div class="k">內在權威</div><div class="v">情緒型<small>等情緒波過去再決定</small></div></div>
+      <div><div class="k">策 略</div><div class="v">等待被邀請<small>不邀請就先不動</small></div></div>
+      <div><div class="k">定 義</div><div class="v">二分人<small>兩塊獨立的電路</small></div></div>
+      <div><div class="k">非自己主題</div><div class="v">苦 澀<small>走偏時的警報聲</small></div></div>
+    </div>
+  </div>
+
+  <p class="tap-hint rise" style="margin-top:24px">👆 點任何一個中心或亮起的通道，看說明</p>
+  <div class="bg-wrap rise">
+    <div id="bgZhu"></div>
+    <div class="detailbox" id="dbZhu"></div>
+    <div class="bg-legend">
+      <span><i style="background:var(--sv-def)"></i>通了</span>
+      <span><i style="background:var(--sv-half)"></i>通一半</span>
+      <span><i style="background:var(--sv-empty)"></i>沒通</span>
+    </div>
+  </div>
+
+  <h3 class="rise">一句話總結阿主</h3>
+  <div class="pull rise" style="font-size:17.5px">你看得又快又深，還說得出來。<br>問題從來不是你講得對不對，<br>是<b>對方有沒有問你</b>。</div>
+
+  <h3 class="rise">六個亮著的中心 —— 你的固定配備</h3>
+  <p class="rise" style="font-size:14px;color:var(--ink-2)">九個中心裡亮了六個，這在投射者裡算相當「多」。代表你很有存在感、很有自己的樣子；但相對地，你也比較容易在這六個地方<b>固執到自己都沒發現</b>。</p>
+  <div class="ctr-list rise" id="ctrZhuOn"></div>
+
+  <h3 class="rise">三個空白的中心 —— 你的敏感帶</h3>
+  <p class="rise" style="font-size:14px;color:var(--ink-2)">這三個地方，你收得到、會放大、而且常常誤以為是自己的。看下面的「陷阱句」—— 如果你腦中常出現那句話，那就是它在作用。</p>
+  <div class="ctr-list rise" id="ctrZhuOff"></div>
+
+  <h3 class="rise">四條通道 —— 你的天賦與陷阱</h3>
+  <p class="rise" style="font-size:14px;color:var(--ink-2)">通道是你身上「兩邊都接好」的線路。這四條就是你最核心的四個特質，一輩子都在。</p>
+  <div id="chZhu" class="rise"></div>
+
+  <h3 class="rise">十四個「通一半」的閘道 —— 你在找誰</h3>
+  <p class="rise" style="font-size:14px;color:var(--ink-2)">每一個都在等一個特定的人來把它接上。看到「缺 XX」的地方，那就是你會被吸引的類型。點開看細節。</p>
+  <div id="gtZhu" class="rise"></div>
+
+  <h3 class="rise">4/6：你的人生分成三段</h3>
+  <div class="card rise">
+    <div class="eg"><b>4 = 機會主義者。</b>你的機會<b>不會來自陌生人，只會來自你認識的人</b>。履歷投一百封不如朋友一句「欸我這邊有個缺」。所以對 4 爻來說，<b>維護少數幾段深的關係，比認識一百個人有用得多。</b><br><span style="color:var(--clay)">實例：換工作、找合作、找對象 —— 統計你自己過去的經驗，八成都是熟人牽線的。這不是巧合。</span></div>
+    <div class="eg"><b>6 = 角色模範，分三個階段：</b></div>
+    <div style="padding-left:16px">
+      <div class="eg clay" style="margin:8px 0"><b>0–30 歲｜實驗期。</b>像 3 爻一樣到處撞、到處試錯。這階段的失敗<b>是設計的一部分</b>，不是你不行。感情、工作、方向都會反覆。</div>
+      <div class="eg clay" style="margin:8px 0"><b>30–50 歲｜上屋頂。</b>會有一段很明顯的「退開、旁觀、有點冷感」的時期。你會突然不太想衝了、想看清楚再說、對過去的自己有點嫌棄。<b>這不是低潮，這是設計。</b>屋頂期是在消化前面三十年的實驗數據。</div>
+      <div class="eg clay" style="margin:8px 0"><b>50 歲後｜下屋頂。</b>你會變成那個「別人自然會來問他」的人。前面所有的撞牆和旁觀，這時候變成你的權威感。<b>對投射者來說，這是最爽的一段 —— 因為邀請會自己來。</b></div>
+    </div>
+    <div class="eg"><b>4/6 合起來：</b>你是靠「一小群真的認識你的人」，慢慢累積成一個被信任的人。你不是那種靠曝光量取勝的人。<b>深度＞廣度，對你來說不是選擇，是設定。</b></div>
+  </div>
+
+  <h3 class="rise">輪迴交叉：滲透</h3>
+  <div class="card rise">
+    <p>四個閘道組成你人生的大主題：<span class="tag">57 直覺的清晰</span> <span class="tag">51 衝擊</span> <span class="tag clay">53 開始</span> <span class="tag clay">54 往上爬的企圖</span></p>
+    <p><b>「滲透」的意思是：你不是用力撞開一扇門，你是滲進去。</b></p>
+    <div class="eg">你的 57（直覺）會在別人還沒察覺的時候就聞到不對勁；你的 51（衝擊）會說出讓人一震的那句話；53＋54 讓你不斷想開始新東西、想往上。</div>
+    <div class="eg clay"><b>用對的樣子：</b>在對的時機講出一句讓對方「愣住三秒然後整個想通」的話。你的價值是<b>啟動別人</b>。</div>
+    <div class="eg clay"><b>用歪的樣子：</b>沒人問就開始「點醒」別人，結果被當成潑冷水、找碴、掃興的人。同一句話，時機不對就變成攻擊。</div>
+  </div>
+
+  <h3 class="rise">阿主的使用說明書</h3>
+  <div class="card rise" style="background:var(--green-wash);border-color:var(--green-3)">
+    <div class="eg"><b>① 一句話沒被問，就先不要講。</b>把它寫在手機備忘錄裡。如果三天後對方自己來問了 —— 那才是你的時機，而且效果會強十倍。</div>
+    <div class="eg"><b>② 學會製造邀請，而不是等天上掉下來。</b>「等待邀請」不等於躺著。你能做的是：<b>把你看見的東西留下痕跡</b>（寫下來、做出來、放出去），讓需要的人自己找上你。這是投射者唯一該用力的方向。</div>
+    <div class="eg"><b>③ 任何重要決定，睡過一晚再回覆。</b>情緒型權威沒有例外。當場的「好」和當場的「不要」都不算數。</div>
+    <div class="eg"><b>④ 空白薦骨：你沒有續航力，這是事實不是藉口。</b>不要跟生產者比工時。你的產出是「一小時的洞見」，不是「十小時的勞動」。累了就停，撐下去只會提早報廢。<br><span style="color:var(--clay)">具體做法：一個人睡（或至少睡前有獨處時間），讓薦骨的能量退掉再入睡，睡眠品質會差很多。</span></div>
+    <div class="eg"><b>⑤ 苦澀出現時，不要檢討別人，先問自己一句：</b>「這次是他來問我的，還是我自己衝上去的？」<b>九成是後者。</b></div>
+    <div class="eg"><b>⑥ 你的 18＋58（評判通道）不是缺點，是專業。</b>但它必須被「請」出來。同一句「這裡有問題」，被請來當顧問講＝專業；在飯桌上主動講＝難相處。<b>唯一的差別是有沒有被請。</b></div>
+    <div class="eg"><b>⑦ 37＋40（社群通道）：把交易講清楚。</b>你會自然地付出並期待回報，但你常常<b>不說出口</b>，然後累積怨。練習講出來：「我可以幫你做 A，但我需要你 B。」講出來就沒事，不講就會爛在心裡變苦澀。</div>
+  </div>
+</section>
+<div class="rule"></div>
+
+<!-- ========== 05 阿派 ========== -->
+<section id="pai">
+  <span class="sec-num rise">0 5</span>
+  <h2 class="rise">阿派的設計<span class="dot">.</span></h2>
+
+  <div class="person-head rise">
+    <p class="who">阿派</p>
+    <div class="cross">輪迴交叉 · 右角度交叉之統領 2（45/26 | 22/47）</div>
+    <div class="ph-grid">
+      <div><div class="k">類 型</div><div class="v">投射者<small>Projector</small></div></div>
+      <div><div class="k">人生角色</div><div class="v">2 / 4<small>隱士型的機會主義者</small></div></div>
+      <div><div class="k">內在權威</div><div class="v">情緒型<small>等情緒波過去再決定</small></div></div>
+      <div><div class="k">策 略</div><div class="v">等待被邀請<small>不邀請就先不動</small></div></div>
+      <div><div class="k">定 義</div><div class="v">二分人<small>腦袋與身體是分開的</small></div></div>
+      <div><div class="k">非自己主題</div><div class="v">苦 澀<small>走偏時的警報聲</small></div></div>
+    </div>
+  </div>
+
+  <p class="tap-hint rise" style="margin-top:24px">👆 點任何一個中心或亮起的通道，看說明</p>
+  <div class="bg-wrap rise">
+    <div id="bgPai"></div>
+    <div class="detailbox" id="dbPai"></div>
+    <div class="bg-legend">
+      <span><i style="background:var(--sv-def)"></i>通了</span>
+      <span><i style="background:var(--sv-half)"></i>通一半</span>
+      <span><i style="background:var(--sv-empty)"></i>沒通</span>
+    </div>
+  </div>
+
+  <h3 class="rise">一句話總結阿派</h3>
+  <div class="pull rise" style="font-size:17.5px">你的腦袋一直在跑，<br>但嘴巴不歸你管。<br>你最大的痛苦是<b>「我知道，但我講不出來」</b>。</div>
+
+  <div class="card rise" style="border-color:var(--green-3)">
+    <h4 style="margin-top:0">這是阿派整張圖最關鍵的一件事，請先讀這段</h4>
+    <p>阿派的<b>頭腦 ＋ Ajna 是亮的</b>（63–4 邏輯通道），但<b>喉嚨是空白的</b>，而且和上面斷開。這造成一個非常具體的日常現象：</p>
+    <div class="eg"><b>腦袋停不下來。</b>63 是「懷疑」，4 是「解答」。這條通道會不斷產生「這樣對嗎？→ 那應該是這樣 → 但真的嗎？」的迴圈。<b>而且它跑的多半不是你自己的事</b>，是別人的事、公司的事、世界的事。</div>
+    <div class="eg"><b>但輸出口不在你手上。</b>喉嚨空白＝你什麼時候能講、講出來什麼樣子，很大程度取決於<b>你身邊是誰、現場氣氛如何</b>。所以你會有：跟 A 在一起口才超好，跟 B 在一起一句話都擠不出來。</div>
+    <div class="eg clay"><b>最典型的痛：</b>會議上你腦中有完整的答案，但你沒開口；散會後別人講了類似的，你心裡「這我早就想到了」——然後苦澀。<b>這不是你不夠勇敢，這是喉嚨空白＋二分人的結構。</b></div>
+    <div class="eg clay"><b>怎麼辦（很實際）：</b>① <b>先寫下來</b>，文字是你繞過喉嚨的路。② <b>找到那一兩個「跟他講話我就變流利」的人</b>，那個人就是你的橋。③ 不要期待自己在人多的場合即時發言，那不是你的強項，也不需要是。</div>
+  </div>
+
+  <h3 class="rise">五個亮著的中心 —— 你的固定配備</h3>
+  <div class="ctr-list rise" id="ctrPaiOn"></div>
+
+  <h3 class="rise">四個空白的中心 —— 你的敏感帶</h3>
+  <p class="rise" style="font-size:14px;color:var(--ink-2)">空白比阿主多一個，而且空的都是「輸出型」的中心（喉嚨、意志力、薦骨）。這代表：<b>你的「產出」很依賴環境和對象</b>。選對環境，你會判若兩人。</p>
+  <div class="ctr-list rise" id="ctrPaiOff"></div>
+
+  <h3 class="rise">三條通道 —— 你的天賦與陷阱</h3>
+  <div id="chPai" class="rise"></div>
+
+  <h3 class="rise">十五個「通一半」的閘道 —— 你在找誰</h3>
+  <p class="rise" style="font-size:14px;color:var(--ink-2)">阿派的懸掛閘道比通道還多，這代表<b>你是一個「跟不同人在一起會變成不同樣子」的人</b>。這不是沒個性，這是你的設計。點開看每一個在等誰。</p>
+  <div id="gtPai" class="rise"></div>
+
+  <h3 class="rise">2/4：躲起來的人，靠朋友吃飯</h3>
+  <div class="card rise">
+    <div class="eg"><b>2 = 隱士。</b>你的天賦是<b>自然的</b>——你自己覺得「這有什麼難的？」但別人做不到。因為太自然，你反而看不見它。<br><span style="color:var(--clay)">2 爻的兩個特徵：① <b>你需要獨處</b>，而且是真的需要，不是矯情。被打斷會煩躁。② <b>你的天賦要別人喊你，你才會啟動。</b>你不會自己站出來說「我很會這個」。</span></div>
+    <div class="eg"><b>4 = 機會主義者。</b>跟阿主一樣：<b>機會來自認識的人。</b>陌生管道對你效果很差。</div>
+    <div class="eg clay"><b>2/4 合起來 = 一個很有意思的矛盾：</b>你需要一個人躲起來，但你的機會只會從人脈來。<br><b>所以你的最佳策略是：關起門來做事，但維持三到五個真的懂你、會在關鍵時刻喊你名字的人。</b>不需要社交，只需要「有幾個人記得你會什麼」。</div>
+    <div class="eg clay"><b>2 爻要小心的事：</b>當有人來喊你（call）而你當時不想理 —— 這是正常的，2 爻本來就會抗拒被打擾。<b>但不要每次都拒絕。</b>用情緒型權威的規則：「我先想一下，明天回你。」不要當場拒絕，因為那多半是「被打擾的煩」在回答，不是你真的不要。</div>
+  </div>
+
+  <h3 class="rise">輪迴交叉：統領</h3>
+  <div class="card rise">
+    <p>四個閘道：<span class="tag">45 收集者（分配資源）</span> <span class="tag">26 利己（說服）</span> <span class="tag clay">22 開放（優雅）</span> <span class="tag clay">47 領悟（想通過去）</span></p>
+    <p><b>「統領」的主題是：管人、管資源、把一群人和一堆東西安排好。</b></p>
+    <div class="eg"><b>但這裡有一個很關鍵的細節：</b>阿派的 45（喉嚨）和 26（意志力）<b>都落在空白中心</b>，22 也是懸掛的。這代表 —— <b>「統領」對你來說不是天生就會，是你這輩子要學會的功課。</b></div>
+    <div class="eg clay"><b>用歪的樣子：</b>硬扛起不屬於你的責任、逞強說服別人、用意志力硬撐（因為意志力中心空白，最容易的就是「證明自己有意志力」），然後把自己掏空。</div>
+    <div class="eg clay"><b>用對的樣子：</b>47 是關鍵 —— <b>你的價值在「把過去發生的事想通，然後說給別人聽」。</b>不是在現場衝鋒，是事後的復盤、整理、看出模式。當這個能力被人看見並邀請，統領就會自然發生（別人把管理權交給你），而不是你去搶。</div>
+  </div>
+
+  <h3 class="rise">阿派的使用說明書</h3>
+  <div class="card rise" style="background:var(--green-wash);border-color:var(--green-3)">
+    <div class="eg"><b>① 用寫的，不要用講的。</b>你的 63–4 會產出很好的邏輯，但喉嚨空白會把它卡住。<b>文字是你的主戰場</b>——筆記、訊息、文件、簡報。寫完再講，你會強很多。</div>
+    <div class="eg"><b>② 找到你的「橋」。</b>你是二分人，而且兩塊之間隔得比較遠。你需要某些人在場才會「合起來」。留意：跟誰在一起你會突然變得又流暢又完整？<b>那個人對你很重要，不是心理作用，是結構。</b></div>
+    <div class="eg"><b>③ 獨處不是懶，是充電。</b>2 爻＋投射者＝雙重需要獨處。你如果連續幾天沒有一個人的時間，狀態會很明顯地掉下來。<b>把獨處排進行事曆，當成工作看待。</b></div>
+    <div class="eg"><b>④ 空白意志力：不要再證明自己了。</b>意志力中心空白的人最大的陷阱是「答應了不該答應的事，只為了證明我做得到」。<br><span style="color:var(--clay)">具體：不要接賭注型的挑戰、不要用「我一定可以」開頭做決定、不要為了不服輸硬撐。你的價值不需要靠證明。</span></div>
+    <div class="eg"><b>⑤ 32＋54（蛻變通道）給你很強的驅動力，但它很焦慮。</b>你會一直有「我要往上、我不能停在這裡」的推力，同時伴隨「萬一失敗怎麼辦」的恐懼。<b>這個組合會讓你很努力，也會讓你很累。</b>提醒自己：這股驅動不代表現在就要行動，投射者還是要等邀請。</div>
+    <div class="eg"><b>⑥ 腦袋停不下來的時候，接受它。</b>63–4 是設計來「思考」的，不是設計來「得到結論」的。<b>你的懷疑和分析本身就是產品</b>，不需要每次都想出答案。硬要收尾只會更焦慮。</div>
+    <div class="eg"><b>⑦ 苦澀出現時，同一句話：</b>「這次是他來問我的，還是我自己衝上去的？」</div>
+  </div>
+</section>
+<div class="rule"></div>
+
+<!-- ========== 06 測驗 ========== -->
+<section id="quiz">
+  <span class="sec-num rise">0 6</span>
+  <h2 class="rise">自我驗證測驗<span class="dot">.</span></h2>
+  <p class="lede rise">別相信我寫的，去驗證它。<br>照你<b>真實的樣子</b>選，不要選你「希望自己是」的那個。選完會告訴你符不符合你的圖。</p>
+
+  <div class="quiz-pick rise">
+    <button data-who="zhu">阿主</button>
+    <button data-who="pai">阿派</button>
+  </div>
+  <p class="center q rise" id="pickHint">↑ 先選一個人</p>
+  <div id="quizBody"></div>
+  <div class="score" id="scoreBox">
+    <div class="big"><span id="scNum">0</span><small>/10</small></div>
+    <h4 id="scTitle" style="color:#F2EFE6;font-family:var(--serif);font-size:19px;margin:16px 0 0"></h4>
+    <p id="scTxt"></p>
+    <button class="btn" style="border-color:rgba(255,255,255,.5);color:#F2EFE6;margin-top:18px" onclick="resetQuiz()">再測一次</button>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- ========== 07 附錄 ========== -->
+<section id="bonus">
+  <span class="sec-num rise">0 7</span>
+  <h2 class="rise">附錄：兩張圖放在一起<span class="dot">.</span></h2>
+  <p class="lede rise">這段純粹是結構上的觀察 —— 把兩張圖疊起來，看看誰補了誰的缺口。</p>
+
+  <div class="card rise">
+    <h4 style="margin-top:0">五條「電磁通道」</h4>
+    <p style="margin:0 0 6px;font-size:14px">當一個人的懸掛閘道，剛好碰上另一個人的另一半，那條通道就會<b>只在兩人同時在場時亮起來</b>。這兩張圖之間有五條 —— 這個數量算相當多。</p>
+    <div class="eg"><b>阿主的 23 ➜ 補上阿派的 43</b>（天才與怪胎通道）<br>阿派腦中那些說不出口的洞見，跟阿主在一起時<b>會突然有出口</b>。</div>
+    <div class="eg"><b>阿主的 58 ➜ 補上阿派的 18</b>（評判通道）<br>兩人一起會很容易進入「一起挑毛病、一起把東西弄對」的模式。</div>
+    <div class="eg clay"><b>阿派的 63 ➜ 補上阿主的 4</b>（邏輯通道）<br>阿主平常頭腦是空白的，跟阿派在一起會突然變得<b>很愛分析、想很多</b>。</div>
+    <div class="eg clay"><b>阿派的 32 ➜ 補上阿主的 54</b>（蛻變通道）<br>阿主的「想往上爬」會被啟動 —— 也會跟著焦慮起來。</div>
+    <div class="eg clay"><b>阿派的 49 ➜ 補上阿主的 19</b>（合成通道）<br>對彼此的需求變得很敏感，也容易在「要不要接受對方」上拉扯。</div>
+  </div>
+
+  <div class="card rise">
+    <h4 style="margin-top:0">四個一模一樣的懸掛閘道</h4>
+    <p style="margin:0 0 8px;font-size:14px"><span class="tag">14</span> <span class="tag">26</span> <span class="tag">27</span> <span class="tag">51</span> —— 兩人都只有這一半，都在等同一個對象。</p>
+    <p style="margin:0;font-size:14px;color:var(--ink-2)">結果是<b>共鳴 ＋ 共同盲點</b>：這四件事上兩人看世界的方式幾乎一樣，聊起來超順（因為根本不用解釋）；但也代表<b>沒有人能點醒對方</b>，兩個人會一起卡在同一個地方。</p>
+  </div>
+
+  <div class="card rise" style="background:var(--green-wash);border-color:var(--green-3)">
+    <h4 style="margin-top:0">兩個人加起來，還是缺兩塊</h4>
+    <p>合起來以後，九個中心亮了七個 —— 頭腦、Ajna、喉嚨、意志力、直覺、情緒、根。</p>
+    <p style="margin-bottom:0">但<b>G 中心（方向感）和薦骨（續航力）兩個人都是空的，加起來還是空的。</b><br><br>白話說：這兩個人湊在一起，<b>思考、表達、感受、判斷都會變得很完整很強</b>，但「我們要往哪去」和「誰來出力把事情做完」<b>永遠會是這組關係的難題</b>。這不是誰的錯，是結構。<br><br>可以做的事：把方向和執行<b>外包給明確的目標、制度或第三個人</b>，不要指望其中一個人扛起來 —— 兩個人都扛不起來。</p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="v">V E R S I O N &nbsp; 1 . 0 . 0</div>
+  <h5>人類圖手記 · 阿主 &amp; 阿派</h5>
+  <div class="meta">
+    作者：<b>睡覺的紅豬</b><br>
+    使用 AI 工具：<b>Claude Opus 5</b>（Anthropic）· Cowork 桌面版<br>
+    資料來源：亞洲人類圖學院排盤圖（阿主 / 阿派）<br>
+    產出日期：<b>2026 / 08 / 31</b>
+  </div>
+  <div class="dis">
+    ⓘ 免責聲明：人類圖（Human Design）是一套結合易經、占星、卡巴拉與脈輪的<b>象徵系統</b>，並非經過科學驗證的心理學或醫學工具。本文件所有內容僅供自我探索與趣味參考，<b>不構成任何醫療、心理、法律、財務或人生決策建議</b>。<br><br>
+    本頁的類型、權威、通道與閘道判定，是依照排盤圖上的行星閘道表以標準規則推導；文字詮釋與日常範例由 AI 撰寫，屬於一般性描述，未必符合個人實際情況。<b>請以自身的實際經驗為準 —— 對得上的留著，對不上的丟掉。</b>
+  </div>
+</footer>
+<script>
+/* ==================== 資料 ==================== */
+var CN={head:'頭腦',ajna:'邏輯 Ajna',throat:'喉嚨',g:'G 中心',heart:'意志力',spleen:'直覺 脾',solar:'情緒',sacral:'薦骨',root:'根'};
+
+var GC={64:'head',61:'head',63:'head',47:'ajna',24:'ajna',4:'ajna',17:'ajna',11:'ajna',43:'ajna',
+62:'throat',23:'throat',56:'throat',16:'throat',20:'throat',31:'throat',8:'throat',33:'throat',35:'throat',12:'throat',45:'throat',
+7:'g',1:'g',13:'g',10:'g',25:'g',15:'g',2:'g',46:'g',
+21:'heart',51:'heart',26:'heart',40:'heart',
+48:'spleen',57:'spleen',44:'spleen',50:'spleen',32:'spleen',28:'spleen',18:'spleen',
+36:'solar',22:'solar',37:'solar',6:'solar',49:'solar',55:'solar',30:'solar',
+5:'sacral',14:'sacral',29:'sacral',34:'sacral',27:'sacral',42:'sacral',3:'sacral',9:'sacral',59:'sacral',
+53:'root',60:'root',52:'root',54:'root',19:'root',38:'root',39:'root',58:'root',41:'root'};
+
+/* 36 條通道：[閘道A, 座標A, 閘道B, 座標B] */
+var CH=[
+[64,[136,60],47,[136,86]],[61,[160,60],24,[160,86]],[63,[184,60],4,[184,86]],
+[17,[150,118],62,[140,162]],[11,[170,118],56,[180,162]],[43,[160,132],23,[160,162]],
+[31,[140,224],7,[148,270]],[8,[160,224],1,[160,256]],[33,[180,224],13,[172,270]],
+[45,[202,214],21,[250,292]],
+[16,[118,178],48,[39,396]],[20,[118,194],57,[54,406]],[20,[130,224],34,[122,414]],[20,[119,208],10,[121,296]],
+[35,[202,178],36,[281,396]],[12,[202,196],22,[266,406]],
+[15,[146,330],5,[136,400]],[2,[160,344],14,[155,400]],[46,[174,330],29,[178,400]],
+[10,[116,306],57,[54,410]],[10,[126,310],34,[118,418]],
+[25,[198,300],51,[232,300]],[26,[216,315],44,[69,415]],[40,[252,330],37,[251,415]],
+[50,[84,425],27,[118,440]],[57,[58,410],34,[118,412]],
+[18,[39,459],58,[118,552]],[28,[57,450],38,[118,534]],[32,[73,441],54,[118,514]],
+[42,[140,462],53,[140,502]],[3,[160,462],60,[160,502]],[9,[180,462],52,[180,502]],
+[59,[202,440],6,[236,425]],
+[49,[247,441],19,[202,514]],[55,[263,450],39,[202,534]],[30,[281,459],41,[202,552]]
+];
+
+var SHAPES={
+ head:{t:'poly',p:'160,14 198,60 122,60',lx:160,ly:42},
+ ajna:{t:'poly',p:'122,86 198,86 160,136',lx:160,ly:106},
+ throat:{t:'rect',x:118,y:162,w:84,h:62,lx:160,ly:198},
+ g:{t:'poly',p:'160,254 204,300 160,346 116,300',lx:160,ly:304},
+ heart:{t:'poly',p:'200,310 262,284 262,340',lx:238,ly:319,sl:'意志'},
+ spleen:{t:'poly',p:'30,390 30,470 98,430',lx:48,ly:434},
+ solar:{t:'poly',p:'290,390 290,470 222,430',lx:272,ly:434},
+ sacral:{t:'rect',x:118,y:400,w:84,h:62,lx:160,ly:436},
+ root:{t:'rect',x:118,y:502,w:84,h:62,lx:160,ly:538}
+};
+
+var CTR={
+ head:{on:['靈感與疑問是你自己產生的','你腦中的問題源源不絕，而且是「你的」問題。你不需要別人給你題目，你自己就有。好處是有獨立的思想；壞處是<b>停不下來</b>，因為那個壓力是內建的。'],
+       off:['你腦中的問題多半是別人的','你會被別人丟出來的疑問、看到的資訊、社群上的一則貼文佔據整個腦袋，而且會鑽很久。','陷阱句：「我一直在想一件其實不關我的事。」','實用做法：問自己一句「這個問題是誰的？」不是我的，就放掉。你沒有義務回答全世界的問題。']},
+ ajna:{on:['你有固定的思考方式','你分析事情的路徑是固定的，一輩子不太會變。這讓你思路清晰、有自己的一套；但也代表<b>你很難真的改變想法</b>——你會覺得自己在開放討論，其實已經有結論了。'],
+       off:['你的想法會變，而且變得很快','今天覺得 A 對，明天聽了一席話覺得 B 對。這不是沒主見，這是彈性。','陷阱句：「我必須要有一個立場／我一定要想清楚。」','實用做法：允許自己說「我還沒想好」。你不需要對每件事都有定見。']},
+ throat:{on:['你能把想法變成話和行動','你想講的時候講得出來，而且方式穩定。你的表達有一種可辨識的風格。','但要注意：<b>你會很容易忍不住開口</b>，尤其在沒人問你的時候。'],
+       off:['你能不能講、怎麼講，很看場合和對象','跟某些人在一起你口若懸河，跟另一些人你一句都擠不出來。這不是你的問題，這是結構。','陷阱句：「我一定要說點什麼，不然大家會覺得我沒參與。」','實用做法：① 先寫下來再講。② 找到讓你變流暢的那些人。③ 沒被問就不用硬要發言 —— 對投射者來說這反而是優勢。']},
+ g:{on:['你知道自己是誰、要去哪','方向感和身份認同是穩定的。'],
+    off:['你是誰、你要去哪，會隨著環境和身邊的人變','這是九個中心裡最容易被誤解的一個。空白的 G 不代表你沒個性，代表<b>你像水一樣會取決於容器</b>。','陷阱句：「我到底想要什麼？我這輩子要幹嘛？」（這個問題你可能問了很多年）','實用做法：<b>不要用想的找方向，要用「換位置」找方向。</b>對空白 G 的人來說，<b>你在哪裡、跟誰在一起，比你想什麼重要得多。</b>環境對了，方向自然會出現；環境不對，想破頭也沒用。','具體：如果你長期覺得迷惘，先檢查的不是你的目標，是你的<b>座位、住的地方、每天見到的人</b>。']},
+ heart:{on:['你有穩定的意志力和自我價值感','你答應的事做得到，你知道自己值多少。你不太需要向誰證明什麼。','注意：你也會自然地用「交易」的角度看關係 —— 我付出這些，你要回應那些。<b>記得把條件說出口</b>，不說就會變成怨。'],
+       off:['你的意志力時有時無，而且你很容易想證明自己','意志力中心空白是九個中心裡最容易「用力過猛」的一個。因為感受不到穩定的意志力，你會不斷想證明自己有。','陷阱句：「我一定做得到／我來證明給你看／我沒問題。」','實用做法：<b>不要接賭注型的挑戰。</b>不要為了不服輸答應事情。你的價值不需要靠意志力證明 —— 這句話你可能要念很多次才會相信。']},
+ spleen:{on:['你有穩定的直覺和健康的警覺','你對「安全 / 不安全」有即時的感應，而且通常準。它只講一次，很小聲，過了就沒了。','注意：你的恐懼也是固定的。你會有一些一輩子跟著你的擔心。'],
+       off:['你的直覺不穩，而且你很容易黏著不健康的人事物','空白脾最大的特徵是<b>「明知道不對，但放不掉」</b>——工作、關係、習慣都是。因為你感受不到那個「該走了」的訊號。','陷阱句：「再撐一下應該就好了。」','實用做法：設外部的停損點（時間、次數、金額），不要靠感覺判斷該不該離開。']},
+ solar:{on:['你有情緒波，而且決定要等波過去','情緒像海浪，自己會跑，跟外面發生什麼沒有絕對關係。<b>當下沒有真相。</b>','注意：你的情緒會影響全場。你心情不好的時候，整個房間都會知道。'],
+        off:['你會吸收並放大別人的情緒','別人有一點不高興，你會感覺到十分。而且你會以為那是你的。','陷阱句：「我今天心情很差（其實是隔壁那個人心情差）。」','實用做法：離開現場，走個五分鐘。如果情緒消失了 —— 那不是你的。','另外：空白情緒的人很怕衝突，會為了避免對峙而說謊或閃避。要練習「這件事我們可以好好講」。']},
+ sacral:{on:['你有源源不絕的工作能量','你天生就是能做的人。'],
+         off:['你沒有續航力，而且你不知道什麼時候該停','這是投射者最關鍵的一件事。你可以短時間爆發，但你<b>沒有可以持續消耗的燃料</b>。','陷阱句：「我還可以再撐一下／別人都做得到我為什麼不行。」','實用做法：① 不要跟生產者比工時，你比的是洞見不是勞動。② 累了就停，硬撐會提早報廢。③ <b>睡前留獨處時間</b>，讓白天吸進來的薦骨能量退掉，睡眠會好很多。']},
+ root:{on:['你有穩定的壓力和推動力','你一直有一股「要動、要處理、要往前」的推力。這讓你很能扛事；也讓你很難真的放鬆。'],
+       off:['你會被別人的急迫感綁架','別人一急，你就跟著急。你會為了「趕快把壓力消掉」而匆忙做決定。','陷阱句：「趕快做完就沒事了。」','實用做法：分辨「這是誰的急」。多數時候那個急不是你的。壓力來的時候，先問「真的有這麼趕嗎？」']}
+};
+
+var G={
+4:['解答','ajna','對還沒有答案的事，腦中自動生成可能的解法。','別人抱怨系統很爛，你腦中已經跑出三種改法 —— 即使那根本不關你的事。'],
+5:['等待（固定模式）','sacral','需要固定的節奏和儀式感才能運作。','一定要先泡好咖啡才能開始工作；作息被打亂會整天不對勁。'],
+8:['貢獻','throat','把「獨特的東西」推出去、讓它被看見。','你很會幫別人包裝 —— 同一件作品經你講一遍，別人才聽懂它厲害在哪。'],
+13:['傾聽者','g','別人會莫名其妙跟你講秘密，你是收納故事的人。','才認識三次的人就開始跟你講他家裡的事，你自己也不知道為什麼。'],
+14:['能量的技能','sacral','為「有意義的方向」投入資源與力氣。','只要你認定這件事有意義，錢和時間你都掏得出來；沒意義的事你一毛都不想花。'],
+18:['修正','spleen','一眼看出哪裡不對、哪裡可以更好。','看一份文件，你會先看到那個錯字和沒對齊的地方，而不是內容本身。'],
+19:['想要（敏感）','root','對「需要」極度敏感 —— 誰需要什麼、我需要什麼。','走進家門三秒就知道誰心情不好；也很容易因為「他需要我」而答應事情。'],
+22:['開放（優雅）','solar','在對的心情時，有一種讓人放鬆的社交魅力。','心情好時你能跟任何人聊；心情低時完全不想見人 —— 兩個都是真的你。'],
+23:['同化','throat','把複雜難懂的東西，翻成別人聽得懂的話。','你能一句話講清楚別人講半小時講不清的事。但時機不對，同一句話會被聽成說教。'],
+26:['利己主義者','heart','說服、包裝、推銷。也包含「選擇性地說實話」。','你很會講故事讓事情聽起來更吸引人 —— 這是天賦，但要注意別越過那條線。'],
+27:['滋養','sacral','照顧人。看到需要幫忙的就想接手。','同事忙不過來你會主動接；接完自己爆掉還不好意思講。'],
+28:['玩家','spleen','追尋「值得的」。願意冒險，怕的是人生沒意義。','你不怕吃苦，你怕的是「這樣過一生有什麼意義」。半夜會想這種問題。'],
+30:['感覺的渴望','solar','強烈的渴望與嚮往。想體驗、想擁有。','會突然對某件事燃起強烈的渴望，過一陣子自己也覺得莫名其妙。'],
+32:['持續','spleen','直覺地判斷「這個撐不撐得久」。同時帶著怕失敗的恐懼。','別人興沖沖提一個計畫，你第一反應是「這撐得下去嗎」—— 通常你是對的。'],
+35:['改變（前進）','throat','想體驗新東西。做過就膩。','你的興趣清單或履歷很雜，因為你真的什麼都想試一遍。'],
+37:['友誼','solar','溫暖、講義氣、重視「我們」。說好的要算數。','你會為朋友做很多，也期待對方記得。對方沒回報時你會很受傷 —— 但你常常不講。'],
+39:['挑釁','root','忍不住去戳別人一下，看對方真正的樣子。','你會問出讓場面尷尬的那個問題，或講一句酸話 —— 其實你是在測試對方的深度。'],
+40:['孤獨（提供）','heart','我願意扛，但扛完我要一個人待著。','聚會結束你會突然很想消失。不是不喜歡他們，是你需要抽離。'],
+43:['洞察力','ajna','突然「就是知道」，但講不出過程。','你直接跳到結論，別人問「你怎麼知道」你答不出來 —— 所以常被當成亂講。'],
+45:['收集者','throat','掌管與分配資源的位置。','你會自然變成那個管帳、管排班、管誰拿多少的人。'],
+47:['領悟','ajna','把過去混亂的經驗，突然想通。','三年前的一件事，你某天洗澡時突然「啊，原來當時是那樣」。'],
+48:['深度','spleen','「還不夠好、還沒準備好」的恐懼，逼出真正的專業。','明明已經很厲害了，還是覺得自己是冒牌貨。這是 48 的標準配備。'],
+49:['原則','solar','對「原則被踩到」極度敏感。踩到就翻臉。','平常好好的，但有人違反你的底線，你會瞬間切斷關係，而且不太回頭。'],
+51:['衝擊','heart','敢做別人不敢做的事，也會給別人震撼。','你會做出讓人「蛤？」的決定；也常說出讓對方愣住三秒的一句話。'],
+52:['靜止','root','能長時間專注不動。也可能是「動不了」的卡住感。','你可以坐八小時做同一件事；也可能整天想動卻動不了。'],
+53:['開始','root','一直想開始新的東西。','你有一堆開了頭沒做完的計畫。開始很興奮，收尾很痛苦。'],
+54:['企圖心','root','想往上爬、想被更高的層級接納。','你很在意「進到那個圈子」，也願意為此付出很多。'],
+55:['精神（豐盛）','solar','情緒起伏最劇烈的閘道。從極度豐盛到極度空虛。','同一週你可以覺得人生超美好，也可以覺得一切都沒意思。兩個都是真的，只是波在不同位置。'],
+56:['刺激（說故事的人）','throat','用故事和比喻讓人聽下去。','你講事情很會舉例；沒有例子的純理論你自己也講不下去。'],
+57:['直覺清晰','spleen','極度敏銳的當下直覺，尤其對聲音和氣氛。','電話接通聽到對方第一聲「喂」，你就知道有事。而且通常準。'],
+58:['生之喜悅','root','對「讓事情變得更好」有源源不絕的熱情。','你會沒事去優化一個沒人在意的流程，純粹因為那樣比較爽。'],
+61:['神秘（內在真理）','head','想知道「為什麼」的壓力。追問到底。','半夜睡不著在想人生意義、宇宙、我為什麼是我 —— 沒有答案也停不下來。'],
+63:['懷疑','head','看到任何結論都會冒出「真的嗎？」','別人給你一份報告，你會先找它哪裡不對。這不是找碴，是你的腦自動在做的事。']
+};
+
+var PARTNER={4:[63],5:[15],8:[1],13:[33],14:[2],18:[58],19:[49],22:[12],26:[44],27:[50],28:[38],30:[41],
+35:[36],43:[23],45:[21],47:[64],48:[16],49:[19],51:[25],52:[9],53:[42],54:[32],56:[11],57:[20,10,34],61:[24],63:[4],23:[43],58:[18],55:[39],39:[55],37:[40],40:[37],32:[54]};
+
+var PNAME={1:'自我表達',2:'自我方向',9:'處理細節',10:'自我行為',11:'想法',12:'謹慎',15:'極端',16:'技能',
+20:'蛻變（當下）',21:'獵人（控制）',24:'理性化',25:'天真',33:'隱私',34:'力量',36:'危機',38:'鬥士',
+41:'想像（收縮）',42:'成長',44:'警覺',50:'價值',58:'生之喜悅',64:'困惑',15:'極端',23:'同化',63:'懷疑',
+55:'精神',39:'挑釁',40:'孤獨',37:'友誼',32:'持續',54:'企圖心',49:'原則',19:'想要',43:'洞察力',18:'修正'};
+
+var CHINFO={
+'23-43':['架構的通道 · 天才與怪胎','Ajna ↔ 喉嚨',
+ '你會有別人沒有的洞見，而且<b>你講得出來</b>。這是這張圖裡最強的天賦，也是最大的地雷。',
+ '被問的時候講 → 你是天才，一句話點醒對方。<br>沒被問就講 → 你是怪胎，被當成愛說教、愛糾正、不合群。',
+ '<b>同一句話，差別只在有沒有人問你。</b>這也是為什麼「等待邀請」對你來說不是客套話，是生存技能。'],
+'18-58':['評判的通道','根 ↔ 直覺 脾',
+ '對「哪裡不對」有源源不絕的敏感度，而且有能量一直修正下去。這是品管、除錯、審核的核心天賦。',
+ '被邀請時 → 你是那個「幸好有你看過」的人。<br>沒被邀請時 → 你是「怎麼你每次都要挑毛病」的人。',
+ '<b>實用建議：</b>把這個能力放到有正式角色的位置（審稿、把關、驗收），它就從缺點變資產。'],
+'39-55':['情緒的通道 · 喜怒無常的詩人','根 ↔ 情緒',
+ '情緒起伏很大，而且你會忍不住去<b>刺激別人</b>看看對方真實的樣子。這條通道的能量帶著詩意，也帶著挑釁。',
+ '好的時候 → 你能感受到別人感受不到的深度，很有魅力和感染力。<br>失控的時候 → 你會用酸話、冷處理、突然的沉默去測試在乎你的人。',
+ '<b>實用建議：</b>當你發現自己在戳人的時候，先問「我是不是在確認他還在不在？」通常答案是是。直接說「我需要你」比戳他有效一百倍。'],
+'37-40':['社群的通道 · 部落的交易','情緒 ↔ 意志力',
+ '你天生會「付出並期待回報」。這不是功利，這是你維繫關係的方式 —— 我照顧你，你也要記得我。',
+ '講清楚時 → 你是一段關係裡最可靠的支柱。<br>不講時 → 你會默默做很多，然後在某天爆炸：「我為你做這麼多，你有想過我嗎？」',
+ '<b>實用建議：</b>練習把條件明講。「我可以幫你 A，但我需要你 B。」講出來一點都不現實，不講才會爛掉。'],
+'4-63':['邏輯的通道 · 腦波不斷','頭腦 ↔ Ajna',
+ '「真的嗎？→ 應該是這樣 → 但真的嗎？」的無限迴圈。你的腦子是一台停不下來的驗證機器。',
+ '用對時 → 你能找出別人看不到的漏洞，是最好的檢核者、規劃者。<br>用歪時 → 焦慮、失眠、對一切都不放心，包含對自己。',
+ '<b>關鍵觀念：這條通道是設計來「思考」的，不是設計來「得到答案」的。</b>接受它沒有結論，焦慮會少一半。'],
+'32-54':['蛻變的通道 · 被驅動','直覺 脾 ↔ 根',
+ '一股很強的「我要往上、我不能停在這裡」的推力，加上「萬一撐不住怎麼辦」的恐懼。',
+ '用對時 → 極強的執行企圖心，能把一件事從零推到有規模。<br>用歪時 → 焦慮性的努力，做很多卻不知道為了什麼，而且停不下來。',
+ '<b>實用建議：</b>這股驅動力<b>不等於「現在就要行動」</b>。投射者還是要等邀請。感覺到推力時，先寫下來，不要馬上衝。']
+};
+
+var P={
+ zhu:{name:'阿主',gates:[4,8,14,18,19,23,26,27,28,30,37,39,40,43,51,52,53,54,55,56,57,58]},
+ pai:{name:'阿派',gates:[4,5,13,14,18,22,26,27,32,35,39,43,45,47,48,49,51,54,55,61,63]}
+};
+
+/* ==================== 計算 ==================== */
+function analyze(gates){
+  var s={},i;for(i=0;i<gates.length;i++)s[gates[i]]=1;
+  var defCh=[],half={},defCtr={};
+  for(i=0;i<CH.length;i++){var a=CH[i][0],b=CH[i][2];
+    if(s[a]&&s[b]){defCh.push([a,b]);defCtr[GC[a]]=1;defCtr[GC[b]]=1;}}
+  var inDef={};for(i=0;i<defCh.length;i++){inDef[defCh[i][0]]=1;inDef[defCh[i][1]]=1;}
+  var hang=[];for(i=0;i<gates.length;i++)if(!inDef[gates[i]])hang.push(gates[i]);
+  hang.sort(function(x,y){return x-y});
+  return {set:s,defCh:defCh,defCtr:defCtr,hang:hang,inDef:inDef};
+}
+
+/* ==================== 九宮格 ==================== */
+function V(n){return 'var(--'+n+')';}
+function drawBG(A,id){
+  var sv='<svg viewBox="0 0 320 590" width="100%" style="max-height:74vh;display:block;margin:0 auto" role="img" aria-label="人類圖九宮格：深色線為已定義通道，橘色線為只通一半的閘道" xmlns="http://www.w3.org/2000/svg">';
+  var i,c,hit='';
+  /* 通道 */
+  for(i=0;i<CH.length;i++){
+    var a=CH[i][0],pa=CH[i][1],b=CH[i][2],pb=CH[i][3];
+    var mx=(pa[0]+pb[0])/2,my=(pa[1]+pb[1])/2;
+    var oa=!!A.set[a],ob=!!A.set[b],both=oa&&ob;
+    var ca=both?V('sv-def'):(oa?V('sv-half'):V('sv-empty'));
+    var cb=both?V('sv-def'):(ob?V('sv-half'):V('sv-empty'));
+    var w=both?5:(oa||ob?4:2.2);
+    var key=(a<b?a+'-'+b:b+'-'+a);
+    sv+='<line x1="'+pa[0]+'" y1="'+pa[1]+'" x2="'+mx+'" y2="'+my+'" stroke="'+ca+'" stroke-width="'+w+'" stroke-linecap="round" pointer-events="none"/>';
+    sv+='<line x1="'+mx+'" y1="'+my+'" x2="'+pb[0]+'" y2="'+pb[1]+'" stroke="'+cb+'" stroke-width="'+w+'" stroke-linecap="round" pointer-events="none"/>';
+    if(both)hit+='<line data-ch="'+key+'" x1="'+pa[0]+'" y1="'+pa[1]+'" x2="'+pb[0]+'" y2="'+pb[1]+'" stroke="transparent" stroke-width="22" stroke-linecap="round" style="cursor:pointer" tabindex="0" role="button" aria-label="通道 '+key+'"/>';
+  }
+  /* 中心 */
+  for(c in SHAPES){var s=SHAPES[c],on=!!A.defCtr[c];
+    var f=on?V('sv-on-fill'):V('sv-off-fill'),st=on?V('sv-on-stroke'):V('sv-off-stroke'),dash=on?'':'3 3';
+    var el;
+    if(s.t==='rect')el='<rect x="'+s.x+'" y="'+s.y+'" width="'+s.w+'" height="'+s.h+'" rx="9"';
+    else el='<polygon points="'+s.p+'"';
+    sv+='<g class="ctr" data-c="'+c+'" tabindex="0" role="button" aria-label="'+CN[c]+'">'+el+' fill="'+f+'" stroke="'+st+'" stroke-width="1.5" stroke-dasharray="'+dash+'"/>'
+      +'<text x="'+s.lx+'" y="'+s.ly+'" text-anchor="middle" font-size="9.5" font-weight="500" fill="'+(on?V('sv-on-label'):V('sv-off-label'))+'" style="pointer-events:none">'+(s.sl||CN[c].split(' ')[0])+'</text></g>';
+  }
+  /* 閘道圓點 */
+  var done={};
+  for(i=0;i<CH.length;i++){
+    var pairs=[[CH[i][0],CH[i][1]],[CH[i][2],CH[i][3]]];
+    for(var k=0;k<2;k++){var gn=pairs[k][0],pt=pairs[k][1];
+      if(!A.set[gn])continue;if(done[gn])continue;done[gn]=1;
+      var full=!!A.inDef[gn];
+      sv+='<g style="pointer-events:none"><circle cx="'+pt[0]+'" cy="'+pt[1]+'" r="7.6" fill="'+(full?V('sv-gfull-fill'):V('sv-ghalf-fill'))+'" stroke="'+(full?V('sv-def'):V('sv-ghalf-stroke'))+'" stroke-width="1.2"/>'
+        +'<text class="gnum" x="'+pt[0]+'" y="'+(pt[1]+2.9)+'" text-anchor="middle" fill="'+(full?V('sv-gfull-ink'):V('sv-ghalf-ink'))+'">'+gn+'</text></g>';
+    }
+  }
+  sv+=hit+'</svg>';
+  document.getElementById(id).innerHTML=sv;
+}
+
+function bindBG(id,dbId,A){
+  var box=document.getElementById(dbId);
+  function show(t,s,h){box.innerHTML='<div class="t">'+t+'</div><div class="s">'+s+'</div>'+h;}
+  show('👆 點點看','中心 ／ 亮起來的通道','點圖上任何一個中心，或深綠色的通道，這裡會顯示說明。');
+  var el=document.getElementById(id);
+  el.addEventListener('keydown',function(e){
+    if((e.key==='Enter'||e.key===' ')&&(e.target.closest('[data-c]')||e.target.closest('[data-ch]'))){e.preventDefault();e.target.dispatchEvent(new MouseEvent('click',{bubbles:true}));}
+  });
+  el.addEventListener('click',function(e){
+    var g=e.target.closest('[data-c]');
+    if(g){var c=g.getAttribute('data-c'),on=!!A.defCtr[c],d=CTR[c][on?'on':'off'];
+      var h='';for(var i=1;i<d.length;i++)h+='<p style="margin:0 0 8px">'+d[i]+'</p>';
+      show(CN[c],(on?'✅ 有定義（穩定）':'⬜ 空白（敏感／放大）')+' · '+d[0],h);return;}
+    var l=e.target.closest('[data-ch]');
+    if(l){var key=l.getAttribute('data-ch'),ci=CHINFO[key];
+      if(ci)show(ci[0],'✅ 通道 '+key+' · '+ci[1],'<p style="margin:0 0 8px">'+ci[2]+'</p><p style="margin:0 0 8px">'+ci[3]+'</p><p style="margin:0">'+ci[4]+'</p>');}
+  });
+}
+
+/* ==================== 中心清單 ==================== */
+function renderCtrList(A,onId,offId){
+  var order=['head','ajna','throat','g','heart','spleen','solar','sacral','root'];
+  var a='',b='';
+  for(var i=0;i<order.length;i++){var c=order[i],on=!!A.defCtr[c],d=CTR[c][on?'on':'off'];
+    var ds='';for(var j=1;j<d.length;j++)ds+='<div style="margin-top:'+(j>1?'6px':'0')+'">'+d[j]+'</div>';
+    var row='<div class="ctr-row"><div class="ic '+(on?'on':'off')+'">'+(on?'✓':'–')+'</div><div class="tx">'
+      +'<div class="nm">'+CN[c]+' <span class="tag'+(on?'':' grey')+'">'+d[0]+'</span></div><div class="ds">'+ds+'</div></div></div>';
+    if(on)a+=row;else b+=row;
+  }
+  document.getElementById(onId).innerHTML=a;
+  document.getElementById(offId).innerHTML=b;
+}
+
+/* ==================== 通道卡 ==================== */
+function renderCh(A,id){
+  var h='';
+  for(var i=0;i<A.defCh.length;i++){
+    var p=A.defCh[i],a=Math.min(p[0],p[1]),b=Math.max(p[0],p[1]),key=a+'-'+b,ci=CHINFO[key];
+    if(!ci)continue;
+    h+='<details><summary><span><span class="tag" style="margin-right:8px">'+a+'–'+b+'</span>'+ci[0]+'</span></summary><div class="body">'
+      +'<p style="font-size:12px;color:var(--ink-3);letter-spacing:.06em;margin-bottom:10px">'+ci[1]+'</p>'
+      +'<p>'+ci[2]+'</p><div class="eg">'+ci[3]+'</div><p style="margin-bottom:0">'+ci[4]+'</p></div></details>';
+  }
+  document.getElementById(id).innerHTML=h;
+}
+
+/* ==================== 懸掛閘道卡 ==================== */
+function renderGates(A,id){
+  var h='';
+  for(var i=0;i<A.hang.length;i++){
+    var n=A.hang[i],g=G[n];if(!g)continue;
+    var ps=PARTNER[n]||[],ptxt=[];
+    for(var j=0;j<ps.length;j++){var pn=ps[j];ptxt.push(pn+'（'+(PNAME[pn]||'')+'・'+CN[GC[pn]]+'）');}
+    h+='<div class="gate-card"><button type="button" class="hd" onclick="this.parentNode.classList.toggle(\'open\')">'
+      +'<div class="num half">'+n+'</div><div class="ttl"><b>'+g[0]+'</b><span>'+CN[g[1]]+' · 通一半，缺 '+(ps.join(' 或 '))+'</span></div><div class="arw"></div></button>'
+      +'<div class="bd"><p style="margin:0 0 10px">'+g[2]+'</p>'
+      +'<div class="eg" style="margin:10px 0"><b>日常長這樣：</b>'+g[3]+'</div>'
+      +'<div class="eg clay" style="margin:10px 0 0"><b>你在等的另一半：</b>閘道 '+ptxt.join(' 或 ')+'。<br>遇到有這個閘道的人，這條線會瞬間接上 —— 你會覺得「跟他在一起我比較完整」。這種吸引力是真的，但也<b>最容易讓你失去自己</b>，因為那個完整感是借來的。</div>'
+      +'</div></div>';
+  }
+  document.getElementById(id).innerHTML=h;
+}
+
+/* ==================== 三態示範 ==================== */
+var DEMO={
+ full:['x','x','x','x','43','23',
+  '<b>兩邊都有 → 通道點亮 → 兩個中心一起變成有顏色。</b><br><br>這是<b>阿主</b>真實的狀態。43（洞察）＋23（同化）都有，所以 Ajna 和喉嚨都是亮的。<br><br>意思是：<b>他不只「知道」，他還「說得出來」。</b>而且這個能力隨時都在，不需要任何人、任何場合來啟動。<br><br>代價是：這也是他最難改變的地方。因為對他來說這根本不是選擇，是本能。'],
+ half:['x','x','x','x','43','23',
+  '<b>只有一邊 → 通道半亮 → 兩個中心都還是白的。</b><br><br>這是<b>阿派</b>真實的狀態。他有 43（洞察），但沒有 23。<br><br>意思是：<b>他「知道」，但講不出來。</b>那個洞見卡在腦子裡，找不到出口。<br><br>而當他遇到有 23 的人（例如阿主）—— 這條線瞬間接上，他會突然變得很會講。這種「跟某個人在一起我變流暢了」的感覺，就是這麼來的。'],
+ none:['x','x','x','x','43','23',
+  '<b>兩邊都沒有 → 完全空白。</b><br><br>不代表你沒有這個能力，代表你<b>沒有固定的版本</b>。<br><br>所以你會：極度敏感地感覺到別人在這件事上的狀態、把它放大、然後<b>誤以為那是自己的</b>。<br><br>好消息是：因為你一輩子都在觀察這個主題，你會變成這方面最有智慧的人。壞消息是：你也最容易在這裡被牽著走。']
+};
+function setDemo(k){
+  function S(id,a,v){document.getElementById(id).setAttribute(a,v);}
+  var full=k==='full',half=k==='half';
+  S('dl1','stroke',full?V('sv-def'):(half?V('sv-half'):V('sv-empty')));
+  S('dl2','stroke',full?V('sv-def'):V('sv-empty'));
+  S('dl1','stroke-width',full?'8':(half?'7':'5'));
+  S('dl2','stroke-width',full?'8':'5');
+  S('dcA','fill',full?V('sv-on-fill'):V('sv-off-fill'));
+  S('dcB','fill',full?V('sv-on-fill'):V('sv-off-fill'));
+  S('dcA','stroke',full?V('sv-on-stroke'):V('sv-off-stroke'));
+  S('dcB','stroke',full?V('sv-on-stroke'):V('sv-off-stroke'));
+  S('dcA','stroke-dasharray',full?'':'3 3');
+  S('dcB','stroke-dasharray',full?'':'3 3');
+  S('dg1','fill',full?V('sv-gfull-fill'):(half?V('sv-ghalf-fill'):V('sv-off-fill')));
+  S('dg1','stroke',full?V('sv-def'):(half?V('sv-ghalf-stroke'):V('sv-off-stroke')));
+  S('dg2','fill',full?V('sv-gfull-fill'):V('sv-off-fill'));
+  S('dg2','stroke',full?V('sv-def'):V('sv-off-stroke'));
+  S('dt1','fill',full?V('sv-gfull-ink'):(half?V('sv-ghalf-ink'):V('sv-off-label')));
+  S('dt2','fill',full?V('sv-gfull-ink'):V('sv-off-label'));
+  S('dLa','fill',full?V('sv-on-label'):V('sv-off-label'));
+  S('dLb','fill',full?V('sv-on-label'):V('sv-off-label'));
+  document.getElementById('demoTxt').innerHTML=DEMO[k][6];
+}
+
+/* ==================== 測驗 ==================== */
+var QUIZ=[
+{q:'朋友臨時問你「明天要不要一起去？」，你當下超想去。你會：',
+ o:['馬上答應，機會難得','跟他說「我想一下，晚點回你」，睡一覺再決定','看有誰去再決定'],
+ a:{zhu:1,pai:1},
+ y:'你們兩位都是<b>情緒型權威</b>——當下沒有真相。情緒高點答應的事，低點常常會後悔。睡一覺再回答，是你們唯一正確的決策方式。',
+ n:'你的圖顯示<b>情緒中心有定義</b>，也就是情緒型權威。當下的「好」和當下的「不要」都不算數，因為那只是情緒波當時在哪個位置。<b>能等多久就等多久</b>，這不是拖延，是你正確的決策方式。'},
+
+{q:'你一眼看出朋友的做法有問題，而他沒有問你。你通常會：',
+ o:['直接跟他講，這是為他好','忍住不講，等他自己來問','旁敲側擊暗示他'],
+ a:{zhu:1,pai:1},
+ y:'完全正確。你們都是<b>投射者</b>，同一句建議「被問了才講」是禮物，「沒被問就講」是攻擊。這個差別不在內容，在時機。',
+ n:'投射者最痛的一課就在這裡。<b>你看得準，但沒被邀請就說出來，對方接收到的不是幫助，是批評。</b>結果你好心變成惡人，然後累積苦澀。<br><br>可以試試：寫在備忘錄裡。如果三天後他自己來問，那才是你的時機，效果會強十倍。'},
+
+{q:'忙了一整天以後，你的狀態通常是：',
+ o:['還好，還可以再撐','突然斷電，而且很需要一個人靜一靜','越忙越亢奮，停不下來'],
+ a:{zhu:1,pai:1},
+ y:'對，你的<b>薦骨是空白的</b>。你沒有可以持續消耗的燃料，只有短時間的爆發。斷電是正常的，不是你不夠努力。',
+ n:'你的<b>薦骨中心空白</b>——這代表你天生就沒有生產者那種續航力。<br><br>如果你覺得自己「還可以撐」，很有可能是你<b>吸收了周圍生產者的能量</b>並誤以為是自己的。這種借來的能量會讓你過度使用自己，然後在某個時刻整個垮掉。<br><br><b>累了就停。</b>硬撐只會提早報廢。'},
+
+{q:'「我明明講了／我明明看得出來，為什麼沒人理我？」這種又酸又累的感覺，你多常有？',
+ o:['很常，幾乎是我的日常','偶爾','幾乎沒有'],
+ a:{zhu:0,pai:0},
+ y:'這就是投射者的<b>非自己主題：苦澀</b>。它不是說你錯了，它是一個警報 —— 提醒你這次是你自己衝上去的，不是被邀請的。',
+ n:'如果你真的很少有這種感覺，那很好 —— 代表你可能已經在正確的軌道上。<br><br>不過投射者的苦澀通常很難完全避開。下次它出現的時候，不要檢討對方，先問自己一句：<b>「這次是他來問我的，還是我自己衝上去的？」</b>'},
+
+{q:'同一件事情，你早上的感覺和晚上的感覺常常不一樣嗎？',
+ o:['對，而且落差很大','還好，蠻穩定的'],
+ a:{zhu:0,pai:0},
+ y:'這就是<b>情緒波</b>。它自己會跑，跟外面發生什麼沒有絕對關係。認出它，你就不會再被高點和低點騙。',
+ n:'你的圖顯示情緒中心有定義，理論上會有明顯的情緒波。<br><br>兩種可能：① 你的波比較平緩、週期比較長（幾天而不是幾小時），所以不容易察覺。② 你長期壓抑，沒去感覺它。<br><br>試著記錄一週：每天早晚各寫一句「我現在覺得這件事如何」。你可能會嚇一跳。'},
+
+{q:'開會的時候，你腦中已經有完整的想法。實際上會發生什麼？',
+ o:['我會講出來，而且講得比別人清楚','我常常卡住講不出來，散會後才後悔','看情況，有時很流暢有時完全說不出話'],
+ a:{zhu:0,pai:1},
+ y:'',
+ n:'',
+ sp:{zhu:['你的 <b>43–23 通道</b>（Ajna 到喉嚨）是通的 —— 你「知道」而且「說得出來」，這個能力隨時都在。<br><br>所以你的問題從來不是講不出來，是<b>講的時機</b>。','你的圖顯示 43–23 是通的，理論上你表達得很清楚。<br><br>如果你常卡住，可能不是表達能力的問題，而是<b>你在等 —— 而且等對了。</b>投射者忍住不講，往往是正確的。'],
+      pai:['你的 <b>喉嚨中心是空白的</b>，而且和上面的 Ajna 是斷開的（二分人）。所以「腦中有答案但講不出來」對你來說是結構性的，不是勇氣問題。<br><br>解法：① <b>先寫下來</b>，文字是你繞過喉嚨的路。② 找到那一兩個「跟他講話我就變流利」的人。','你的喉嚨是空白的，理論上表達會很看場合和對象。<br><br>如果你覺得自己一直都講得很好，很可能是你長期待在對的環境裡（有能啟動你的人在場）。<b>值得留意的是：換了環境以後，你可能會突然變得說不出話 —— 那不是你退步了。</b>']}},
+
+{q:'關於「你擅長的事」，哪個比較像你？',
+ o:['我很清楚自己厲害在哪，而且會主動說','我覺得那沒什麼，都是別人先發現然後告訴我的','我是一路撞牆、試錯試出來的'],
+ a:{zhu:2,pai:1},
+ y:'',n:'',
+ sp:{zhu:['你是 <b>6 爻</b>，前三十年就是設計來「實驗＋撞牆」的。那些失敗不是你不行，是必經的資料收集。<br><br>30–50 歲你會進入「上屋頂」的旁觀期，50 歲後才會變成那個別人自然會來請教的角色模範。','你的 <b>6 爻</b>人生角色，前三十年通常會有大量的試錯。<br><br>如果你覺得自己沒有撞很多牆，可能你正在或已經進入<b>「上屋頂」的階段</b>——退開、旁觀、對衝刺沒興趣。那不是低潮，那是設計。'],
+      pai:['你是 <b>2 爻隱士</b>——天賦對你來說太自然了，自然到你自己看不見。<b>你需要別人喊你，你才會啟動。</b><br><br>所以：留幾個真的懂你會什麼的人在身邊。他們是你機會的入口。','你的 <b>2 爻</b>特徵是「天賦太自然所以自己看不見，要別人喊你才啟動」。<br><br>如果你已經很清楚自己厲害在哪，那很好——但要注意 2 爻的另一面：<b>你不會主動推銷自己。</b>所以還是要有人幫你喊。']}},
+
+{q:'你腦中常常打轉的那些問題，比較像哪一種？',
+ o:['多半是別人丟給我的、或我看到的資訊引起的','多半是我自己冒出來的，而且停不下來'],
+ a:{zhu:0,pai:1},
+ y:'',n:'',
+ sp:{zhu:['你的<b>頭腦中心是空白的</b>——你會被別人的疑問和外界資訊佔據腦袋，而且鑽很久。<br><br>下次卡住時問自己：<b>「這個問題是誰的？」</b>不是你的，就放掉。你沒有義務回答全世界的問題。','你的頭腦中心空白，理論上腦中的問題多半是外來的。<br><br>如果你覺得都是自己產生的——留意一下，很可能你只是<b>把吸收進來的問題內化成自己的了</b>。這正是空白中心最典型的作用。'],
+      pai:['你的 <b>63–4 邏輯通道</b>是通的（頭腦＋Ajna 都亮）。「真的嗎？→ 應該是這樣 → 但真的嗎？」的迴圈是內建的，不是你想太多。<br><br><b>關鍵：這條通道是設計來「思考」的，不是設計來「得到答案」的。</b>接受它沒有結論，焦慮會少一半。','你的頭腦和 Ajna 都有定義（63–4 通道），理論上疑問是自己源源不絕產生的。<br><br>如果你覺得問題都是外來的，可能是你把自己的懷疑投射到外部事件上了——你會覺得「是這件事讓我在想」，其實是你的腦本來就在跑。']}},
+
+{q:'「我打賭我一定做得到」這種話，比較像你嗎？',
+ o:['我很少需要證明什麼，我知道自己的斤兩','我常常為了不服輸，答應了不該答應的事'],
+ a:{zhu:0,pai:1},
+ y:'',n:'',
+ sp:{zhu:['你的<b>意志力中心有定義</b>（37–40 通道）。你有穩定的意志力和自我價值，不太需要向誰證明。<br><br>但要注意另一面：你會自然用「交易」的角度看關係。<b>記得把條件講出來</b>——「我幫你 A，但我需要你 B」。不講就會爛在心裡變怨。','你的意志力中心有定義，理論上你不太需要證明自己。<br><br>如果你發現自己常在證明——可能你身邊有人一直在質疑你的價值，或你把「承諾」看得太重。定義的意志力答應了就一定會做到，所以<b>更要小心不要隨便答應。</b>'],
+      pai:['你的<b>意志力中心是空白的</b>——這是最容易「用力過猛」的一個中心。因為感受不到穩定的意志力，你會不斷想證明自己有。<br><br><b>具體做法：不要接賭注型的挑戰。不要用「我一定可以」開頭做決定。</b>你的價值不需要靠意志力證明——這句話你可能要念很多次才會相信。','你的意志力中心空白。如果你真的很少想證明自己，那很棒——這代表你已經走過那個階段了。<br><br>不過還是留意：<b>空白意志力最容易在「被激將」的時候失守。</b>下次有人說「你敢不敢」的時候，先停三秒。']}},
+
+{q:'「我是誰、我這輩子要幹嘛」這種問題，你會問嗎？',
+ o:['很清楚，一直都很明確','會，而且我發現答案會隨著我在哪裡、跟誰在一起而改變'],
+ a:{zhu:1,pai:1},
+ y:'你們兩位的 <b>G 中心（方向感 / 自我）都是空白的</b>。方向會隨環境和人變 —— 這不是沒個性，是你像水一樣取決於容器。<br><br><b>最實用的一句話：不要用想的找方向，要用「換位置」找方向。</b>你在哪裡、跟誰在一起，比你想什麼重要得多。長期迷惘的時候，先檢查的不是你的目標，是你的座位、住的地方、每天見到的人。',
+ n:'你的 <b>G 中心是空白的</b>，理論上方向感和身份認同會隨環境浮動。<br><br>如果你覺得非常明確——有兩個可能：① 你現在待在對的環境裡，所以方向很清楚（這很好，但要知道它是環境給的）。② 你抓著一個固定答案不放，因為不確定的感覺太難受了。<br><br>試試看：回想你換工作、搬家、換朋友圈的時候，你的「我想要什麼」有沒有跟著變？'}
+];
+
+var who=null,ans={};
+function renderQuiz(){
+  if(!who){document.getElementById('quizBody').innerHTML='';return;}
+  var h='';
+  for(var i=0;i<QUIZ.length;i++){var q=QUIZ[i];
+    h+='<div class="qcard"><div class="qn">Q '+(i+1)+' / 10</div><div class="qt">'+q.q+'</div>';
+    for(var j=0;j<q.o.length;j++)
+      h+='<div class="opt" data-q="'+i+'" data-o="'+j+'"><div class="mk"></div><div>'+q.o[j]+'</div></div>';
+    h+='<div class="fb" id="fb'+i+'"></div></div>';
+  }
+  h+='<p class="center"><button class="btn solid" onclick="calcScore()">看結果</button></p>';
+  document.getElementById('quizBody').innerHTML=h;
+}
+document.addEventListener('click',function(e){
+  var o=e.target.closest('.opt');if(!o)return;
+  var qi=+o.getAttribute('data-q'),oi=+o.getAttribute('data-o'),q=QUIZ[qi];
+  var sib=o.parentNode.querySelectorAll('.opt');
+  for(var i=0;i<sib.length;i++)sib[i].classList.remove('sel');
+  o.classList.add('sel');ans[qi]=oi;
+  var ok=(q.a[who]===oi),fb=document.getElementById('fb'+qi);
+  var txt;
+  if(q.sp)txt=q.sp[who][ok?0:1];else txt=ok?q.y:q.n;
+  fb.className='fb show '+(ok?'yes':'no');
+  fb.innerHTML='<b>'+(ok?'✅ 符合你的人類圖設計':'🌗 和你的圖不太一樣')+'</b>'+txt;
+});
+function calcScore(){
+  var n=0,tot=0,i;
+  for(i=0;i<QUIZ.length;i++){if(ans[i]!==undefined){tot++;if(QUIZ[i].a[who]===ans[i])n++;}}
+  if(tot<10){alert('還有 '+(10-tot)+' 題沒作答喔');return;}
+  var b=document.getElementById('scoreBox'),t,x;
+  if(n>=8){t='高度吻合';x='你對自己的觀察和這張圖幾乎完全一致。<br><br>這代表兩件事：你很了解自己，而且這份圖對你有參考價值。接下來可以直接跳到「使用說明書」那一段，挑一兩條實際去做。';}
+  else if(n>=5){t='部分吻合';x='一半左右對得上——這其實是最健康的結果。<br><br><b>對得上的部分，就是你可以信任的；對不上的部分，不代表圖錯了或你錯了。</b>可能是你正在某個轉變期，也可能是那部分的描述不適合你。回頭看看那幾題的說明，如果讀完覺得「好像有點道理」，先放著觀察三個月。';}
+  else{t='吻合度低';x='多數題目和圖上的設計對不上。<br><br>這是很重要的資訊，請認真看待——<b>可能是這套系統不適合你，也可能是你目前正處在「非自己」的狀態</b>（用不是自己的方式在過日子）。<br><br>建議：不要硬套。挑一個你最有感的段落（多半是「苦澀」或「等待邀請」），觀察兩三個月，其他的先擱著。<b>對不上就丟掉，這才是正確的用法。</b>';}
+  document.getElementById('scNum').textContent=n;
+  document.getElementById('scTitle').textContent=t;
+  document.getElementById('scTxt').innerHTML=x;
+  b.classList.add('show');b.scrollIntoView({behavior:'smooth',block:'center'});
+}
+function resetQuiz(){ans={};document.getElementById('scoreBox').classList.remove('show');renderQuiz();
+  document.getElementById('quizBody').scrollIntoView({behavior:'smooth',block:'start'});}
+
+/* ==================== 初始化 ==================== */
+(function(){
+  var Az=analyze(P.zhu.gates),Ap=analyze(P.pai.gates);
+  drawBG(Az,'bgZhu');bindBG('bgZhu','dbZhu',Az);
+  renderCtrList(Az,'ctrZhuOn','ctrZhuOff');renderCh(Az,'chZhu');renderGates(Az,'gtZhu');
+  drawBG(Ap,'bgPai');bindBG('bgPai','dbPai',Ap);
+  renderCtrList(Ap,'ctrPaiOn','ctrPaiOff');renderCh(Ap,'chPai');renderGates(Ap,'gtPai');
+
+  setDemo('full');
+  var tb=document.querySelectorAll('.tri button');
+  for(var i=0;i<tb.length;i++)tb[i].addEventListener('click',function(){
+    for(var j=0;j<tb.length;j++)tb[j].classList.remove('on');
+    this.classList.add('on');setDemo(this.getAttribute('data-demo'));});
+
+  var pb=document.querySelectorAll('.quiz-pick button');
+  for(var i=0;i<pb.length;i++)pb[i].addEventListener('click',function(){
+    for(var j=0;j<pb.length;j++)pb[j].classList.remove('on');
+    this.classList.add('on');who=this.getAttribute('data-who');ans={};
+    document.getElementById('pickHint').textContent='以「'+(who==='zhu'?'阿主':'阿派')+'」的人類圖來比對，共 10 題';
+    document.getElementById('scoreBox').classList.remove('show');renderQuiz();});
+
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  },{threshold:.06,rootMargin:'0px 0px -40px 0px'});
+  var rs=document.querySelectorAll('.rise');
+  for(var i=0;i<rs.length;i++)io.observe(rs[i]);
+
+  var bar=document.getElementById('bar');
+  window.addEventListener('scroll',function(){
+    var h=document.documentElement.scrollHeight-window.innerHeight;
+    bar.style.width=(h>0?(window.scrollY/h*100):0)+'%';
+  },{passive:true});
+})();
+</script>
+</body>
+</html>
