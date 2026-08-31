@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>箭還插在身上 ── 毒箭之喻</title>
+<!-- 毒箭之喻 互動導讀 ── v1.1.0 ── 2026-08-31 ── 作者：睡覺的紅豬 -->
+<meta name="version" content="1.1.0">
+<meta name="author" content="睡覺的紅豬">
+<meta name="description" content="佛典毒箭之喻（中部第63經／佛說箭喻經）的互動導讀：親手選擇要先問問題，還是先拔箭。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#132430;
+  --ink-2:#1A303E;
+  --ink-3:#22404F;
+  --leaf:#EADFC4;
+  --leaf-dim:#A9A891;
+  --saffron:#E1A23C;
+  --venom:#4E7A63;
+  --venom-hot:#6FA07E;
+  --blood:#A0432F;
+  --line:rgba(234,223,196,.16);
+  --serif:"Noto Serif TC","Songti TC","Source Han Serif TC",serif;
+  --sans:"Noto Sans TC","PingFang TC","Heiti TC",sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--ink);
+  color:var(--leaf);
+  font-family:var(--sans);
+  font-weight:300;
+  font-size:16.5px;
+  line-height:1.9;
+  letter-spacing:.02em;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1080px;margin:0 auto;padding:0 28px}
+h1,h2,h3{font-family:var(--serif);font-weight:700;line-height:1.4;letter-spacing:.04em;margin:0}
+p{margin:0 0 1.1em}
+a{color:var(--saffron)}
+
+/* ---------- hero ---------- */
+.hero{
+  position:relative;
+  padding:112px 0 76px;
+  border-bottom:1px solid var(--line);
+  overflow:hidden;
+}
+.hero::after{
+  content:"";position:absolute;inset:auto 0 0 0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--saffron),transparent);opacity:.5;
+}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center}
+.hero h1{font-size:clamp(2.6rem,6vw,4.3rem);margin-bottom:26px}
+.hero .lede{font-size:1.14rem;max-width:34em;color:#DCD2BA}
+.hero .src{font-size:.86rem;color:var(--leaf-dim);letter-spacing:.1em;margin-top:34px}
+.byline{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin-top:16px;font-size:.84rem;color:var(--leaf-dim)}
+.byline .name{font-family:var(--serif);color:var(--leaf);letter-spacing:.06em}
+.ver{
+  font-family:var(--serif);font-size:.78rem;letter-spacing:.1em;
+  color:var(--saffron);border:1px solid rgba(225,162,60,.45);padding:2px 9px;
+}
+.hero-art svg{width:100%;height:auto;max-height:340px;display:block}
+
+/* wobbling arrow, the one piece of motion that runs on its own */
+@keyframes quiver{
+  0%,100%{transform:rotate(0deg)}
+  50%{transform:rotate(-.9deg)}
+}
+.quiver{animation:quiver 2.6s ease-in-out infinite;transform-origin:180px 156px}
+
+/* ---------- generic section ---------- */
+section{padding:82px 0;border-bottom:1px solid var(--line)}
+.kicker{font-family:var(--serif);font-size:.95rem;color:var(--saffron);letter-spacing:.22em;margin:0 0 14px}
+section h2{font-size:clamp(1.7rem,3.4vw,2.4rem);margin-bottom:18px}
+.intro{max-width:36em;color:#D5CBB4}
+
+/* ---------- the experience ---------- */
+.stage{display:grid;grid-template-columns:340px 1fr;gap:52px;margin-top:44px;align-items:start}
+.body-panel{position:sticky;top:24px}
+.body-panel svg{width:100%;height:auto;display:block}
+.venom-wrap{transition:transform 1.1s cubic-bezier(.33,.9,.3,1)}
+.arrow-group{transition:transform .95s cubic-bezier(.5,-.2,.5,1.2),opacity .8s ease}
+.arrow-group.pulled{transform:translate(150px,-158px);opacity:0}
+.halo{opacity:0;transition:opacity 1.4s ease}
+.halo.on{opacity:1}
+
+.gauge{margin-top:22px}
+.gauge-track{height:5px;background:rgba(234,223,196,.12);position:relative;overflow:hidden}
+.gauge-fill{position:absolute;inset:0 auto 0 0;width:0;background:linear-gradient(90deg,var(--venom),var(--venom-hot));transition:width .6s ease}
+.gauge-meta{display:flex;justify-content:space-between;font-size:.82rem;color:var(--leaf-dim);margin-top:9px;letter-spacing:.06em}
+.gauge-meta b{font-family:var(--serif);color:var(--leaf);font-weight:500}
+
+.ask h3{font-size:1.15rem;margin-bottom:6px}
+.ask .hint{font-size:.92rem;color:var(--leaf-dim);margin-bottom:24px}
+.qgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.q{
+  text-align:left;cursor:pointer;font-family:var(--sans);font-size:.94rem;
+  color:var(--leaf);background:var(--ink-2);border:1px solid var(--line);
+  border-left:2px solid rgba(160,67,47,.55);
+  padding:12px 14px;line-height:1.55;transition:background .18s,border-color .18s,color .3s;
+}
+.q small{display:block;font-size:.78rem;color:var(--leaf-dim);margin-top:3px;letter-spacing:.04em}
+.q:hover:not(:disabled){background:var(--ink-3);border-left-color:var(--blood)}
+.q:disabled{cursor:default;color:#6E7A78;border-left-color:var(--venom);background:transparent}
+.q:disabled small{color:#5B6664}
+button:focus-visible,input:focus-visible{outline:2px solid var(--saffron);outline-offset:2px}
+
+.log{
+  margin-top:22px;min-height:3.2em;font-family:var(--serif);font-size:1rem;
+  color:#CFC5AE;border-left:1px solid var(--line);padding:2px 0 2px 16px;
+}
+.log em{font-style:normal;color:var(--venom-hot)}
+
+.pull-row{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-top:30px}
+.pull{
+  cursor:pointer;font-family:var(--serif);font-weight:500;font-size:1.05rem;letter-spacing:.14em;
+  color:var(--ink);background:var(--saffron);border:none;padding:14px 34px;transition:transform .15s,background .2s;
+}
+.pull:hover{background:#EFB255;transform:translateY(-1px)}
+.reset{cursor:pointer;background:none;border:none;color:var(--leaf-dim);font-family:var(--sans);font-size:.88rem;text-decoration:underline;text-underline-offset:4px}
+.reset:hover{color:var(--leaf)}
+
+.myarrow{margin-top:26px;max-width:30em}
+.myarrow label{display:block;font-size:.88rem;color:var(--leaf-dim);margin-bottom:8px}
+.myarrow input{
+  width:100%;background:transparent;border:none;border-bottom:1px solid var(--line);
+  color:var(--leaf);font-family:var(--serif);font-size:1.02rem;padding:8px 2px;
+}
+.myarrow input::placeholder{color:#5F6B69}
+
+.verdict{margin-top:30px;padding:26px 28px;border:1px solid var(--line);border-top:2px solid var(--saffron);display:none}
+.verdict.show{display:block}
+.verdict.dead{border-top-color:var(--venom-hot)}
+.verdict h3{font-size:1.35rem;margin-bottom:12px}
+.verdict p{margin-bottom:.7em;color:#D9CFB8}
+.verdict p:last-child{margin-bottom:0}
+
+/* ---------- sources ---------- */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:56px;margin-top:40px}
+.tradition{border-left:1px solid var(--line);padding-left:22px}
+.tradition h3{font-size:1.12rem;color:var(--saffron);margin-bottom:10px}
+.tradition .pali{font-family:var(--serif);font-size:.9rem;color:var(--leaf-dim);letter-spacing:.04em}
+.tradition p{font-size:.98rem;margin-top:10px}
+
+/* ---------- the ten questions ---------- */
+.ten{display:flex;flex-wrap:wrap;gap:10px;margin:34px 0 30px}
+.ten span{
+  font-family:var(--serif);font-size:.98rem;color:#C4BCA6;
+  border:1px dashed rgba(234,223,196,.22);padding:7px 15px;
+}
+.threat{max-width:36em;font-size:1.02rem}
+
+/* ---------- meaning ---------- */
+.lessons{margin-top:44px;display:grid;gap:34px}
+.lesson{display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:start}
+.lesson .mark{font-family:var(--serif);font-size:1.6rem;color:var(--saffron);line-height:1;padding-top:4px;white-space:nowrap}
+.lesson h3{font-size:1.2rem;margin-bottom:8px}
+.lesson p{margin:0;max-width:42em;color:#D5CBB4}
+
+/* ---------- history ---------- */
+.hist{max-width:40em;margin-top:38px}
+.hist h3{font-size:1.1rem;color:var(--saffron);margin:34px 0 8px}
+.hist h3:first-child{margin-top:0}
+.hist p{font-size:1rem}
+.pali-word{font-family:var(--serif);color:var(--leaf);letter-spacing:.03em}
+.timeline{margin-top:48px;border-top:1px solid var(--line);padding-top:8px}
+.tl-row{display:grid;grid-template-columns:150px 1fr;gap:20px;padding:16px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.tl-when{font-family:var(--serif);font-size:.94rem;color:var(--saffron);letter-spacing:.04em}
+.tl-what{font-size:.98rem;color:#D5CBB4}
+
+/* ---------- credits & changelog ---------- */
+.credits{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:28px;margin-top:36px}
+.credit dt{font-size:.8rem;color:var(--leaf-dim);letter-spacing:.14em;margin-bottom:6px}
+.credit dd{margin:0;font-family:var(--serif);font-size:1.05rem;color:var(--leaf);line-height:1.6}
+.credit dd span{display:block;font-family:var(--sans);font-size:.86rem;color:var(--leaf-dim);margin-top:4px;letter-spacing:.02em}
+.log-box{margin-top:40px;border-top:1px solid var(--line);padding-top:20px}
+.log-box summary{cursor:pointer;font-family:var(--serif);font-size:1rem;color:var(--leaf);letter-spacing:.06em;list-style:none}
+.log-box summary::-webkit-details-marker{display:none}
+.log-box summary::before{content:"＋　";color:var(--saffron)}
+.log-box[open] summary::before{content:"−　"}
+.rel{display:grid;grid-template-columns:118px 1fr;gap:18px;margin-top:20px;font-size:.92rem}
+.rel dt{font-family:var(--serif);color:var(--saffron);letter-spacing:.06em}
+.rel dd{margin:0;color:#CFC5AE}
+.rel dd em{font-style:normal;color:var(--leaf-dim)}
+
+footer{padding:56px 0 78px;color:var(--leaf-dim);font-size:.86rem}
+footer p{max-width:44em}
+
+@media (max-width:880px){
+  body{font-size:16px}
+  .wrap{padding:0 20px}
+  .hero{padding:64px 0 48px}
+  .hero-grid{grid-template-columns:1fr;gap:30px}
+  .hero-art{order:-1}
+  .hero-art svg{max-height:220px}
+  section{padding:56px 0}
+  .two{grid-template-columns:1fr;gap:30px}
+  .qgrid{grid-template-columns:1fr}
+  .tl-row{grid-template-columns:1fr;gap:4px;padding:14px 0}
+  .rel{grid-template-columns:1fr;gap:4px 0}
+  .rel dd{margin-bottom:14px}
+  .lesson{grid-template-columns:1fr;gap:8px}
+  .lesson .mark{padding-top:0}
+
+  /* 互動區：身體圖與毒量收成釘在頂端的窄條 */
+  .stage{display:block}
+  .body-panel{
+    position:sticky;top:0;z-index:20;
+    display:flex;align-items:center;gap:16px;
+    margin:0 -20px 26px;padding:10px 20px 12px;
+    background:var(--ink);
+    border-bottom:1px solid var(--line);
+  }
+  .body-panel svg{width:82px;min-width:82px;max-height:104px;margin:0}
+  .gauge{flex:1;margin-top:0}
+  .gauge-meta{font-size:.78rem;margin-top:7px}
+  .q{padding:14px}
+  .pull-row{gap:12px}
+  .pull{width:100%;text-align:center;padding:16px 20px}
+  .reset{width:100%;padding:6px 0}
+  .verdict{padding:22px 20px}
+}
+@media (max-width:430px){
+  .hero h1{font-size:2.25rem}
+  .hero .lede{font-size:1.05rem}
+  .hero-art svg{max-height:180px}
+  .ten span{font-size:.9rem;padding:6px 12px}
+  .body-panel svg{width:66px;min-width:66px;max-height:88px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition-duration:.01ms!important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <h1>箭還插在身上</h1>
+      <p class="lede">一個人被毒箭射中。醫生已經到了，手就在箭上。他卻說：等一下，先告訴我射箭的人姓什麼、住哪裡、那支箭的羽毛取自哪一種鳥。</p>
+      <p class="lede">佛陀用這個畫面回答一個追問形上學的弟子。兩千五百年後，它更常出現在另一種場合：有人在關係裡受了傷，非要弄清「他為什麼要這樣對我」才肯開始復原。</p>
+      <p class="src">《中部》第 63 經　鬘童子小經　／　漢譯《佛說箭喻經》</p>
+      <p class="byline"><span class="ver">v1.1.0</span><span>整理與撰文　<span class="name">睡覺的紅豬</span></span><a href="#credits">製作說明</a></p>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <svg viewBox="0 0 340 380" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="heroShaft" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#EADFC4" stop-opacity=".35"/>
+            <stop offset="100%" stop-color="#EADFC4" stop-opacity=".9"/>
+          </linearGradient>
+        </defs>
+        <circle cx="170" cy="196" r="132" fill="none" stroke="rgba(234,223,196,.10)"/>
+        <circle cx="170" cy="196" r="96" fill="none" stroke="rgba(234,223,196,.07)"/>
+        <g class="quiver">
+          <line x1="316" y1="52" x2="184" y2="152" stroke="url(#heroShaft)" stroke-width="3"/>
+          <path d="M316 52 l-16 -4 M316 52 l4 16 M304 61 l-15 -4 M304 61 l4 15" stroke="#EADFC4" stroke-opacity=".55" stroke-width="2.4" fill="none"/>
+          <path d="M184 152 l16 2 l-8 12 z" fill="#A0432F"/>
+        </g>
+        <circle cx="181" cy="155" r="7" fill="#A0432F" opacity=".85"/>
+        <circle cx="181" cy="155" r="26" fill="#A0432F" opacity=".14"/>
+        <path d="M170 292 q-64 0 -64 -22 q0 -20 64 -20 q64 0 64 20 q0 22 -64 22z" fill="rgba(234,223,196,.13)"/>
+        <path d="M170 116 c-30 6 -42 52 -44 134 h88 c-2 -82 -14 -128 -44 -134z" fill="rgba(234,223,196,.13)"/>
+        <circle cx="170" cy="88" r="27" fill="rgba(234,223,196,.13)"/>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<section id="experience">
+  <div class="wrap">
+    <p class="kicker">試一次</p>
+    <h2>你是那個中箭的人</h2>
+    <p class="intro">下面每一個問題，都出自經文原文裡傷者提出的清單。你可以照順序問完，也可以一題都不問。醫生就在旁邊等著。</p>
+
+    <div class="stage">
+      <div class="body-panel">
+        <svg viewBox="0 0 300 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="figTitle">
+          <title id="figTitle">中箭者的身體，毒隨提問向外擴散</title>
+          <defs>
+            <radialGradient id="venomGrad">
+              <stop offset="0%" stop-color="#6FA07E" stop-opacity=".95"/>
+              <stop offset="55%" stop-color="#4E7A63" stop-opacity=".55"/>
+              <stop offset="100%" stop-color="#4E7A63" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="haloGrad">
+              <stop offset="0%" stop-color="#E1A23C" stop-opacity=".55"/>
+              <stop offset="100%" stop-color="#E1A23C" stop-opacity="0"/>
+            </radialGradient>
+            <clipPath id="bodyClip">
+              <path d="M150 292 q-64 0 -64 -22 q0 -20 64 -20 q64 0 64 20 q0 22 -64 22z"/>
+              <path d="M150 116 c-30 6 -42 52 -44 134 h88 c-2 -82 -14 -128 -44 -134z"/>
+              <circle cx="150" cy="88" r="27"/>
+            </clipPath>
+          </defs>
+
+          <circle class="halo" id="halo" cx="150" cy="196" r="140" fill="url(#haloGrad)"/>
+          <path d="M150 292 q-64 0 -64 -22 q0 -20 64 -20 q64 0 64 20 q0 22 -64 22z" fill="rgba(234,223,196,.11)" stroke="rgba(234,223,196,.28)"/>
+          <path d="M150 116 c-30 6 -42 52 -44 134 h88 c-2 -82 -14 -128 -44 -134z" fill="rgba(234,223,196,.11)" stroke="rgba(234,223,196,.28)"/>
+          <circle cx="150" cy="88" r="27" fill="rgba(234,223,196,.11)" stroke="rgba(234,223,196,.28)"/>
+
+          <g clip-path="url(#bodyClip)">
+            <g class="venom-wrap" id="venomWrap" transform="translate(172,158) scale(0) translate(-172,-158)">
+              <circle cx="172" cy="158" r="150" fill="url(#venomGrad)"/>
+            </g>
+          </g>
+
+          <g class="arrow-group" id="arrowGroup">
+            <line x1="286" y1="58" x2="176" y2="152" stroke="#EADFC4" stroke-opacity=".8" stroke-width="3"/>
+            <path d="M286 58 l-15 -4 M286 58 l4 15 M275 67 l-14 -4 M275 67 l4 14" stroke="#EADFC4" stroke-opacity=".5" stroke-width="2.4" fill="none"/>
+            <path d="M176 152 l15 2 l-7 12 z" fill="#A0432F"/>
+          </g>
+          <circle cx="173" cy="156" r="6" fill="#A0432F" id="wound"/>
+        </svg>
+
+        <div class="gauge">
+          <div class="gauge-track"><div class="gauge-fill" id="gaugeFill"></div></div>
+          <div class="gauge-meta">
+            <span>毒已擴散 <b id="pct">0%</b></span>
+            <span>已問 <b id="askedCount">0</b> / 12 題</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="ask">
+        <h3>拔箭之前，你要先知道什麼？</h3>
+        <p class="hint">點一個問題就送出去問。答案回來得很慢，毒不會等。</p>
+        <div class="qgrid" id="qgrid"></div>
+
+        <div class="log" id="log">醫生按著你的肩膀：「我先把箭拔出來。」</div>
+
+        <div class="myarrow">
+          <label for="arrowText">如果現在插在你身上的是別的東西，那是什麼？（只顯示在這一頁上）</label>
+          <input id="arrowText" type="text" maxlength="60" placeholder="例如：那句沒有解釋的話">
+        </div>
+
+        <div class="pull-row">
+          <button class="pull" id="pullBtn">把箭拔出來</button>
+          <button class="reset" id="resetBtn" hidden>再走一次這個選擇</button>
+        </div>
+
+        <div class="verdict" id="verdict" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="origin">
+  <div class="wrap">
+    <p class="kicker">出處</p>
+    <h2>這段話寫在哪裡</h2>
+    <p class="intro">同一場對話，南北傳各有版本，情節與譬喻幾乎一致，可以互相對讀。</p>
+    <div class="two">
+      <div class="tradition">
+        <h3>南傳巴利藏</h3>
+        <p class="pali">Majjhima Nikāya 63 · Cūḷa-Māluṅkyovāda Sutta</p>
+        <p>《中部》第 63 經，中譯作〈鬘童子小經〉。名字裡的「小」是相對於同一集裡篇幅更長的第 64 經而言，不是內容分量的高下。</p>
+      </div>
+      <div class="tradition">
+        <h3>漢譯經典</h3>
+        <p class="pali">《佛說箭喻經》· 大正藏 T01 No. 94</p>
+        <p>另有《中阿含經》第 221 經〈箭喻經〉，屬同一系傳本。漢譯把提問的弟子譯作摩羅鳩摩羅、鬘童子等不同名字。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="history">
+  <div class="wrap">
+    <p class="kicker">歷史典故</p>
+    <h2>這個比喻為什麼是「箭」</h2>
+
+    <div class="hist">
+      <h3>說法的年代與地點</h3>
+      <p>時間大約在公元前五世紀，恆河中游。城市與商路正在興起，摩揭陀、憍薩羅這些王國兼併小邦，舊有的婆羅門祭祀權威被一批出家遊行的沙門挑戰。這一經的場景設在憍薩羅國舍衛城的祇樹給孤獨園，也就是佛陀後半生最常駐留、最多經典成立的地方。</p>
+
+      <h3>當時的知識圈在比什麼</h3>
+      <p>世界有沒有邊界、靈魂與身體是一還是二、解脫者死後存不存在 ── 這些不是鬘童子個人的怪問題，而是那個時代辯論場上的標準題目。各家沙門與婆羅門互相立論、互相破斥，答得漂亮就有名聲與供養。早期佛典把這類論題整理得很清楚：《長部》第 1 經〈梵網經〉列出六十二種見解，一張一張攤開來看它們怎麼生成。</p>
+      <p>佛陀對其中十個問題採取的態度，巴利文獻稱為 <span class="pali-word">avyākata</span>，不予斷言、不作記說，漢譯作「無記」。要注意他的理由不是「我不知道」，而是「這樣問，答了也到不了目的地」。鬘童子的不滿正在這裡：他把沉默當成隱瞞。</p>
+
+      <h3>箭醫是一個真的職業</h3>
+      <p>比喻挑箭不是修辭上的巧合。塗毒的箭在當時的戰爭與狩獵中是實物，拔箭治傷是專門技術，巴利文獻裡的外科醫叫 <span class="pali-word">sallakatta</span>，字面就是「處理箭的人」。聽眾腦中浮現的是他們見過的場面：有人被抬進來，箭還在肉裡，時間以呼吸計算。</p>
+      <p>醫療語彙貫穿整個早期佛法。四聖諦的結構本身就是一份診斷書 ── 症狀、病因、可以痊癒、療程。毒箭之喻只是把這份診斷書講給一個正在追問弓弦材質的人聽。</p>
+
+      <div class="timeline">
+        <div class="tl-row"><div class="tl-when">約公元前 5 世紀</div><div class="tl-what">佛陀於舍衛城說此經，以口傳合誦的方式在僧團中保存。</div></div>
+        <div class="tl-row"><div class="tl-when">約公元前 1 世紀</div><div class="tl-what">巴利三藏在斯里蘭卡首次書寫成文，《中部》第 63 經定型於此系傳本。</div></div>
+        <div class="tl-row"><div class="tl-when">公元 397–398 年</div><div class="tl-what">《中阿含經》六十卷譯出於東晉，其中第 221 經即〈箭喻經〉。單行的《佛說箭喻經》一般標為失譯，歸在東晉錄下。</div></div>
+        <div class="tl-row"><div class="tl-when">1924–1934 年</div><div class="tl-what">《大正新脩大藏經》編成，單行本編為 T01 No. 94，成為今日引用的通行編號。</div></div>
+        <div class="tl-row"><div class="tl-when">二十世紀至今</div><div class="tl-what">這個比喻走出經藏，被引用在醫學倫理、心理治療與哲學課堂上，用來談「哪些問題該先放下」。</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="context">
+  <div class="wrap">
+    <p class="kicker">當時的場面</p>
+    <h2>弟子問的其實是這十件事</h2>
+    <p class="threat">鬘童子把一串問題排在佛陀面前，並且加了條件：不回答，他就還俗、不再跟著修行。</p>
+    <div class="ten">
+      <span>世界是永恆的嗎</span>
+      <span>世界不是永恆的嗎</span>
+      <span>世界有邊界嗎</span>
+      <span>世界沒有邊界嗎</span>
+      <span>身與心是同一件事嗎</span>
+      <span>身與心是兩件事嗎</span>
+      <span>如來死後還存在嗎</span>
+      <span>如來死後就不存在了嗎</span>
+      <span>是既存在又不存在嗎</span>
+      <span>是既非存在也非不存在嗎</span>
+    </div>
+    <p class="threat">佛陀沒有一題一題回答，也沒有說這些問題沒有意義。他指出的是另一件事：從出家到現在，他從未承諾要解答這些；而在答案出現之前，人已經在生老病死裡了。接著他講了中箭的那個人。</p>
+  </div>
+</section>
+
+<section id="meaning">
+  <div class="wrap">
+    <p class="kicker">讀出來的東西</p>
+    <h2>先活下來，再問為什麼</h2>
+    <div class="lessons">
+      <div class="lesson">
+        <span class="mark">先</span>
+        <div>
+          <h3>處理正在痛的那件事</h3>
+          <p>經文的重點不是禁止思考，而是排序。有些問題不會因為想得更久而變清楚，但傷口會因為拖得更久而變嚴重。眼前能動手的那一件，先動手。</p>
+        </div>
+      </div>
+      <div class="lesson">
+        <span class="mark">再</span>
+        <div>
+          <h3>復原不需要等到答案齊全</h3>
+          <p>「他為什麼要這樣對我」常常是一支不會回頭的箭。你有權利在還沒有答案、也永遠得不到答案的情況下，讓自己好起來。這不是原諒，也不是認輸。</p>
+        </div>
+      </div>
+      <div class="lesson">
+        <span class="mark">然後</span>
+        <div>
+          <h3>療傷和追究可以分開做</h3>
+          <p>誰射的箭、要不要追究，是另一件事，而且往往需要體力。先把箭拔掉、把毒排掉，之後你才有力氣決定要不要走去問。順序顛倒的時候，通常兩件都做不到。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="credits">
+  <div class="wrap">
+    <p class="kicker">製作說明</p>
+    <h2>這一頁是誰做的、怎麼做的</h2>
+    <dl class="credits">
+      <div class="credit">
+        <dt>整理與撰文</dt>
+        <dd>睡覺的紅豬<span>典故考據、心得與段落取捨</span></dd>
+      </div>
+      <div class="credit">
+        <dt>AI 工具</dt>
+        <dd>Claude（Anthropic）<span>Opus 5 模型，以對話方式產出版面設計、互動程式與文案潤稿</span></dd>
+      </div>
+      <div class="credit">
+        <dt>技術</dt>
+        <dd>單一 HTML 檔<span>原生 HTML／CSS／JavaScript，內嵌 SVG，無外部框架，不儲存任何輸入內容</span></dd>
+      </div>
+      <div class="credit">
+        <dt>目前版本</dt>
+        <dd>v1.1.0<span>2026-08-31 發布</span></dd>
+      </div>
+    </dl>
+
+    <details class="log-box">
+      <summary>版本紀錄</summary>
+      <dl class="rel">
+        <dt>v1.1.0</dt>
+        <dd>新增「歷史典故」章節與流傳年表；加上作者標示、AI 工具說明與本版本紀錄；重做行動版介面，手機上身體圖與毒量計改為釘在畫面頂端的窄條，按鈕改為單欄全寬。<em>　2026-08-31</em></dd>
+        <dt>v1.0.0</dt>
+        <dd>初版。十二題互動提問、毒性擴散動畫、拔箭與毒發兩種結局、經文出處對照、鬘童子十問、三段現代啟示。<em>　2026-08-31</em></dd>
+      </dl>
+    </details>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>這一頁是導讀，不是經文全文。想讀原典，可查《中部》第 63 經或大正藏 T01 No. 94；十個形上學問題與傷者的提問清單，依經文內容改寫為現代中文，年代標示為學界通行的概略區間。</p>
+    <p style="margin-top:14px">睡覺的紅豬　·　v1.1.0</p>
+  </div>
+</footer>
+
+<script>
+const QUESTIONS = [
+  {q:"射箭的人是什麼階級？", s:"剎帝利、婆羅門、居士，還是工師"},
+  {q:"他叫什麼名字？", s:"總得有個稱呼"},
+  {q:"他是什麼姓氏？", s:"哪一族的人"},
+  {q:"他身高多少？", s:"高、矮，還是中等"},
+  {q:"他膚色如何？", s:"黑、褐，還是金色"},
+  {q:"他住在哪個村鎮？", s:"村莊、市鎮，或城裡"},
+  {q:"那是什麼弓？", s:"長弓，還是弩弓"},
+  {q:"弓弦是什麼做的？", s:"葦草、竹絲、筋、麻，或樹皮"},
+  {q:"箭桿是什麼木頭？", s:"野生的，還是人種的"},
+  {q:"箭羽取自什麼鳥？", s:"鷲、鷺、鷹、孔雀，或鶴"},
+  {q:"綁箭的筋線來自何處？", s:"牛、水牛、猴，或樹皮纖維"},
+  {q:"箭頭是什麼形狀？", s:"平頭、鉤狀、倒鉤、犢牙，或夾竹桃葉形"}
+];
+const REPLIES = [
+  "沒有人看清楚。",
+  "問了三個人，得到三種說法。",
+  "有人跑去村裡打聽了，還沒回來。",
+  "當時天色太暗。",
+  "說法互相矛盾，只能再問。",
+  "這個要查更久。"
+];
+
+const grid = document.getElementById('qgrid');
+const fill = document.getElementById('gaugeFill');
+const pct = document.getElementById('pct');
+const askedCount = document.getElementById('askedCount');
+const log = document.getElementById('log');
+const venomWrap = document.getElementById('venomWrap');
+const arrowGroup = document.getElementById('arrowGroup');
+const halo = document.getElementById('halo');
+const wound = document.getElementById('wound');
+const pullBtn = document.getElementById('pullBtn');
+const resetBtn = document.getElementById('resetBtn');
+const verdict = document.getElementById('verdict');
+const arrowText = document.getElementById('arrowText');
+
+let poison = 0, asked = 0, over = false, ticker = null, replyIdx = 0;
+
+QUESTIONS.forEach((item, i) => {
+  const b = document.createElement('button');
+  b.className = 'q';
+  b.type = 'button';
+  b.innerHTML = item.q + '<small>' + item.s + '</small>';
+  b.addEventListener('click', () => ask(i, b));
+  grid.appendChild(b);
+});
+
+function setVenom(){
+  const p = Math.min(poison, 100);
+  fill.style.width = p + '%';
+  pct.textContent = Math.round(p) + '%';
+  venomWrap.setAttribute('transform',
+    'translate(172,158) scale(' + (p/100).toFixed(3) + ') translate(-172,-158)');
+}
+
+function startTicking(){
+  if (ticker) return;
+  ticker = setInterval(() => {
+    if (over) return;
+    poison += 1.1;
+    setVenom();
+    if (poison >= 100) die();
+  }, 1500);
+}
+
+function ask(i, btn){
+  if (over) return;
+  btn.disabled = true;
+  asked++;
+  askedCount.textContent = asked;
+  poison += 7.6;
+  setVenom();
+  startTicking();
+  log.innerHTML = '你問：「' + QUESTIONS[i].q + '」<br><em>' + REPLIES[replyIdx % REPLIES.length] + '</em>';
+  replyIdx++;
+  if (poison >= 100) die();
+}
+
+function myArrow(){
+  const v = arrowText.value.trim();
+  return v ? '你寫下的那支箭是「' + v + '」。它現在不在你身上了 ── 至少這一刻，你把手放在了箭上，而不是放在追問上。'
+           : '接下來能拔的，是你自己知道的那一支。';
+}
+
+function die(){
+  over = true;
+  clearInterval(ticker);
+  poison = 100;
+  setVenom();
+  wound.setAttribute('opacity', '.4');
+  document.querySelectorAll('.q').forEach(b => b.disabled = true);
+  verdict.className = 'verdict show dead';
+  verdict.innerHTML = '<h3>他還沒問完，就死了。</h3>' +
+    '<p>經文寫到這裡就停了，沒有責備，也沒有補救。清單上還剩 ' + (12 - asked) + ' 個問題沒有答案，而那些答案本來也救不了他。</p>' +
+    '<p>佛陀接著說：不管世界有沒有邊界、如來死後存不存在，生、老、病、死都還在這裡。他要教的，是拔箭的方法。</p>';
+  verdict.scrollIntoView({block:'nearest'});
+  resetBtn.hidden = false;
+  pullBtn.textContent = '太晚了';
+  pullBtn.disabled = true;
+  pullBtn.style.background = 'rgba(234,223,196,.18)';
+  pullBtn.style.color = 'var(--leaf-dim)';
+  pullBtn.style.cursor = 'default';
+}
+
+pullBtn.addEventListener('click', () => {
+  if (over) return;
+  over = true;
+  clearInterval(ticker);
+  arrowGroup.classList.add('pulled');
+  poison = 0;
+  setVenom();
+  halo.classList.add('on');
+  wound.setAttribute('opacity', '.25');
+  document.querySelectorAll('.q').forEach(b => b.disabled = true);
+  log.innerHTML = '<em>箭出來了。傷口開始收。</em>';
+  verdict.className = 'verdict show';
+  verdict.innerHTML = '<h3>箭拔掉了，剩下的問題還在。</h3>' +
+    '<p>你在問了 ' + asked + ' 個問題之後停手。那些問題沒有消失，只是換了順序 ── 它們現在可以慢慢問，因為問的人活著。</p>' +
+    '<p>' + myArrow() + '</p>';
+  verdict.scrollIntoView({block:'nearest'});
+  resetBtn.hidden = false;
+  pullBtn.textContent = '已經拔了';
+  pullBtn.disabled = true;
+  pullBtn.style.background = 'rgba(225,162,60,.25)';
+  pullBtn.style.color = 'var(--leaf)';
+  pullBtn.style.cursor = 'default';
+});
+
+resetBtn.addEventListener('click', () => {
+  poison = 0; asked = 0; over = false; replyIdx = 0;
+  clearInterval(ticker); ticker = null;
+  setVenom();
+  askedCount.textContent = '0';
+  arrowGroup.classList.remove('pulled');
+  halo.classList.remove('on');
+  wound.setAttribute('opacity', '1');
+  document.querySelectorAll('.q').forEach(b => b.disabled = false);
+  verdict.className = 'verdict';
+  verdict.innerHTML = '';
+  log.innerHTML = '醫生按著你的肩膀：「我先把箭拔出來。」';
+  resetBtn.hidden = true;
+  pullBtn.textContent = '把箭拔出來';
+  pullBtn.disabled = false;
+  pullBtn.style.background = '';
+  pullBtn.style.color = '';
+  pullBtn.style.cursor = '';
+});
+
+setVenom();
+</script>
+</body>
+</html>
