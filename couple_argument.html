@@ -5,279 +5,244 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>通話陪伴衝突紀錄</title>
 <style>
+/* ============ 主題 ============ */
 :root{
-  --bg:#faf9f7;
+  --bg:#f7f8fa;
   --card:#ffffff;
-  --text:#22221f;
-  --sub:#7c7a74;
-  --line:#e6e3dd;
-  --accent:#3d3b36;
-  --m:#c8a021;        /* 男方 · 海綿黃 */
-  --f:#c9718c;        /* 女方 · 星星粉 */
-  --bub-m:#ffffff;
-  --bub-f:#fdeef2;
+  --text:#1f2328;
+  --sub:#5f6672;
+  --faint:#8b929c;
+  --line:#e3e6ea;
+  --m:#b3860f;
+  --f:#b2506d;
+  /* LINE 風聊天室 */
+  --chat:#9fc3e3;
+  --bub-other:#ffffff;
+  --bub-other-tx:#1f2328;
+  --bub-me:#a4e26b;
+  --bub-me-tx:#16240b;
+  --pill:rgba(255,255,255,.72);
+  --pill-tx:#33506b;
+  --ts:rgba(28,52,74,.60);
 }
-@media (prefers-color-scheme: dark){
-  :root{
-    --bg:#131311;
-    --card:#1b1b19;
-    --text:#e9e7e2;
-    --sub:#94918a;
-    --line:#2c2c28;
-    --accent:#e9e7e2;
-    --m:#e0be48;
-    --f:#e293ab;
-    --bub-m:#232320;
-    --bub-f:#33232a;
-  }
+[data-theme="dark"]{
+  --bg:#14161a;
+  --card:#1e2127;
+  --text:#e9ecef;
+  --sub:#a3aab4;
+  --faint:#7d848e;
+  --line:#2c3138;
+  --m:#e2bc4e;
+  --f:#e795ae;
+  --chat:#1b2027;
+  --bub-other:#2a2f37;
+  --bub-other-tx:#e9ecef;
+  --bub-me:#3f6b28;
+  --bub-me-tx:#eaf6df;
+  --pill:rgba(255,255,255,.09);
+  --pill-tx:#9fb0bf;
+  --ts:rgba(233,236,239,.45);
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;padding:0}
 body{
   background:var(--bg);color:var(--text);
   font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
-  font-size:16px;line-height:1.7;letter-spacing:.01em;
+  font-size:16px;line-height:1.75;
   -webkit-font-smoothing:antialiased;
 }
-.wrap{max-width:640px;margin:0 auto;background:var(--bg)}
+.wrap{max-width:640px;margin:0 auto}
 .sprite{position:absolute;width:0;height:0;overflow:hidden}
 
-/* ---- header ---- */
+/* ============ header ============ */
 header{
-  position:sticky;top:0;z-index:20;
+  position:sticky;top:0;z-index:30;
   background:var(--bg);border-bottom:1px solid var(--line);
   padding-top:env(safe-area-inset-top);
 }
-.ttl{padding:20px 20px 14px}
-.ttl h1{margin:0;font-size:18px;font-weight:600;letter-spacing:.02em}
-.ttl p{margin:5px 0 0;font-size:12.5px;color:var(--sub);letter-spacing:.06em}
-.tabs{display:flex;gap:24px;padding:0 20px}
+.ttl{padding:18px 18px 12px;display:flex;align-items:flex-start;gap:12px}
+.ttl h1{margin:0;font-size:18px;font-weight:700;letter-spacing:.02em}
+.ttl p{margin:4px 0 0;font-size:12.5px;color:var(--faint);letter-spacing:.05em}
+.ttl .grow{flex:1;min-width:0}
+#theme{
+  flex:0 0 auto;appearance:none;cursor:pointer;font-family:inherit;
+  width:40px;height:40px;border-radius:50%;
+  border:1px solid var(--line);background:var(--card);color:var(--text);
+  font-size:17px;line-height:1;display:flex;align-items:center;justify-content:center;
+}
+.tabs{display:flex;gap:26px;padding:0 18px}
 .tabs button{
   appearance:none;border:0;background:none;cursor:pointer;font-family:inherit;
-  padding:0 0 11px;font-size:14px;font-weight:500;color:var(--sub);
-  border-bottom:1.5px solid transparent;margin-bottom:-1px;
-  transition:color .15s;
+  padding:0 0 11px;font-size:14.5px;font-weight:600;color:var(--faint);
+  border-bottom:2px solid transparent;margin-bottom:-1px;
 }
-.tabs button[aria-selected="true"]{color:var(--text);border-bottom-color:var(--accent)}
-
+.tabs button[aria-selected="true"]{color:var(--text);border-bottom-color:var(--text)}
 .panel{display:none}
 .panel.active{display:block}
 
-/* ---- avatar ---- */
+/* ============ 頭像 ============ */
 .av{
-  flex:0 0 38px;width:38px;height:38px;border-radius:50%;
-  overflow:hidden;align-self:flex-end;
-  box-shadow:0 0 0 1px var(--line) inset;
-  background:#fff;display:block;
+  flex:0 0 40px;width:40px;height:40px;border-radius:50%;
+  overflow:hidden;display:block;background:#fff;
+  box-shadow:0 0 0 2px rgba(255,255,255,.9),0 1px 3px rgba(20,40,60,.20);
 }
+[data-theme="dark"] .av{box-shadow:0 0 0 2px rgba(255,255,255,.12)}
 .av svg{display:block;width:100%;height:100%}
-.av.sm{flex-basis:22px;width:22px;height:22px;align-self:center}
+.av.sm{
+  flex-basis:24px;width:24px;height:24px;
+  box-shadow:0 0 0 1px var(--line);
+}
 
-/* ---- tab 1 ---- */
-.analysis{padding:26px 20px 56px}
-
-.lede{margin:0 0 30px}
-.lede .lbl{font-size:11px;letter-spacing:.18em;color:var(--sub);text-transform:uppercase}
-.lede h2{margin:8px 0 0;font-size:22px;font-weight:600;line-height:1.5;letter-spacing:0}
+/* ============ TAB 1 ============ */
+.analysis{padding:24px 18px 60px}
+.lede{margin:0 0 26px}
+.lede .lbl{font-size:11px;letter-spacing:.2em;color:var(--faint)}
+.lede h2{margin:8px 0 0;font-size:22px;font-weight:700;line-height:1.55}
 .lede h2 span{color:var(--sub);font-weight:400}
-.lede p{margin:12px 0 0;font-size:14.5px;color:var(--sub);line-height:1.75}
-
+.lede p{margin:12px 0 0;font-size:15px;color:var(--sub);line-height:1.85}
 .rule{height:1px;background:var(--line);margin:0 0 26px}
 
-section.blk{margin-bottom:34px}
+section.blk{margin-bottom:36px}
 section.blk > h3{
-  margin:0 0 3px;font-size:15px;font-weight:600;
+  margin:0 0 4px;font-size:15.5px;font-weight:700;
   display:flex;align-items:center;gap:8px;flex-wrap:wrap;
 }
-.tag{
-  font-size:11px;font-weight:600;letter-spacing:.08em;
-  padding:2px 8px;border-radius:3px;color:#fff;
-}
+.tag{font-size:11px;font-weight:700;letter-spacing:.08em;padding:3px 9px;border-radius:4px;color:#fff}
 .tag.m{background:var(--m)}
 .tag.f{background:var(--f)}
-section.blk > .note{margin:0 0 16px;font-size:13px;color:var(--sub)}
+section.blk > .note{margin:0 0 18px;font-size:13.5px;color:var(--faint)}
 
-.item{padding:0 0 0 14px;border-left:1px solid var(--line);margin-bottom:16px}
+.item{
+  background:var(--card);border:1px solid var(--line);border-radius:10px;
+  padding:14px 16px;margin-bottom:10px;
+}
 .item:last-child{margin-bottom:0}
-.item b{display:block;font-size:14.5px;font-weight:600;margin-bottom:2px}
-.item p{margin:0;font-size:14px;color:var(--sub);line-height:1.75}
-.blk.male .item{border-left-color:color-mix(in srgb,var(--m) 50%,transparent)}
-.blk.female .item{border-left-color:color-mix(in srgb,var(--f) 50%,transparent)}
+.item b{display:block;font-size:14.5px;font-weight:700;margin-bottom:3px}
+.item p{margin:0;font-size:14.5px;color:var(--sub);line-height:1.85}
+.blk.male .item{border-left:3px solid var(--m)}
+.blk.female .item{border-left:3px solid var(--f)}
 
-.split{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:6px;overflow:hidden;margin-top:6px}
-.split > div{background:var(--card);padding:15px 16px}
-.split b{display:block;font-size:13.5px;font-weight:600;margin-bottom:4px}
-.split .a b{color:var(--m)}
-.split .b b{color:var(--f)}
-.split p{margin:0;font-size:14px;color:var(--sub);line-height:1.7}
+.split{display:grid;gap:10px;margin-top:8px}
+.split > div{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.split b{display:block;font-size:14px;font-weight:700;margin-bottom:4px}
+.split .a{border-left:3px solid var(--m)} .split .a b{color:var(--m)}
+.split .b{border-left:3px solid var(--f)} .split .b b{color:var(--f)}
+.split p{margin:0;font-size:14.5px;color:var(--sub);line-height:1.8}
 
 .result{
-  margin-top:18px;padding:16px 18px;border-radius:6px;
+  margin-top:16px;padding:16px 18px;border-radius:10px;
   background:var(--card);border:1px solid var(--line);
-  font-size:14px;line-height:1.8;color:var(--sub);
+  font-size:14.5px;line-height:1.9;color:var(--sub);
 }
-.result b{color:var(--text);font-weight:600}
-.result .h{
-  display:block;font-size:11px;letter-spacing:.16em;text-transform:uppercase;
-  color:var(--sub);margin-bottom:7px;
+.result b{color:var(--text);font-weight:700}
+.result .h{display:block;font-size:11px;letter-spacing:.18em;color:var(--faint);margin-bottom:8px}
+
+/* ============ TAB 2 · LINE 風 ============ */
+.chat{background:var(--chat);padding:18px 14px 64px}
+.meta{
+  display:flex;align-items:center;justify-content:center;gap:9px;
+  font-size:11.5px;letter-spacing:.06em;color:var(--pill-tx);
+  background:var(--pill);border-radius:99px;padding:6px 15px;
+  margin:0 auto 8px;width:fit-content;
+}
+.hint{
+  text-align:center;font-size:11px;color:var(--ts);
+  margin:0 auto 20px;max-width:280px;line-height:1.6;
 }
 
-/* ---- tab 2 ---- */
-.chat{
-  position:relative;padding:20px 16px 60px;overflow:hidden;
-  background:
-    /* 小圓點 */
-    radial-gradient(circle, rgba(255,255,255,.75) 1.7px, transparent 1.9px) 0 0/20px 20px,
-    /* 大泡泡 */
-    radial-gradient(circle at 8% 12%, rgba(255,255,255,.55) 0 26px, transparent 27px),
-    radial-gradient(circle at 92% 30%, rgba(255,255,255,.45) 0 18px, transparent 19px),
-    radial-gradient(circle at 14% 58%, rgba(255,255,255,.40) 0 14px, transparent 15px),
-    radial-gradient(circle at 86% 74%, rgba(255,255,255,.50) 0 22px, transparent 23px),
-    radial-gradient(circle at 30% 92%, rgba(255,255,255,.40) 0 16px, transparent 17px),
-    /* 底色 */
-    linear-gradient(170deg,#d9f1fa 0%,#e8f6f2 45%,#fdeef4 100%);
+/* 時間軸分隔 */
+.stage{
+  display:flex;align-items:center;gap:10px;
+  margin:30px 0 20px;
 }
-@media (prefers-color-scheme: dark){
-  .chat{
-    background:
-      radial-gradient(circle, rgba(255,255,255,.10) 1.7px, transparent 1.9px) 0 0/20px 20px,
-      radial-gradient(circle at 8% 12%, rgba(255,255,255,.06) 0 26px, transparent 27px),
-      radial-gradient(circle at 92% 30%, rgba(255,255,255,.05) 0 18px, transparent 19px),
-      radial-gradient(circle at 14% 58%, rgba(255,255,255,.05) 0 14px, transparent 15px),
-      radial-gradient(circle at 86% 74%, rgba(255,255,255,.06) 0 22px, transparent 23px),
-      radial-gradient(circle at 30% 92%, rgba(255,255,255,.05) 0 16px, transparent 17px),
-      linear-gradient(170deg,#15242c 0%,#1a2622 45%,#2a1c22 100%);
-  }
+.stage:first-of-type{margin-top:6px}
+.stage span{flex:0 0 auto;
+  font-size:11.5px;letter-spacing:.08em;color:var(--pill-tx);
+  background:var(--pill);border-radius:99px;padding:5px 14px;
 }
-/* 底部沙地 */
-.chat::after{
-  content:"";position:absolute;left:0;right:0;bottom:0;height:46px;
-  background:
-    radial-gradient(circle at 20% 100%, #f2e2b8 0 40px, transparent 41px),
-    radial-gradient(circle at 62% 100%, #f2e2b8 0 52px, transparent 53px),
-    linear-gradient(#f6ebcd,#f2e2b8);
-  opacity:.85;pointer-events:none;
-}
-@media (prefers-color-scheme: dark){
-  .chat::after{background:linear-gradient(#2a2618,#332d1c);opacity:.55}
-}
-.chat > *{position:relative;z-index:1}
-.meta{
-  display:flex;align-items:center;justify-content:center;gap:8px;
-  font-size:11.5px;letter-spacing:.1em;color:#5b7480;
-  background:rgba(255,255,255,.6);border-radius:99px;
-  padding:5px 14px;margin:0 auto 22px;width:fit-content;
-}
-@media (prefers-color-scheme: dark){
-  .meta{color:#9db4bd;background:rgba(255,255,255,.07)}
-}
-.row{display:flex;align-items:flex-end;gap:9px;margin-bottom:12px}
+.stage i{flex:1;height:1px;background:var(--pill);font-style:normal}
+
+/* 對話列 */
+.row{display:flex;align-items:flex-start;gap:9px;margin-top:16px}
+.row.same{margin-top:6px}
 .row.f{flex-direction:row-reverse}
-.row.m + .row.m > .av,
-.row.f + .row.f > .av{visibility:hidden}
+.row .spacer{flex:0 0 40px}
+.stack{min-width:0;max-width:calc(100% - 62px);display:flex;flex-direction:column}
+.row.f .stack{align-items:flex-end}
+.name{
+  font-size:11.5px;font-weight:700;letter-spacing:.05em;
+  color:var(--pill-tx);margin:0 4px 5px;
+}
+.line{display:flex;align-items:flex-end;gap:7px}
+.row.f .line{flex-direction:row-reverse}
 .bub{
-  max-width:calc(100% - 60px);padding:10px 14px;font-size:15px;line-height:1.72;
-  border-radius:16px;word-break:break-word;
-  box-shadow:0 1px 3px rgba(60,80,90,.10);
+  padding:11px 15px;font-size:15.5px;line-height:1.85;
+  border-radius:18px;word-break:break-word;
+  box-shadow:0 1px 2px rgba(20,40,60,.12);
 }
-.row.m .bub{
-  background:#fffdf4;border:1px solid rgba(200,160,33,.28);
-  border-bottom-left-radius:5px;
-}
-.row.f .bub{
-  background:#fff0f5;border:1px solid rgba(201,113,140,.24);
-  border-bottom-right-radius:5px;
-}
-@media (prefers-color-scheme: dark){
-  .row.m .bub{background:#2b2718;border-color:rgba(224,190,72,.28)}
-  .row.f .bub{background:#33232a;border-color:rgba(226,147,171,.26)}
-  .bub{box-shadow:none}
-}
-.av{box-shadow:0 0 0 2px rgba(255,255,255,.85), 0 1px 3px rgba(60,80,90,.18)}
-@media (prefers-color-scheme: dark){
-  .av{box-shadow:0 0 0 2px rgba(255,255,255,.14)}
-}
-.av.sm{box-shadow:0 0 0 1px var(--line)}
-.spk{font-size:11px;letter-spacing:.1em;margin:18px 0 6px;font-weight:600}
-.spk.m{color:#9a7a10;padding-left:47px}
-.spk.f{color:#a8546e;text-align:right;padding-right:47px}
-@media (prefers-color-scheme: dark){
-  .spk.m{color:var(--m)} .spk.f{color:var(--f)}
-}
+[data-theme="dark"] .bub{box-shadow:none}
+.row.m .bub{background:var(--bub-other);color:var(--bub-other-tx);border-top-left-radius:5px}
+.row.m.same .bub{border-top-left-radius:18px}
+.row.f .bub{background:var(--bub-me);color:var(--bub-me-tx);border-top-right-radius:5px}
+.row.f.same .bub{border-top-right-radius:18px}
+.ts{flex:0 0 auto;font-size:10.5px;color:var(--ts);padding-bottom:3px;letter-spacing:.04em}
+.bub em{font-style:normal;font-weight:700;opacity:.72;font-size:13.5px}
+
 .aside{
-  text-align:center;font-size:12px;color:#5b7480;
-  margin:16px auto;max-width:80%;
-  background:rgba(255,255,255,.62);border-radius:99px;padding:5px 14px;width:fit-content;
+  text-align:center;font-size:12px;color:var(--pill-tx);
+  background:var(--pill);border-radius:99px;padding:6px 15px;
+  margin:18px auto;width:fit-content;max-width:86%;
 }
-@media (prefers-color-scheme: dark){
-  .aside{color:#9db4bd;background:rgba(255,255,255,.07)}
-}
-.bub i{font-style:normal;color:#a8546e;font-size:13px}
-.row.m .bub i{color:#9a7a10}
 .fin{
-  text-align:center;font-size:11.5px;letter-spacing:.14em;color:#5b7480;
-  margin:26px auto 0;background:rgba(255,255,255,.62);
-  border-radius:99px;padding:5px 16px;width:fit-content;
-}
-@media (prefers-color-scheme: dark){
-  .fin{color:#9db4bd;background:rgba(255,255,255,.07)}
+  text-align:center;font-size:11.5px;letter-spacing:.14em;color:var(--pill-tx);
+  background:var(--pill);border-radius:99px;padding:6px 16px;
+  margin:32px auto 0;width:fit-content;
 }
 .foot{
-  padding:16px 20px 42px;font-size:11.5px;color:var(--sub);
-  text-align:center;border-top:1px solid var(--line);
+  padding:18px 20px 44px;font-size:11.5px;color:var(--faint);
+  text-align:center;border-top:1px solid var(--line);background:var(--bg);
 }
 </style>
 </head>
 <body>
 
-<!-- ===== 頭像圖形（原創簡化風格） ===== -->
+<!-- 頭像圖形（原創簡化風格） -->
 <svg class="sprite" aria-hidden="true">
   <symbol id="av-sponge" viewBox="0 0 100 100">
-    <rect width="100" height="100" fill="#F5DF4D"/>
-    <g fill="#E0C838">
-      <ellipse cx="13" cy="18" rx="9" ry="6"/>
-      <ellipse cx="88" cy="26" rx="8" ry="5.5"/>
-      <ellipse cx="17" cy="78" rx="10" ry="6.5"/>
-      <ellipse cx="84" cy="84" rx="8" ry="5"/>
-      <ellipse cx="50" cy="9" rx="7" ry="4"/>
-      <ellipse cx="6" cy="48" rx="6" ry="8"/>
+    <rect width="100" height="100" fill="#F7E24F"/>
+    <g fill="#E3CB3A">
+      <ellipse cx="13" cy="18" rx="9" ry="6"/><ellipse cx="88" cy="26" rx="8" ry="5.5"/>
+      <ellipse cx="17" cy="78" rx="10" ry="6.5"/><ellipse cx="84" cy="84" rx="8" ry="5"/>
+      <ellipse cx="50" cy="9" rx="7" ry="4"/><ellipse cx="6" cy="48" rx="6" ry="8"/>
     </g>
     <g stroke="#4a4020" stroke-width="2.6" fill="#fff">
-      <circle cx="33" cy="41" r="14"/>
-      <circle cx="67" cy="41" r="14"/>
+      <circle cx="33" cy="41" r="14"/><circle cx="67" cy="41" r="14"/>
     </g>
-    <circle cx="34" cy="42" r="6.2" fill="#4FA3DC"/>
-    <circle cx="66" cy="42" r="6.2" fill="#4FA3DC"/>
-    <circle cx="34" cy="42" r="2.9" fill="#22200f"/>
-    <circle cx="66" cy="42" r="2.9" fill="#22200f"/>
+    <circle cx="34" cy="42" r="6.2" fill="#4FA3DC"/><circle cx="66" cy="42" r="6.2" fill="#4FA3DC"/>
+    <circle cx="34" cy="42" r="2.9" fill="#22200f"/><circle cx="66" cy="42" r="2.9" fill="#22200f"/>
     <g stroke="#4a4020" stroke-width="2.2" stroke-linecap="round" fill="none">
       <path d="M25 26 l-6 -6"/><path d="M41 24 l-3 -8"/>
       <path d="M75 26 l6 -6"/><path d="M59 24 l3 -8"/>
-      <path d="M50 52 q4 7 -1 11"/>
-      <path d="M28 68 q22 17 44 0"/>
+      <path d="M50 52 q4 7 -1 11"/><path d="M28 68 q22 17 44 0"/>
     </g>
     <g fill="#fff" stroke="#4a4020" stroke-width="1.6">
       <rect x="43.5" y="68" width="6" height="7.5" rx="1.5"/>
       <rect x="50.5" y="68" width="6" height="7.5" rx="1.5"/>
     </g>
   </symbol>
-
   <symbol id="av-star" viewBox="0 0 100 100">
-    <rect width="100" height="100" fill="#EE9BB1"/>
-    <path d="M50 -14 L66 30 L114 32 L78 60 L92 108 L50 80 L8 108 L22 60 L-14 32 L34 30 Z" fill="#F6B7C7"/>
-    <g fill="#E0849E">
+    <rect width="100" height="100" fill="#F09FB5"/>
+    <path d="M50 -14 L66 30 L114 32 L78 60 L92 108 L50 80 L8 108 L22 60 L-14 32 L34 30 Z" fill="#F8BACA"/>
+    <g fill="#E28AA4">
       <circle cx="17" cy="60" r="3.2"/><circle cx="86" cy="54" r="2.6"/>
       <circle cx="26" cy="22" r="2.4"/><circle cx="74" cy="80" r="2.6"/>
     </g>
     <g stroke="#6b3a48" stroke-width="2.4" fill="#fff">
-      <ellipse cx="35" cy="44" rx="11" ry="12"/>
-      <ellipse cx="65" cy="44" rx="11" ry="12"/>
+      <ellipse cx="35" cy="44" rx="11" ry="12"/><ellipse cx="65" cy="44" rx="11" ry="12"/>
     </g>
-    <circle cx="36" cy="46" r="3.6" fill="#2b1a20"/>
-    <circle cx="64" cy="46" r="3.6" fill="#2b1a20"/>
+    <circle cx="36" cy="46" r="3.6" fill="#2b1a20"/><circle cx="64" cy="46" r="3.6" fill="#2b1a20"/>
     <g stroke="#6b3a48" stroke-width="3" stroke-linecap="round" fill="none">
-      <path d="M25 29 q10 -5 19 -1"/>
-      <path d="M75 29 q-10 -5 -19 -1"/>
+      <path d="M25 29 q10 -5 19 -1"/><path d="M75 29 q-10 -5 -19 -1"/>
       <path d="M33 68 q17 13 34 -1"/>
     </g>
   </symbol>
@@ -287,8 +252,11 @@ section.blk > .note{margin:0 0 16px;font-size:13px;color:var(--sub)}
 
 <header>
   <div class="ttl">
-    <h1>通話陪伴衝突紀錄</h1>
-    <p>問題分析 ／ 對話逐字稿</p>
+    <div class="grow">
+      <h1>通話陪伴衝突紀錄</h1>
+      <p>問題分析 ／ 對話逐字稿</p>
+    </div>
+    <button id="theme" aria-label="切換明暗主題">☀</button>
   </div>
   <div class="tabs" role="tablist">
     <button role="tab" id="t1" aria-controls="p1" aria-selected="true">問題分析</button>
@@ -311,7 +279,6 @@ section.blk > .note{margin:0 0 16px;font-size:13px;color:var(--sub)}
     <section class="blk male">
       <h3><span class="av sm"><svg><use href="#av-sponge"/></svg></span><span class="tag m">男方</span>訴求：專一的陪伴與尊重</h3>
       <p class="note">擴音裡的男聲，情緒集中在「被夾在中間」。</p>
-
       <div class="item">
         <b>介意「三人行」的通話</b>
         <p>最不滿的是，女方在跟他通話（或掛著電話）的時間裡，同時在跟另一個朋友聊天。他認為這破壞了兩人相處的專屬時間，感覺中間一直卡著第三個人。</p>
@@ -329,7 +296,6 @@ section.blk > .note{margin:0 0 16px;font-size:13px;color:var(--sub)}
     <section class="blk female">
       <h3><span class="av sm"><svg><use href="#av-star"/></svg></span><span class="tag f">女方</span>訴求：個人空間與標準不一</h3>
       <p class="note">錄影的一方，情緒集中在「怎麼做都不對」。</p>
-
       <div class="item">
         <b>認為朋友性別不構成威脅</b>
         <p>不斷強調對方是「母的」（女性朋友），不是異性，認為跟同性朋友聊天很正常，不懂男方為何要生氣。</p>
@@ -351,7 +317,6 @@ section.blk > .note{margin:0 0 16px;font-size:13px;color:var(--sub)}
     <section class="blk">
       <h3>爭吵的本質</h3>
       <p class="note">根本原因在於兩人對「陪伴品質」的定義不同。</p>
-
       <div class="split">
         <div class="a">
           <b>男方要的是「質」</b>
@@ -362,7 +327,6 @@ section.blk > .note{margin:0 0 16px;font-size:13px;color:var(--sub)}
           <p>覺得只要電話通著就是在陪伴對方，不應該影響她同時處理其他社交（跟閨蜜聊天）。</p>
         </div>
       </div>
-
       <div class="result">
         <span class="h">結果</span>
         兩人都陷在自己的情緒與委屈中——男方覺得<b>「我不受重視」</b>，女方覺得<b>「你太控制且難以取悅」</b>。對話因此淪為互相指責態度差、翻舊帳（誰不接電話、誰先兇），而<b>從頭到尾沒有真正去解決「如何平衡兩人通話時間與個人社交時間」這個問題</b>。
@@ -380,73 +344,8 @@ section.blk > .note{margin:0 0 16px;font-size:13px;color:var(--sub)}
       男方擴音 ／ 女方錄影
       <span class="av sm"><svg><use href="#av-star"/></svg></span>
     </div>
-
-    <div class="spk f">女方</div>
-    <div class="row f"><span class="av"><svg><use href="#av-star"/></svg></span><div class="bub">跟我朋友講電話啦。</div></div>
-
-    <div class="spk m">男方</div>
-    <div class="row m"><span class="av"><svg><use href="#av-sponge"/></svg></span><div class="bub">跟我朋友講電話啊，結果講到睡著，然後連理都不理我這樣啊。</div></div>
-
-    <div class="row f"><span class="av"><svg><use href="#av-star"/></svg></span><div class="bub">因為我睡著啊，我要怎麼理？</div></div>
-
-    <div class="row m"><span class="av"><svg><use href="#av-sponge"/></svg></span><div class="bub">我們講電話的時間，然後妳去跟妳的朋友講電話，妳有在尊重我嗎？</div></div>
-
-    <div class="row f"><span class="av"><svg><use href="#av-star"/></svg></span><div class="bub">我就睡著了，我要怎麼理？我就沒知覺了。</div></div>
-
-    <div class="row m"><span class="av"><svg><use href="#av-sponge"/></svg></span><div class="bub">妳說啊，除了昨天以外，之前不是都一樣？不是都有？我打給妳的時候妳不是在跟他講電話？或者是我們在通電話，通到一半妳再跟他講電話，沒有嗎？</div></div>
-
-    <div class="row f"><span class="av"><svg><use href="#av-star"/></svg></span><div class="bub">我為什麼不能跟我朋友講電話？他是母的耶！他又不是異性！</div></div>
-
-    <div class="row m"><span class="av"><svg><use href="#av-sponge"/></svg></span><div class="bub"><i>（提高音量）</i>妳再講一次！我沒有說不行，我是說你們講電話的時候，為什麼要動到我跟妳的時間！這句話要講幾次啊？</div></div>
-
-    <div class="row f"><span class="av"><svg><use href="#av-star"/></svg></span><div class="bub">妳兇什麼啦！</div></div>
-
-    <div class="row m"><span class="av"><svg><use href="#av-sponge"/></svg></span><div class="bub">是誰先兇啦！這句話已經講了幾百次了，我前面也有跟妳講，妳要跟他通電話那就不要跟我講。</div></div>
-
-    <div class="row f"><span class="av"><svg><use href="#av-star"/></svg></span><div class="bub">那我沒有跟⋯那我沒有跟妳講的時候啊，我沒有跟妳講的時候你又一直找我、一直找我啊。</div></div>
-
-    <div class="row m"><span class="av"><svg><use href="#av-sponge"/></svg></span><div class="bub">我前面沒有跟妳好好講嗎？沒有嗎？</div></div>
-
-    <div class="row f"><span class="av"><svg><use href="#av-star"/></svg></span><div class="bub">你不是剛才在那邊白目問說，那我們兩個通電話我可以再跟他講電話嗎？沒有嗎？</div></div>
-
-    <div class="row m"><span class="av"><svg><use href="#av-sponge"/></svg></span><div class="bub">什麼叫白目？我就是好好問妳，啊不行就不行，可以就可以。妳自己講可以的，然後又在那邊生氣。啊然後，結果帶進去洗澡，出來，看到你們在那邊講話，我看了就不爽所以我掛掉啊，我做錯了嗎？</div></div>
-
-    <div class="row f"><span class="av"><svg><use href="#av-star"/></svg></span><div class="bub">那我有做錯什麼對不起你的事嗎？</div></div>
-
-    <div class="row m"><span class="av"><svg><use href="#av-sponge"/></svg></span><div class="bub">我沒有說啊，我沒有說妳做錯什麼對不起我的事啊，我只是跟妳講而已啊，我前面沒有跟妳講嗎？</div></div>
-
-    <div class="row f"><span class="av"><svg><use href="#av-star"/></svg></span><div class="bub">啊我有做錯什麼對不起你的事嗎？我跟我的女性朋友，然後在廁所裡面聊八卦、然後聊聊天這樣子，也不可以，是嗎？</div></div>
-
-    <div class="aside">男方試圖插話，女方繼續講</div>
-
-    <div class="row f"><span class="av"><svg><use href="#av-star"/></svg></span><div class="bub">可以的話你就不會不爽了嘛！</div></div>
-
-    <div class="row m"><span class="av"><svg><use href="#av-sponge"/></svg></span><div class="bub">我前面跟妳講最後一次，這些時間本來都是我們平常會講電話的時間。我不爽的是，為什麼我們講電話的時間，有人在中間插著，就變成三個人，然後妳在跟那個人講話。不管我們講了什麼或者是我們沒有講話，我們一直以來的相處模式，或者是我們沒有見面的時候，我們一直都是這樣，對不對？不管有沒有講話，不管有沒有講說什麼東西，還是再聊什麼，那我們的時間是不是都是這樣子？那妳有沒有問過我喜不喜歡？</div></div>
-
-    <div class="row f"><span class="av"><svg><use href="#av-star"/></svg></span><div class="bub">所以你不喜歡，是吧？</div></div>
-
-    <div class="row m"><span class="av"><svg><use href="#av-sponge"/></svg></span><div class="bub">那妳就少說嘛！那還說什麼誰要接電話要掛著什麼的。那就⋯那很簡單嘛，很簡單嘛。</div></div>
-
-    <div class="row f"><span class="av"><svg><use href="#av-star"/></svg></span><div class="bub">不是啊，那你電話掛著，然後我叫你，你都不回。然後好，開著鏡頭 FaceTime，然後也照著牆壁，不然就照著天花板，然後你又在看你的《名偵探柯南》，不然就是在打《風之谷》。我叫你，我叫了你好幾聲你也沒回！</div></div>
-
-    <div class="row m"><span class="av"><svg><use href="#av-sponge"/></svg></span><div class="bub">欸，前陣子是不是那個有問題？我們不是重打了好幾次，我根本就沒有聽到妳的聲音！完全沒聲音，是不是重打了好幾次所以後面才有聲音？</div></div>
-
-    <div class="row f"><span class="av"><svg><use href="#av-star"/></svg></span><div class="bub">那後面還是繼續也掛著，就這樣。</div></div>
-
-    <div class="row m"><span class="av"><svg><use href="#av-sponge"/></svg></span><div class="bub">然後勒？所以妳現在在抱怨我們講電話都⋯我們在通電話的時候都沒有什麼那個嘛，都沒有什麼互動這樣嘛，所以妳才會去跟別人講電話，然後硬要把我這邊弄那個⋯就是放在那邊嘛，對不對？</div></div>
-
-    <div class="row f"><span class="av"><svg><use href="#av-star"/></svg></span><div class="bub">什麼叫硬要？</div></div>
-
-    <div class="row m"><span class="av"><svg><use href="#av-sponge"/></svg></span><div class="bub">我是不是⋯我是不是有跟妳講，妳要跟他講電話，那我們就不要通電話。我的感受不好，我跟妳講我的感受不好！我有跟妳好好講過喔。然後妳現在在跟我抱怨說什麼，我們通電話的時候我都在幹嘛、掛著，這是兩碼子事吧？</div></div>
-
-    <div class="row f"><span class="av"><svg><use href="#av-star"/></svg></span><div class="bub">那你有跟我講說你的感受不好，那好啊，那我就尊重你啊！所以我在跟別人講電話的時候，我就不會跟你講電話，那我現在跟你講電話的時候，就不會跟別人講電話，不是嗎？那你剛剛打給我的時候，啊我剛好在跟張X文通電話，然後我就馬上掛掉，然後我就馬上打給你了，不是嗎？那（你的）第一句是什麼？「妳很忙喔？」</div></div>
-
-    <div class="row m"><span class="av"><svg><use href="#av-sponge"/></svg></span><div class="bub">對啊，「妳很忙喔？」我從昨天晚上打電話給妳，不管妳有沒有睡覺怎樣，我打電話給妳，妳連⋯連那種亮、亮著的都沒有。你感受會好？如果妳是我，妳感受會好？從昨天晚上到現在，妳感受會好？妳回答我嘛，如果是妳的話，妳感受會好嗎？然後妳把焦點放在說什麼「我在控制妳」，我根本就沒有控制妳，我就只是跟妳說我的想法而已。然後妳這陣子一直去跟別人講話然後把我放在中間，我就跟妳講說妳要講就去講，我講了好幾百次了妳要講就去講⋯</div></div>
-
-    <div class="row f"><span class="av"><svg><use href="#av-star"/></svg></span><div class="bub">那我要講⋯我要講，你又說佔用到我跟你的時間！</div></div>
-
-    <div class="row m"><span class="av"><svg><use href="#av-sponge"/></svg></span><div class="bub">欸我跟妳講，妳不要斷章取義喔！我是跟妳講說，這個本來⋯</div></div>
-
+    <p class="hint">右側數字為發言順序（原影片未提供時間），分隔線為爭吵推進的階段。</p>
+    <div id="feed"></div>
     <div class="fin">逐字稿到此中斷</div>
   </div>
 </div>
@@ -456,6 +355,19 @@ section.blk > .note{margin:0 0 16px;font-size:13px;color:var(--sub)}
 </div>
 
 <script>
+/* ---------- 主題切換 ---------- */
+(function(){
+  var btn=document.getElementById('theme');
+  var dark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;
+  function apply(){
+    document.documentElement.setAttribute('data-theme',dark?'dark':'light');
+    btn.textContent=dark?'☾':'☀';
+  }
+  apply();
+  btn.addEventListener('click',function(){dark=!dark;apply();});
+})();
+
+/* ---------- 分頁 ---------- */
 (function(){
   var tabs=[].slice.call(document.querySelectorAll('[role="tab"]'));
   tabs.forEach(function(t){
@@ -468,6 +380,76 @@ section.blk > .note{margin:0 0 16px;font-size:13px;color:var(--sub)}
       window.scrollTo(0,0);
     });
   });
+})();
+
+/* ---------- 逐字稿 ---------- */
+(function(){
+  var S='stage', N='note';
+  var T=[
+    [S,'開場 · 為什麼不理我'],
+    ['f','跟我朋友講電話啦。'],
+    ['m','跟我朋友講電話啊，結果講到睡著，然後連理都不理我這樣啊。'],
+    ['f','因為我睡著啊，我要怎麼理？'],
+    ['m','我們講電話的時間，然後妳去跟妳的朋友講電話，妳有在尊重我嗎？'],
+    ['f','我就睡著了，我要怎麼理？我就沒知覺了。'],
+
+    [S,'升溫 · 到底在氣什麼'],
+    ['m','妳說啊，除了昨天以外，之前不是都一樣？不是都有？我打給妳的時候妳不是在跟他講電話？或者是我們在通電話，通到一半妳再跟他講電話，沒有嗎？'],
+    ['f','我為什麼不能跟我朋友講電話？他是母的耶！他又不是異性！'],
+    ['m','<em>（提高音量）</em>妳再講一次！我沒有說不行，我是說你們講電話的時候，為什麼要動到我跟妳的時間！這句話要講幾次啊？'],
+
+    [S,'互指 · 誰先兇、誰白目'],
+    ['f','妳兇什麼啦！'],
+    ['m','是誰先兇啦！這句話已經講了幾百次了，我前面也有跟妳講，妳要跟他通電話那就不要跟我講。'],
+    ['f','那我沒有跟⋯那我沒有跟妳講的時候啊，我沒有跟妳講的時候你又一直找我、一直找我啊。'],
+    ['m','我前面沒有跟妳好好講嗎？沒有嗎？'],
+    ['f','你不是剛才在那邊白目問說，那我們兩個通電話我可以再跟他講電話嗎？沒有嗎？'],
+    ['m','什麼叫白目？我就是好好問妳，啊不行就不行，可以就可以。妳自己講可以的，然後又在那邊生氣。啊然後，結果帶進去洗澡，出來，看到你們在那邊講話，我看了就不爽所以我掛掉啊，我做錯了嗎？'],
+    ['f','那我有做錯什麼對不起你的事嗎？'],
+    ['m','我沒有說啊，我沒有說妳做錯什麼對不起我的事啊，我只是跟妳講而已啊，我前面沒有跟妳講嗎？'],
+    ['f','啊我有做錯什麼對不起你的事嗎？我跟我的女性朋友，然後在廁所裡面聊八卦、然後聊聊天這樣子，也不可以，是嗎？'],
+    [N,'男方試圖插話，女方繼續講'],
+    ['f','可以的話你就不會不爽了嘛！'],
+    ['m','我前面跟妳講最後一次，這些時間本來都是我們平常會講電話的時間。我不爽的是，為什麼我們講電話的時間，有人在中間插著，就變成三個人，然後妳在跟那個人講話。不管我們講了什麼或者是我們沒有講話，我們一直以來的相處模式，或者是我們沒有見面的時候，我們一直都是這樣，對不對？不管有沒有講話，不管有沒有講說什麼東西，還是再聊什麼，那我們的時間是不是都是這樣子？那妳有沒有問過我喜不喜歡？'],
+    ['f','所以你不喜歡，是吧？'],
+    ['m','那妳就少說嘛！那還說什麼誰要接電話要掛著什麼的。那就⋯那很簡單嘛，很簡單嘛。'],
+
+    [S,'翻舊帳 · 你也掛著不回話'],
+    ['f','不是啊，那你電話掛著，然後我叫你，你都不回。然後好，開著鏡頭 FaceTime，然後也照著牆壁，不然就照著天花板，然後你又在看你的《名偵探柯南》，不然就是在打《風之谷》。我叫你，我叫了你好幾聲你也沒回！'],
+    ['m','欸，前陣子是不是那個有問題？我們不是重打了好幾次，我根本就沒有聽到妳的聲音！完全沒聲音，是不是重打了好幾次所以後面才有聲音？'],
+    ['f','那後面還是繼續也掛著，就這樣。'],
+    ['m','然後勒？所以妳現在在抱怨我們講電話都⋯我們在通電話的時候都沒有什麼那個嘛，都沒有什麼互動這樣嘛，所以妳才會去跟別人講電話，然後硬要把我這邊弄那個⋯就是放在那邊嘛，對不對？'],
+    ['f','什麼叫硬要？'],
+    ['m','我是不是⋯我是不是有跟妳講，妳要跟他講電話，那我們就不要通電話。我的感受不好，我跟妳講我的感受不好！我有跟妳好好講過喔。然後妳現在在跟我抱怨說什麼，我們通電話的時候我都在幹嘛、掛著，這是兩碼子事吧？'],
+
+    [S,'僵局 · 感受 vs 控制'],
+    ['f','那你有跟我講說你的感受不好，那好啊，那我就尊重你啊！所以我在跟別人講電話的時候，我就不會跟你講電話，那我現在跟你講電話的時候，就不會跟別人講電話，不是嗎？那你剛剛打給我的時候，啊我剛好在跟張X文通電話，然後我就馬上掛掉，然後我就馬上打給你了，不是嗎？那（你的）第一句是什麼？「妳很忙喔？」'],
+    ['m','對啊，「妳很忙喔？」我從昨天晚上打電話給妳，不管妳有沒有睡覺怎樣，我打電話給妳，妳連⋯連那種亮、亮著的都沒有。你感受會好？如果妳是我，妳感受會好？從昨天晚上到現在，妳感受會好？妳回答我嘛，如果是妳的話，妳感受會好嗎？然後妳把焦點放在說什麼「我在控制妳」，我根本就沒有控制妳，我就只是跟妳說我的想法而已。然後妳這陣子一直去跟別人講話然後把我放在中間，我就跟妳講說妳要講就去講，我講了好幾百次了妳要講就去講⋯'],
+    ['f','那我要講⋯我要講，你又說佔用到我跟你的時間！'],
+    ['m','欸我跟妳講，妳不要斷章取義喔！我是跟妳講說，這個本來⋯']
+  ];
+
+  var AV={m:'#av-sponge', f:'#av-star'};
+  var NM={m:'男方（擴音）', f:'女方（錄影）'};
+  var feed=document.getElementById('feed');
+  var html='', prev=null, seq=0;
+
+  T.forEach(function(it){
+    var k=it[0], tx=it[1];
+    if(k===S){ html+='<div class="stage"><span>'+tx+'</span><i></i></div>'; prev=null; return; }
+    if(k===N){ html+='<div class="aside">'+tx+'</div>'; prev=null; return; }
+    seq++;
+    var same = (prev===k);
+    html+='<div class="row '+k+(same?' same':'')+'">'
+        + (same ? '<div class="spacer"></div>'
+                : '<span class="av"><svg><use href="'+AV[k]+'"/></svg></span>')
+        + '<div class="stack">'
+        + (same ? '' : '<div class="name">'+NM[k]+'</div>')
+        + '<div class="line"><div class="bub">'+tx+'</div><span class="ts">'+seq+'</span></div>'
+        + '</div></div>';
+    prev=k;
+  });
+  feed.innerHTML=html;
 })();
 </script>
 </body>
