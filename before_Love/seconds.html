@@ -1,0 +1,90 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>before Love · 相簿</title>
+<style>
+:root{--bg:#0f0f11;--card:#1a1a1e;--txt:#eceef1;--mut:#9aa0a8;--acc:#e8a0b4;--line:#2a2a30}
+@media(prefers-color-scheme:light){:root{--bg:#faf8f7;--card:#fff;--txt:#1a1a1a;--mut:#77787c;--acc:#c9718c;--line:#e6e2e0}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--txt);font:15px/1.6 -apple-system,"Segoe UI","Noto Sans TC",sans-serif}
+header{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px solid var(--line);padding:14px 20px;display:flex;gap:12px;align-items:baseline;flex-wrap:wrap}
+h1{margin:0;font-size:19px;letter-spacing:.04em;font-weight:600}
+h1 small{color:var(--acc);font-weight:400}
+.meta{color:var(--mut);font-size:13px}
+.ctl{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+select,input,button{background:var(--card);color:var(--txt);border:1px solid var(--line);border-radius:8px;padding:6px 10px;font:inherit;font-size:13px}
+button{cursor:pointer}
+main{padding:20px;max-width:1400px;margin:0 auto}
+.dayhead{margin:26px 0 12px;font-size:13px;color:var(--mut);letter-spacing:.08em;border-bottom:1px solid var(--line);padding-bottom:6px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+figure{margin:0;position:relative;aspect-ratio:1;overflow:hidden;border-radius:10px;background:var(--card);cursor:zoom-in}
+figure img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s ease;opacity:0}
+figure img.on{opacity:1}
+figure:hover img{transform:scale(1.06)}
+figure .tag{position:absolute;left:0;right:0;bottom:0;padding:16px 8px 6px;font-size:11px;color:#fff;background:linear-gradient(transparent,rgba(0,0,0,.75));opacity:0;transition:.2s}
+figure:hover .tag{opacity:1}
+#lb{position:fixed;inset:0;background:rgba(0,0,0,.94);display:none;z-index:50;flex-direction:column}
+#lb.on{display:flex}
+#lbimg{flex:1;min-height:0;object-fit:contain;width:100%;padding:16px}
+#lbbar{padding:12px 20px 20px;color:#eee;text-align:center;font-size:14px}
+#lbbar .who{color:var(--acc);font-size:12px;letter-spacing:.05em}
+#lbbar .cap{max-width:700px;margin:6px auto 0;color:#ddd}
+.nav{position:absolute;top:0;bottom:0;width:22%;cursor:pointer;border:0;background:transparent;color:#fff;font-size:34px;opacity:.35}
+.nav:hover{opacity:.9}
+#prev{left:0}#next{right:0}
+#close{position:absolute;top:12px;right:16px;font-size:26px;background:transparent;border:0;color:#fff;cursor:pointer}
+#cnt{position:absolute;top:16px;left:20px;color:#999;font-size:13px}
+</style></head><body>
+<header>
+<h1>before Love <small>· 相簿</small></h1>
+<span class="meta" id="stat"></span>
+<div class="ctl">
+<select id="who"><option value="">全部人</option><option value="Sol Lin">Sol Lin</option><option value="李珮沄">李珮沄</option></select>
+<select id="mon"><option value="">全部月份</option><option value="2013-01">2013-01</option><option value="2013-02">2013-02</option><option value="2013-03">2013-03</option><option value="2013-04">2013-04</option></select>
+<input id="q" placeholder="搜尋說明文字…" size="14">
+<button id="sortbtn">最舊在前</button>
+</div>
+</header>
+<main id="main"></main>
+<div id="lb">
+ <span id="cnt"></span><button id="close">✕</button>
+ <img id="lbimg">
+ <button class="nav" id="prev">‹</button><button class="nav" id="next">›</button>
+ <div id="lbbar"><div class="who" id="lbwho"></div><div class="cap" id="lbcap"></div></div>
+</div>
+<script>
+const DATA=[{"f": "843856029030726.jpg", "d": "2013-01-17 01:17", "s": "李珮沄", "c": "不正", "w": 250, "h": 333}, {"f": "843856229030706.jpg", "d": "2013-01-17 01:20", "s": "李珮沄", "c": "我去翻一翻\n這張最好看", "w": 250, "h": 333}, {"f": "843856372364025.jpg", "d": "2013-01-17 01:24", "s": "李珮沄", "c": "高一", "w": 250, "h": 333}, {"f": "843856362364026.jpg", "d": "2013-01-17 01:25", "s": "李珮沄", "c": "^這模厲害 XD", "w": 250, "h": 333}, {"f": "843856365697359.jpg", "d": "2013-01-17 01:25", "s": "李珮沄", "c": "^這模厲害 XD", "w": 250, "h": 333}, {"f": "843856072364055.jpg", "d": "2013-01-17 01:26", "s": "李珮沄", "c": "家政科嘛\n總要會有手工藝課", "w": 250, "h": 333}, {"f": "843856132364049.jpg", "d": "2013-01-17 01:30", "s": "李珮沄", "c": "妝很濃的在這", "w": 250, "h": 333}, {"f": "843856125697383.jpg", "d": "2013-01-17 01:30", "s": "李珮沄", "c": "妝很濃的在這", "w": 250, "h": 333}, {"f": "843856159030713.jpg", "d": "2013-01-17 01:30", "s": "李珮沄", "c": "一堆在桌上 Q3Q", "w": 250, "h": 333}, {"f": "843856052364057.jpg", "d": "2013-01-17 01:32", "s": "李珮沄", "c": "氣質", "w": 250, "h": 333}, {"f": "843856329030696.jpg", "d": "2013-01-17 01:35", "s": "李珮沄", "c": "國中 ^_^", "w": 250, "h": 333}, {"f": "843856369030692.jpg", "d": "2013-01-17 01:47", "s": "李珮沄", "c": "超好肌膚 Q3Q", "w": 250, "h": 333}, {"f": "843856325697363.jpg", "d": "2013-01-17 01:48", "s": "李珮沄", "c": "短短美美頭髮 ^3^", "w": 250, "h": 333}, {"f": "843856039030725.jpg", "d": "2013-01-17 01:49", "s": "李珮沄", "c": "那來張可愛的 ^3^", "w": 250, "h": 333}, {"f": "843856249030704.jpg", "d": "2013-01-17 01:54", "s": "李珮沄", "c": "頭髮很黃很黃的時候", "w": 250, "h": 333}, {"f": "843856165697379.jpg", "d": "2013-01-17 01:57", "s": "李珮沄", "c": "哈", "w": 250, "h": 333}, {"f": "843856349030694.jpg", "d": "2013-01-17 02:00", "s": "李珮沄", "c": "臉紅紅的豬 @_@", "w": 250, "h": 333}, {"f": "843856379030691.jpg", "d": "2013-01-17 02:03", "s": "李珮沄", "c": "我跟我家那隻離家出走的兔子", "w": 225, "h": 300}, {"f": "843856082364054.jpg", "d": "2013-01-17 02:04", "s": "李珮沄", "c": "再找", "w": 225, "h": 300}, {"f": "843856169030712.jpg", "d": "2013-01-17 02:04", "s": "李珮沄", "c": "這張最美", "w": 250, "h": 333}, {"f": "843856195697376.jpg", "d": "2013-01-17 02:08", "s": "李珮沄", "c": "旁邊那個是高餐的哦", "w": 250, "h": 333}, {"f": "843856145697381.jpg", "d": "2013-01-17 02:10", "s": "李珮沄", "c": "我調了三次才成功　！", "w": 480, "h": 640}, {"f": "843856149030714.jpg", "d": "2013-01-17 02:10", "s": "李珮沄", "c": "我調了三次才成功　！", "w": 480, "h": 640}, {"f": "843856222364040.jpg", "d": "2013-01-17 02:56", "s": "李珮沄", "c": "嘻嘻 ^________________________^", "w": 843, "h": 792}, {"f": "843856162364046.jpg", "d": "2013-01-17 02:56", "s": "李珮沄", "c": "送你可愛的市長", "w": 137, "h": 200}, {"f": "921058081302517.jpg", "d": "2013-01-18 00:00", "s": "Sol Lin", "c": "看哦", "w": 800, "h": 600}, {"f": "921060924635566.jpg", "d": "2013-01-18 00:06", "s": "Sol Lin", "c": "(Y)", "w": 800, "h": 600}, {"f": "921065901301735.jpg", "d": "2013-01-18 00:08", "s": "Sol Lin", "c": "XDD", "w": 843, "h": 1124}, {"f": "921057987969193.jpg", "d": "2013-01-18 00:08", "s": "Sol Lin", "c": "還有哦", "w": 843, "h": 1124}, {"f": "928253527249639.jpg", "d": "2013-01-18 00:14", "s": "Sol Lin", "c": "哈哈", "w": 800, "h": 600}, {"f": "921058274635831.jpg", "d": "2013-01-18 01:19", "s": "Sol Lin", "c": "貝倫小姐 !", "w": 352, "h": 240}, {"f": "843856035697392.jpg", "d": "2013-01-18 22:52", "s": "李珮沄", "c": "又來 @3@", "w": 720, "h": 1280}, {"f": "921065721301753.jpg", "d": "2013-01-19 00:32", "s": "Sol Lin", "c": "我按囉", "w": 428, "h": 165}, {"f": "843856322364030.jpg", "d": "2013-01-19 01:32", "s": "李珮沄", "c": "給你看", "w": 480, "h": 853}, {"f": "843856022364060.jpg", "d": "2013-01-19 01:33", "s": "李珮沄", "c": "對啊", "w": 480, "h": 853}, {"f": "843856172364045.jpg", "d": "2013-01-19 01:36", "s": "李珮沄", "c": "^_^", "w": 480, "h": 853}, {"f": "843856119030717.jpg", "d": "2013-01-19 01:36", "s": "李珮沄", "c": "可愛", "w": 480, "h": 853}, {"f": "843856122364050.jpg", "d": "2013-01-19 01:38", "s": "李珮沄", "c": "敲可愛", "w": 480, "h": 853}, {"f": "843856155697380.jpg", "d": "2013-01-19 01:39", "s": "李珮沄", "c": "管我 !", "w": 480, "h": 853}, {"f": "843856289030700.jpg", "d": "2013-01-19 01:41", "s": "李珮沄", "c": "下一秒", "w": 480, "h": 853}, {"f": "843856025697393.jpg", "d": "2013-01-19 01:44", "s": "李珮沄", "c": "睡醒後 ^3^", "w": 480, "h": 853}, {"f": "843856099030719.jpg", "d": "2013-01-19 22:55", "s": "李珮沄", "c": "敲可愛 剩鼻子", "w": 1067, "h": 600}, {"f": "843856339030695.jpg", "d": "2013-01-20 00:11", "s": "李珮沄", "c": "冬粉 ！", "w": 732, "h": 1302}, {"f": "843856102364052.jpg", "d": "2013-01-20 00:47", "s": "李珮沄", "c": "給你 ^_^", "w": 480, "h": 640}, {"f": "843856332364029.jpg", "d": "2013-01-20 00:50", "s": "李珮沄", "c": "給你兩張我覺得好看的", "w": 480, "h": 640}, {"f": "843856235697372.jpg", "d": "2013-01-23 23:43", "s": "李珮沄", "c": "不會不喜歡啊\n只是我想保護他 Q3Q", "w": 480, "h": 640}, {"f": "843856242364038.jpg", "d": "2013-01-23 23:43", "s": "李珮沄", "c": "不會不喜歡啊\n只是我想保護他 Q3Q", "w": 480, "h": 640}, {"f": "843856115697384.jpg", "d": "2013-01-24 21:42", "s": "李珮沄", "c": "死肥豬死肥豬臭胖子臭胖子\n啾一個 ^3^\n嘻嘻", "w": 250, "h": 333}, {"f": "843856285697367.jpg", "d": "2013-01-25 23:29", "s": "李珮沄", "c": "嘻 >罒<", "w": 250, "h": 333}, {"f": "921065704635088.jpg", "d": "2013-01-25 23:49", "s": "Sol Lin", "c": "OP", "w": 640, "h": 480}, {"f": "928246723916986.jpg", "d": "2013-01-25 23:51", "s": "Sol Lin", "c": "不想承認XD", "w": 640, "h": 480}, {"f": "921060904635568.jpg", "d": "2013-01-25 23:54", "s": "Sol Lin", "c": "這樣餒", "w": 640, "h": 480}, {"f": "921065841301741.jpg", "d": "2013-01-26 00:01", "s": "Sol Lin", "c": "我哪是!", "w": 640, "h": 480}, {"f": "921065861301739.jpg", "d": "2013-02-01 00:19", "s": "Sol Lin", "c": "給你看牙牙", "w": 640, "h": 480}, {"f": "843856139030715.jpg", "d": "2013-02-12 21:09", "s": "李珮沄", "c": "一定要一直問這個問題嗎", "w": 732, "h": 1302}, {"f": "928249647250027.jpg", "d": "2013-02-18 23:56", "s": "Sol Lin", "c": "這張", "w": 250, "h": 333}, {"f": "843856269030702.jpg", "d": "2013-02-23 16:20", "s": "李珮沄", "c": "<3 <3 <3", "w": 720, "h": 1280}, {"f": "843856275697368.jpg", "d": "2013-02-23 16:20", "s": "李珮沄", "c": "<3 <3 <3", "w": 720, "h": 1280}, {"f": "921065914635067.jpg", "d": "2013-02-27 01:03", "s": "Sol Lin", "c": "這也太神奇", "w": 558, "h": 386}, {"f": "843856312364031.jpg", "d": "2013-03-01 23:18", "s": "李珮沄", "c": "他在看我爹爹吃東西", "w": 732, "h": 1302}, {"f": "843856342364028.jpg", "d": "2013-03-07 22:45", "s": "李珮沄", "c": "爽樣 ！", "w": 732, "h": 1302}, {"f": "843856252364037.jpg", "d": "2013-03-07 22:46", "s": "李珮沄", "c": "這張好可愛", "w": 732, "h": 1302}, {"f": "843856112364051.jpg", "d": "2013-03-13 00:21", "s": "李珮沄", "c": "花花是玫瑰花花阿 XD", "w": 720, "h": 1280}, {"f": "843856079030721.jpg", "d": "2013-03-13 00:25", "s": "李珮沄", "c": "不是我的照片ㄛ", "w": 800, "h": 600}, {"f": "843856062364056.jpg", "d": "2013-03-13 00:29", "s": "李珮沄", "c": "那張不清楚", "w": 800, "h": 600}, {"f": "843856045697391.jpg", "d": "2013-03-13 23:16", "s": "李珮沄", "c": "這個", "w": 732, "h": 1302}, {"f": "843856142364048.jpg", "d": "2013-03-22 00:53", "s": "李珮沄", "c": "一朵花花送給你\n期望不要再吵架\n很多事\n我不想再吵\n我知道我那天亂發脾氣是我的不對\n但是我記得有一個人說 我那個來要多體諒我 …\n摁\n就這樣\n晚ㄢ", "w": 843, "h": 1123}, {"f": "843856282364034.jpg", "d": "2013-03-31 01:36", "s": "李珮沄", "c": "沒有很好看 Q3Q", "w": 720, "h": 1280}, {"f": "843856209030708.jpg", "d": "2013-03-31 01:37", "s": "李珮沄", "c": "超萌 XDDDDDDDDDD", "w": 843, "h": 1124}, {"f": "843856375697358.jpg", "d": "2013-03-31 01:38", "s": "李珮沄", "c": "這張最可愛 !", "w": 843, "h": 1124}, {"f": "843856335697362.jpg", "d": "2013-04-03 22:55", "s": "李珮沄", "c": "給你 ^3^", "w": 270, "h": 480}, {"f": "843856049030724.jpg", "d": "2013-04-04 00:19", "s": "李珮沄", "c": "超美", "w": 720, "h": 1280}, {"f": "921065691301756.jpg", "d": "2013-04-11 18:56", "s": "Sol Lin", "c": "剛剛看到的 :))", "w": 240, "h": 320}, {"f": "921058644635794.jpg", "d": "2013-04-14 23:29", "s": "Sol Lin", "c": "我們昨天...", "w": 800, "h": 600}, {"f": "921061167968875.jpg", "d": "2013-04-14 23:30", "s": "Sol Lin", "c": "他說如果我ㄎㄅ他 XD", "w": 720, "h": 960}, {"f": "454200367996296.jpg", "d": "2013-04-22 18:08", "s": "李珮沄", "c": "什麼什麼口味的彩虹糖ㄡ", "w": 960, "h": 1280}];
+let asc=true, view=[];
+const esc=s=>(s||'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+function render(){
+  const w=who.value,mo=mon.value,qq=q.value.trim();
+  view=DATA.filter(p=>(!w||p.s===w)&&(!mo||p.d.startsWith(mo))&&(!qq||(p.c||'').includes(qq)));
+  if(!asc) view=view.slice().reverse();
+  stat.textContent=view.length+' / '+DATA.length+' 張照片　2013/01/17 – 2013/04/22';
+  let h='',last=null;
+  view.forEach((p,i)=>{
+    const day=p.d?p.d.slice(0,10):'（未標註日期）';
+    if(day!==last){ if(last!==null)h+='</div>'; h+='<div class="dayhead">'+day+'</div><div class="grid">'; last=day; }
+    h+='<figure data-i="'+i+'"><img data-src="photos/'+p.f+'"><figcaption class="tag">'+esc(p.s)+(p.d?' · '+p.d.slice(11):'')+'</figcaption></figure>';
+  });
+  if(last!==null)h+='</div>';
+  main.innerHTML=h||'<p style="color:var(--mut)">沒有符合的照片。</p>';
+  lazy();
+}
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const im=e.target;im.src=im.dataset.src;im.onload=()=>im.classList.add('on');io.unobserve(im);}}),{rootMargin:'400px'});
+function lazy(){document.querySelectorAll('#main img').forEach(im=>io.observe(im));}
+let cur=0;
+function open_(i){cur=i;const p=view[i];lbimg.src='photos/'+p.f;lbwho.textContent=(p.s||'')+(p.d?'　'+p.d:'');lbcap.textContent=p.c||'';cnt.textContent=(i+1)+' / '+view.length;lb.classList.add('on');}
+main.onclick=e=>{const f=e.target.closest('figure');if(f)open_(+f.dataset.i)};
+prev.onclick=e=>{e.stopPropagation();open_((cur-1+view.length)%view.length)};
+next.onclick=e=>{e.stopPropagation();open_((cur+1)%view.length)};
+close.onclick=()=>lb.classList.remove('on');
+lbimg.onclick=()=>lb.classList.remove('on');
+document.onkeydown=e=>{if(!lb.classList.contains('on'))return;
+ if(e.key==='Escape')lb.classList.remove('on');
+ if(e.key==='ArrowLeft')open_((cur-1+view.length)%view.length);
+ if(e.key==='ArrowRight')open_((cur+1)%view.length);};
+sortbtn.onclick=()=>{asc=!asc;sortbtn.textContent=asc?'最舊在前':'最新在前';render()};
+[who,mon].forEach(el=>el.onchange=render);
+let t;q.oninput=()=>{clearTimeout(t);t=setTimeout(render,250)};
+render();
+</script></body></html>
