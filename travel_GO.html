@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>月光羅盤・汐止出發的中秋一日 🌕</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#463a63;
+  --ink-soft:#8b7fa8;
+  --veil:rgba(255,253,248,.82);
+  --moon:#f4c66b;
+  --moon-soft:#ffe6b0;
+  --petal:#ffc3d6;
+  --lilac:#d9cdf5;
+  --line:rgba(112,88,160,.16);
+  --glow:0 10px 30px rgba(92,64,150,.13);
+  --r-lg:26px;
+  --r-md:18px;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
+body{
+  margin:0;min-height:100%;padding:22px 14px 40px;color:var(--ink);
+  font-family:"Quicksand","PingFang TC","Noto Sans TC","微軟正黑體",sans-serif;
+  font-weight:500;line-height:1.62;
+  background:
+    radial-gradient(900px 480px at 78% -8%, #fff0d4 0%, rgba(255,240,212,0) 62%),
+    radial-gradient(700px 520px at 6% 12%, #ffe3ee 0%, rgba(255,227,238,0) 58%),
+    linear-gradient(178deg,#efe7ff 0%,#f7ecf6 38%,#fdf3ea 72%,#fff9f1 100%);
+  background-attachment:fixed;
+}
+.sky{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.sky i{position:absolute;display:block;border-radius:50%;background:#fff;opacity:.9;
+  box-shadow:0 0 6px 2px rgba(255,255,255,.7);animation:twinkle 4.5s ease-in-out infinite}
+@keyframes twinkle{0%,100%{opacity:.18;transform:scale(.7)}50%{opacity:.85;transform:scale(1)}}
+
+.wrap{position:relative;z-index:1;max-width:470px;margin:0 auto}
+header{text-align:center;margin-bottom:18px}
+.kicker{font-size:.78rem;letter-spacing:.2em;color:var(--ink-soft)}
+h1{margin:6px 0 8px;font-size:1.72rem;font-weight:700;letter-spacing:.03em;line-height:1.3}
+.lede{margin:0 auto;max-width:27em;font-size:.87rem;color:#6f6289}
+
+.moonbar{display:flex;gap:7px;justify-content:center;align-items:center;margin:16px 0 20px}
+.moonbar span{width:9px;height:9px;border-radius:50%;background:#e4dbf3;transition:all .35s ease}
+.moonbar span.on{background:var(--moon);box-shadow:0 0 0 4px rgba(244,198,107,.22)}
+.moonbar span.full{width:13px;height:13px}
+
+.card{background:var(--veil);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.9);
+  border-radius:var(--r-lg);box-shadow:var(--glow);padding:24px 20px 26px}
+.step{display:none}
+.step.on{display:block;animation:rise .45s ease both}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+.ask{font-size:1.14rem;font-weight:700;text-align:center;line-height:1.55;margin:0 0 4px}
+.ask small{display:block;margin-top:7px;font-size:.8rem;font-weight:500;color:var(--ink-soft)}
+
+.compass{display:grid;grid-template-columns:1fr 1.05fr 1fr;grid-template-rows:auto auto auto;gap:9px;margin-top:20px}
+.dir{border:1px solid var(--line);background:linear-gradient(170deg,#fff 0%,#fdf6ff 100%);
+  border-radius:var(--r-md);padding:12px 6px 11px;cursor:pointer;font-family:inherit;color:var(--ink);
+  text-align:center;transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
+.dir:active{transform:scale(.95);border-color:var(--petal);box-shadow:0 6px 16px rgba(255,150,185,.28)}
+.dir:focus-visible{outline:2.5px solid var(--moon);outline-offset:3px}
+.dir .face{font-size:1.5rem;line-height:1.1}
+.dir .vow{display:block;margin-top:6px;font-size:.76rem;font-weight:700;line-height:1.45}
+.dir .hint{display:block;margin-top:3px;font-size:.66rem;color:var(--ink-soft);font-weight:500}
+.d-n{grid-column:2;grid-row:1}.d-w{grid-column:1;grid-row:2}
+.d-e{grid-column:3;grid-row:2}.d-s{grid-column:2;grid-row:3}
+.core{grid-column:2;grid-row:2;display:flex;align-items:center;justify-content:center;border-radius:50%;
+  aspect-ratio:1/1;background:radial-gradient(circle at 36% 32%,#fff6dd 0%,var(--moon-soft) 52%,#f0b95c 100%);
+  animation:breathe 5.5s ease-in-out infinite}
+.core b{font-size:.68rem;color:#7a5410;font-weight:700;line-height:1.35;text-align:center}
+@keyframes breathe{0%,100%{box-shadow:0 0 0 6px rgba(255,230,176,.3),0 0 20px rgba(240,185,92,.38)}
+50%{box-shadow:0 0 0 11px rgba(255,230,176,.4),0 0 34px rgba(240,185,92,.6)}}
+
+.picks{display:flex;flex-direction:column;gap:11px;margin-top:20px}
+.pick{display:flex;align-items:center;gap:13px;width:100%;text-align:left;cursor:pointer;
+  font-family:inherit;color:var(--ink);font-size:.95rem;font-weight:700;
+  background:linear-gradient(100deg,#fff 0%,#fdf4fb 100%);border:1px solid var(--line);
+  border-radius:var(--r-md);padding:15px 16px;
+  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
+.pick:active{transform:scale(.98);border-color:var(--lilac);box-shadow:0 6px 16px rgba(150,120,220,.2)}
+.pick:focus-visible{outline:2.5px solid var(--moon);outline-offset:3px}
+.pick .face{font-size:1.45rem;flex:none}
+.pick em{display:block;font-style:normal;font-size:.76rem;font-weight:500;color:var(--ink-soft);margin-top:3px;line-height:1.5}
+
+#result{display:none}
+#result.on{display:block;animation:rise .5s ease both}
+.crest{text-align:center;padding-bottom:18px;border-bottom:1px dashed var(--line)}
+.crest .arrow{font-size:.76rem;color:var(--ink-soft);letter-spacing:.1em}
+.crest .name{font-size:1.32rem;font-weight:700;margin:7px 0 9px;line-height:1.4}
+.crest .poem{font-size:.86rem;color:#6f6289;margin:0 auto;max-width:24em}
+.tags{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:13px}
+.tags span{font-size:.72rem;font-weight:700;padding:4px 11px;border-radius:999px;background:#fdeef5;color:#a4577c}
+
+.toggle{display:flex;gap:6px;background:#f2ecfb;border-radius:999px;padding:5px;margin:20px 0 16px}
+.toggle button{flex:1;border:none;cursor:pointer;font-family:inherit;font-size:.83rem;font-weight:700;
+  padding:9px 4px;border-radius:999px;background:transparent;color:var(--ink-soft);transition:all .25s ease}
+.toggle button.on{background:#fff;color:var(--ink);box-shadow:0 3px 10px rgba(120,90,180,.16)}
+.toggle button:focus-visible{outline:2.5px solid var(--moon);outline-offset:2px}
+
+.plan{background:linear-gradient(180deg,#fffdf9 0%,#fdf7f1 100%);border:1px solid var(--line);
+  border-radius:var(--r-md);padding:17px 16px 8px}
+.plan h3{margin:0 0 13px;font-size:.92rem;font-weight:700;display:flex;align-items:center;gap:7px}
+.plan ol{list-style:none;margin:0;padding:0}
+.plan li{position:relative;padding:0 0 15px 62px;font-size:.87rem;line-height:1.6}
+.plan li::before{content:attr(data-t);position:absolute;left:0;top:1px;width:50px;
+  font-size:.76rem;font-weight:700;color:#a8812f}
+.plan li::after{content:"";position:absolute;left:55px;top:7px;width:1px;height:calc(100% - 4px);
+  background:linear-gradient(180deg,var(--moon-soft),rgba(255,230,176,0))}
+.plan li:last-child::after{display:none}
+.cup{display:inline-block;background:#f6ecff;color:#6a4a9c;font-size:.72rem;font-weight:700;
+  padding:1px 8px;border-radius:999px;margin-right:5px}
+
+.note{border-radius:var(--r-md);padding:15px 16px;margin-top:14px;font-size:.85rem;line-height:1.65}
+.note h4{margin:0 0 7px;font-size:.88rem;font-weight:700;display:flex;align-items:center;gap:6px}
+.note ul{margin:0;padding-left:1.1em}
+.note li{margin-bottom:5px}
+.n-ride{background:#eef2fb;border:1px solid #cfdbf2;color:#33456e}
+.n-lens{background:#eef7f5;border:1px solid #cbe6e1;color:#2f5f58}
+.n-light{background:#fff6e6;border:1px solid #f4e0b6;color:#7a5a1c}
+.n-moon{background:#f3efff;border:1px solid #ddd3f7;color:#544092}
+.n-bail{background:#fff1ea;border:1px solid #f7d2c2;color:#8a4a2f}
+.n-gear{background:#fdeef2;border:1px solid #f6cfdc;color:#8e3f61}
+
+.again{display:block;width:100%;margin-top:20px;padding:15px;cursor:pointer;font-family:inherit;
+  font-size:.95rem;font-weight:700;color:#fff;border:none;border-radius:var(--r-md);
+  background:linear-gradient(105deg,#b79bea 0%,#f3a7c4 100%);box-shadow:0 8px 18px rgba(180,140,220,.32)}
+.again:active{transform:scale(.985)}
+.again:focus-visible{outline:2.5px solid var(--moon);outline-offset:3px}
+footer{text-align:center;font-size:.73rem;color:#9a8fb0;margin-top:22px;line-height:1.7}
+
+@media (max-width:370px){
+  .dir .vow{font-size:.71rem}.dir .hint{display:none}.core b{font-size:.62rem}
+  .plan li{padding-left:56px}.plan li::before{width:46px;font-size:.72rem}.plan li::after{left:50px}
+  .toggle button{font-size:.78rem}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ink:#f2ecff;--ink-soft:#b9aed6;--veil:rgba(43,34,68,.86);
+    --line:rgba(200,180,255,.2);--glow:0 10px 30px rgba(0,0,0,.4);
+  }
+  :root:not([data-theme="light"]) body{
+    background:
+      radial-gradient(900px 480px at 78% -8%, #3c3060 0%, rgba(60,48,96,0) 62%),
+      radial-gradient(700px 520px at 6% 12%, #4a2f50 0%, rgba(74,47,80,0) 58%),
+      linear-gradient(178deg,#1b1530 0%,#241b3c 45%,#2b2044 100%);
+  }
+  :root:not([data-theme="light"]) .dir,
+  :root:not([data-theme="light"]) .pick{background:linear-gradient(170deg,#2f2650 0%,#352a58 100%)}
+  :root:not([data-theme="light"]) .plan{background:linear-gradient(180deg,#2c2349 0%,#322751 100%)}
+  :root:not([data-theme="light"]) .toggle{background:#33285a}
+  :root:not([data-theme="light"]) .toggle button.on{background:#463a70;color:#fff}
+  :root:not([data-theme="light"]) .tags span{background:#4a2c47;color:#ffc4dd}
+  :root:not([data-theme="light"]) .n-ride{background:#232c4a;border-color:#3c4a78;color:#c5d3f5}
+  :root:not([data-theme="light"]) .n-lens{background:#22403c;border-color:#35635c;color:#bfe8e1}
+  :root:not([data-theme="light"]) .n-light{background:#41341c;border-color:#6b5525;color:#ffe2ab}
+  :root:not([data-theme="light"]) .n-moon{background:#332a5c;border-color:#4b3e87;color:#ded3ff}
+  :root:not([data-theme="light"]) .n-bail{background:#452a1f;border-color:#70452f;color:#ffcdb3}
+  :root:not([data-theme="light"]) .n-gear{background:#44243a;border-color:#6d3b5c;color:#ffc9de}
+  :root:not([data-theme="light"]) .plan li::before{color:#f0c878}
+  :root:not([data-theme="light"]) .cup{background:#413069;color:#dcc8ff}
+  :root:not([data-theme="light"]) .crest .poem,
+  :root:not([data-theme="light"]) .lede{color:#c3b8dd}
+}
+</style>
+</head>
+<body>
+<div class="sky" id="sky" aria-hidden="true"></div>
+
+<div class="wrap">
+  <header>
+    <div class="kicker">中秋・汐止出發・一台車兩個人</div>
+    <h1>月光羅盤</h1>
+    <p class="lede">不用先想去哪。讓月亮問你三個問題，它會把今天那條路交給你。</p>
+  </header>
+
+  <div class="moonbar" id="moonbar" aria-hidden="true">
+    <span class="on"></span><span></span><span></span>
+  </div>
+
+  <div class="card">
+
+    <section class="step on" id="s1">
+      <h2 class="ask">月光落下來的那一刻，你最想聽見什麼聲音？
+        <small>別想太久，手指先動的那個就是答案</small>
+      </h2>
+      <div class="compass">
+        <button class="dir d-n" onclick="pickDir('N')">
+          <span class="face">🌊</span><span class="vow">浪打在岩岸上</span><span class="hint">鹹鹹的風</span>
+        </button>
+        <button class="dir d-w" onclick="pickDir('W')">
+          <span class="face">🌇</span><span class="vow">渡船的汽笛</span><span class="hint">夕陽落水</span>
+        </button>
+        <div class="core"><b>跟著<br>月光走</b></div>
+        <button class="dir d-e" onclick="pickDir('E')">
+          <span class="face">🏮</span><span class="vow">燈籠在晃</span><span class="hint">石階與霧</span>
+        </button>
+        <button class="dir d-s" onclick="pickDir('S')">
+          <span class="face">🌲</span><span class="vow">雲穿過樹梢</span><span class="hint">溪水與火車</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="step" id="s2">
+      <h2 class="ask">今天，你想讓自己的腳步是哪一種？</h2>
+      <div class="picks">
+        <button class="pick" onclick="pickPace('walk')">
+          <span class="face">👟</span>
+          <span>想下車走一段<em>把車停好，用腳去換一個沒有人擋著的畫面</em></span>
+        </button>
+        <button class="pick" onclick="pickPace('drive')">
+          <span class="face">🏍️</span>
+          <span>想一直騎<em>彎道、風、停下來就是景，力氣留給甜點和相機</em></span>
+        </button>
+      </div>
+    </section>
+
+    <section class="step" id="s3">
+      <h2 class="ask">如果今天只能帶走一種光，你會挑哪一種？
+        <small>這題決定你的相機設定</small>
+      </h2>
+      <div class="picks">
+        <button class="pick" onclick="pickLight('soft')">
+          <span class="face">✨</span>
+          <span>逆光裡的柔霧和光斑<em>頭髮邊緣會發亮，背景碎成一顆一顆的圓</em></span>
+        </button>
+        <button class="pick" onclick="pickLight('honey')">
+          <span class="face">🍯</span>
+          <span>黃昏的蜜糖色<em>整個世界被刷上一層溫熱的橘</em></span>
+        </button>
+        <button class="pick" onclick="pickLight('blue')">
+          <span class="face">🌙</span>
+          <span>藍調時刻與月亮<em>天空變成寶藍色，燈一盞一盞亮起來</em></span>
+        </button>
+      </div>
+    </section>
+
+    <section id="result">
+      <div class="crest">
+        <div class="arrow" id="r-arrow"></div>
+        <h2 class="name" id="r-name"></h2>
+        <p class="poem" id="r-poem"></p>
+        <div class="tags" id="r-tags"></div>
+      </div>
+
+      <div class="toggle" role="group" aria-label="天氣版本">
+        <button id="t-sun" class="on" onclick="setWeather('sun')">☀️ 晴天版・騎車</button>
+        <button id="t-rain" onclick="setWeather('rain')">☔ 雨天版・不騎山路</button>
+      </div>
+
+      <div class="note n-ride" id="ride-box">
+        <h4><span id="ride-icon">🏍️</span><span id="ride-label">今天會經過</span></h4>
+        <div id="r-ride"></div>
+      </div>
+
+      <div class="note n-bail" id="bail-box">
+        <h4>🌧️ 騎到一半變天怎麼辦</h4>
+        <div id="r-bail"></div>
+      </div>
+
+      <div class="plan" style="margin-top:14px">
+        <h3><span id="p-icon">🕰️</span><span id="p-label">一日的時間表</span></h3>
+        <ol id="r-plan"></ol>
+      </div>
+
+      <div class="note n-lens">
+        <h4>📷 單眼筆記</h4>
+        <div id="r-lens"></div>
+      </div>
+
+      <div class="note n-light">
+        <h4>💡 你挑的那種光</h4>
+        <div id="r-light"></div>
+      </div>
+
+      <div class="note n-moon">
+        <h4>🌕 今晚在哪裡看月亮</h4>
+        <div id="r-moon"></div>
+      </div>
+
+      <div class="note n-gear">
+        <h4>🎒 兩個人一台車，記得帶</h4>
+        <ul>
+          <li>兩件連身雨衣和一雙防水手套——騎車的時候傘幫不上忙</li>
+          <li>相機用防水內袋裝好再進後背包，只帶一顆變焦鏡，山上換鏡容易進灰進水</li>
+          <li>後座的護腰、防摔衣、厚一點的手套，一整天下來差很多</li>
+          <li>重機不能上國道，出發前用導航確認一次路線；山路的濕落葉最滑，開始飄雨就直接切雨天版</li>
+          <li>連假傍晚山路和老街周邊會塞，回程多抓 30 分鐘</li>
+          <li>出發前加滿油：五分山、坪林、貢寮這幾段加油站很少</li>
+        </ul>
+      </div>
+
+      <button class="again" onclick="reset()">再問月亮一次</button>
+    </section>
+  </div>
+
+  <footer>月亮不挑天氣，這裡的每個方向也不挑<br><span style="opacity:.8">Powered by Claude Opus 5</span></footer>
+</div>
+
+<script>
+(function(){
+  const sky=document.getElementById('sky');
+  for(let i=0;i<26;i++){
+    const s=document.createElement('i');
+    const d=Math.random()*2+1.4;
+    s.style.cssText=`width:${d}px;height:${d}px;left:${Math.random()*100}%;top:${Math.random()*100}%;animation-delay:${Math.random()*5}s`;
+    sky.appendChild(s);
+  }
+})();
+
+const ROUTES={
+  N_walk:{
+    arrow:"月光指向・北｜北海岸",
+    name:"燭台雙嶼與風稜石",
+    poem:"往北騎到島的邊緣，讓鹹風替你把心事吹散。",
+    tags:["野柳","獅頭山步道","金山老街"],
+    ride:"汐止 → 萬里 → 野柳 → 金山 → 獅頭山公園 → 石門 → 白沙灣<br><span style='opacity:.75'>山上午後容易起霧，回程放慢；海邊風大，後座多帶一件外套。</span>",
+    rainRide:"雨天不上五指山。汐止車站搭區間車到基隆約 20 分鐘，每十幾分鐘一班，出站就是海洋廣場，全程不淋雨。",
+    bail:"開始飄雨就別再往山上繞。最近的躲雨點是金山的溫泉湯屋和朱銘美術館室內館；真的不停就沿著海邊往基隆走，那一段路平好騎。",
+    sun:[
+      ["08:40","汐止出發，一路往北爬升，風在半途就開始變鹹"],
+      ["09:40","<b>野柳</b>｜早上人最少，繞一圈約 1 小時"],
+      ["11:30","<b>金山老街</b>｜鴨肉、蟹管肉炒飯，芋圓留著當點心"],
+      ["13:00","<b>獅頭山公園步道</b>｜30 分鐘走到稜線，燭台雙嶼就在腳下"],
+      ["15:00","<span class='cup'>咖啡時間</span><b>石門洞旁海景咖啡</b>｜把安全帽脫下來吹風"],
+      ["17:20","白沙灣看夕陽，回程挑一條順的慢慢騎"]
+    ],
+    rain:[
+      ["10:30","汐止車站搭區間車到基隆，15 分鐘"],
+      ["11:30","<b>正濱漁港彩色屋</b>｜雨天水面最平，倒影比晴天還完整"],
+      ["13:00","<b>委託行街區</b>｜巷子窄有遮，順路解決午餐"],
+      ["15:00","<span class='cup'>咖啡時間</span>港邊老屋咖啡，看雨落在漁船上"],
+      ["17:30","基隆廟口吃一輪，搭車回汐止"]
+    ],
+    lens:"風稜石蹲低用 24mm 貼地拍，f/8 讓紋理清楚到最遠；燭台雙嶼換 200mm 長焦，把海浪壓成一層一層；咖啡館那面窗用玻璃倒影疊上海平線。",
+    rainLens:"正濱彩色屋隔著水面拍倒影，f/8、對焦在房子上，雨停的空檔水面最平；撐傘時把傘的邊緣放進畫面當前景，層次就出來了。",
+    moon:"金山磺港的堤岸或白沙灣，月亮會從海的那一端慢慢浮上來。"
+  },
+  N_drive:{
+    arrow:"月光指向・北｜北海岸",
+    name:"海線慢速公路與甜點",
+    poem:"不趕路的一天，把甜點綁在後座，配著海一起吃掉。",
+    tags:["不用早起","翡翠灣","金山甜點"],
+    ride:"汐止 → 萬里 → 翡翠灣 → 金山 → 石門 → 三芝 → 淺水灣<br><span style='opacity:.75'>沿海風又大又直，空曠路段和過橋時握穩一點。</span>",
+    rainRide:"雨天車留在家。汐止搭區間車到瑞芳約 25 分鐘，轉深澳線到海科館站約 10 分鐘——深澳線大約一小時一班，出門前先查班表。",
+    bail:"海線雨中能見度掉得快。就近退到金山老街的騎樓或萬里的室內餐廳等雨，真的不停就沿海邊經基隆回汐止，別再翻山。",
+    sun:[
+      ["10:00","出發往萬里，真的不用早起"],
+      ["11:00","<b>翡翠灣</b>停一下，下去踩個沙"],
+      ["12:00","<b>金山老街</b>午餐，順手買一盒甜點綁上後座"],
+      ["14:00","<span class='cup'>咖啡時間</span><b>石門・三芝海景咖啡</b>｜把甜點拆開，配海"],
+      ["16:00","<b>白沙灣</b>散步，撿一點貝殼"],
+      ["17:30","淺水灣夕陽，趁天黑前啟程回家"]
+    ],
+    rain:[
+      ["10:30","汐止車站搭區間車到瑞芳，轉深澳線到海科館站"],
+      ["11:30","<b>海洋科技博物館</b>｜老發電廠改建，整棟室內，建築本身就好拍"],
+      ["13:30","潮境公園旁的室內餐廳午餐"],
+      ["15:00","<span class='cup'>咖啡時間</span>碧砂漁港旁咖啡，看雨中的漁船"],
+      ["17:30","基隆廟口晚餐，搭車回汐止"]
+    ],
+    lens:"沙灘壓低角度、把沙紋當前景；甜點特寫 f/1.8，人坐窗邊側逆光最漂亮；淺水灣日落收到 f/11，太陽就會長出星芒。",
+    rainLens:"海科館的舊廠房結構用超廣角仰拍，線條會刺出去；室內光不足時 ISO 3200 沒在怕，f/2.0、1/125 手持穩得住。",
+    moon:"淺水灣海堤或金山磺港，海面上會鋪出一條月光。"
+  },
+  E_walk:{
+    arrow:"月光指向・東｜草原與海",
+    name:"草原盡頭的那片海",
+    poem:"騎一段，再爬一小段，換一整片沒有人擋著的天空。",
+    tags:["桃源谷","龜山島","大溪漁港"],
+    ride:"汐止 → 瑞芳 → 貢寮 → 桃源谷內寮登山口 → 大溪漁港 → 外澳<br><span style='opacity:.75'>登山口前那段產業道路窄、有碎石和青苔，慢慢騎；登山口旁有空地可以停。</span>",
+    rainRide:"雨天草原沒有遮蔽也沒有視野。汐止搭區間車到頭城約 1 小時 10 分，班次比較疏，出門前先查；接不上就先到八堵站轉宜蘭線。",
+    bail:"稜線上完全沒有遮蔽，雲一壓下來就下撤，不要留在草原等雨停。下山後往南到大溪漁港或外澳，進室內吃海鮮；不停就沿著海回汐止，路平但側風強，放慢。",
+    sun:[
+      ["07:30","汐止出發，趁濱海的車潮還沒起來"],
+      ["08:50","抵達<b>桃源谷內寮線</b>登山口，把車停好再上"],
+      ["09:30","起登，最親民的一條，約 40 分鐘上稜線"],
+      ["10:30","<b>大草原</b>｜綠草、牛、龜山島同一個畫面，帶早餐上來野餐"],
+      ["13:00","下山往<b>大溪漁港</b>，吃現撈的"],
+      ["15:00","<span class='cup'>咖啡時間</span><b>外澳海邊咖啡</b>｜坐著看別人衝浪"],
+      ["17:00","沿著海往回騎，夕陽會在右手邊"]
+    ],
+    rain:[
+      ["10:00","汐止車站搭區間車到頭城，約 1 小時"],
+      ["11:30","<b>蘭陽博物館</b>｜單面山建築，光室內就能拍一整天"],
+      ["13:30","頭城老街午餐"],
+      ["15:00","<span class='cup'>咖啡時間</span>礁溪玻璃屋咖啡，看雨中的稻田"],
+      ["16:30","<b>礁溪湯屋</b>｜把濕氣泡掉"],
+      ["18:30","吃份櫻桃鴨，搭車回汐止"]
+    ],
+    lens:"草原用 16–24mm 壓低地平線，天空只留三分之一；龜山島換 200mm 壓縮成一塊剪影；人站稜線逆光拍，曝光補償 +0.7 皮膚才不會灰掉。",
+    rainLens:"蘭陽博物館的斜面用超廣角仰拍；地上積水拍倒影；水氣會讓側窗的光變成看得見的光束，人站進去就是成品。",
+    moon:"外澳沙灘，月亮從龜山島後面升起來，長焦一定要帶。"
+  },
+  E_drive:{
+    arrow:"月光指向・東｜山城",
+    name:"燈籠與寂寞公路",
+    poem:"離家最近的一片大景，山一轉上去，山、海和一整條會呼吸的公路就都在了。",
+    tags:["不厭亭","金瓜石","九份茶館"],
+    ride:"汐止 → 瑞芳 → 不厭亭 → 金瓜石 → 水湳洞 → 九份<br><span style='opacity:.75'>上山那段彎多視野開，是這一帶最經典的路；傍晚車潮重，露水會讓路面變滑。</span>",
+    rainRide:"雨天的山路很滑，不值得冒險。汐止搭區間車到瑞芳約 25 分鐘，站前搭 788 或 1062 公車上九份約 20 分鐘——而且雨霧中的九份最好看。",
+    bail:"這段山路一濕就滑，不要硬撐。直接騎到九份停車場停好，進茶館待著，雨中的九份反而是加分的。不想摸黑騎下山，車就先留在九份，搭公車到瑞芳轉火車回汐止，隔天再來牽。",
+    sun:[
+      ["10:30","出發往瑞芳，接著蜿蜒上山"],
+      ["11:20","<b>不厭亭</b>｜寂寞公路 S 型延伸出去，停車就是大景"],
+      ["12:30","<b>水湳洞・金瓜石</b>｜小餐館午餐，順看陰陽海"],
+      ["14:00","<b>黃金瀑布・十三層遺址</b>｜停 20 分鐘就能收很多張"],
+      ["15:00","<span class='cup'>咖啡時間</span><b>九份茶館或海景咖啡</b>｜室內一樣好拍"],
+      ["17:00","<b>九份老街</b>漫步，等燈籠一盞一盞亮起來"],
+      ["18:40","藍調時刻拍豎崎路，慢慢下山（夜騎放慢）"]
+    ],
+    rain:[
+      ["10:30","汐止車站搭區間車到瑞芳，轉公車上九份"],
+      ["11:30","<b>黃金博物館</b>｜本山五坑在室內，雨天照逛"],
+      ["13:00","礦工食堂便當，坐在室內慢慢吃"],
+      ["15:00","<span class='cup'>咖啡時間</span><b>九份茶館</b>｜霧一進來，這裡就是全台最有氣氛的地方"],
+      ["17:00","撐傘走<b>豎崎路</b>｜濕掉的石階會把燈籠的光整片反上來"],
+      ["19:30","搭公車下山回瑞芳，火車回汐止"]
+    ],
+    lens:"不厭亭用 70–200mm 壓縮公路的彎；陰陽海記得帶 CPL 偏光鏡，壓掉反光色帶才分得出來；豎崎路的燈籠在日落後 20–30 分鐘拍最濃。",
+    rainLens:"下雨的九份是賺到——蹲低對著積水拍燈籠倒影，f/2.0、1/60、ISO 1600；把傘的邊緣放進畫面當前景。",
+    moon:"基山街出口的觀景平台，月亮會停在基隆山旁邊。"
+  },
+  S_walk:{
+    arrow:"月光指向・南｜平溪",
+    name:"稜線上的芒草海",
+    poem:"往南翻過山，山脊上的草會在中秋前後開始翻白。",
+    tags:["五分山","平溪老街","十分瀑布"],
+    ride:"汐止 → 平溪 → 五分山氣象站 → 平溪老街 → 十分 → 菁桐<br><span style='opacity:.75'>上五分山的產業道路窄又陡，會車要靠邊，雨後容易有落石。</span>",
+    rainRide:"雨天稜線起霧什麼都看不到。汐止搭區間車到瑞芳約 25 分鐘，轉平溪線到十分約 30 分鐘、菁桐約 45 分鐘。連假這條線會爆滿，在瑞芳直接買一日週遊券、抓早一點的班次。",
+    bail:"稜線起霧時能見度會掉到十公尺。立刻退回平溪老街，整條有騎樓；車停平溪或十分，改搭平溪線火車玩，雨停再騎回家。",
+    sun:[
+      ["08:30","汐止出發，往平溪的方向翻過去"],
+      ["09:30","<b>五分山氣象站</b>｜停好車，沿稜線步道往下走"],
+      ["10:00","<b>稜線芒草海</b>｜好天氣看得到基隆嶼，秋天的風很乾淨"],
+      ["12:00","下山到<b>平溪老街</b>，雞捲和芋圓"],
+      ["13:30","<b>十分瀑布</b>｜步道平緩，水氣很涼"],
+      ["15:30","<span class='cup'>咖啡時間</span>菁桐鐵道旁的老屋咖啡，聽火車進站"],
+      ["17:30","原路回汐止，夕陽在背後"]
+    ],
+    rain:[
+      ["10:30","汐止車站搭區間車到瑞芳，轉<b>平溪線</b>小火車"],
+      ["11:30","<b>十分老街</b>｜整條騎樓有遮，鐵軌旁放天燈"],
+      ["13:00","老街午餐，找有座位的店慢慢吃"],
+      ["14:30","<b>菁桐車站</b>｜木造老站房，雨打在鐵皮上的聲音是配樂"],
+      ["15:30","<span class='cup'>咖啡時間</span>鐵道旁老屋咖啡，等下一班火車"],
+      ["18:00","搭火車回瑞芳轉車回汐止"]
+    ],
+    lens:"芒草逆光時整片會發亮，曝光補償 +1；稜線用 24mm 讓步道延伸出去；十分瀑布用 1/4 秒慢速拍出絲綢感（沒帶腳架就把相機靠在欄杆上）。",
+    rainLens:"平溪線的火車進站用 1/125 追焦；老站房木結構用側窗光拍；雨中的鐵軌會反光，蹲低對著軌道拍縱深。",
+    moon:"平溪老街的溪橋上，山谷暗、光害少，月亮會亮得不像話。"
+  },
+  S_drive:{
+    arrow:"月光指向・南｜石碇坪林",
+    name:"千島湖與茶山的彎",
+    poem:"彎道一個接一個，然後湖灣也是。",
+    tags:["石碇千島湖","石碇老街","坪林茶鄉"],
+    ride:"汐止 → 石碇 → 千島湖觀景台 → 石碇老街 → 坪林<br><span style='opacity:.75'>彎道綿密、路面乾淨；茶園那段特別窄，會車要靠邊，山裡天黑得早。</span>",
+    rainRide:"雨天山路茶園段最滑。汐止搭區間車到松山站只要 12 分鐘，出站走路 10 分鐘就是松菸，連捷運都不用轉。",
+    bail:"茶園那段窄又滑，起雨就往回退到石碇老街，吊腳樓下有遮。雨大就直接下山回汐止，別再往山裡去。",
+    sun:[
+      ["09:30","出發往石碇"],
+      ["10:30","<b>千島湖觀景台</b>｜翡翠水庫的湖灣一個接一個"],
+      ["12:00","<b>石碇老街</b>｜吃豆腐、走吊腳樓"],
+      ["13:30","翻過山到坪林，一路都是茶園"],
+      ["14:30","<b>坪林老街</b>｜茶油麵線，買一包高山茶"],
+      ["15:30","<span class='cup'>咖啡時間</span>溪畔咖啡或茶莊，泡一壺慢慢喝"],
+      ["17:30","趕在天黑前下山回汐止"]
+    ],
+    rain:[
+      ["10:30","汐止車站搭區間車到台北，轉捷運到松山文創園區"],
+      ["11:30","<b>誠品松菸</b>｜選書、選品、看展，雨天完全不影響"],
+      ["13:00","園區裡的餐廳午餐"],
+      ["15:00","<span class='cup'>咖啡時間</span>手沖咖啡館，坐一個下午"],
+      ["17:30","附近巷弄晚餐，搭車回汐止"]
+    ],
+    lens:"千島湖用 70mm 以上壓縮湖灣層次，霧氣越多層次越明顯；茶園走進去拍人，讓一排排的線條當背景；老街吊腳樓用垂直構圖。",
+    rainLens:"書店的書架結構用對稱構圖；室內大光圈 f/1.8 拍書頁和手的細節；玻璃帷幕的雨珠可以當前景，後面的人流拉成散景。",
+    moon:"坪林的北勢溪畔，光害少、水面平，月亮會整顆掉在溪裡。"
+  },
+  W_walk:{
+    arrow:"月光指向・西｜淡水河口",
+    name:"觀音山上的河口",
+    poem:"往西爬到山頂，看整條淡水河把太陽送出海。",
+    tags:["硬漢嶺","八里左岸","十三行"],
+    ride:"汐止 → 五股 → 觀音山遊客中心 → 八里左岸 → 十三行 → 挖子尾<br><span style='opacity:.75'>要穿過台北市區，出門早一點避開車潮；山上停車場好停。</span>",
+    rainRide:"雨天不爬山也不穿市區。汐止搭區間車到台北約 20 分鐘，轉捷運淡水線到淡水約 40 分鐘，全程有遮。",
+    bail:"硬漢嶺的石階濕了很滑，半途下雨就折返，不要硬攻頂。下山進十三行博物館或八里左岸的室內店家，那一帶都是平地；回程穿市區注意積水和路面標線。",
+    sun:[
+      ["08:30","汐止出發，趁市區還沒塞"],
+      ["09:40","<b>觀音山遊客中心</b>｜停好車，硬漢嶺步道起登"],
+      ["10:40","<b>硬漢嶺</b>｜1600 階有點硬，但淡水河口和台北盆地一次收下"],
+      ["12:30","下山到<b>八里左岸</b>，孔雀蛤和雙胞胎"],
+      ["14:00","<b>十三行博物館</b>｜清水模建築，室內涼快"],
+      ["15:30","<span class='cup'>咖啡時間</span>河岸咖啡，看渡船來回"],
+      ["17:30","<b>挖子尾</b>或左岸堤防看夕陽｜太陽直接落進海裡"]
+    ],
+    rain:[
+      ["10:30","汐止搭區間車到台北，轉捷運淡水線"],
+      ["11:30","<b>淡水老屋群</b>｜紅毛城、得忌利士洋行，展間都在室內"],
+      ["13:00","老街熱食：阿給、魚丸湯"],
+      ["14:30","<span class='cup'>咖啡時間</span>河岸二樓玻璃屋，雨中的觀音山最有仙氣"],
+      ["16:30","<b>情人塔</b>玻璃艙｜不淋雨看 360 度河海"],
+      ["18:30","老街晚餐，搭捷運轉火車回汐止"]
+    ],
+    lens:"硬漢嶺用 24mm 把河口的曲線整條放進來；下午河面會逆光，換長焦拍船的剪影；清水模建築直接切黑白拍幾何。",
+    rainLens:"情人塔玻璃艙貼近玻璃拍（拿外套擋反光），1/60、ISO 640；雨中的觀音山用長焦壓縮雲霧層次。",
+    moon:"八里左岸堤防，月亮從台北盆地那頭升起，河面會亮成一條路。"
+  },
+  W_drive:{
+    arrow:"月光指向・西｜淡水河口",
+    name:"夕陽落進河口",
+    poem:"搭一趟渡船，看光從河面上一路走到你腳邊。",
+    tags:["渡船","漁人碼頭","情人橋日落"],
+    ride:"汐止 → 淡水 → 八里左岸 → 淡水 → 漁人碼頭<br><span style='opacity:.75'>大多是市區路段，注意公車和機車流；車停淡水那一側，人搭渡船過去八里就好。</span>",
+    rainRide:"雨天市區騎車最累。汐止搭區間車到台北約 20 分鐘，捷運到北投約 30 分鐘，再轉新北投支線 3 分鐘就到。",
+    bail:"這條沒有山路，變天影響最小。躲進淡水老街的騎樓或河岸二樓咖啡，等雨小再回程；夜間市區的積水和路面標線最滑，放慢、拉開車距。",
+    sun:[
+      ["11:00","出發，穿過市區往淡水"],
+      ["12:15","<b>淡水老街</b>午餐，先把肚子填滿"],
+      ["13:30","搭<b>渡船</b>到八里｜船上就是最好的觀景台，車留在淡水那側"],
+      ["14:00","<b>八里左岸</b>｜孔雀蛤、雙胞胎、烤玉米"],
+      ["15:30","<span class='cup'>咖啡時間</span>河岸老屋二樓，靠窗看整條淡水河"],
+      ["17:20","渡船回淡水，<b>漁人碼頭</b>情人橋等夕陽"],
+      ["18:40","老街晚餐，等月亮從河的那頭升起"]
+    ],
+    rain:[
+      ["10:30","汐止搭區間車到台北，轉捷運到新北投，全程有遮"],
+      ["11:30","<b>溫泉博物館・北投圖書館</b>｜木造建築，室內的光超好拍"],
+      ["13:00","溫泉區餐廳午餐"],
+      ["14:30","<b>湯屋</b>泡一小時，雨天泡湯剛剛好"],
+      ["16:00","<span class='cup'>咖啡時間</span>老宅咖啡，看雨落在中庭"],
+      ["18:00","晚餐後搭車回汐止"]
+    ],
+    lens:"渡船上用 35mm 抓人加河景，船會晃就開 1/500；情人橋日落 f/11 拍星芒；老街巷弄換 50mm，生活感自己會出現。",
+    rainLens:"北投圖書館的木格柵側逆光最迷人；室內靠窗 45 度側光拍人像 f/2.0；濕掉的石板路會反射燈光，蹲低拍倒影。",
+    moon:"漁人碼頭堤岸，月光會在河面上拉出一條金色的路。"
+  }
+};
+
+const LIGHT={
+  soft:"你要的是<b>側逆光</b>。上午 8–10 點或下午 3–5 點最容易遇到：光圈開到 f/1.8–f/2.8，對焦在眼睛，讓背景的光碎成一顆顆圓形散景。曝光補償記得 +0.7EV，逆光時相機一定會把臉壓暗。",
+  honey:"你要的是<b>黃金時刻</b>：日落前 40 分鐘。白平衡手動轉到 6000–7000K，顏色會更暖更像記憶裡的樣子。拍人像逆光 f/2.8，前面用一張白紙補一點光；拍風景收到 f/11，太陽就會長出星芒。",
+  blue:"你要的是<b>藍調時刻</b>：日落後 20–40 分鐘，天空會變成寶藍色。ISO 800–1600、快門別低於 1/40，找欄杆靠著穩住。要拍月亮本身得換長焦（200mm 以上）、f/8、1/125、ISO 100，月亮才不會變成一顆白球。"
+};
+
+let pick={dir:null,pace:null,light:null};
+let weather='sun';
+let current=null;
+
+function step(n){
+  document.querySelectorAll('.step').forEach(s=>s.classList.remove('on'));
+  document.getElementById('result').classList.remove('on');
+  if(n<=3) document.getElementById('s'+n).classList.add('on');
+  document.querySelectorAll('#moonbar span').forEach((d,i)=>{
+    d.classList.toggle('on',i<n||n>3);
+    d.classList.toggle('full',n>3);
+  });
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function pickDir(d){pick.dir=d;step(2);}
+function pickPace(p){pick.pace=p;step(3);}
+function pickLight(l){pick.light=l;show();}
+
+function setWeather(w){
+  weather=w;
+  document.getElementById('t-sun').classList.toggle('on',w==='sun');
+  document.getElementById('t-rain').classList.toggle('on',w==='rain');
+  document.getElementById('p-icon').textContent=w==='sun'?'🕰️':'☔';
+  document.getElementById('p-label').textContent=w==='sun'?'一日的時間表':'雨備版時間表';
+  document.getElementById('ride-icon').textContent=w==='sun'?'🏍️':'🚃';
+  document.getElementById('ride-label').textContent=w==='sun'?'今天會經過':'雨天怎麼走';
+  render();
+}
+
+function render(){
+  const r=current;
+  const list=weather==='sun'?r.sun:r.rain;
+  document.getElementById('r-plan').innerHTML=list.map(([t,txt])=>`<li data-t="${t}">${txt}</li>`).join('');
+  document.getElementById('r-lens').innerHTML=weather==='sun'?r.lens:r.rainLens;
+  document.getElementById('r-ride').innerHTML=weather==='sun'?r.ride:r.rainRide;
+  const bail=document.getElementById('bail-box');
+  bail.style.display=weather==='sun'?'block':'none';
+  document.getElementById('r-bail').innerHTML=r.bail;
+}
+
+function show(){
+  current=ROUTES[pick.dir+'_'+pick.pace];
+  weather='sun';
+  document.getElementById('t-sun').classList.add('on');
+  document.getElementById('t-rain').classList.remove('on');
+  document.getElementById('p-icon').textContent='🕰️';
+  document.getElementById('p-label').textContent='一日的時間表';
+  document.getElementById('ride-icon').textContent='🏍️';
+  document.getElementById('ride-label').textContent='今天會經過';
+
+  document.getElementById('r-arrow').textContent=current.arrow;
+  document.getElementById('r-name').textContent=current.name;
+  document.getElementById('r-poem').textContent=current.poem;
+  document.getElementById('r-tags').innerHTML=current.tags.map(t=>`<span>${t}</span>`).join('');
+  document.getElementById('r-light').innerHTML=LIGHT[pick.light];
+  document.getElementById('r-moon').textContent=current.moon;
+  render();
+
+  step(4);
+  document.getElementById('result').classList.add('on');
+}
+
+function reset(){
+  pick={dir:null,pace:null,light:null};
+  step(1);
+}
+</script>
+</body>
+</html>

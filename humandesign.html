@@ -10,22 +10,22 @@
 <style>
 /* ===== 淺色（預設・米白紙感 + 墨綠） ===== */
 :root{
-  --paper:#F6F2E8; --paper-2:#FFFDF7; --paper-3:#EFE9DA;
-  --ink:#23282A; --ink-2:#5A6360; --ink-3:#8B938E;
-  --green:#1F4A3C; --green-3:#5C8F7B; --green-wash:#E3EDE6;
-  --clay:#A85E38; --clay-wash:#F5E6DC; --clay-ink:#8C4F2E;
-  --line:#DED6C4;
-  --fill-strong:#1F4A3C; --on-strong:#FFFDF7;
-  --deep:#1F4A3C; --deep-2:#173B30; --on-deep:#F2EFE6; --deep-line:rgba(242,239,230,.14);
-  --shadow:0 1px 2px rgba(35,40,42,.04),0 8px 24px -12px rgba(35,40,42,.18);
-  --shadow-lg:0 2px 4px rgba(35,40,42,.05),0 20px 48px -20px rgba(35,40,42,.28);
-  --tint-a:rgba(31,74,60,.035); --tint-b:rgba(168,94,56,.035);
+  --paper:#FBF9F3; --paper-2:#FFFFFF; --paper-3:#F1ECE0;
+  --ink:#22282B; --ink-2:#4E5956; --ink-3:#7E8884;
+  --green:#1C5943; --green-3:#6BA189; --green-wash:#E8F1EA;
+  --clay:#AE5F39; --clay-wash:#F9EBE1; --clay-ink:#8F4A28;
+  --line:#E6DECE;
+  --fill-strong:#1C5943; --on-strong:#FFFFFF;
+  --deep:#25654E; --deep-2:#1C5142; --on-deep:#F4F9F5; --deep-line:rgba(244,249,245,.18);
+  --shadow:0 1px 2px rgba(34,40,43,.04),0 8px 24px -14px rgba(34,40,43,.16);
+  --shadow-lg:0 2px 4px rgba(34,40,43,.05),0 20px 48px -22px rgba(34,40,43,.24);
+  --tint-a:rgba(28,89,67,.03); --tint-b:rgba(174,95,57,.03);
   /* 九宮格 */
-  --sv-def:#1F4A3C; --sv-half:#A85E38; --sv-empty:#E4DDCC;
-  --sv-on-fill:#1F4A3C; --sv-on-stroke:#173B30; --sv-on-label:#F2EFE6;
-  --sv-off-fill:#FFFDF7; --sv-off-stroke:#D2C9B4; --sv-off-label:#A79E89;
-  --sv-gfull-fill:#F2EFE6; --sv-gfull-ink:#1F4A3C;
-  --sv-ghalf-fill:#A85E38; --sv-ghalf-stroke:#7C4326; --sv-ghalf-ink:#FFF7F0;
+  --sv-def:#25654E; --sv-half:#B4653D; --sv-empty:#E9E2D2;
+  --sv-on-fill:#286C53; --sv-on-stroke:#1C5142; --sv-on-label:#F4F9F5;
+  --sv-off-fill:#FFFFFF; --sv-off-stroke:#D9D0BC; --sv-off-label:#9AA29C;
+  --sv-gfull-fill:#F4F9F5; --sv-gfull-ink:#1C5143;
+  --sv-ghalf-fill:#B4653D; --sv-ghalf-stroke:#8B4A29; --sv-ghalf-ink:#FFF8F2;
   --r:16px;
   --serif:"Noto Serif TC",Georgia,"Songti TC",serif;
   --sans:"Noto Sans TC",-apple-system,BlinkMacSystemFont,"PingFang TC","Helvetica Neue",sans-serif;
@@ -33,44 +33,44 @@
 /* ===== 深色（系統偏好，除非使用者明確選淺色） ===== */
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --paper:#141A18; --paper-2:#1B2320; --paper-3:#253029;
-    --ink:#E9E5D9; --ink-2:#A9B3AC; --ink-3:#78837C;
-    --green:#9FD8BC; --green-3:#6FA98F; --green-wash:#1E2E27;
-    --clay:#DB9E76; --clay-wash:#33251D; --clay-ink:#EBB690;
-    --line:#2E3A34;
-    --fill-strong:#7FBFA2; --on-strong:#101714;
-    --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px -12px rgba(0,0,0,.7);
-    --shadow-lg:0 2px 4px rgba(0,0,0,.35),0 20px 48px -20px rgba(0,0,0,.8);
-    --tint-a:rgba(127,191,162,.05); --tint-b:rgba(219,158,118,.045);
-    --sv-def:#7FBFA2; --sv-half:#DB9E76; --sv-empty:#2C3831;
-    --sv-on-fill:#2C6A53; --sv-on-stroke:#7FBFA2; --sv-on-label:#EAF3ED;
-    --sv-off-fill:#1B2320; --sv-off-stroke:#3A473F; --sv-off-label:#78837C;
-    --sv-gfull-fill:#EAF3ED; --sv-gfull-ink:#173B30;
-    --sv-ghalf-fill:#DB9E76; --sv-ghalf-stroke:#A5704B; --sv-ghalf-ink:#2A1810;
+    --paper:#242C29; --paper-2:#2D3733; --paper-3:#3A4640;
+    --ink:#F1EEE4; --ink-2:#C6CFC9; --ink-3:#98A29C;
+    --green:#AEE3C7; --green-3:#84BCA3; --green-wash:#2D3E36;
+    --clay:#E9AF86; --clay-wash:#423226; --clay-ink:#F2C39C;
+    --line:#43504A;
+    --fill-strong:#8FD0B2; --on-strong:#17231D;
+    --shadow:0 1px 2px rgba(0,0,0,.22),0 8px 24px -14px rgba(0,0,0,.5);
+    --shadow-lg:0 2px 4px rgba(0,0,0,.26),0 20px 48px -22px rgba(0,0,0,.6);
+    --tint-a:rgba(143,208,178,.05); --tint-b:rgba(233,175,134,.045);
+    --sv-def:#8FD0B2; --sv-half:#E9AF86; --sv-empty:#3B4842;
+    --sv-on-fill:#35705A; --sv-on-stroke:#8FD0B2; --sv-on-label:#EFF7F1;
+    --sv-off-fill:#2D3733; --sv-off-stroke:#4A574F; --sv-off-label:#98A29C;
+    --sv-gfull-fill:#EFF7F1; --sv-gfull-ink:#1C5143;
+    --sv-ghalf-fill:#E9AF86; --sv-ghalf-stroke:#B07E58; --sv-ghalf-ink:#2E1E12;
   }
 }
 :root[data-theme="dark"]{
-  --paper:#141A18; --paper-2:#1B2320; --paper-3:#253029;
-  --ink:#E9E5D9; --ink-2:#A9B3AC; --ink-3:#78837C;
-  --green:#9FD8BC; --green-3:#6FA98F; --green-wash:#1E2E27;
-  --clay:#DB9E76; --clay-wash:#33251D; --clay-ink:#EBB690;
-  --line:#2E3A34;
-  --fill-strong:#7FBFA2; --on-strong:#101714;
-  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px -12px rgba(0,0,0,.7);
-  --shadow-lg:0 2px 4px rgba(0,0,0,.35),0 20px 48px -20px rgba(0,0,0,.8);
-  --tint-a:rgba(127,191,162,.05); --tint-b:rgba(219,158,118,.045);
-  --sv-def:#7FBFA2; --sv-half:#DB9E76; --sv-empty:#2C3831;
-  --sv-on-fill:#2C6A53; --sv-on-stroke:#7FBFA2; --sv-on-label:#EAF3ED;
-  --sv-off-fill:#1B2320; --sv-off-stroke:#3A473F; --sv-off-label:#78837C;
-  --sv-gfull-fill:#EAF3ED; --sv-gfull-ink:#173B30;
-  --sv-ghalf-fill:#DB9E76; --sv-ghalf-stroke:#A5704B; --sv-ghalf-ink:#2A1810;
+  --paper:#242C29; --paper-2:#2D3733; --paper-3:#3A4640;
+  --ink:#F1EEE4; --ink-2:#C6CFC9; --ink-3:#98A29C;
+  --green:#AEE3C7; --green-3:#84BCA3; --green-wash:#2D3E36;
+  --clay:#E9AF86; --clay-wash:#423226; --clay-ink:#F2C39C;
+  --line:#43504A;
+  --fill-strong:#8FD0B2; --on-strong:#17231D;
+  --shadow:0 1px 2px rgba(0,0,0,.22),0 8px 24px -14px rgba(0,0,0,.5);
+  --shadow-lg:0 2px 4px rgba(0,0,0,.26),0 20px 48px -22px rgba(0,0,0,.6);
+  --tint-a:rgba(143,208,178,.05); --tint-b:rgba(233,175,134,.045);
+  --sv-def:#8FD0B2; --sv-half:#E9AF86; --sv-empty:#3B4842;
+  --sv-on-fill:#35705A; --sv-on-stroke:#8FD0B2; --sv-on-label:#EFF7F1;
+  --sv-off-fill:#2D3733; --sv-off-stroke:#4A574F; --sv-off-label:#98A29C;
+  --sv-gfull-fill:#EFF7F1; --sv-gfull-ink:#1C5143;
+  --sv-ghalf-fill:#E9AF86; --sv-ghalf-stroke:#B07E58; --sv-ghalf-ink:#2E1E12;
 }
 
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
 body{
   margin:0;background:var(--paper);color:var(--ink);
-  font-family:var(--sans);font-weight:400;font-size:16px;line-height:1.85;
+  font-family:var(--sans);font-weight:400;font-size:17px;line-height:1.9;
   letter-spacing:.01em;-webkit-font-smoothing:antialiased;
   background-image:
     radial-gradient(circle at 12% 8%, var(--tint-a), transparent 45%),
@@ -84,6 +84,11 @@ img,svg{max-width:100%}
   *,*:before,*:after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
 }
 
+.themetog{position:fixed;top:10px;right:10px;z-index:100;width:44px;height:44px;border-radius:50%;
+  border:1px solid var(--line);background:var(--paper-2);color:var(--green);font-size:18px;line-height:1;
+  cursor:pointer;box-shadow:var(--shadow);display:flex;align-items:center;justify-content:center;padding:0;
+  transition:background .25s,color .25s,border-color .25s}
+.themetog:active{transform:scale(.94)}
 #bar{position:fixed;top:0;left:0;height:2px;background:var(--fill-strong);width:0;z-index:99;transition:width .1s linear}
 
 /* ===== HERO ===== */
@@ -91,11 +96,11 @@ img,svg{max-width:100%}
 .hero .eyebrow{font-size:11px;letter-spacing:.32em;color:var(--green-3);font-weight:500;margin-bottom:26px}
 .hero h1{font-family:var(--serif);font-weight:700;font-size:clamp(34px,10vw,46px);line-height:1.25;margin:0 0 6px;letter-spacing:.02em;text-wrap:balance}
 .hero h1 em{font-style:normal;color:var(--green)}
-.hero .sub{font-size:14px;color:var(--ink-2);margin-top:18px;line-height:2}
+.hero .sub{font-size:15px;color:var(--ink-2);margin-top:18px;line-height:2}
 .hero .names{display:flex;gap:10px;justify-content:center;margin-top:30px;flex-wrap:wrap}
 .namechip{background:var(--paper-2);border:1px solid var(--line);border-radius:999px;padding:9px 18px;font-size:13px;box-shadow:var(--shadow);display:flex;align-items:center;gap:8px}
-.namechip b{font-family:var(--serif);font-size:15px;color:var(--green)}
-.namechip span{color:var(--ink-3);font-size:11.5px}
+.namechip b{font-family:var(--serif);font-size:16px;color:var(--green)}
+.namechip span{color:var(--ink-3);font-size:12.5px}
 .seal{width:54px;height:54px;margin:0 auto 24px;border:1.5px solid var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;position:relative;animation:breathe 5s ease-in-out infinite}
 .seal:after{content:"";position:absolute;inset:6px;border:1px dashed var(--green-3);border-radius:50%;opacity:.5;animation:spin 40s linear infinite}
 .seal b{font-family:var(--serif);font-size:19px;color:var(--green)}
@@ -103,43 +108,43 @@ img,svg{max-width:100%}
 @keyframes spin{to{transform:rotate(360deg)}}
 
 section{padding:44px 0;position:relative}
-.sec-num{font-family:var(--serif);font-size:11px;letter-spacing:.3em;color:var(--green-3);margin-bottom:10px;display:block}
-h2{font-family:var(--serif);font-weight:700;font-size:26px;line-height:1.4;margin:0 0 8px;letter-spacing:.01em;text-wrap:balance}
+.sec-num{font-family:var(--serif);font-size:11.5px;letter-spacing:.3em;color:var(--green-3);margin-bottom:10px;display:block}
+h2{font-family:var(--serif);font-weight:700;font-size:27px;line-height:1.4;margin:0 0 8px;letter-spacing:.01em;text-wrap:balance}
 h2 .dot{color:var(--clay)}
-.lede{color:var(--ink-2);font-size:14.5px;margin:0 0 26px;line-height:2}
-h3{font-family:var(--serif);font-size:19px;font-weight:600;margin:34px 0 10px;line-height:1.5;text-wrap:balance}
-h4{font-size:15px;font-weight:700;margin:22px 0 8px;color:var(--green)}
+.lede{color:var(--ink-2);font-size:16px;margin:0 0 26px;line-height:2}
+h3{font-family:var(--serif);font-size:20px;font-weight:600;margin:34px 0 10px;line-height:1.5;text-wrap:balance}
+h4{font-size:16px;font-weight:700;margin:22px 0 8px;color:var(--green)}
 p{margin:0 0 14px}
 .rule{height:1px;background:linear-gradient(90deg,transparent,var(--line),transparent);margin:8px 0}
 
 .card{background:var(--paper-2);border:1px solid var(--line);border-radius:var(--r);padding:20px;box-shadow:var(--shadow);margin:14px 0}
 .card.tight{padding:16px}
 .card h4{margin-top:0}
-.q{color:var(--ink-3);font-size:13px}
+.q{color:var(--ink-3);font-size:14px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 @media(max-width:380px){.grid2{grid-template-columns:1fr}}
 
 details{background:var(--paper-2);border:1px solid var(--line);border-radius:14px;margin:10px 0;overflow:hidden;transition:box-shadow .25s}
 details[open]{box-shadow:var(--shadow)}
-summary{list-style:none;cursor:pointer;padding:15px 18px;font-weight:500;font-size:15px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+summary{list-style:none;cursor:pointer;padding:16px 18px;font-weight:500;font-size:16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
 summary::-webkit-details-marker{display:none}
 summary:after{content:"";width:8px;height:8px;border-right:1.5px solid var(--green-3);border-bottom:1.5px solid var(--green-3);transform:rotate(45deg);transition:transform .3s;flex:0 0 auto;margin-top:-4px}
 details[open] summary:after{transform:rotate(-135deg);margin-top:2px}
-details .body{padding:0 18px 18px;font-size:14.5px;color:var(--ink-2);line-height:2;animation:fadeIn .35s ease}
+details .body{padding:0 18px 18px;font-size:16px;color:var(--ink-2);line-height:2;animation:fadeIn .35s ease}
 details .body p{margin:0 0 12px}
 details .body p:last-child{margin-bottom:0}
 @keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
 
-.tag{display:inline-block;font-size:11.5px;padding:3px 10px;border-radius:999px;background:var(--green-wash);color:var(--green);font-weight:500;letter-spacing:.04em}
+.tag{display:inline-block;font-size:12.5px;padding:3px 10px;border-radius:999px;background:var(--green-wash);color:var(--green);font-weight:500;letter-spacing:.04em}
 .tag.clay{background:var(--clay-wash);color:var(--clay-ink)}
 .tag.grey{background:var(--paper-3);color:var(--ink-3)}
 
-.eg{border-left:2px solid var(--green-3);padding:2px 0 2px 14px;margin:12px 0;font-size:14px;color:var(--ink-2);line-height:1.95}
+.eg{border-left:2px solid var(--green-3);padding:2px 0 2px 14px;margin:14px 0;font-size:15.5px;color:var(--ink-2);line-height:1.95}
 .eg b{color:var(--green);font-weight:600}
 .eg.clay{border-color:var(--clay)}
 .eg.clay b{color:var(--clay-ink)}
 
-.pull{font-family:var(--serif);font-size:19px;line-height:1.85;color:var(--green);text-align:center;padding:26px 12px;margin:26px 0;position:relative;text-wrap:balance}
+.pull{font-family:var(--serif);font-size:20px;line-height:1.85;color:var(--green);text-align:center;padding:26px 12px;margin:26px 0;position:relative;text-wrap:balance}
 .pull:before,.pull:after{content:"";display:block;width:28px;height:1px;background:var(--green-3);margin:0 auto;opacity:.5}
 .pull:before{margin-bottom:18px}
 .pull:after{margin-top:18px}
@@ -151,22 +156,22 @@ details .body p:last-child{margin-bottom:0}
 .person-head:before{content:"";position:absolute;width:180px;height:180px;border:1px solid var(--deep-line);border-radius:50%;top:-70px;right:-60px}
 .person-head:after{content:"";position:absolute;width:110px;height:110px;border:1px solid var(--deep-line);border-radius:50%;bottom:-50px;left:-30px}
 .person-head .who{font-family:var(--serif);font-size:32px;font-weight:700;letter-spacing:.06em;margin:0}
-.person-head .cross{font-size:12px;opacity:.72;margin-top:4px;letter-spacing:.03em}
+.person-head .cross{font-size:12.5px;opacity:.72;margin-top:4px;letter-spacing:.03em}
 .ph-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--deep-line);border-radius:12px;overflow:hidden;margin-top:20px;position:relative;z-index:1}
 .ph-grid div{background:var(--deep);padding:12px 13px}
-.ph-grid .k{font-size:10.5px;opacity:.62;letter-spacing:.16em;margin-bottom:3px}
-.ph-grid .v{font-family:var(--serif);font-size:16.5px;font-weight:600}
-.ph-grid .v small{font-size:11px;font-weight:400;opacity:.66;display:block;letter-spacing:.02em;font-family:var(--sans);margin-top:2px}
+.ph-grid .k{font-size:11px;opacity:.62;letter-spacing:.16em;margin-bottom:3px}
+.ph-grid .v{font-family:var(--serif);font-size:17px;font-weight:600}
+.ph-grid .v small{font-size:11.5px;font-weight:400;opacity:.66;display:block;letter-spacing:.02em;font-family:var(--sans);margin-top:2px}
 
 .bg-wrap{background:var(--paper-2);border:1px solid var(--line);border-radius:20px;padding:14px 8px 10px;margin:16px 0;box-shadow:var(--shadow)}
-.bg-legend{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-size:11.5px;color:var(--ink-3);padding:8px 4px 4px;border-top:1px dashed var(--line);margin-top:6px}
+.bg-legend{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-size:12.5px;color:var(--ink-3);padding:8px 4px 4px;border-top:1px dashed var(--line);margin-top:6px}
 .bg-legend i{display:inline-block;width:16px;height:3px;border-radius:2px;vertical-align:middle;margin-right:5px}
 .ctr{cursor:pointer}
 .gnum{font-size:7.5px;font-family:var(--sans);font-weight:600;pointer-events:none;user-select:none}
-.tap-hint{text-align:center;font-size:12px;color:var(--ink-3);margin:0 0 4px;letter-spacing:.04em}
-.detailbox{background:var(--green-wash);border-radius:14px;padding:16px 18px;font-size:14px;line-height:1.95;color:var(--ink);min-height:96px;margin:0 6px 6px}
-.detailbox .t{font-family:var(--serif);font-weight:600;font-size:16px;color:var(--green);margin-bottom:2px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.detailbox .s{font-size:11.5px;color:var(--ink-3);margin-bottom:8px;letter-spacing:.05em}
+.tap-hint{text-align:center;font-size:13px;color:var(--ink-3);margin:0 0 4px;letter-spacing:.04em}
+.detailbox{background:var(--green-wash);border-radius:14px;padding:16px 18px;font-size:15.5px;line-height:1.95;color:var(--ink);min-height:96px;margin:0 6px 6px}
+.detailbox .t{font-family:var(--serif);font-weight:600;font-size:17px;color:var(--green);margin-bottom:2px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.detailbox .s{font-size:12.5px;color:var(--ink-3);margin-bottom:8px;letter-spacing:.05em}
 
 .ctr-list{display:flex;flex-direction:column;gap:8px;margin:14px 0}
 .ctr-row{display:flex;gap:12px;align-items:flex-start;background:var(--paper-2);border:1px solid var(--line);border-radius:13px;padding:13px 15px}
@@ -174,8 +179,8 @@ details .body p:last-child{margin-bottom:0}
 .ic.on{background:var(--fill-strong);color:var(--on-strong)}
 .ic.off{background:var(--paper-3);color:var(--ink-3);border:1px dashed var(--ink-3)}
 .ctr-row .tx{flex:1;min-width:0}
-.ctr-row .nm{font-weight:600;font-size:14.5px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.ctr-row .ds{font-size:13.5px;color:var(--ink-2);line-height:1.9;margin-top:3px}
+.ctr-row .nm{font-weight:600;font-size:15.5px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.ctr-row .ds{font-size:15px;color:var(--ink-2);line-height:1.9;margin-top:3px}
 
 .gate-card{background:var(--paper-2);border:1px solid var(--line);border-radius:14px;padding:0;margin:9px 0;overflow:hidden}
 .gate-card .hd{display:flex;align-items:center;gap:12px;padding:13px 15px;cursor:pointer;width:100%;border:0;background:none;text-align:left;font-family:var(--sans);color:inherit}
@@ -183,64 +188,65 @@ details .body p:last-child{margin-bottom:0}
 .num.full{background:var(--fill-strong);color:var(--on-strong)}
 .num.half{background:var(--clay);color:#FFF7F0}
 .gate-card .ttl{flex:1;min-width:0}
-.gate-card .ttl b{font-size:14.5px;font-weight:600;display:block}
-.gate-card .ttl span{font-size:11.5px;color:var(--ink-3)}
+.gate-card .ttl b{font-size:15.5px;font-weight:600;display:block}
+.gate-card .ttl span{font-size:12.5px;color:var(--ink-3)}
 .gate-card .arw{width:7px;height:7px;border-right:1.5px solid var(--ink-3);border-bottom:1.5px solid var(--ink-3);transform:rotate(45deg);transition:transform .3s;flex:0 0 auto}
 .gate-card.open .arw{transform:rotate(-135deg)}
-.gate-card .bd{display:none;padding:0 15px 15px;font-size:14px;color:var(--ink-2);line-height:1.95}
+.gate-card .bd{display:none;padding:0 15px 16px;font-size:15.5px;color:var(--ink-2);line-height:1.95}
 .gate-card.open .bd{display:block;animation:fadeIn .3s ease}
 
 .tri{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:16px 0}
-.tri button{border:1px solid var(--line);background:var(--paper-2);border-radius:12px;padding:12px 6px;font-family:var(--sans);font-size:13px;font-weight:500;color:var(--ink-2);cursor:pointer;transition:all .25s}
+.tri button{border:1px solid var(--line);background:var(--paper-2);border-radius:12px;padding:13px 6px;font-family:var(--sans);font-size:14px;font-weight:500;color:var(--ink-2);cursor:pointer;transition:all .25s}
 .tri button.on{background:var(--fill-strong);color:var(--on-strong);border-color:var(--fill-strong);transform:translateY(-2px);box-shadow:var(--shadow)}
 .demo-stage{background:var(--paper-2);border:1px solid var(--line);border-radius:16px;padding:22px 18px;text-align:center;box-shadow:var(--shadow)}
 .demo-stage svg{margin:0 auto 10px;display:block}
-#demoTxt{font-size:14px;line-height:1.95;color:var(--ink-2);text-align:left;min-height:110px}
+#demoTxt{font-size:15.5px;line-height:1.95;color:var(--ink-2);text-align:left;min-height:110px}
 #demoTxt b{color:var(--green)}
 
 .quiz-pick{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0}
 .quiz-pick button{border:1px solid var(--line);background:var(--paper-2);border-radius:14px;padding:16px 8px;font-family:var(--serif);font-size:18px;font-weight:600;color:var(--green);cursor:pointer;transition:all .25s}
 .quiz-pick button.on{background:var(--fill-strong);color:var(--on-strong);border-color:var(--fill-strong);box-shadow:var(--shadow)}
 .qcard{background:var(--paper-2);border:1px solid var(--line);border-radius:16px;padding:18px;margin:12px 0;box-shadow:var(--shadow)}
-.qcard .qn{font-size:11px;letter-spacing:.2em;color:var(--green-3);margin-bottom:6px;font-variant-numeric:tabular-nums}
-.qcard .qt{font-size:15.5px;font-weight:500;line-height:1.75;margin-bottom:14px}
-.opt{border:1px solid var(--line);background:var(--paper);border-radius:11px;padding:12px 14px;font-size:14px;line-height:1.7;cursor:pointer;margin-bottom:8px;transition:all .2s;display:flex;gap:10px;align-items:flex-start}
+.qcard .qn{font-size:12px;letter-spacing:.2em;color:var(--green-3);margin-bottom:6px;font-variant-numeric:tabular-nums}
+.qcard .qt{font-size:17px;font-weight:500;line-height:1.75;margin-bottom:14px}
+.opt{border:1px solid var(--line);background:var(--paper);border-radius:11px;padding:13px 14px;font-size:15.5px;line-height:1.7;cursor:pointer;margin-bottom:8px;transition:all .2s;display:flex;gap:10px;align-items:flex-start}
 .opt:last-of-type{margin-bottom:0}
 .opt .mk{width:18px;height:18px;border-radius:50%;border:1.5px solid var(--ink-3);flex:0 0 auto;margin-top:3px;transition:all .2s;position:relative}
 .opt.sel{border-color:var(--fill-strong);background:var(--green-wash)}
 .opt.sel .mk{border-color:var(--fill-strong);background:var(--fill-strong)}
 .opt.sel .mk:after{content:"";position:absolute;inset:4px;background:var(--on-strong);border-radius:50%}
-.fb{margin-top:12px;border-radius:11px;padding:13px 15px;font-size:13.5px;line-height:1.9;display:none;animation:fadeIn .35s ease}
+.fb{margin-top:12px;border-radius:11px;padding:14px 15px;font-size:15px;line-height:1.9;display:none;animation:fadeIn .35s ease}
 .fb.show{display:block}
 .fb.yes{background:var(--green-wash);color:var(--green)}
 .fb.no{background:var(--clay-wash);color:var(--clay-ink)}
-.fb b{display:block;margin-bottom:3px;font-size:14px}
+.fb b{display:block;margin-bottom:4px;font-size:15px}
 .score{background:linear-gradient(160deg,var(--deep),var(--deep-2));color:var(--on-deep);border-radius:20px;padding:28px 22px;text-align:center;box-shadow:var(--shadow-lg);margin-top:20px;display:none}
 .score.show{display:block;animation:fadeIn .5s ease}
 .score .big{font-family:var(--serif);font-size:52px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
 .score .big small{font-size:18px;opacity:.6}
-.score p{font-size:14px;opacity:.9;line-height:2;margin:14px 0 0;text-align:left}
-.btn{display:inline-block;border:1px solid var(--fill-strong);background:transparent;color:var(--green);border-radius:999px;padding:11px 26px;font-family:var(--sans);font-size:14px;cursor:pointer;transition:all .25s;font-weight:500}
+.score p{font-size:15.5px;opacity:.9;line-height:2;margin:14px 0 0;text-align:left}
+.btn{display:inline-block;border:1px solid var(--fill-strong);background:transparent;color:var(--green);border-radius:999px;padding:12px 28px;font-family:var(--sans);font-size:15px;cursor:pointer;transition:all .25s;font-weight:500}
 .btn.solid{background:var(--fill-strong);color:var(--on-strong)}
 .center{text-align:center}
 
 footer{background:var(--deep);color:#DCE5DE;padding:44px 20px 60px;margin-top:40px;text-align:center}
-footer .v{font-family:var(--serif);font-size:13px;letter-spacing:.2em;opacity:.7}
+footer .v{font-family:var(--serif);font-size:13.5px;letter-spacing:.2em;opacity:.7}
 footer h5{font-family:var(--serif);font-size:20px;margin:14px 0 6px;color:var(--on-deep);font-weight:600}
-footer .meta{font-size:12.5px;line-height:2.1;opacity:.8;margin-top:18px}
+footer .meta{font-size:13.5px;line-height:2.1;opacity:.8;margin-top:18px}
 footer .meta b{color:var(--on-deep);font-weight:500}
-footer .dis{font-size:11.5px;line-height:1.95;opacity:.62;margin-top:22px;border-top:1px solid var(--deep-line);padding-top:18px;text-align:left}
+footer .dis{font-size:12.5px;line-height:1.95;opacity:.62;margin-top:22px;border-top:1px solid var(--deep-line);padding-top:18px;text-align:left}
 
 .toc{background:var(--paper-2);border:1px solid var(--line);border-radius:18px;padding:8px;box-shadow:var(--shadow);margin:24px 0 0;text-align:left}
-.toc a{display:flex;align-items:center;gap:12px;padding:12px 14px;text-decoration:none;color:var(--ink);font-size:14.5px;border-radius:12px;transition:background .2s}
+.toc a{display:flex;align-items:center;gap:12px;padding:14px 14px;text-decoration:none;color:var(--ink);font-size:16px;border-radius:12px;transition:background .2s}
 .toc a:active{background:var(--green-wash)}
 .toc a + a{border-top:1px solid var(--line)}
-.toc a i{font-family:var(--serif);font-style:normal;font-size:12px;color:var(--green-3);width:20px;flex:0 0 auto;font-variant-numeric:tabular-nums}
-.toc a s{margin-left:auto;text-decoration:none;color:var(--ink-3);font-size:11.5px}
+.toc a i{font-family:var(--serif);font-style:normal;font-size:12.5px;color:var(--green-3);width:20px;flex:0 0 auto;font-variant-numeric:tabular-nums}
+.toc a s{margin-left:auto;text-decoration:none;color:var(--ink-3);font-size:12.5px}
 </style>
 </head>
 <body>
 <div id="bar"></div>
+<button type="button" class="themetog" id="themeToggle" aria-label="切換亮色或暗色主題"><span id="togIcon">☀</span></button>
 
 <header class="hero">
   <div class="seal"><b>圖</b></div>
@@ -289,10 +295,10 @@ footer .dis{font-size:11.5px;line-height:1.95;opacity:.62;margin-top:22px;border
       <div><b>Personality（黑色）</b><br><span style="font-size:13.5px;color:var(--ink-2);line-height:1.9">出生的那一刻。這是你的「意識設定」—— 你認得出來的自己，你會說「對，我就是這樣的人」的部分。</span></div>
     </div>
   </div>
-  <p class="rise" style="font-size:14px;color:var(--ink-2)">所以你在圖上會看到左邊一排紅色數字、右邊一排黑色數字。那就是你的兩份設定。<b>紅色是你不知道、但別人知道的你；黑色是你知道的你。</b></p>
+  <p class="rise" style="font-size:15.5px;color:var(--ink-2)">所以你在圖上會看到左邊一排紅色數字、右邊一排黑色數字。那就是你的兩份設定。<b>紅色是你不知道、但別人知道的你；黑色是你知道的你。</b></p>
 
   <h3 class="rise">四種類型（先認自己是哪一種就好）</h3>
-  <p class="rise" style="font-size:14px;color:var(--ink-2)">類型決定你「怎麼開始一件事」。這是整張圖裡最實用的一格。</p>
+  <p class="rise" style="font-size:15.5px;color:var(--ink-2)">類型決定你「怎麼開始一件事」。這是整張圖裡最實用的一格。</p>
 
   <details class="rise"><summary>🔨 顯示者 Manifestor <span class="tag grey">約 9%</span></summary><div class="body">
     <p><b>策略：告知。</b>你可以自己啟動、自己開始，不用等誰。但你的行動會影響到周圍的人，所以事前<b>先講一聲</b>，能省掉八成的阻力。</p>
@@ -322,7 +328,7 @@ footer .dis{font-size:11.5px;line-height:1.95;opacity:.62;margin-top:22px;border
   </div></details>
 
   <h3 class="rise">為什麼阿派沒有表格，我也知道他是投射者</h3>
-  <p class="rise" style="font-size:14px;color:var(--ink-2)">這一段是給想知道「這東西是不是隨便講講」的人看的。判斷類型完全是<b>機械式的推導</b>，沒有任何解讀空間：</p>
+  <p class="rise" style="font-size:15.5px;color:var(--ink-2)">這一段是給想知道「這東西是不是隨便講講」的人看的。判斷類型完全是<b>機械式的推導</b>，沒有任何解讀空間：</p>
   <div class="card rise">
     <div class="eg"><b>第一步：列出所有閘道。</b>阿派的行星表共活化 21 個閘道 —— 4、5、13、14、18、22、26、27、32、35、39、43、45、47、48、49、51、54、55、61、63。</div>
     <div class="eg"><b>第二步：看哪些能配成對。</b>每條「通道」需要固定的兩個閘道。這 21 個裡只有三組配得起來：63＋4、32＋54、39＋55。其他 15 個都是單邊。</div>
@@ -330,7 +336,7 @@ footer .dis{font-size:11.5px;line-height:1.95;opacity:.62;margin-top:22px;border
     <div class="eg"><b>第四步：套流程圖。</b>薦骨空白 → 不是生產者也不是顯示生產者。沒有任何動力中心連到喉嚨 → 不是顯示者。有中心是亮的 → 不是反映者。<b>剩下只有投射者。</b></div>
     <div class="eg clay"><b>權威也是同樣推法：</b>情緒中心（太陽神經叢）有定義 → 情緒中心一亮，就一定是情緒型權威，沒有例外，其他中心自動退位。</div>
   </div>
-  <p class="rise" style="font-size:13.5px;color:var(--ink-3)">阿主那張圖本身就附了表格（投射者／4-6／二分人／情緒型權威），我用同樣的方法回推核對過一次，結果吻合。</p>
+  <p class="rise" style="font-size:14.5px;color:var(--ink-3)">阿主那張圖本身就附了表格（投射者／4-6／二分人／情緒型權威），我用同樣的方法回推核對過一次，結果吻合。</p>
 </section>
 
 <div class="rule"></div>
@@ -397,7 +403,7 @@ footer .dis{font-size:11.5px;line-height:1.95;opacity:.62;margin-top:22px;border
   </div>
 
   <h3 class="rise">通 ／ 通一半 ／ 沒通 —— 差在哪？</h3>
-  <p class="rise" style="font-size:14px;color:var(--ink-2)">這是最多人卡住的地方。點下面三顆按鈕，看差別：</p>
+  <p class="rise" style="font-size:15.5px;color:var(--ink-2)">這是最多人卡住的地方。點下面三顆按鈕，看差別：</p>
 
   <div class="tri rise">
     <button data-demo="full" class="on">✅ 通了</button>
@@ -425,7 +431,7 @@ footer .dis{font-size:11.5px;line-height:1.95;opacity:.62;margin-top:22px;border
   <div class="ctr-list rise">
     <div class="ctr-row"><div class="ic on">✓</div><div class="tx"><div class="nm">通了 <span class="tag">兩邊閘道都有</span></div>
       <div class="ds"><b>「這是我，永遠都是我。」</b>穩定、可靠、不用充電就有。也是你最固執、最難被說服的地方 —— 因為對你來說這根本不是選擇，是本能。</div></div></div>
-    <div class="ctr-row"><div class="ic" style="background:var(--clay);color:#FFF7F0">◐</div><div class="tx"><div class="nm">通一半 <span class="tag clay">只有一邊，等另一半</span></div>
+    <div class="ctr-row"><div class="ic" style="background:var(--clay);color:var(--on-strong)">◐</div><div class="tx"><div class="nm">通一半 <span class="tag clay">只有一邊，等另一半</span></div>
       <div class="ds"><b>「我一直在找一個人，讓我變完整。」</b>這是<b>吸引力的來源</b>。當你遇到剛好有另一半閘道的人，那條線瞬間接上，你會有一種說不出的「跟他在一起我變成另一個人」的感覺 —— 那是真的，電路真的接上了。也因為這樣，這種關係最黏，也最容易失去自己。</div></div></div>
     <div class="ctr-row"><div class="ic off">–</div><div class="tx"><div class="nm">沒通 <span class="tag grey">完全空白</span></div>
       <div class="ds"><b>「我沒有設定，所以我什麼都收得到，而且會放大。」</b>你不是沒有這個能力，你是<b>沒有固定的版本</b>。所以你能感覺到全場的人在這件事上的狀態，還會不小心當成自己的。這裡是你的智慧，也是你最容易被牽著走的地方。</div></div></div>
@@ -442,10 +448,10 @@ footer .dis{font-size:11.5px;line-height:1.95;opacity:.62;margin-top:22px;border
 
   <h3 class="rise">三個名詞，先記住就好</h3>
   <div class="grid2 rise">
-    <div class="card tight"><b style="font-size:14px">策略 Strategy</b><div style="font-size:13px;color:var(--ink-2);line-height:1.85;margin-top:4px">你「怎麼開始」一件事。投射者＝等被邀請。</div></div>
-    <div class="card tight"><b style="font-size:14px">權威 Authority</b><div style="font-size:13px;color:var(--ink-2);line-height:1.85;margin-top:4px">你「怎麼決定」一件事。兩人都是情緒型。</div></div>
-    <div class="card tight"><b style="font-size:14px">非自己主題</b><div style="font-size:13px;color:var(--ink-2);line-height:1.85;margin-top:4px">你走偏時會出現的情緒。投射者＝苦澀。</div></div>
-    <div class="card tight"><b style="font-size:14px">人生角色 Profile</b><div style="font-size:13px;color:var(--ink-2);line-height:1.85;margin-top:4px">你「扮演什麼戲份」。4/6、2/4。</div></div>
+    <div class="card tight"><b style="font-size:15px">策略 Strategy</b><div style="font-size:14px;color:var(--ink-2);line-height:1.85;margin-top:4px">你「怎麼開始」一件事。投射者＝等被邀請。</div></div>
+    <div class="card tight"><b style="font-size:15px">權威 Authority</b><div style="font-size:14px;color:var(--ink-2);line-height:1.85;margin-top:4px">你「怎麼決定」一件事。兩人都是情緒型。</div></div>
+    <div class="card tight"><b style="font-size:15px">非自己主題</b><div style="font-size:14px;color:var(--ink-2);line-height:1.85;margin-top:4px">你走偏時會出現的情緒。投射者＝苦澀。</div></div>
+    <div class="card tight"><b style="font-size:15px">人生角色 Profile</b><div style="font-size:14px;color:var(--ink-2);line-height:1.85;margin-top:4px">你「扮演什麼戲份」。4/6、2/4。</div></div>
   </div>
 
   <h4 class="rise" style="margin-top:28px">情緒型權威：一條規則就好</h4>
@@ -490,22 +496,22 @@ footer .dis{font-size:11.5px;line-height:1.95;opacity:.62;margin-top:22px;border
   </div>
 
   <h3 class="rise">一句話總結阿主</h3>
-  <div class="pull rise" style="font-size:17.5px">你看得又快又深，還說得出來。<br>問題從來不是你講得對不對，<br>是<b>對方有沒有問你</b>。</div>
+  <div class="pull rise" style="font-size:19px">你看得又快又深，還說得出來。<br>問題從來不是你講得對不對，<br>是<b>對方有沒有問你</b>。</div>
 
   <h3 class="rise">六個亮著的中心 —— 你的固定配備</h3>
-  <p class="rise" style="font-size:14px;color:var(--ink-2)">九個中心裡亮了六個，這在投射者裡算相當「多」。代表你很有存在感、很有自己的樣子；但相對地，你也比較容易在這六個地方<b>固執到自己都沒發現</b>。</p>
+  <p class="rise" style="font-size:15.5px;color:var(--ink-2)">九個中心裡亮了六個，這在投射者裡算相當「多」。代表你很有存在感、很有自己的樣子；但相對地，你也比較容易在這六個地方<b>固執到自己都沒發現</b>。</p>
   <div class="ctr-list rise" id="ctrZhuOn"></div>
 
   <h3 class="rise">三個空白的中心 —— 你的敏感帶</h3>
-  <p class="rise" style="font-size:14px;color:var(--ink-2)">這三個地方，你收得到、會放大、而且常常誤以為是自己的。看下面的「陷阱句」—— 如果你腦中常出現那句話，那就是它在作用。</p>
+  <p class="rise" style="font-size:15.5px;color:var(--ink-2)">這三個地方，你收得到、會放大、而且常常誤以為是自己的。看下面的「陷阱句」—— 如果你腦中常出現那句話，那就是它在作用。</p>
   <div class="ctr-list rise" id="ctrZhuOff"></div>
 
   <h3 class="rise">四條通道 —— 你的天賦與陷阱</h3>
-  <p class="rise" style="font-size:14px;color:var(--ink-2)">通道是你身上「兩邊都接好」的線路。這四條就是你最核心的四個特質，一輩子都在。</p>
+  <p class="rise" style="font-size:15.5px;color:var(--ink-2)">通道是你身上「兩邊都接好」的線路。這四條就是你最核心的四個特質，一輩子都在。</p>
   <div id="chZhu" class="rise"></div>
 
   <h3 class="rise">十四個「通一半」的閘道 —— 你在找誰</h3>
-  <p class="rise" style="font-size:14px;color:var(--ink-2)">每一個都在等一個特定的人來把它接上。看到「缺 XX」的地方，那就是你會被吸引的類型。點開看細節。</p>
+  <p class="rise" style="font-size:15.5px;color:var(--ink-2)">每一個都在等一個特定的人來把它接上。看到「缺 XX」的地方，那就是你會被吸引的類型。點開看細節。</p>
   <div id="gtZhu" class="rise"></div>
 
   <h3 class="rise">4/6：你的人生分成三段</h3>
@@ -572,7 +578,7 @@ footer .dis{font-size:11.5px;line-height:1.95;opacity:.62;margin-top:22px;border
   </div>
 
   <h3 class="rise">一句話總結阿派</h3>
-  <div class="pull rise" style="font-size:17.5px">你的腦袋一直在跑，<br>但嘴巴不歸你管。<br>你最大的痛苦是<b>「我知道，但我講不出來」</b>。</div>
+  <div class="pull rise" style="font-size:19px">你的腦袋一直在跑，<br>但嘴巴不歸你管。<br>你最大的痛苦是<b>「我知道，但我講不出來」</b>。</div>
 
   <div class="card rise" style="border-color:var(--green-3)">
     <h4 style="margin-top:0">這是阿派整張圖最關鍵的一件事，請先讀這段</h4>
@@ -587,14 +593,14 @@ footer .dis{font-size:11.5px;line-height:1.95;opacity:.62;margin-top:22px;border
   <div class="ctr-list rise" id="ctrPaiOn"></div>
 
   <h3 class="rise">四個空白的中心 —— 你的敏感帶</h3>
-  <p class="rise" style="font-size:14px;color:var(--ink-2)">空白比阿主多一個，而且空的都是「輸出型」的中心（喉嚨、意志力、薦骨）。這代表：<b>你的「產出」很依賴環境和對象</b>。選對環境，你會判若兩人。</p>
+  <p class="rise" style="font-size:15.5px;color:var(--ink-2)">空白比阿主多一個，而且空的都是「輸出型」的中心（喉嚨、意志力、薦骨）。這代表：<b>你的「產出」很依賴環境和對象</b>。選對環境，你會判若兩人。</p>
   <div class="ctr-list rise" id="ctrPaiOff"></div>
 
   <h3 class="rise">三條通道 —— 你的天賦與陷阱</h3>
   <div id="chPai" class="rise"></div>
 
   <h3 class="rise">十五個「通一半」的閘道 —— 你在找誰</h3>
-  <p class="rise" style="font-size:14px;color:var(--ink-2)">阿派的懸掛閘道比通道還多，這代表<b>你是一個「跟不同人在一起會變成不同樣子」的人</b>。這不是沒個性，這是你的設計。點開看每一個在等誰。</p>
+  <p class="rise" style="font-size:15.5px;color:var(--ink-2)">阿派的懸掛閘道比通道還多，這代表<b>你是一個「跟不同人在一起會變成不同樣子」的人</b>。這不是沒個性，這是你的設計。點開看每一個在等誰。</p>
   <div id="gtPai" class="rise"></div>
 
   <h3 class="rise">2/4：躲起來的人，靠朋友吃飯</h3>
@@ -641,9 +647,9 @@ footer .dis{font-size:11.5px;line-height:1.95;opacity:.62;margin-top:22px;border
   <div id="quizBody"></div>
   <div class="score" id="scoreBox">
     <div class="big"><span id="scNum">0</span><small>/10</small></div>
-    <h4 id="scTitle" style="color:#F2EFE6;font-family:var(--serif);font-size:19px;margin:16px 0 0"></h4>
+    <h4 id="scTitle" style="color:var(--on-deep);font-family:var(--serif);font-size:20px;margin:16px 0 0"></h4>
     <p id="scTxt"></p>
-    <button class="btn" style="border-color:rgba(255,255,255,.5);color:#F2EFE6;margin-top:18px" onclick="resetQuiz()">再測一次</button>
+    <button class="btn" style="border-color:var(--deep-line);color:var(--on-deep);margin-top:18px" onclick="resetQuiz()">再測一次</button>
   </div>
 </section>
 
@@ -657,7 +663,7 @@ footer .dis{font-size:11.5px;line-height:1.95;opacity:.62;margin-top:22px;border
 
   <div class="card rise">
     <h4 style="margin-top:0">五條「電磁通道」</h4>
-    <p style="margin:0 0 6px;font-size:14px">當一個人的懸掛閘道，剛好碰上另一個人的另一半，那條通道就會<b>只在兩人同時在場時亮起來</b>。這兩張圖之間有五條 —— 這個數量算相當多。</p>
+    <p style="margin:0 0 6px;font-size:15.5px">當一個人的懸掛閘道，剛好碰上另一個人的另一半，那條通道就會<b>只在兩人同時在場時亮起來</b>。這兩張圖之間有五條 —— 這個數量算相當多。</p>
     <div class="eg"><b>阿主的 23 ➜ 補上阿派的 43</b>（天才與怪胎通道）<br>阿派腦中那些說不出口的洞見，跟阿主在一起時<b>會突然有出口</b>。</div>
     <div class="eg"><b>阿主的 58 ➜ 補上阿派的 18</b>（評判通道）<br>兩人一起會很容易進入「一起挑毛病、一起把東西弄對」的模式。</div>
     <div class="eg clay"><b>阿派的 63 ➜ 補上阿主的 4</b>（邏輯通道）<br>阿主平常頭腦是空白的，跟阿派在一起會突然變得<b>很愛分析、想很多</b>。</div>
@@ -667,8 +673,8 @@ footer .dis{font-size:11.5px;line-height:1.95;opacity:.62;margin-top:22px;border
 
   <div class="card rise">
     <h4 style="margin-top:0">四個一模一樣的懸掛閘道</h4>
-    <p style="margin:0 0 8px;font-size:14px"><span class="tag">14</span> <span class="tag">26</span> <span class="tag">27</span> <span class="tag">51</span> —— 兩人都只有這一半，都在等同一個對象。</p>
-    <p style="margin:0;font-size:14px;color:var(--ink-2)">結果是<b>共鳴 ＋ 共同盲點</b>：這四件事上兩人看世界的方式幾乎一樣，聊起來超順（因為根本不用解釋）；但也代表<b>沒有人能點醒對方</b>，兩個人會一起卡在同一個地方。</p>
+    <p style="margin:0 0 8px;font-size:15.5px"><span class="tag">14</span> <span class="tag">26</span> <span class="tag">27</span> <span class="tag">51</span> —— 兩人都只有這一半，都在等同一個對象。</p>
+    <p style="margin:0;font-size:15.5px;color:var(--ink-2)">結果是<b>共鳴 ＋ 共同盲點</b>：這四件事上兩人看世界的方式幾乎一樣，聊起來超順（因為根本不用解釋）；但也代表<b>沒有人能點醒對方</b>，兩個人會一起卡在同一個地方。</p>
   </div>
 
   <div class="card rise" style="background:var(--green-wash);border-color:var(--green-3)">
@@ -928,7 +934,7 @@ function renderCh(A,id){
     var p=A.defCh[i],a=Math.min(p[0],p[1]),b=Math.max(p[0],p[1]),key=a+'-'+b,ci=CHINFO[key];
     if(!ci)continue;
     h+='<details><summary><span><span class="tag" style="margin-right:8px">'+a+'–'+b+'</span>'+ci[0]+'</span></summary><div class="body">'
-      +'<p style="font-size:12px;color:var(--ink-3);letter-spacing:.06em;margin-bottom:10px">'+ci[1]+'</p>'
+      +'<p style="font-size:13px;color:var(--ink-3);letter-spacing:.06em;margin-bottom:10px">'+ci[1]+'</p>'
       +'<p>'+ci[2]+'</p><div class="eg">'+ci[3]+'</div><p style="margin-bottom:0">'+ci[4]+'</p></div></details>';
   }
   document.getElementById(id).innerHTML=h;
@@ -1092,6 +1098,25 @@ function calcScore(){
 }
 function resetQuiz(){ans={};document.getElementById('scoreBox').classList.remove('show');renderQuiz();
   document.getElementById('quizBody').scrollIntoView({behavior:'smooth',block:'start'});}
+
+/* ==================== 亮／暗切換 ==================== */
+(function(){
+  var r=document.documentElement,btn=document.getElementById('themeToggle'),ic=document.getElementById('togIcon');
+  function isDark(){var t=r.getAttribute('data-theme');
+    return t?t==='dark':(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches);}
+  function paint(){ic.textContent=isDark()?'☾':'☀';
+    btn.setAttribute('title',isDark()?'切換成亮色':'切換成暗色');}
+  try{var saved=localStorage.getItem('hd-theme');if(saved)r.setAttribute('data-theme',saved);}catch(e){}
+  paint();
+  btn.addEventListener('click',function(){
+    var n=isDark()?'light':'dark';
+    r.setAttribute('data-theme',n);
+    try{localStorage.setItem('hd-theme',n)}catch(e){}
+    paint();
+  });
+  if(window.matchMedia){var mq=window.matchMedia('(prefers-color-scheme: dark)');
+    if(mq.addEventListener)mq.addEventListener('change',paint);}
+})();
 
 /* ==================== 初始化 ==================== */
 (function(){
